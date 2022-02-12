@@ -1,0 +1,191 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+		maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.1.0'
+	id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.56'
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+ext.configFile = file "build.txt"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = "${config.mod_version}"
+group = "tk.zeitheron.${config.mod_id}"
+archivesBaseName = "${config.mod_id_fancy}-${config.minecraft_version}"
+
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = "${config.minecraft_version}-${config.forge_version}"
+    runDir = "run"
+    mappings = "${config.mcp}"
+    makeObfSourceJar = false
+    replace '@VERSION@', "${config.mod_version}"
+	replace '@FINGERPRINT@', project.findProperty('signSHA1')
+}
+
+repositories {
+	mavenCentral()
+    maven {
+        name = "thiakil"
+        url = "http://maven.thiakil.com"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = "jei"
+        url =  "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+dependencies {
+	deobfCompile "black-hole-storage:BlackHoleStorage_${config.minecraft_version}:${config.bhs_version}:deobf"
+    runtime "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}"
+	deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", config.minecraft_version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+		include 'pack.mcmeta'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+		exclude 'pack.mcmeta'
+    }
+	rename "mod_id_at.cfg", "META-INF/${config.mod_id}_at.cfg"
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest {
+        attributes 'FMLAT': "${config.mod_id}_at.cfg"
+    }
+}
+
+task srcJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+	manifest {
+        attributes 'FMLAT': "${config.mod_id}_at.cfg"
+    }
+}
+
+jar {
+	manifest {
+		attributes 'FMLAT': "${config.mod_id}_at.cfg"
+	}
+}
+
+artifacts {
+    archives deobfJar
+	archives srcJar
+}
+
+curseforge {
+	apiKey = System.env.CURSEFORGE_API_KEY
+	project {
+		id = "${config.cf_project}"
+		changelogType = 'html'
+		changelog = ""
+		releaseType = "${config.release_type}"
+		addGameVersion "${config.minecraft_version}"
+		mainArtifact(jar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} - ${config.mod_version}"
+		}
+		addArtifact(deobfJar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} (Deobfuscated) - ${config.mod_version}"
+		}
+		addArtifact(srcJar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} (Sources) - ${config.mod_version}"
+		}
+		relations {
+            optionalLibrary 'Baubles'
+			optionalLibrary 'Black-Hole-Storage'
+			optionalLibrary 'Avaritia-1-10'
+			optionalLibrary 'Thaumcraft'
+			optionalLibrary 'Draconic-Evolution'
+        }
+	}
+}
+
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    onlyIf {
+        System.env.MC_KS_PASS != null
+    }
+    keyStore = System.env.MC_KS_PATH
+    alias = System.env.MC_KS_ALIAS
+    storePass = System.env.MC_KS_PASS
+    keyPass = System.env.MC_KS_PASS
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+task signDeobfJar(type: SignJar, dependsOn: deobfJar) {
+    onlyIf {
+        System.env.MC_KS_PASS != null
+    }
+    keyStore = System.env.MC_KS_PATH
+    alias = System.env.MC_KS_ALIAS
+    storePass = System.env.MC_KS_PASS
+    keyPass = System.env.MC_KS_PASS
+    inputFile = deobfJar.archivePath
+    outputFile = deobfJar.archivePath
+}
+
+task signSrcJar(type: SignJar, dependsOn: srcJar) {
+    onlyIf {
+        System.env.MC_KS_PASS != null
+    }
+    keyStore = System.env.MC_KS_PATH
+    alias = System.env.MC_KS_ALIAS
+    storePass = System.env.MC_KS_PASS
+    keyPass = System.env.MC_KS_PASS
+    inputFile = srcJar.archivePath
+    outputFile = srcJar.archivePath
+}
+
+build.dependsOn signJar
+build.dependsOn signDeobfJar
+build.dependsOn signSrcJar
+
+afterEvaluate {
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signJar)
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signDeobfJar)
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signSrcJar)
+}
