@@ -1,0 +1,152 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.item.Item
+ */
+package net.divinerpg.utils.items;
+
+import net.divinerpg.blocks.base.BlockModCrop;
+import net.divinerpg.items.arcana.ItemClanCreator;
+import net.divinerpg.items.arcana.ItemDonateScroll;
+import net.divinerpg.items.arcana.ItemTeleportStaff;
+import net.divinerpg.items.base.ItemCaseKey;
+import net.divinerpg.items.base.ItemMod;
+import net.divinerpg.items.base.ItemModBucket;
+import net.divinerpg.items.base.ItemModSeeds;
+import net.divinerpg.items.base.ItemRepair;
+import net.divinerpg.items.vanilla.ItemCallOfTheWatcher;
+import net.divinerpg.items.vanilla.ItemGrizzleEgg;
+import net.divinerpg.items.vanilla.ItemHordeHorn;
+import net.divinerpg.items.vanilla.ItemInfernalFlame;
+import net.divinerpg.items.vanilla.ItemMysteriousClock;
+import net.divinerpg.items.vanilla.ItemSoulOfRaglok;
+import net.divinerpg.items.vanilla.ItemTeleportationCrystal;
+import net.divinerpg.items.vanilla.ItemVanillaSpawnEgg;
+import net.divinerpg.items.vanilla.ItemWreckCore;
+import net.divinerpg.utils.blocks.VanillaBlocks;
+import net.divinerpg.utils.items.ItemEnderBlazeSpawner;
+import net.divinerpg.utils.items.ItemModMysticSoul;
+import net.minecraft.item.Item;
+
+public class VanillaItemsOther {
+    public static Item rupeeIngot = new ItemMod("rupeeIngot");
+    public static Item arlemiteIngot = new ItemMod("arlemiteIngot");
+    public static Item realmiteIngot = new ItemMod("realmiteIngot");
+    public static Item shadowBar = new ItemMod("shadowBar");
+    public static Item hellstoneIngot = new ItemMod("hellstoneIngot");
+    public static Item netheriteIngot = new ItemMod("netheriteIngot");
+    public static Item bloodgem = new ItemMod("bloodgem");
+    public static Item copperIngot = new ItemMod("copperIngot");
+    public static Item amazonite = new ItemMod("amazonite");
+    public static Item nightmareSteel = new ItemMod("nightmareSteel");
+    public static Item netheriumShards = new ItemMod("netheriumShards");
+    public static Item netheriumIngot = new ItemMod("netheriumIngot");
+    public static Item jungleShards = new ItemMod("jungleShards");
+    public static Item divineShards = new ItemMod("divineShards");
+    public static Item corruptedShards = new ItemMod("corruptedShards");
+    public static Item moltenShards = new ItemMod("moltenShards");
+    public static Item enderShards = new ItemMod("enderShards");
+    public static Item terranShards = new ItemMod("terranShards");
+    public static Item cyclopsEyeShards = new ItemMod("cyclopsEyeShards");
+    public static Item corruptedBullet = new ItemMod("corruptedBullet");
+    public static Item jungleStone = new ItemMod("jungleStone");
+    public static Item divineStone = new ItemMod("divineStone");
+    public static Item corruptedStone = new ItemMod("corruptedStone");
+    public static Item moltenStone = new ItemMod("moltenStone");
+    public static Item enderStone = new ItemMod("enderStone");
+    public static Item terranStone = new ItemMod("terranStone");
+    public static Item healingStone = new ItemMod("healingStone").setHealAmount(20);
+    public static Item shadowStone = new ItemMod("shadowStone");
+    public static Item aquaticIngot = new ItemMod("aquaticIngot");
+    public static Item aquaticPellets = new ItemMod("aquaticPellets");
+    public static Item pureAquaticPellets = new ItemMod("pureAquaticPellets");
+    public static Item cyclopsEye = new ItemMod("cyclopsEye");
+    public static Item crabClaw = new ItemMod("crabClaw");
+    public static Item legendaryEnderEye = new ItemMod("legendaryEnderEye");
+    public static Item sharkFin = new ItemMod("sharkFin");
+    public static Item whaleFin = new ItemMod("whaleFin");
+    public static Item liopleurodonSkull = new ItemMod("liopleurodonSkull");
+    public static Item liopleurodonTeeth = new ItemMod("liopleurodonTeeth");
+    public static Item netheriteChunk = new ItemMod("netheriteChunk");
+    public static Item bluefireStone = new ItemMod("bluefireStone");
+    public static Item purpleBlaze = new ItemMod("purpleBlaze");
+    public static Item furyFire = new ItemMod("furyFire");
+    public static Item aquaBall = new ItemMod("aquaBall");
+    public static Item aquaticBlazeRod = new ItemMod("aquaticBlazeRod");
+    public static Item shadowCoins = new ItemMod("shadowCoins");
+    public static Item overworldEgg = new ItemVanillaSpawnEgg();
+    public static Item grizzleEgg = new ItemGrizzleEgg();
+    public static Item greenDiamondChunk = new ItemMod("greenDiamondChunk");
+    public static Item grayDiamondChunk = new ItemMod("grayDiamondChunk");
+    public static Item blueDiamondChunk = new ItemMod("blueDiamondChunk");
+    public static Item redDiamondChunk = new ItemMod("redDiamondChunk");
+    public static Item yellowDiamondChunk = new ItemMod("yellowDiamondChunk");
+    public static Item tarBucket = new ItemModBucket(VanillaBlocks.tar, "bucketOfTar");
+    public static Item mysteriousClock = new ItemMysteriousClock("mysteriousClock");
+    public static Item watchingEye = new ItemMod("watchingEye");
+    public static Item callWatcher = new ItemCallOfTheWatcher("callOfTheWatcher");
+    public static Item infernalFlame = new ItemInfernalFlame("infernalFlame");
+    public static Item hordeHorn = new ItemHordeHorn("hordeHorn");
+    public static Item mushroomSeeds = new ItemModSeeds("whiteMushroomSeeds", (BlockModCrop)VanillaBlocks.mushroom);
+    public static Item tomatoSeeds = new ItemModSeeds("tomatoSeeds", (BlockModCrop)VanillaBlocks.tomato);
+    public static Item krakenSkin = new ItemMod("krakenSkin");
+    public static Item krakenScale = new ItemMod("krakenScale");
+    public static Item teleportationCrystal = new ItemTeleportationCrystal();
+    public static Item soulOfRaglok = new ItemSoulOfRaglok("raglokSoul");
+    public static Item wreckCore = new ItemWreckCore("wreckCore");
+    public static Item ancientSword = new ItemMod("ancientSword");
+    public static Item godlyCrystal = new ItemMod("godlyCrystal");
+    public static Item whiteShard = new ItemMod("whiteShard");
+    public static Item whiteChunk = new ItemMod("whiteChunk");
+    public static Item whiteCrystal = new ItemMod("whiteCrystal");
+    public static Item redShard = new ItemMod("redShard");
+    public static Item redChunk = new ItemMod("redChunk");
+    public static Item redCrystal = new ItemMod("redCrystal");
+    public static Item greenShard = new ItemMod("greenShard");
+    public static Item greenChunk = new ItemMod("greenChunk");
+    public static Item greenCrystal = new ItemMod("greenCrystal");
+    public static Item blueShard = new ItemMod("blueShard");
+    public static Item blueChunk = new ItemMod("blueChunk");
+    public static Item blueCrystal = new ItemMod("blueCrystal");
+    public static Item compressedArcana = new ItemMod("compressedArcana");
+    public static Item tarnishedCrystal = new ItemMod("tarnishedCrystal");
+    public static Item tarnishedDagger = new ItemMod("tarnishedDagger");
+    public static Item poisonScroll = new ItemMod("poisonScroll");
+    public static Item fireScroll = new ItemMod("fireScroll");
+    public static Item regenerationScroll = new ItemMod("regenerationScroll");
+    public static Item witherScroll = new ItemMod("witherScroll");
+    public static Item shopItem = new ItemMod("shopItem");
+    public static Item shardItem = new ItemMod("shardItem");
+    public static Item marketItem = new ItemMod("marketItem");
+    public static Item warpItem = new ItemMod("warpItem");
+    public static Item normalKey = new ItemCaseKey("normalKey");
+    public static Item goldKey = new ItemCaseKey("goldKey");
+    public static Item darkKey = new ItemCaseKey("darkKey");
+    public static Item boilKey = new ItemCaseKey("boilKey");
+    public static Item mysticKey = new ItemCaseKey("mysticKey");
+    public static Item elderKey = new ItemCaseKey("elderKey");
+    public static Item gateKey = new ItemCaseKey("gateKey");
+    public static Item enchantKey = new ItemCaseKey("enchantKey");
+    public static Item degradedKey = new ItemCaseKey("degradedKey");
+    public static Item candyKey = new ItemCaseKey("candyKey");
+    public static Item darkStone = new ItemMod("darkStone");
+    public static Item orbOfLight = new ItemMod("orbOfLight");
+    public static Item enchantChunk = new ItemMod("enchantChunk");
+    public static Item mysticSoul = new ItemModMysticSoul("mysticSoul");
+    public static Item mysticChunk = new ItemMod("mysticChunk");
+    public static Item repairEssence = new ItemRepair("Essence");
+    public static Item mystic = new ItemMod("mystic");
+    public static Item netherSoul = new ItemMod("netherSoul");
+    public static Item teleportStaff = new ItemTeleportStaff("teleportationStaff");
+    public static Item clanScroll = new ItemClanCreator("clanItem");
+    public static Item vipScroll = new ItemDonateScroll("itemDonateVip", "vip");
+    public static Item premScroll = new ItemDonateScroll("itemDonatePrem", "premium");
+    public static Item deluxeScroll = new ItemDonateScroll("itemDonateDeluxe", "deluxe");
+    public static Item supremeScroll = new ItemDonateScroll("itemDonateSupreme", "supreme");
+    public static Item enderBlazeSpawner = new ItemEnderBlazeSpawner("enderBlazeSpawner");
+
+    public static void init() {
+    }
+}
+
