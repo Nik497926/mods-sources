@@ -1,63 +1,80 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.world.WorldProvider
- *  net.minecraft.world.biome.WorldChunkManagerHell
- *  net.minecraft.world.chunk.IChunkProvider
- */
 package net.divinerpg.dimensions.twilight.skythern;
 
-import net.divinerpg.dimensions.twilight.skythern.ChunkProviderSkythern;
+import com.gamerforea.divinerpg.EventConfig;
 import net.divinerpg.utils.DimensionHelper;
 import net.divinerpg.utils.config.ConfigurationHelper;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class WorldProviderSkythern
-extends WorldProvider {
-    public void registerWorldChunkManager() {
-        this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.skythernBiome, 0.5f);
-        this.dimensionId = ConfigurationHelper.skythern;
-        this.isHellWorld = false;
-        this.hasNoSky = true;
-    }
+public class WorldProviderSkythern extends WorldProvider
+{
 
-    protected void generateLightBrightnessTable() {
-        float var1 = 0.1f;
-        for (int var2 = 0; var2 <= 15; ++var2) {
-            float var3 = 1.0f - (float)var2 / 15.0f;
-            this.lightBrightnessTable[var2] = (1.0f - var3) / (var3 * 3.0f + 1.0f) * (1.0f - var1) + var1;
-        }
-    }
+	@Override
+	public void registerWorldChunkManager()
+	{
+		this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.skythernBiome, 0.5F);
+		this.dimensionId = ConfigurationHelper.skythern;
+		this.isHellWorld = false;
+		this.hasNoSky = true;
+	}
 
-    public float getCloudHeight() {
-        return 128.0f;
-    }
+	@Override
+	protected void generateLightBrightnessTable()
+	{
+		float var1 = 0.1F;
 
-    public IChunkProvider createChunkGenerator() {
-        return new ChunkProviderSkythern(this.worldObj, this.worldObj.getSeed());
-    }
+		for (int var2 = 0; var2 <= 15; ++var2)
+		{
+			float var3 = 1.0F - var2 / 15.0F;
+			this.lightBrightnessTable[var2] = (1.0F - var3) / (var3 * 3.0F + 1.0F) * (1.0F - var1) + var1;
+		}
+	}
 
-    public boolean isSurfaceWorld() {
-        return false;
-    }
+	@Override
+	public float getCloudHeight()
+	{
+		return 128.0F;
+	}
 
-    public float calculateCelestialAngle(long var1, float var3) {
-        return 0.5f;
-    }
+	@Override
+	public IChunkProvider createChunkGenerator()
+	{
+		return new ChunkProviderSkythern(this.worldObj, this.worldObj.getSeed());
+	}
 
-    public boolean canRespawnHere() {
-        return false;
-    }
+	@Override
+	public boolean isSurfaceWorld()
+	{
+		return false;
+	}
 
-    public String getSaveFolder() {
-        return "Skythern";
-    }
+	@Override
+	public float calculateCelestialAngle(long var1, float var3)
+	{
+		return 0.5F;
+	}
 
-    public String getDimensionName() {
-        return "Skythern";
-    }
+	@Override
+	public boolean canRespawnHere()
+	{
+		return false;
+	}
+
+	@Override
+	public String getSaveFolder()
+	{
+		// TODO gamerforEA code start
+		if (EventConfig.safeWorldSave)
+			return super.getSaveFolder();
+		// TODO gamerforEA code end
+
+		return "Skythern";
+	}
+
+	@Override
+	public String getDimensionName()
+	{
+		return "Skythern";
+	}
 }
-

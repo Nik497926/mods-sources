@@ -1,81 +1,87 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.SharedMonsterAttributes
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.world.World
- */
 package net.divinerpg.entities.vethea;
 
 import net.divinerpg.entities.base.EntityStats;
-import net.divinerpg.entities.vethea.VetheaMob;
 import net.divinerpg.libs.Sounds;
 import net.divinerpg.utils.items.VetheaItems;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityDreamwrecker
-extends VetheaMob {
-    public EntityDreamwrecker(World var1) {
-        super(var1);
-        this.addAttackingAI();
-        this.setSize(0.8f, 4.0f);
-    }
+public class EntityDreamwrecker extends VetheaMob
+{
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityStats.dreamWreckerHealth);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityStats.dreamWreckerDamage);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityStats.dreamWreckerSpeed);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityStats.dreamWreckerFollowRange);
-    }
+	public EntityDreamwrecker(World var1)
+	{
+		super(var1);
+		this.addAttackingAI();
+		this.setSize(0.8f, 4);
+	}
 
-    @Override
-    public int getSpawnLayer() {
-        return 2;
-    }
+	@Override
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(EntityStats.dreamWreckerHealth);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(EntityStats.dreamWreckerDamage);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(EntityStats.dreamWreckerSpeed);
+		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(EntityStats.dreamWreckerFollowRange);
+	}
 
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        EntityPlayer var1 = this.worldObj.getClosestVulnerablePlayerToEntity((Entity)this, 64.0);
-        if (var1 != null && var1.getDistanceToEntity((Entity)this) < 20.0f) {
-            this.entityToAttack = var1;
-        }
-        if (this.getEntityToAttack() != null && this.getEntityToAttack() instanceof EntityPlayer && !this.getEntityToAttack().isDead && this.canEntityBeSeen(this.getEntityToAttack())) {
-            this.getEntityToAttack().addVelocity(Math.signum(this.posX - this.getEntityToAttack().posX) * 0.029, 0.0, Math.signum(this.posZ - this.getEntityToAttack().posZ) * 0.029);
-        }
-        if (this.getEntityToAttack() != null && (this.getEntityToAttack().getDistanceToEntity((Entity)this) >= 20.0f || this.getEntityToAttack().isDead || ((EntityPlayer)this.getEntityToAttack()).capabilities.isCreativeMode)) {
-            this.entityToAttack = null;
-        }
-    }
+	@Override
+	public int getSpawnLayer()
+	{
+		return 2;
+	}
 
-    protected float getSoundVolume() {
-        return 0.7f;
-    }
+	@Override
+	public void onLivingUpdate()
+	{
+		super.onLivingUpdate();
+		EntityPlayer var1 = this.worldObj.getClosestVulnerablePlayerToEntity(this, 64.0D);
 
-    protected String getLivingSound() {
-        return Sounds.dreamWrecker.getPrefixedName();
-    }
+		if (var1 != null && var1.getDistanceToEntity(this) < 20)
+			this.entityToAttack = var1;
+		if (this.getEntityToAttack() != null && this.getEntityToAttack() instanceof EntityPlayer && !this.getEntityToAttack().isDead && this.canEntityBeSeen(this.getEntityToAttack()))
+			this.getEntityToAttack().addVelocity(Math.signum(this.posX - this.getEntityToAttack().posX) * 0.029, 0, Math.signum(this.posZ - this.getEntityToAttack().posZ) * 0.029);
 
-    protected String getHurtSound() {
-        return Sounds.dreamWreckerHurt.getPrefixedName();
-    }
+		// TODO gamerforEA add condition [n-1]
+		if (this.getEntityToAttack() != null && (this.getEntityToAttack().getDistanceToEntity(this) >= 20 || this.getEntityToAttack().isDead || this.getEntityToAttack() instanceof EntityPlayer && ((EntityPlayer) this.getEntityToAttack()).capabilities.isCreativeMode))
+			this.entityToAttack = null;
+	}
 
-    protected String getDeathSound() {
-        return this.getHurtSound();
-    }
+	@Override
+	protected float getSoundVolume()
+	{
+		return 0.7F;
+	}
 
-    protected void dropFewItems(boolean par1, int par2) {
-        this.dropItem(VetheaItems.cleanPearls, 1);
-    }
+	@Override
+	protected String getLivingSound()
+	{
+		return Sounds.dreamWrecker.getPrefixedName();
+	}
 
-    @Override
-    public String mobName() {
-        return "Dreamwrecker";
-    }
+	@Override
+	protected String getHurtSound()
+	{
+		return Sounds.dreamWreckerHurt.getPrefixedName();
+	}
+
+	@Override
+	protected String getDeathSound()
+	{
+		return this.getHurtSound();
+	}
+
+	@Override
+	protected void dropFewItems(boolean par1, int par2)
+	{
+		this.dropItem(VetheaItems.cleanPearls, 1);
+	}
+
+	@Override
+	public String mobName()
+	{
+		return "Dreamwrecker";
+	}
 }
-

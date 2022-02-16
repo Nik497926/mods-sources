@@ -1,66 +1,94 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.projectile.EntityThrowable
- *  net.minecraft.potion.Potion
- *  net.minecraft.potion.PotionEffect
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.world.World
- */
 package net.divinerpg.entities.iceika.projectile;
 
-import java.util.List;
+import com.gamerforea.divinerpg.ModUtils;
+import com.gamerforea.eventhelper.fake.FakePlayerContainer;
+import com.gamerforea.eventhelper.fake.FakePlayerContainerEntity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntitySerenadeOfIce
-extends EntityThrowable {
-    int age;
+import java.util.List;
 
-    public EntitySerenadeOfIce(World var1) {
-        super(var1);
-    }
+public class EntitySerenadeOfIce extends EntityThrowable
+{
+	int age;
 
-    public EntitySerenadeOfIce(World var1, EntityLivingBase var2) {
-        super(var1, var2);
-        this.motionX *= 3.0;
-        this.motionY *= 3.0;
-        this.motionZ *= 3.0;
-    }
+	// TODO gamerforEA code start
+	public final FakePlayerContainer fake = new FakePlayerContainerEntity(ModUtils.profile, this);
 
-    public EntitySerenadeOfIce(World var1, double var2, double var4, double var6) {
-        super(var1, var2, var4, var6);
-    }
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt)
+	{
+		super.writeEntityToNBT(nbt);
+		this.fake.writeToNBT(nbt);
+	}
 
-    public float getGravityVelocity() {
-        return 0.0f;
-    }
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt)
+	{
+		super.readEntityFromNBT(nbt);
+		this.fake.readFromNBT(nbt);
+	}
+	// TODO gamerforEA code end
 
-    public void onUpdate() {
-        super.onUpdate();
-        ++this.age;
-        if (!this.worldObj.isRemote && this.age > 35) {
-            this.setDead();
-        }
-    }
+	public EntitySerenadeOfIce(World var1)
+	{
+		super(var1);
+	}
 
-    protected void onImpact(MovingObjectPosition pos) {
-        if (pos.entityHit != null) {
-            List entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, pos.entityHit.boundingBox.expand(3.0, 3.0, 3.0));
-            for (EntityLivingBase e : entities) {
-                if (e == this.getThrower()) continue;
-                e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 3, true));
-            }
-        }
-        if (!this.worldObj.isRemote) {
-            this.setDead();
-        }
-    }
+	public EntitySerenadeOfIce(World var1, EntityLivingBase e)
+	{
+		super(var1, e);
+		this.motionX *= 3;
+		this.motionY *= 3;
+		this.motionZ *= 3;
+
+		// TODO gamerforEA code start
+		if (e instanceof EntityPlayer)
+			this.fake.setRealPlayer((EntityPlayer) e);
+		// TODO gamerforEA code end
+	}
+
+	public EntitySerenadeOfIce(World var1, double var2, double var4, double var6)
+	{
+		super(var1, var2, var4, var6);
+	}
+
+	@Override
+	public float getGravityVelocity()
+	{
+		return 0;
+	}
+
+	@Override
+	public void onUpdate()
+	{
+		super.onUpdate();
+		this.age++;
+		if (!this.worldObj.isRemote && this.age > 35)
+			this.setDead();
+	}
+
+	@Override
+	protected void onImpact(MovingObjectPosition pos)
+	{
+		if (pos.entityHit != null)
+		{
+			List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, pos.entityHit.boundingBox.expand(3, 3, 3));
+			for (EntityLivingBase e : entities)
+			// TODO gamerforEA add condition
+			{
+				if (e != this.getThrower() && !this.fake.cantDamage(e))
+					e.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 3, true));
+			}
+		}
+
+		if (!this.worldObj.isRemote)
+			this.setDead();
+	}
 }
-

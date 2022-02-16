@@ -1,75 +1,96 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.relauncher.Side
- *  cpw.mods.fml.relauncher.SideOnly
- *  net.minecraft.world.WorldProvider
- *  net.minecraft.world.biome.WorldChunkManagerHell
- *  net.minecraft.world.chunk.IChunkProvider
- */
 package net.divinerpg.dimensions.iceika;
 
+import com.gamerforea.divinerpg.EventConfig;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.divinerpg.dimensions.iceika.ChunkProviderIceika;
 import net.divinerpg.utils.DimensionHelper;
 import net.divinerpg.utils.config.ConfigurationHelper;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class WorldProviderIceika
-extends WorldProvider {
-    public void registerWorldChunkManager() {
-        this.dimensionId = ConfigurationHelper.iceika;
-        this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.iceikaBiome, 1.0f);
-        this.hasNoSky = true;
-    }
+public class WorldProviderIceika extends WorldProvider
+{
 
-    public float getCloudHeight() {
-        return 128.0f;
-    }
+	@Override
+	public void registerWorldChunkManager()
+	{
+		this.dimensionId = ConfigurationHelper.iceika;
+		this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.iceikaBiome, 1.0F);
+		this.hasNoSky = true;
+	}
 
-    public boolean canSnowAt(int x, int y, int z, boolean checkLight) {
-        return true;
-    }
+	@Override
+	public float getCloudHeight()
+	{
+		return 128.0F;
+	}
 
-    public IChunkProvider createChunkGenerator() {
-        return new ChunkProviderIceika(this.worldObj, this.worldObj.getSeed());
-    }
+	@Override
+	public boolean canSnowAt(int x, int y, int z, boolean checkLight)
+	{
+		return true;
+	}
 
-    protected void generateLightBrightnessTable() {
-        float f = 0.01f;
-        for (int i = 0; i <= 15; ++i) {
-            float f1 = 1.0f - (float)i / 15.0f;
-            this.lightBrightnessTable[i] = (1.0f - f1) / (f1 * 3.0f + 1.0f) * (1.0f - f) + f;
-        }
-    }
+	@Override
+	public IChunkProvider createChunkGenerator()
+	{
+		return new ChunkProviderIceika(this.worldObj, this.worldObj.getSeed());
+	}
 
-    @SideOnly(value=Side.CLIENT)
-    public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_) {
-        return null;
-    }
+	@Override
+	protected void generateLightBrightnessTable()
+	{
+		float f = 0.01F;
 
-    public boolean isSurfaceWorld() {
-        return false;
-    }
+		for (int i = 0; i <= 15; ++i)
+		{
+			float f1 = 1.0F - i / 15.0F;
+			this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
+		}
+	}
 
-    public float calculateCelestialAngle(long var1, float var3) {
-        return 0.28f;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_)
+	{
+		return null;
+	}
 
-    public boolean canRespawnHere() {
-        return false;
-    }
+	@Override
+	public boolean isSurfaceWorld()
+	{
+		return false;
 
-    public String getDimensionName() {
-        return "Iceika";
-    }
+	}
 
-    public String getSaveFolder() {
-        return "Iceika";
-    }
+	@Override
+	public float calculateCelestialAngle(long var1, float var3)
+	{
+		return 0.28F;
+	}
+
+	@Override
+	public boolean canRespawnHere()
+	{
+		return false;
+	}
+
+	@Override
+	public String getDimensionName()
+	{
+		return "Iceika";
+	}
+
+	@Override
+	public String getSaveFolder()
+	{
+		// TODO gamerforEA code start
+		if (EventConfig.safeWorldSave)
+			return super.getSaveFolder();
+		// TODO gamerforEA code end
+
+		return "Iceika";
+	}
+
 }
-

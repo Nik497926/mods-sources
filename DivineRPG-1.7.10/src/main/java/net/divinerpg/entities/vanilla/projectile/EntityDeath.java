@@ -1,51 +1,70 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.projectile.EntityThrowable
- *  net.minecraft.potion.Potion
- *  net.minecraft.potion.PotionEffect
- *  net.minecraft.util.DamageSource
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.world.World
- */
 package net.divinerpg.entities.vanilla.projectile;
 
-import net.minecraft.entity.Entity;
+import com.gamerforea.divinerpg.ModUtils;
+import com.gamerforea.eventhelper.fake.FakePlayerContainer;
+import com.gamerforea.eventhelper.fake.FakePlayerContainerEntity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityDeath
-extends EntityThrowable {
-    public EntityDeath(World var1) {
-        super(var1);
-    }
+public class EntityDeath extends EntityThrowable
+{
+	// TODO gamerforEA code start
+	public final FakePlayerContainer fake = new FakePlayerContainerEntity(ModUtils.profile, this);
 
-    public EntityDeath(World var1, EntityLivingBase var2) {
-        super(var1, var2);
-    }
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt)
+	{
+		super.writeEntityToNBT(nbt);
+		this.fake.writeToNBT(nbt);
+	}
 
-    public EntityDeath(World var1, double var2, double var4, double var6) {
-        super(var1, var2, var4, var6);
-    }
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt)
+	{
+		super.readEntityFromNBT(nbt);
+		this.fake.readFromNBT(nbt);
+	}
+	// TODO gamerforEA code end
 
-    protected void onImpact(MovingObjectPosition var1) {
-        if (var1.entityHit != null) {
-            var1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.getThrower()), 14.0f);
-            if (var1.entityHit instanceof EntityLivingBase) {
-                ((EntityLivingBase)var1.entityHit).addPotionEffect(new PotionEffect(Potion.poison.id, 45, 3));
-            }
-        }
-        if (!this.worldObj.isRemote) {
-            this.setDead();
-        }
-    }
+	public EntityDeath(World var1)
+	{
+		super(var1);
+	}
+
+	public EntityDeath(World var1, EntityLivingBase e)
+	{
+		super(var1, e);
+
+		// TODO gamerforEA code start
+		if (e instanceof EntityPlayer)
+			this.fake.setRealPlayer((EntityPlayer) e);
+		// TODO gamerforEA code end
+	}
+
+	public EntityDeath(World var1, double var2, double var4, double var6)
+	{
+		super(var1, var2, var4, var6);
+	}
+
+	@Override
+	protected void onImpact(MovingObjectPosition mop)
+	{
+		// TODO gamerforEA add condition
+		if (mop.entityHit != null && !this.fake.cantDamage(mop.entityHit))
+		{
+			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 14.0F);
+			if (mop.entityHit instanceof EntityLivingBase)
+				((EntityLivingBase) mop.entityHit).addPotionEffect(new PotionEffect(Potion.poison.id, 45, 3));
+		}
+
+		if (!this.worldObj.isRemote)
+			this.setDead();
+	}
 }
-

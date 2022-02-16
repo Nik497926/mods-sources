@@ -1,106 +1,102 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.relauncher.Side
- *  cpw.mods.fml.relauncher.SideOnly
- *  net.minecraft.client.resources.I18n
- *  net.minecraft.entity.Entity
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.item.ItemStack
- *  net.minecraft.util.MathHelper
- *  net.minecraft.util.MovingObjectPosition
- *  net.minecraft.util.MovingObjectPosition$MovingObjectType
- *  net.minecraft.util.Vec3
- *  net.minecraft.world.World
- */
 package net.divinerpg.items.arcana;
 
+import com.gamerforea.eventhelper.util.EventUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.List;
 import net.divinerpg.items.base.ItemMod;
 import net.divinerpg.utils.TooltipLocalizer;
-import net.divinerpg.utils.Util;
 import net.divinerpg.utils.events.ArcanaHelper;
 import net.divinerpg.utils.tabs.DivineRPGTabs;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ItemEnderScepter
-extends ItemMod {
-    public ItemEnderScepter(String name) {
-        super(name, DivineRPGTabs.swords);
-        this.setMaxStackSize(1);
-    }
+import java.util.List;
+import java.util.Random;
 
-    @Override
-    public ItemStack onItemRightClick(ItemStack par1, World par2, EntityPlayer par3) {
-        float var18;
-        float var4 = par3.rotationPitch;
-        float var5 = par3.rotationYaw;
-        double var6 = par3.posX;
-        double var8 = par3.posY + (double)1.62f - (double)par3.yOffset;
-        double var10 = par3.posZ;
-        Vec3 var12 = Vec3.createVectorHelper((double)var6, (double)var8, (double)var10);
-        float var13 = MathHelper.cos((float)(-var5 * 0.01745329f - (float)Math.PI));
-        float var14 = MathHelper.sin((float)(-var5 * 0.01745329f - (float)Math.PI));
-        float var15 = -MathHelper.cos((float)(-var4 * 0.01745329f));
-        float var17 = var14 * var15;
-        double var19 = 50.0;
-        float var16 = MathHelper.sin((float)(-var4 * 0.01745329f));
-        Vec3 var21 = var12.addVector((double)var17 * 50.0, (double)var16 * var19, (double)(var18 = var13 * var15) * var19);
-        MovingObjectPosition var22 = par2.rayTraceBlocks(var12, var21);
-        if (var22 == null) {
-            return par1;
-        }
-        if (var22.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            int var23 = var22.blockX;
-            int var24 = var22.blockY;
-            int var25 = var22.blockZ;
-            int var26 = var22.sideHit;
-            if (var26 == 1) {
-                ++var24;
-            }
-            if (var26 == 2) {
-                --var25;
-            }
-            if (var26 == 3) {
-                ++var25;
-            }
-            if (var26 == 4) {
-                --var23;
-            }
-            if (var26 == 5) {
-                ++var23;
-            }
-            if (par2.getCollidingBoundingBoxes((Entity)par3, par3.boundingBox).isEmpty() && ArcanaHelper.getProperties(par3).useBar(75.0f)) {
-                par3.getLook(1.0f);
-                par3.motionX = 0.0;
-                par3.motionY = 0.0;
-                par3.motionZ = 0.0;
-                this.teleportTo(par3, par2, (double)var23 + 0.5, var24, (double)var25 + 0.5);
-            }
-        }
-        return par1;
-    }
+public class ItemEnderScepter extends ItemMod
+{
 
-    protected void teleportTo(EntityPlayer par1, World par2, double par3, double par4, double par5) {
-        par1.setPositionAndUpdate(par3, par4, par5);
-        par2.playSoundAtEntity((Entity)par1, "mob.endermen.portal", 1.0f, 1.0f);
-    }
+	private Random rand = new Random();
 
-    @SideOnly(value=Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-        list.add(TooltipLocalizer.arcanaConsumed(75));
-        list.add(Util.GOLD + I18n.format((String)"items.scepter", (Object[])new Object[0]));
-        list.add(TooltipLocalizer.infiniteUses());
-    }
+	public ItemEnderScepter(String name)
+	{
+		super(name, DivineRPGTabs.swords);
+		this.setMaxStackSize(1);
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+	{
+		float pitch = player.rotationPitch;
+		float yaw = player.rotationYaw;
+		double posX = player.posX;
+		double posY = player.posY + 1.62D - player.yOffset;
+		double posZ = player.posZ;
+		Vec3 var12 = Vec3.createVectorHelper(posX, posY, posZ);
+		float var13 = MathHelper.cos(-yaw * 0.01745329F - (float) Math.PI);
+		float var14 = MathHelper.sin(-yaw * 0.01745329F - (float) Math.PI);
+		float var15 = -MathHelper.cos(-pitch * 0.01745329F);
+		float var16 = MathHelper.sin(-pitch * 0.01745329F);
+		float var17 = var14 * var15;
+		float var18 = var13 * var15;
+		double var19 = 50.0D;
+		Vec3 var21 = var12.addVector(var17 * var19, var16 * var19, var18 * var19);
+		MovingObjectPosition mop = world.rayTraceBlocks(var12, var21);
+
+		if (mop == null)
+			return stack;
+		else if (mop.typeOfHit == MovingObjectType.BLOCK)
+		{
+			int x = mop.blockX;
+			int y = mop.blockY;
+			int z = mop.blockZ;
+			int side = mop.sideHit;
+
+			if (side == 0)
+				--y;
+			if (side == 1)
+				++y;
+			if (side == 2)
+				--z;
+			if (side == 3)
+				++z;
+			if (side == 4)
+				--x;
+			if (side == 5)
+				++x;
+
+			if (ArcanaHelper.getProperties(player).useBar(75))
+			{
+				// TODO gamerforEA code start
+				if (EventUtils.cantBreak(player, x, y, z))
+					return stack;
+				// TODO gamerforEA code end
+
+				player.getLook(1);
+				this.teleportTo(player, world, x, y, z);
+			}
+		}
+
+		return stack;
+	}
+
+	protected void teleportTo(EntityPlayer player, World par2, double x, double y, double z)
+	{
+		player.setPosition(x, y, z);
+		par2.playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4)
+	{
+		list.add(TooltipLocalizer.arcanaConsumed(75));
+		list.add("On use: Teleports the player");
+		list.add(TooltipLocalizer.infiniteUses());
+	}
 }
-

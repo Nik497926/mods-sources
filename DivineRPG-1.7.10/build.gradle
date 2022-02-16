@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "http://files.minecraftforge.net/maven"
         }
         maven {
             name = "sonatype"
@@ -15,37 +15,31 @@ buildscript {
     }
 }
 
+repositories {
+	flatDir {
+		dirs 'lib'
+	}
+}
+
 apply plugin: 'forge'
 
-version = "1.0"
-group= "ru.obvilion.guardauth"
-archivesBaseName = "guardauth"
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
+version = "1.4.1.4"
+group= "net.divinerpg"
+archivesBaseName = "DivineRPG"
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
-    runDir = "run"
+    runDir = "eclipse"
 }
 
 dependencies {
-    implementation files('./DivineRPG-L.jar')
-    implementation files('./DivineRPG-H.jar')
+	compile name: 'EventHelper-1.7-dev'
+	compile name: archivesBaseName + '-' + version + '-dev'
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+jar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from zipTree('lib/' + archivesBaseName + '-' + version + '.jar')
 }

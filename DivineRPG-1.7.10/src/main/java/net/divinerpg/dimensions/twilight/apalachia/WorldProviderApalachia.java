@@ -1,63 +1,79 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.world.WorldProvider
- *  net.minecraft.world.biome.WorldChunkManagerHell
- *  net.minecraft.world.chunk.IChunkProvider
- */
 package net.divinerpg.dimensions.twilight.apalachia;
 
-import net.divinerpg.dimensions.twilight.apalachia.ChunkProviderApalachia;
+import com.gamerforea.divinerpg.EventConfig;
 import net.divinerpg.utils.DimensionHelper;
 import net.divinerpg.utils.config.ConfigurationHelper;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class WorldProviderApalachia
-extends WorldProvider {
-    public void registerWorldChunkManager() {
-        this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.apalachiaBiome, 0.5f);
-        this.dimensionId = ConfigurationHelper.apalachia;
-        this.isHellWorld = false;
-        this.hasNoSky = true;
-    }
+public class WorldProviderApalachia extends WorldProvider
+{
 
-    public String getSaveFolder() {
-        return "Apalachia";
-    }
+	@Override
+	public void registerWorldChunkManager()
+	{
+		this.worldChunkMgr = new WorldChunkManagerHell(DimensionHelper.apalachiaBiome, 0.5F);
+		this.dimensionId = ConfigurationHelper.apalachia;
+		this.isHellWorld = false;
+		this.hasNoSky = true;
+	}
 
-    public float getCloudHeight() {
-        return 128.0f;
-    }
+	@Override
+	public String getSaveFolder()
+	{
+		// TODO gamerforEA code start
+		if (EventConfig.safeWorldSave)
+			return super.getSaveFolder();
+		// TODO gamerforEA code end
 
-    public IChunkProvider createChunkGenerator() {
-        return new ChunkProviderApalachia(this.worldObj, this.worldObj.getSeed());
-    }
+		return "Apalachia";
+	}
 
-    protected void generateLightBrightnessTable() {
-        float var1 = 0.1f;
-        for (int var2 = 0; var2 <= 15; ++var2) {
-            float var3 = 1.0f - (float)var2 / 15.0f;
-            this.lightBrightnessTable[var2] = (1.0f - var3) / (var3 * 3.0f + 1.0f) * (1.0f - var1) + var1;
-        }
-    }
+	@Override
+	public float getCloudHeight()
+	{
+		return 128.0F;
+	}
 
-    public boolean isSurfaceWorld() {
-        return false;
-    }
+	@Override
+	public IChunkProvider createChunkGenerator()
+	{
+		return new ChunkProviderApalachia(this.worldObj, this.worldObj.getSeed());
+	}
 
-    public float calculateCelestialAngle(long var1, float var3) {
-        return 0.5f;
-    }
+	@Override
+	protected void generateLightBrightnessTable()
+	{
+		float var1 = 0.1F;
+		for (int var2 = 0; var2 <= 15; ++var2)
+		{
+			float var3 = 1.0F - var2 / 15.0F;
+			this.lightBrightnessTable[var2] = (1.0F - var3) / (var3 * 3.0F + 1.0F) * (1.0F - var1) + var1;
+		}
+	}
 
-    public boolean canRespawnHere() {
-        return false;
-    }
+	@Override
+	public boolean isSurfaceWorld()
+	{
+		return false;
+	}
 
-    public String getDimensionName() {
-        return "Apalachia";
-    }
+	@Override
+	public float calculateCelestialAngle(long var1, float var3)
+	{
+		return 0.5F;
+	}
+
+	@Override
+	public boolean canRespawnHere()
+	{
+		return false;
+	}
+
+	@Override
+	public String getDimensionName()
+	{
+		return "Apalachia";
+	}
 }
-

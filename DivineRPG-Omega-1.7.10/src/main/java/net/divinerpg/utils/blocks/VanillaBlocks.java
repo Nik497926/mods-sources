@@ -1,0 +1,152 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.block.Block
+ */
+package net.divinerpg.utils.blocks;
+
+import net.divinerpg.blocks.base.BlockCase;
+import net.divinerpg.blocks.base.BlockMod;
+import net.divinerpg.blocks.base.BlockModGlass;
+import net.divinerpg.blocks.base.BlockModLeaves;
+import net.divinerpg.blocks.base.BlockModLog;
+import net.divinerpg.blocks.base.BlockModSlab;
+import net.divinerpg.blocks.base.BlockModStairs;
+import net.divinerpg.blocks.base.BlockModTorch;
+import net.divinerpg.blocks.base.BlockStatue;
+import net.divinerpg.blocks.base.BlockStupidSpawner;
+import net.divinerpg.blocks.vanilla.*;
+import net.divinerpg.client.render.block.model.ModelAncientStatue;
+import net.divinerpg.client.render.block.model.ModelAyeracoStatue;
+import net.divinerpg.client.render.block.model.ModelDensosStatue;
+import net.divinerpg.client.render.block.model.ModelDramixStatue;
+import net.divinerpg.client.render.block.model.ModelEternArcherStatue;
+import net.divinerpg.client.render.block.model.ModelKarotStatue;
+import net.divinerpg.client.render.block.model.ModelKingStatue;
+import net.divinerpg.client.render.block.model.ModelReyvorStatue;
+import net.divinerpg.client.render.block.model.ModelSoulStatue;
+import net.divinerpg.client.render.block.model.ModelTwilightStatue;
+import net.divinerpg.client.render.block.model.ModelVamacheronStatue;
+import net.divinerpg.client.render.block.model.ModelWatcherStatue;
+import net.divinerpg.utils.Util;
+import net.divinerpg.utils.items.VanillaItemsOther;
+import net.divinerpg.utils.material.EnumBlockType;
+import net.divinerpg.utils.tabs.DivineRPGTabs;
+import net.minecraft.block.Block;
+
+public class VanillaBlocks {
+    private static int WOOD_GOLD = 0;
+    private static int STONE = 1;
+    private static int IRON = 2;
+    private static int DIAMOND = 3;
+    public static Block rupeeOre = new VanillaBlock(EnumBlockType.ROCK, "rupeeOre", 3.0f, DIAMOND).setResistance(5.0f);
+    public static Block arlemiteOre = new VanillaBlock(EnumBlockType.ROCK, "arlemiteOre", 3.0f, DIAMOND).setResistance(5.0f);
+    public static Block realmiteOre = new VanillaBlock(EnumBlockType.ROCK, "realmiteOre", 3.0f, IRON).setResistance(5.0f);
+    public static Block bloodgemOre = new BlockOreDrop(EnumBlockType.ROCK, "bloodgemOre", 3.0f, 3, VanillaItemsOther.bloodgem);
+    public static Block netheriteOre = new VanillaBlock(EnumBlockType.ROCK, "netheriteOre", 3.0f, DIAMOND).setResistance(5.0f);
+    public static Block copperOre = new VanillaBlock(EnumBlockType.ROCK, "copperOre", 2.0f, STONE).setResistance(5.0f);
+    public static Block amazoniteOre = new VanillaBlock(EnumBlockType.ROCK, "amazoniteOre", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block nightmareOre = new VanillaBlock(EnumBlockType.ROCK, "nightmareOre", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block repairBlock = new BlockRepairer("repairBlock");
+    public static Block divineGlass = new BlockModGlass("divineGlass", -1.0f);
+    public static Block nightmareBlock = new VanillaBlock(EnumBlockType.ROCK, "nightmareBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block copperBlock = new VanillaBlock(EnumBlockType.ROCK, "copperBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block rupeeBlock = new VanillaBlock(EnumBlockType.ROCK, "rupeeBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block arlemiteBlock = new VanillaBlock(EnumBlockType.ROCK, "arlemiteBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block realmiteBlock = new VanillaBlock(EnumBlockType.ROCK, "realmiteBlock", 5.0f, IRON).setResistance(5.0f);
+    public static Block bloodgemBlock = new VanillaBlock(EnumBlockType.ROCK, "bloodgemBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block netheriteBlock = new VanillaBlock(EnumBlockType.ROCK, "netheriteBlock", 5.0f, DIAMOND).setResistance(5.0f);
+    public static Block spiderPumpkin = new BlockMobPumpkin().setName("spiderPumpkin");
+    public static Block enderPumpkin = new BlockMobPumpkin().setName("enderPumpkin");
+    public static Block creeperPumpkin = new BlockMobPumpkin().setName("creeperPumpkin");
+    public static Block skeletonPumpkin = new BlockMobPumpkin().setName("skeletonPumpkin");
+    public static Block blazePumpkin = new BlockMobPumpkin().setName("blazePumpkin");
+    public static Block zombiePumpkin = new BlockMobPumpkin().setName("zombiePumpkin");
+    public static Block frostPumpkin = new BlockMobPumpkin().setName("frostPumpkin");
+    public static Block cyclopsPumpkin = new BlockMobPumpkin().setName("cyclopsPumpkin");
+    public static Block ghastPumpkin = new BlockMobPumpkin().setName("ghastPumpkin");
+    public static Block glaconPumpkin = new BlockMobPumpkin().setName("glaconPumpkin");
+    public static Block enderWatcherPumpkin = new BlockMobPumpkin().setName("enderWatcherPumpkin");
+    public static Block jungleSpiderPumpkin = new BlockMobPumpkin().setName("jungleSpiderPumpkin");
+    public static Block hellspiderPumpkin = new BlockMobPumpkin().setName("hellspiderPumpkin");
+    public static Block aquaTorch = new BlockModTorch("aquaTorch", "blueFlame");
+    public static Block skeletonTorch = new BlockModTorch("skeletonTorch", "blackFlame");
+    public static Block rainbowWool = new VanillaBlock(EnumBlockType.WOOL, "rainbowWool", 0.8f, WOOD_GOLD);
+    public static Block crate = new VanillaBlock(EnumBlockType.WOOD, "crate", 2.5f, WOOD_GOLD);
+    public static Block plankDesign = new VanillaBlock(EnumBlockType.WOOD, "plankDesign", 2.5f, WOOD_GOLD);
+    public static Block blueStone = new VanillaBlock(EnumBlockType.ROCK, "blueStone", 1.5f, WOOD_GOLD).setResistance(5.0f).setLightLevel(1.0f);
+    public static Block blueVane = new VanillaBlock(EnumBlockType.ROCK, "blueVane", 2.0f, IRON).setResistance(5.0f);
+    public static Block cyanVane = new VanillaBlock(EnumBlockType.ROCK, "cyanVane", 2.0f, IRON).setResistance(5.0f);
+    public static Block purpleVane = new VanillaBlock(EnumBlockType.ROCK, "purpleVane", 2.0f, IRON).setResistance(5.0f);
+    public static Block redVane = new VanillaBlock(EnumBlockType.ROCK, "redVane", 2.0f, IRON).setResistance(5.0f);
+    public static Block yellowVane = new VanillaBlock(EnumBlockType.ROCK, "yellowVane", 2.0f, IRON).setResistance(5.0f);
+    public static Block divineRock = new VanillaBlock(EnumBlockType.ROCK, "divineRock", 1.5f, STONE).setResistance(6000000.0f);
+    public static Block tar = new BlockTar();
+    public static Block fancyWool = new VanillaBlock(EnumBlockType.WOOL, "fancyWool", 0.8f, WOOD_GOLD);
+    public static Block steel = new BlockSteel();
+    public static Block divineBricks = new BlockDivineBricks();
+    public static Block minibricks = new BlockMinibricks();
+    public static Block lamp1 = new BlockLamp1();
+    public static Block lamp2 = new BlockLamp2();
+    public static Block milkStone = new VanillaBlock(EnumBlockType.ROCK, "milkStone", 1.5f, WOOD_GOLD).setResistance(10.0f);
+    public static Block darkStone = new VanillaBlock(EnumBlockType.ROCK, "darkstone", 50.0f, DIAMOND).setResistance(10.0f).setLightLevel(1.0f);
+    public static Block spikeBlock = new BlockSpike();
+    public static Block hotSpikeBlock = new BlockHotSpike();
+    public static Block slimeLight = new BlockSlimeLight(false);
+    public static Block slimeLightOn = new BlockSlimeLight(true);
+    public static Block lightFenceBlue = new BlockLightFence(false, "blueFence", 0.5f);
+    public static Block lightFenceRed = new BlockLightFence(false, "redFence", 0.5f);
+    public static Block lightFenceGreen = new BlockLightFence(false, "greenFence", 0.5f);
+    public static Block lightFenceBlueOn = new BlockLightFence(true, "blueFenceOn", 0.5f);
+    public static Block lightFenceRedOn = new BlockLightFence(true, "redFenceOn", 0.5f);
+    public static Block lightFenceGreenOn = new BlockLightFence(true, "greenFenceOn", 0.5f);
+    public static Block ayeracoBeamBlue = new BlockAyeracoBeam("ayeracoBeamBlue", "Blue");
+    public static Block ayeracoBeamGreen = new BlockAyeracoBeam("ayeracoBeamGreen", "Green");
+    public static Block ayeracoBeamRed = new BlockAyeracoBeam("ayeracoBeamRed", "Red");
+    public static Block ayeracoBeamYellow = new BlockAyeracoBeam("ayeracoBeamYellow", "Yellow");
+    public static Block ayeracoBeamPurple = new BlockAyeracoBeam("ayeracoBeamPurple", "Purple");
+    public static Block ayeracoSpawn = new BlockAyeracoSpawn();
+    public static BlockStatue kosStatue = new BlockStatue("kingOfScorchersStatue", new ModelKingStatue());
+    public static BlockStatue ancientEntityStatue = new BlockStatue("ancientEntityStatue", new ModelAncientStatue());
+    public static BlockStatue ayeracoStatue = new BlockStatue("ayeracoStatue", new ModelAyeracoStatue());
+    public static BlockStatue twilightDemonStatue = new BlockStatue("twilightDemonStatue", new ModelTwilightStatue());
+    public static BlockStatue vamacheronStatue = new BlockStatue("vamacheronStatue", new ModelVamacheronStatue());
+    public static BlockStatue densosStatue = new BlockStatue("densosStatue", new ModelDensosStatue());
+    public static BlockStatue reyvorStatue = new BlockStatue("reyvorStatue", new ModelReyvorStatue());
+    public static BlockStatue dramixStatue = new BlockStatue("dramixStatue", new ModelDramixStatue());
+    public static BlockStatue soulFiendStatue = new BlockStatue("soulFiendStatue", new ModelSoulStatue());
+    public static BlockStatue watcherStatue = new BlockStatue("watcherStatue", new ModelWatcherStatue());
+    public static BlockStatue eternalArcherStatue = new BlockStatue("eternalArcherStatue", new ModelEternArcherStatue());
+    public static BlockStatue karotStatue = new BlockStatue("karotStatue", new ModelKarotStatue());
+    public static Block tomato = new BlockTomato("tomatoPlant");
+    public static Block mushroom = new BlockMushroom("mushroomPlant");
+    public static Block divineWood = new BlockModLog("divineLog");
+    public static Block divineLeaves = new BlockModLeaves("divineLeaves", 0.3f);
+    public static Block divineMossystone = new BlockMod("divineMossStone", 2.0f).setResistance(10.0f);
+    public static Block enthralledDramcryxSpawner = new BlockStupidSpawner("enthralledDramcryxSpawner", "EnthralledDramcryx", "divineSpawner", true);
+    public static Block rotatickSpawner = new BlockStupidSpawner("rotatickSpawner", "Rotatick", "divineSpawner", true);
+    public static Block divinePlanks = new BlockMod(EnumBlockType.WOOD, "divinePlanks", 2.0f, DivineRPGTabs.blocks).setResistance(5.0f);
+    public static Block divineStairs = new BlockModStairs(divinePlanks, "divineStairs");
+    public static Block divineSlab = new BlockModSlab((BlockMod)divinePlanks, false, "Planks", null);
+    public static Block divineSlabDouble = new BlockModSlab((BlockMod)divinePlanks, true, "Planks", divineSlab);
+    public static Block altarOfCorruption = new BlockAltarOfCorruption("altarOfCorruption");
+    public static Block boneChest = new BlockBoneChest("boneChest");
+    private static Block case1 = new BlockCase("case1");
+    private static Block case2 = new BlockCase("case2");
+    private static Block case3 = new BlockCase("case3");
+    private static Block case4 = new BlockCase("case4");
+    public static Block case5 = new BlockCase("case5");
+    private static Block case6 = new BlockCase("case6");
+    public static Block case7 = new BlockCase("case7");
+    private static Block case8 = new BlockCase("case8");
+    private static Block case9 = new BlockCase("case9");
+    private static Block case10 = new BlockCase("case10");
+    public static Block darkBridge    = new BlockDarkBridge(false);
+    public static Block darkBridgeOn  = new BlockDarkBridge(true);
+
+    public static void init() {
+        Util.registerSlab(divineSlab, divineSlabDouble);
+    }
+}
+

@@ -1,36 +1,44 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.relauncher.Side
- *  cpw.mods.fml.relauncher.SideOnly
- *  net.minecraft.entity.player.EntityPlayer
- *  net.minecraft.item.Item$ToolMaterial
- *  net.minecraft.item.ItemStack
- *  net.minecraft.util.StatCollector
- */
 package net.divinerpg.items.arcana;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import java.util.List;
+import com.gamerforea.eventhelper.util.EventUtils;
 import net.divinerpg.items.base.ItemModSword;
-import net.divinerpg.utils.Util;
+import net.divinerpg.libs.DivineRPGAchievements;
+import net.divinerpg.utils.events.ArcanaHelper;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 
-public class ItemStormSword
-extends ItemModSword {
-    public ItemStormSword(String name, Item.ToolMaterial toolMaterial) {
-        super(toolMaterial, name);
-    }
+public class ItemStormSword extends ItemModSword
+{
+	public ItemStormSword(String name, ToolMaterial toolMaterial)
+	{
+		super(toolMaterial, name);
+	}
 
-    @Override
-    @SideOnly(value=Side.CLIENT)
-    public void addInformation(ItemStack item, EntityPlayer par2EntityPlayer, List list, boolean par4) {
-        list.add(Util.GOLD + StatCollector.translateToLocal((String)"item.stormsword"));
-    }
+	@Override
+	protected boolean canUseSpecialEffect(EntityPlayer player)
+	{
+		return ArcanaHelper.getProperties(player).useBar(20);
+	}
+
+	@Override
+	protected void useSpecialEffect(World world, EntityPlayer player)
+	{
+		for (int i = 2; i < 5; i += 2)
+		{
+			double angle = 0;
+			while (angle < 2 * Math.PI)
+			{
+				int xOffset = (int) Math.round(Math.sin(angle) * i);
+				int zOffset = (int) Math.round(Math.cos(angle) * i);
+				if (Math.sqrt(xOffset * xOffset + zOffset * zOffset) > 3)
+					// TODO gamerforEA code start
+					if (!EventUtils.cantBreak(player, (int) player.posX + xOffset, (int) player.posY, (int) player.posZ + zOffset))
+						// TODO gamerforEA code start
+						world.spawnEntityInWorld(new EntityLightningBolt(world, player.posX + xOffset, player.posY, player.posZ + zOffset));
+				angle += Math.PI / 8.0D;
+			}
+		}
+		player.triggerAchievement(DivineRPGAchievements.allHellLoose);
+	}
 }
-
