@@ -12,49 +12,19 @@
  */
 package net.divinerpg.client.render.gui;
 
-import java.io.IOException;
-import java.net.SocketException;
 import net.divinerpg.utils.Util;
-import net.divinerpg.utils.events.UpdateChecker;
 import net.divinerpg.utils.items.TwilightItemsArmor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GUIOverlay {
-    private String text = "";
-    private String text2 = "";
     public static int guiTick = 600;
-    private boolean seen = false;
     private ScaledResolution res;
     private static final ResourceLocation r = new ResourceLocation("divinerpg:textures/gui/armorBar.png");
-
-    public void drawOverlay() {
-        this.res = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-        if (!this.seen) {
-            try {
-                this.text = "DivineRPG " + Util.GREEN + "1.4.1.3";
-                this.text2 = !UpdateChecker.isOnline() ? Util.DARK_PURPLE + "Offline" : (UpdateChecker.isUpdateAvailable() ? Util.DARK_BLUE + "DivineRPG: " + Util.DARK_RED + "Update Available (" + UpdateChecker.getCurrentVersion() + ")" : "");
-            }
-            catch (SocketException e) {
-                e.printStackTrace();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.seen = true;
-        }
-        GL11.glDisable((int)3042);
-        if (Minecraft.getMinecraft().gameSettings.showDebugInfo) {
-            Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(EnumChatFormatting.DARK_BLUE + this.text, 2, this.res.getScaledHeight() - 10, 0x404040);
-        } else if (!Minecraft.getMinecraft().gameSettings.showDebugInfo && guiTick > 0) {
-            Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(this.text2, 2, 2, 0x404040);
-        }
-    }
 
     public void drawArmor() {
         GL11.glDisable((int)2929);

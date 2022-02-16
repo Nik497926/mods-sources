@@ -1,20 +1,8 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  cpw.mods.fml.common.eventhandler.SubscribeEvent
- *  cpw.mods.fml.common.gameevent.TickEvent$RenderTickEvent
- *  net.minecraft.client.Minecraft
- *  net.minecraft.client.gui.GuiIngame
- *  net.minecraft.client.gui.ScaledResolution
- *  net.minecraft.util.ResourceLocation
- */
 package net.divinerpg.client;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.divinerpg.utils.config.ConfigurationHelper;
-import net.divinerpg.utils.events.ClientTicker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -34,14 +22,13 @@ public class ArcanaRenderer {
     private float alpha2 = 0.0f;
 
     @SubscribeEvent
-    public void onRender(RenderGameOverlayEvent event) {
-        if (event.type == RenderGameOverlayEvent.ElementType.ALL) {
-            this.renderArcana();
-            //if (time > 0 && ClientTicker.bossRenderTick > 0) {
-            //    this.textDrawRender();
-            //    this.onTickRender();
-            //}
-        }
+    public void onRender(TickEvent.RenderTickEvent event) {
+        if (mc.currentScreen == null)
+        this.renderArcana();
+        //if (time > 0) {
+            //this.textDrawRender();
+            //this.onTickRender();
+        //}
     }
 
     public void drawArcanaCircle(double xC, double yC) {

@@ -50,10 +50,8 @@ import net.divinerpg.utils.events.ArcanaHelper;
 import net.divinerpg.utils.events.ClientTicker;
 import net.divinerpg.utils.events.DevHatEvent;
 import net.divinerpg.utils.events.EventExtraArmor;
-import net.divinerpg.utils.events.EventOverlay;
 import net.divinerpg.utils.items.ArcanaItems;
 import net.divinerpg.utils.items.VanillaItemsWeapons;
-import net.divinerpg.utils.proxies.CommonProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
@@ -73,7 +71,6 @@ extends CommonProxy {
     public void preInitClient(FMLPreInitializationEvent event) {
         Util.postFMLEvent(new ArcanaRenderer());
         Util.postFMLEvent(new ClientTicker());
-        Util.postForgeEvent(new EventOverlay());
         Util.postForgeEvent(new EventExtraArmor());
         ItemProjectileShooter.gunList.remove(VanillaItemsWeapons.scythe);
         for (Item bow : ItemModBow.bowList) {
