@@ -22,29 +22,30 @@ implements IVetheanStructure {
     }
 
     private int getSize(VetheaChunk chunk, int par2, int par3, int par4) {
-        int i;
-        if (par2 >= 16) {
-            par2 = 15;
-        }
-        if (par3 >= 256) {
-            par2 = 255;
-        }
-        if (par4 >= 16) {
-            par4 = 15;
-        }
+        if(par2 >= 16)par2 = 15;
+        if(par3 >= 256)par2 = 255;
+        if(par4 >= 16)par4 = 15;
+        int i = par3;
         int var1 = 0;
         if (chunk.getBlock(par2, i, par4) != null) {
             while (chunk.getBlock(par2, i, par4) != null) {
-                ++i;
+                i++;
             }
         } else {
-            for (i = par3; chunk.getBlock(par2, i, par4) == null && i >= 0 && chunk.getBlock(par2, i - 1, par4) == null; --i) {
+
+            while (chunk.getBlock(par2, i, par4) == null && i >= 0) {
+                if (chunk.getBlock(par2, i-1, par4) == null) {
+                    i--;
+                }
+                else break;
             }
         }
-        while (i <= 255 && chunk.getBlock(par2, i, par4) == null) {
-            ++i;
-            ++var1;
+
+        while(i <= 255 && chunk.getBlock(par2, i, par4) == null) {
+            i++;
+            var1++;
         }
+
         return var1;
     }
 
