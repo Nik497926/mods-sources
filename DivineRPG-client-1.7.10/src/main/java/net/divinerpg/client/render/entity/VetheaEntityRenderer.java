@@ -1,0 +1,187 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  cpw.mods.fml.client.registry.RenderingRegistry
+ *  net.minecraft.client.model.ModelBase
+ *  net.minecraft.client.model.ModelBiped
+ *  net.minecraft.client.renderer.entity.Render
+ */
+package net.divinerpg.client.render.entity;
+
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.divinerpg.client.render.EntityResourceLocation;
+import net.divinerpg.client.render.RenderDivineBoss;
+import net.divinerpg.client.render.RenderDivineMob;
+import net.divinerpg.client.render.RenderIconProjectile;
+import net.divinerpg.client.render.RenderSpecialProjectile;
+import net.divinerpg.client.render.entity.vethea.RenderBiphron;
+import net.divinerpg.client.render.entity.vethea.RenderGalroid;
+import net.divinerpg.client.render.entity.vethea.RenderLadyLuna;
+import net.divinerpg.client.render.entity.vethea.RenderWreck;
+import net.divinerpg.client.render.entity.vethea.model.AcidHag;
+import net.divinerpg.client.render.entity.vethea.model.Biphron;
+import net.divinerpg.client.render.entity.vethea.model.Boheimite;
+import net.divinerpg.client.render.entity.vethea.model.CryptKeeper;
+import net.divinerpg.client.render.entity.vethea.model.Cymesoid;
+import net.divinerpg.client.render.entity.vethea.model.Dissiment;
+import net.divinerpg.client.render.entity.vethea.model.Dreamwrecker;
+import net.divinerpg.client.render.entity.vethea.model.Duo;
+import net.divinerpg.client.render.entity.vethea.model.Ent;
+import net.divinerpg.client.render.entity.vethea.model.Galroid;
+import net.divinerpg.client.render.entity.vethea.model.Gorgosion;
+import net.divinerpg.client.render.entity.vethea.model.Helio;
+import net.divinerpg.client.render.entity.vethea.model.Herbomancer;
+import net.divinerpg.client.render.entity.vethea.model.HiveQueen;
+import net.divinerpg.client.render.entity.vethea.model.HiveSoldier;
+import net.divinerpg.client.render.entity.vethea.model.HoverStinger;
+import net.divinerpg.client.render.entity.vethea.model.Karos;
+import net.divinerpg.client.render.entity.vethea.model.Kazrotic;
+import net.divinerpg.client.render.entity.vethea.model.LadyLuna;
+import net.divinerpg.client.render.entity.vethea.model.Lheiva;
+import net.divinerpg.client.render.entity.vethea.model.Lorga;
+import net.divinerpg.client.render.entity.vethea.model.Lorgaflight;
+import net.divinerpg.client.render.entity.vethea.model.Mandragora;
+import net.divinerpg.client.render.entity.vethea.model.ModelHungerHungry;
+import net.divinerpg.client.render.entity.vethea.model.MysteriousMan;
+import net.divinerpg.client.render.entity.vethea.model.Quadro;
+import net.divinerpg.client.render.entity.vethea.model.RaglokGogdure;
+import net.divinerpg.client.render.entity.vethea.model.Shadahier;
+import net.divinerpg.client.render.entity.vethea.model.Tocaxin;
+import net.divinerpg.client.render.entity.vethea.model.Twins;
+import net.divinerpg.client.render.entity.vethea.model.Vermenous;
+import net.divinerpg.client.render.entity.vethea.model.Vhraak;
+import net.divinerpg.client.render.entity.vethea.model.Zone;
+import net.divinerpg.client.render.entity.vethea.model.Zoragon;
+import net.divinerpg.entities.base.EntityStats;
+import net.divinerpg.entities.vethea.EntityAcidHag;
+import net.divinerpg.entities.vethea.EntityBiphron;
+import net.divinerpg.entities.vethea.EntityBohemite;
+import net.divinerpg.entities.vethea.EntityCryptKeeper;
+import net.divinerpg.entities.vethea.EntityCymesoid;
+import net.divinerpg.entities.vethea.EntityDissiment;
+import net.divinerpg.entities.vethea.EntityDreamwrecker;
+import net.divinerpg.entities.vethea.EntityDuo;
+import net.divinerpg.entities.vethea.EntityEnt;
+import net.divinerpg.entities.vethea.EntityGalroid;
+import net.divinerpg.entities.vethea.EntityGorgosion;
+import net.divinerpg.entities.vethea.EntityHelio;
+import net.divinerpg.entities.vethea.EntityHerbomancer;
+import net.divinerpg.entities.vethea.EntityHiveQueen;
+import net.divinerpg.entities.vethea.EntityHiveSoldier;
+import net.divinerpg.entities.vethea.EntityHoverStinger;
+import net.divinerpg.entities.vethea.EntityKaros;
+import net.divinerpg.entities.vethea.EntityKazrotic;
+import net.divinerpg.entities.vethea.EntityLadyLuna;
+import net.divinerpg.entities.vethea.EntityLadyLunaSparkler;
+import net.divinerpg.entities.vethea.EntityLheiva;
+import net.divinerpg.entities.vethea.EntityLorga;
+import net.divinerpg.entities.vethea.EntityLorgaFlight;
+import net.divinerpg.entities.vethea.EntityMandragora;
+import net.divinerpg.entities.vethea.EntityMysteriousManLayer1;
+import net.divinerpg.entities.vethea.EntityMysteriousManLayer2;
+import net.divinerpg.entities.vethea.EntityMysteriousManLayer3;
+import net.divinerpg.entities.vethea.EntityQuadro;
+import net.divinerpg.entities.vethea.EntityRaglok;
+import net.divinerpg.entities.vethea.EntityShadahier;
+import net.divinerpg.entities.vethea.EntityTempleGuardian;
+import net.divinerpg.entities.vethea.EntityTheHunger;
+import net.divinerpg.entities.vethea.EntityTocaxin;
+import net.divinerpg.entities.vethea.EntityTwins;
+import net.divinerpg.entities.vethea.EntityVermenous;
+import net.divinerpg.entities.vethea.EntityVhraak;
+import net.divinerpg.entities.vethea.EntityWreck;
+import net.divinerpg.entities.vethea.EntityZone;
+import net.divinerpg.entities.vethea.EntityZoragon;
+import net.divinerpg.entities.vethea.projectile.EntityAmthirmisDisk;
+import net.divinerpg.entities.vethea.projectile.EntityArksianeDisk;
+import net.divinerpg.entities.vethea.projectile.EntityBouncingProjectile;
+import net.divinerpg.entities.vethea.projectile.EntityCermileDisk;
+import net.divinerpg.entities.vethea.projectile.EntityDarvenDisk;
+import net.divinerpg.entities.vethea.projectile.EntityDissimentShot;
+import net.divinerpg.entities.vethea.projectile.EntityEvernightProjectile;
+import net.divinerpg.entities.vethea.projectile.EntityHeliosisDisk;
+import net.divinerpg.entities.vethea.projectile.EntityKarosDisk;
+import net.divinerpg.entities.vethea.projectile.EntityKazroticShot;
+import net.divinerpg.entities.vethea.projectile.EntityMandragoraProjectile;
+import net.divinerpg.entities.vethea.projectile.EntityPardimalDisk;
+import net.divinerpg.entities.vethea.projectile.EntityQuadroticDisk;
+import net.divinerpg.entities.vethea.projectile.EntityRaglokBomb;
+import net.divinerpg.entities.vethea.projectile.EntityTeakerDisk;
+import net.divinerpg.entities.vethea.projectile.EntityWreckBouncingProjectile;
+import net.divinerpg.entities.vethea.projectile.EntityWreckExplosiveShot;
+import net.divinerpg.entities.vethea.projectile.EntityWreckShot;
+import net.divinerpg.entities.vethea.projectile.EntityZoragonBomb;
+import net.divinerpg.utils.items.VetheaItems;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.Render;
+
+public class VetheaEntityRenderer {
+    private static EntityResourceLocation x;
+    private static EntityStats s;
+
+    public static void init() {
+        RenderingRegistry.registerEntityRenderingHandler(EntityAmthirmisDisk.class, (Render)new RenderIconProjectile(VetheaItems.amthrimisDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityArksianeDisk.class, (Render)new RenderIconProjectile(VetheaItems.arksianeDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCermileDisk.class, (Render)new RenderIconProjectile(VetheaItems.cermileDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityDarvenDisk.class, (Render)new RenderIconProjectile(VetheaItems.darvenDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHeliosisDisk.class, (Render)new RenderIconProjectile(VetheaItems.heliosisDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityKarosDisk.class, (Render)new RenderIconProjectile(VetheaItems.karosDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityPardimalDisk.class, (Render)new RenderIconProjectile(VetheaItems.pardimalDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityQuadroticDisk.class, (Render)new RenderIconProjectile(VetheaItems.quadroticDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTeakerDisk.class, (Render)new RenderIconProjectile(VetheaItems.teakerDisk));
+        RenderingRegistry.registerEntityRenderingHandler(EntityDissimentShot.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.DISSIMENT_SHOT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityRaglokBomb.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.RAGLOK_BOMB));
+        RenderingRegistry.registerEntityRenderingHandler(EntityZoragonBomb.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.ZORAGON_BOMB));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWreckShot.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.WRECK_SHOT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWreckExplosiveShot.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.WRECK_SHOT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWreckBouncingProjectile.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.WRECK_BOUNCING));
+        RenderingRegistry.registerEntityRenderingHandler(EntityKazroticShot.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.KAZROTIC_SHOT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMandragoraProjectile.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.blank));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLadyLunaSparkler.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.blank));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBouncingProjectile.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.staffProjectile));
+        RenderingRegistry.registerEntityRenderingHandler(EntityEvernightProjectile.class, (Render)new RenderSpecialProjectile(EntityResourceLocation.evernight));
+        RenderingRegistry.registerEntityRenderingHandler(EntityVermenous.class, (Render)new RenderDivineMob(new Vermenous(), 0.0f, EntityResourceLocation.VERMENOUS));
+        RenderingRegistry.registerEntityRenderingHandler(EntityEnt.class, (Render)new RenderDivineMob(new Ent(), 0.0f, EntityResourceLocation.ENT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCymesoid.class, (Render)new RenderDivineMob(new Cymesoid(), 0.0f, EntityResourceLocation.CYMESOID));
+        RenderingRegistry.registerEntityRenderingHandler(EntityDreamwrecker.class, (Render)new RenderDivineMob(new Dreamwrecker(), 0.0f, EntityResourceLocation.DREAMWRECKER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTocaxin.class, (Render)new RenderDivineMob(new Tocaxin(), 0.0f, EntityResourceLocation.TOCAXIN));
+        RenderingRegistry.registerEntityRenderingHandler(EntityShadahier.class, (Render)new RenderDivineMob(new Shadahier(), 0.0f, EntityResourceLocation.SHADAHIER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityAcidHag.class, (Render)new RenderDivineMob(new AcidHag(), 0.0f, EntityResourceLocation.ACID_HAG));
+        RenderingRegistry.registerEntityRenderingHandler(EntityKazrotic.class, (Render)new RenderDivineMob(new Kazrotic(), 0.0f, EntityResourceLocation.KAZROTIC));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHelio.class, (Render)new RenderDivineMob(new Helio(), 0.0f, EntityResourceLocation.HELIO));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGorgosion.class, (Render)new RenderDivineMob(new Gorgosion(), 0.0f, EntityResourceLocation.GORGOSION));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHoverStinger.class, (Render)new RenderDivineMob(new HoverStinger(), 0.0f, EntityResourceLocation.HOVER_STINGER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityZone.class, (Render)new RenderDivineMob(new Zone(), 0.0f, EntityResourceLocation.ZONE));
+        RenderingRegistry.registerEntityRenderingHandler(EntityZoragon.class, (Render)new RenderDivineMob(new Zoragon(), 0.0f, 5.0f, EntityResourceLocation.ZORAGON));
+        RenderingRegistry.registerEntityRenderingHandler(EntityDissiment.class, (Render)new RenderDivineMob(new Dissiment(), 0.0f, 3.0f, EntityResourceLocation.DISSIMENT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityVhraak.class, (Render)new RenderDivineMob(new Vhraak(), 0.0f, EntityResourceLocation.VHRAAK));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGalroid.class, (Render)new RenderGalroid(new Galroid(), 0.0f));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBohemite.class, (Render)new RenderDivineMob(new Boheimite(), 0.0f, EntityResourceLocation.BOHEMITE));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBiphron.class, (Render)new RenderBiphron(new Biphron(), 0.0f, EntityResourceLocation.BIPHRON));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHiveSoldier.class, (Render)new RenderDivineMob(new HiveSoldier(), 0.0f, EntityResourceLocation.HIVE_SOLDIER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLheiva.class, (Render)new RenderDivineMob(new Lheiva(), 0.0f, EntityResourceLocation.LHEIVA));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTwins.class, (Render)new RenderDivineMob(new Twins(), 0.0f, EntityResourceLocation.TWINS));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTempleGuardian.class, (Render)new RenderDivineMob((ModelBase)new ModelBiped(), 0.0f, EntityResourceLocation.TEMPLE_GUARDIAN));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMysteriousManLayer1.class, (Render)new RenderDivineMob(new MysteriousMan(), 0.0f, EntityResourceLocation.MM1));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMysteriousManLayer2.class, (Render)new RenderDivineMob(new MysteriousMan(), 0.0f, EntityResourceLocation.MM2));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMysteriousManLayer3.class, (Render)new RenderDivineMob(new MysteriousMan(), 0.0f, EntityResourceLocation.MM3));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCryptKeeper.class, (Render)new RenderDivineMob(new CryptKeeper(), 0.0f, EntityResourceLocation.CRYPT_KEEPER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityDuo.class, (Render)new RenderDivineMob(new Duo(), 0.0f, EntityResourceLocation.DUO));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHerbomancer.class, (Render)new RenderDivineMob(new Herbomancer(), 0.0f, EntityResourceLocation.HERBOMANCER));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLheiva.class, (Render)new RenderDivineMob(new Lheiva(), 0.0f, EntityResourceLocation.LHEIVA));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLorga.class, (Render)new RenderDivineMob(new Lorga(), 0.0f, EntityResourceLocation.LORGA));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLorgaFlight.class, (Render)new RenderDivineMob(new Lorgaflight(), 0.0f, EntityResourceLocation.LORGA_FLIGHT));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMandragora.class, (Render)new RenderDivineMob(new Mandragora(), 0.0f, EntityResourceLocation.MANDRAGORA));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTocaxin.class, (Render)new RenderDivineMob(new Tocaxin(), 0.0f, EntityResourceLocation.TOCAXIN));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTheHunger.class, (Render)new RenderDivineMob(new ModelHungerHungry(), 0.0f, EntityResourceLocation.HUNGER_HUNGRY));
+        RenderingRegistry.registerEntityRenderingHandler(EntityHiveQueen.class, (Render)new RenderDivineBoss(new HiveQueen(), 0.0f, EntityResourceLocation.HIVE_QUEEN, 18));
+        RenderingRegistry.registerEntityRenderingHandler(EntityRaglok.class, (Render)new RenderDivineBoss(new RaglokGogdure(), 0.0f, EntityResourceLocation.RAGLOK, 19));
+        RenderingRegistry.registerEntityRenderingHandler(EntityQuadro.class, (Render)new RenderDivineBoss(new Quadro(), 0.0f, EntityResourceLocation.QUADRO, 20));
+        RenderingRegistry.registerEntityRenderingHandler(EntityLadyLuna.class, (Render)new RenderLadyLuna(new LadyLuna(), 0.0f, EntityResourceLocation.LADY_LUNA_MELEE));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWreck.class, (Render)new RenderWreck(null, 0.0f));
+        RenderingRegistry.registerEntityRenderingHandler(EntityKaros.class, (Render)new RenderDivineBoss(new Karos(), 0.0f, EntityResourceLocation.KAROS, 23));
+    }
+}
+

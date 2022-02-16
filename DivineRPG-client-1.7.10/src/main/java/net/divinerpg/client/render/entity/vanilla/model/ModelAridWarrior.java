@@ -1,0 +1,285 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.client.model.ModelBase
+ *  net.minecraft.client.model.ModelRenderer
+ *  net.minecraft.entity.Entity
+ *  net.minecraft.util.MathHelper
+ */
+package net.divinerpg.client.render.entity.vanilla.model;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+
+public class ModelAridWarrior
+extends ModelBase {
+    ModelRenderer ear1;
+    ModelRenderer leftarmBS1;
+    ModelRenderer rightleg;
+    ModelRenderer body;
+    ModelRenderer body2;
+    ModelRenderer body3;
+    ModelRenderer body4;
+    ModelRenderer leftarmBS2;
+    ModelRenderer leftarmTS1;
+    ModelRenderer leftarmTS2;
+    ModelRenderer rightarmTS2;
+    ModelRenderer rightarmBS1;
+    public ModelRenderer rightarmBS2;
+    ModelRenderer rightarmTS1;
+    ModelRenderer head;
+    ModelRenderer ear2;
+    ModelRenderer leftleg;
+    ModelRenderer rightfoot;
+    ModelRenderer rightlegpart;
+    ModelRenderer rightlegpart2;
+    ModelRenderer leftfoot;
+    ModelRenderer leftlegpart2;
+    ModelRenderer leftlegpart1;
+
+    public ModelAridWarrior() {
+        this.textureWidth = 64;
+        this.textureHeight = 32;
+        this.ear1 = new ModelRenderer((ModelBase)this, 34, 0);
+        this.ear1.addBox(-6.0f, -8.0f, -4.0f, 2, 3, 8);
+        this.ear1.setRotationPoint(10.0f, -12.0f, -5.0f);
+        this.ear1.setTextureSize(64, 32);
+        this.ear1.mirror = true;
+        this.setRotation(this.ear1, -0.8179294f, 0.0f, 0.0f);
+        this.leftarmBS1 = new ModelRenderer((ModelBase)this, 28, 16);
+        this.leftarmBS1.addBox(-1.0f, -1.0f, -2.0f, 7, 3, 4);
+        this.leftarmBS1.setRotationPoint(8.0f, 4.0f, 0.0f);
+        this.leftarmBS1.setTextureSize(64, 32);
+        this.leftarmBS1.mirror = true;
+        this.setRotation(this.leftarmBS1, 0.0f, 0.0f, 0.0f);
+        this.rightleg = new ModelRenderer((ModelBase)this, 0, 16);
+        this.rightleg.addBox(-2.0f, 0.0f, -2.0f, 4, 12, 4);
+        this.rightleg.setRotationPoint(-5.0f, 12.0f, 0.0f);
+        this.rightleg.setTextureSize(64, 32);
+        this.rightleg.mirror = true;
+        this.setRotation(this.rightleg, 0.0f, 0.0f, 0.0f);
+        this.body = new ModelRenderer((ModelBase)this, 16, 16);
+        this.body.addBox(-4.0f, 6.0f, -2.0f, 14, 6, 4);
+        this.body.setRotationPoint(-3.0f, 0.0f, 0.0f);
+        this.body.setTextureSize(64, 32);
+        this.body.mirror = true;
+        this.setRotation(this.body, 0.0f, 0.0f, 0.0f);
+        this.body2 = new ModelRenderer((ModelBase)this, 16, 16);
+        this.body2.addBox(-4.0f, 6.0f, -2.0f, 14, 6, 4);
+        this.body2.setRotationPoint(-3.0f, -14.0f, 0.0f);
+        this.body2.setTextureSize(64, 32);
+        this.body2.mirror = true;
+        this.setRotation(this.body2, 0.0f, 0.0f, 0.0f);
+        this.body3 = new ModelRenderer((ModelBase)this, 16, 16);
+        this.body3.addBox(-4.0f, 6.0f, -2.0f, 3, 8, 4);
+        this.body3.setRotationPoint(8.0f, -8.0f, 0.0f);
+        this.body3.setTextureSize(64, 32);
+        this.body3.mirror = true;
+        this.setRotation(this.body3, 0.0f, 0.0f, 0.0f);
+        this.body4 = new ModelRenderer((ModelBase)this, 16, 16);
+        this.body4.addBox(-4.0f, 6.0f, -2.0f, 3, 8, 4);
+        this.body4.setRotationPoint(-3.0f, -8.0f, 0.0f);
+        this.body4.setTextureSize(64, 32);
+        this.body4.mirror = true;
+        this.setRotation(this.body4, 0.0f, 0.0f, 0.0f);
+        this.leftarmBS2 = new ModelRenderer((ModelBase)this, 40, 16);
+        this.leftarmBS2.addBox(2.0f, 1.0f, -2.0f, 4, 6, 4);
+        this.leftarmBS2.setRotationPoint(8.0f, 5.0f, 0.0f);
+        this.leftarmBS2.setTextureSize(64, 32);
+        this.leftarmBS2.mirror = true;
+        this.setRotation(this.leftarmBS2, 0.0f, 0.0f, 0.0f);
+        this.leftarmTS1 = new ModelRenderer((ModelBase)this, 28, 16);
+        this.leftarmTS1.addBox(-1.0f, -1.0f, -2.0f, 7, 3, 4);
+        this.leftarmTS1.setRotationPoint(8.0f, -7.0f, 0.0f);
+        this.leftarmTS1.setTextureSize(64, 32);
+        this.leftarmTS1.mirror = true;
+        this.setRotation(this.leftarmTS1, 0.0f, 0.0f, 0.0f);
+        this.leftarmTS2 = new ModelRenderer((ModelBase)this, 40, 16);
+        this.leftarmTS2.addBox(2.0f, 1.0f, -2.0f, 4, 6, 4);
+        this.leftarmTS2.setRotationPoint(8.0f, -6.0f, 0.0f);
+        this.leftarmTS2.setTextureSize(64, 32);
+        this.leftarmTS2.mirror = true;
+        this.setRotation(this.leftarmTS2, 0.0f, 0.0f, 0.0f);
+        this.rightarmTS2 = new ModelRenderer((ModelBase)this, 40, 16);
+        this.rightarmTS2.addBox(-6.0f, 1.0f, -2.0f, 4, 6, 4);
+        this.rightarmTS2.setRotationPoint(-8.0f, -6.0f, 0.0f);
+        this.rightarmTS2.setTextureSize(64, 32);
+        this.rightarmTS2.mirror = true;
+        this.setRotation(this.rightarmTS2, 0.0f, 0.0f, 0.0f);
+        this.rightarmBS1 = new ModelRenderer((ModelBase)this, 28, 16);
+        this.rightarmBS1.addBox(-6.0f, -1.0f, -2.0f, 7, 3, 4);
+        this.rightarmBS1.setRotationPoint(-8.0f, 4.0f, 0.0f);
+        this.rightarmBS1.setTextureSize(64, 32);
+        this.rightarmBS1.mirror = true;
+        this.setRotation(this.rightarmBS1, 0.0f, 0.0f, 0.0f);
+        this.rightarmBS2 = new ModelRenderer((ModelBase)this, 40, 16);
+        this.rightarmBS2.addBox(-6.0f, 1.0f, -2.0f, 4, 6, 4);
+        this.rightarmBS2.setRotationPoint(-8.0f, 5.0f, 0.0f);
+        this.rightarmBS2.setTextureSize(64, 32);
+        this.rightarmBS2.mirror = true;
+        this.setRotation(this.rightarmBS2, 0.0f, 0.0f, 0.0f);
+        this.rightarmTS1 = new ModelRenderer((ModelBase)this, 28, 16);
+        this.rightarmTS1.addBox(-6.0f, -1.0f, -2.0f, 7, 3, 4);
+        this.rightarmTS1.setRotationPoint(-8.0f, -7.0f, 0.0f);
+        this.rightarmTS1.setTextureSize(64, 32);
+        this.rightarmTS1.mirror = true;
+        this.setRotation(this.rightarmTS1, 0.0f, 0.0f, 0.0f);
+        this.head = new ModelRenderer((ModelBase)this, 0, 0);
+        this.head.addBox(-4.0f, -8.0f, -4.0f, 8, 8, 8);
+        this.head.setRotationPoint(0.0f, -8.0f, 0.0f);
+        this.head.setTextureSize(64, 32);
+        this.head.mirror = true;
+        this.setRotation(this.head, 0.0f, 0.0f, 0.0f);
+        this.ear2 = new ModelRenderer((ModelBase)this, 34, 0);
+        this.ear2.addBox(-6.0f, -8.0f, -4.0f, 2, 3, 8);
+        this.ear2.setRotationPoint(0.0f, -12.0f, -5.0f);
+        this.ear2.setTextureSize(64, 32);
+        this.ear2.mirror = true;
+        this.setRotation(this.ear2, -0.8179294f, 0.0f, 0.0f);
+        this.leftleg = new ModelRenderer((ModelBase)this, 0, 16);
+        this.leftleg.addBox(-2.0f, 0.0f, -2.0f, 4, 12, 4);
+        this.leftleg.setRotationPoint(5.0f, 12.0f, 0.0f);
+        this.leftleg.setTextureSize(64, 32);
+        this.leftleg.mirror = true;
+        this.setRotation(this.leftleg, 0.0f, 0.0f, 0.0f);
+        this.rightfoot = new ModelRenderer((ModelBase)this, 0, 16);
+        this.rightfoot.addBox(-4.0f, 9.0f, -4.0f, 8, 3, 8);
+        this.rightfoot.setRotationPoint(-5.0f, 12.0f, 0.0f);
+        this.rightfoot.setTextureSize(64, 32);
+        this.rightfoot.mirror = true;
+        this.setRotation(this.rightfoot, 0.0f, 0.0f, 0.0f);
+        this.rightlegpart = new ModelRenderer((ModelBase)this, 0, 16);
+        this.rightlegpart.addBox(-3.0f, 1.0f, -3.0f, 6, 3, 6);
+        this.rightlegpart.setRotationPoint(-5.0f, 12.0f, 0.0f);
+        this.rightlegpart.setTextureSize(64, 32);
+        this.rightlegpart.mirror = true;
+        this.setRotation(this.rightlegpart, 0.0f, 0.0f, 0.0f);
+        this.rightlegpart2 = new ModelRenderer((ModelBase)this, 0, 16);
+        this.rightlegpart2.addBox(-3.0f, 5.0f, -3.0f, 6, 3, 6);
+        this.rightlegpart2.setRotationPoint(-5.0f, 12.0f, 0.0f);
+        this.rightlegpart2.setTextureSize(64, 32);
+        this.rightlegpart2.mirror = true;
+        this.setRotation(this.rightlegpart2, 0.0f, 0.0f, 0.0f);
+        this.leftfoot = new ModelRenderer((ModelBase)this, 0, 16);
+        this.leftfoot.addBox(-4.0f, 9.0f, -4.0f, 8, 3, 8);
+        this.leftfoot.setRotationPoint(5.0f, 12.0f, 0.0f);
+        this.leftfoot.setTextureSize(64, 32);
+        this.leftfoot.mirror = true;
+        this.setRotation(this.leftfoot, 0.0f, 0.0f, 0.0f);
+        this.leftlegpart2 = new ModelRenderer((ModelBase)this, 0, 16);
+        this.leftlegpart2.addBox(-3.0f, 5.0f, -3.0f, 6, 3, 6);
+        this.leftlegpart2.setRotationPoint(5.0f, 12.0f, 0.0f);
+        this.leftlegpart2.setTextureSize(64, 32);
+        this.leftlegpart2.mirror = true;
+        this.setRotation(this.leftlegpart2, 0.0f, 0.0f, 0.0f);
+        this.leftlegpart1 = new ModelRenderer((ModelBase)this, 0, 16);
+        this.leftlegpart1.addBox(-3.0f, 1.0f, -3.0f, 6, 3, 6);
+        this.leftlegpart1.setRotationPoint(5.0f, 12.0f, 0.0f);
+        this.leftlegpart1.setTextureSize(64, 32);
+        this.leftlegpart1.mirror = true;
+        this.setRotation(this.leftlegpart1, 0.0f, 0.0f, 0.0f);
+    }
+
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        super.render(entity, f, f1, f2, f3, f4, f5);
+        this.setRotationAngles(f, f1, f2, f3, f4, f5);
+        this.ear1.render(f5);
+        this.leftarmBS1.render(f5);
+        this.rightleg.render(f5);
+        this.body.render(f5);
+        this.body2.render(f5);
+        this.body3.render(f5);
+        this.body4.render(f5);
+        this.leftarmBS2.render(f5);
+        this.leftarmTS1.render(f5);
+        this.leftarmTS2.render(f5);
+        this.rightarmTS2.render(f5);
+        this.rightarmBS1.render(f5);
+        this.rightarmBS2.render(f5);
+        this.rightarmTS1.render(f5);
+        this.head.render(f5);
+        this.ear2.render(f5);
+        this.leftleg.render(f5);
+        this.rightfoot.render(f5);
+        this.rightlegpart.render(f5);
+        this.rightlegpart2.render(f5);
+        this.leftfoot.render(f5);
+        this.leftlegpart2.render(f5);
+        this.leftlegpart1.render(f5);
+    }
+
+    private void setRotation(ModelRenderer model, float x, float y, float z) {
+        model.rotateAngleX = x;
+        model.rotateAngleY = y;
+        model.rotateAngleZ = z;
+    }
+
+    public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6) {
+        this.head.rotateAngleY = var4 / 57.295776f;
+        this.head.rotateAngleX = var5 / 57.295776f;
+        this.ear1.rotateAngleY = var4 / 57.295776f;
+        this.ear1.rotateAngleX = var5 / 57.295776f;
+        this.ear2.rotateAngleY = var4 / 57.295776f;
+        this.ear2.rotateAngleX = var5 / 57.295776f;
+        this.rightarmBS1.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f + (float)Math.PI)) * 2.0f * var2 * 0.5f;
+        this.rightarmBS2.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f + (float)Math.PI)) * 2.0f * var2 * 0.5f;
+        this.rightarmTS1.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f + (float)Math.PI)) * 2.0f * var2 * 0.5f;
+        this.rightarmTS2.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f + (float)Math.PI)) * 2.0f * var2 * 0.5f;
+        this.leftarmBS1.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 2.0f * var2 * 0.5f;
+        this.leftarmBS2.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 2.0f * var2 * 0.5f;
+        this.leftarmTS1.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 2.0f * var2 * 0.5f;
+        this.leftarmTS2.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 2.0f * var2 * 0.5f;
+        this.rightarmBS1.rotateAngleZ = 0.0f;
+        this.rightarmBS2.rotateAngleZ = 0.0f;
+        this.rightarmTS1.rotateAngleZ = 0.0f;
+        this.rightarmTS2.rotateAngleZ = 0.0f;
+        this.leftarmBS1.rotateAngleZ = 0.0f;
+        this.leftarmBS2.rotateAngleZ = 0.0f;
+        this.leftarmTS1.rotateAngleZ = 0.0f;
+        this.leftarmTS2.rotateAngleZ = 0.0f;
+        this.rightleg.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 1.4f * var2;
+        this.rightlegpart.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 1.4f * var2;
+        this.rightlegpart2.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 1.4f * var2;
+        this.rightfoot.rotateAngleX = MathHelper.cos((float)(var1 * 0.6662f)) * 1.4f * var2;
+        this.leftleg.rotateAngleX = MathHelper.cos((float)((float)((double)(var1 * 0.6662f) + Math.PI))) * 1.4f * var2;
+        this.leftlegpart1.rotateAngleX = MathHelper.cos((float)((float)((double)(var1 * 0.6662f) + Math.PI))) * 1.4f * var2;
+        this.leftlegpart2.rotateAngleX = MathHelper.cos((float)((float)((double)(var1 * 0.6662f) + Math.PI))) * 1.4f * var2;
+        this.leftfoot.rotateAngleX = MathHelper.cos((float)((float)((double)(var1 * 0.6662f) + Math.PI))) * 1.4f * var2;
+        this.rightleg.rotateAngleY = 0.0f;
+        this.rightlegpart.rotateAngleY = 0.0f;
+        this.rightlegpart2.rotateAngleY = 0.0f;
+        this.rightfoot.rotateAngleY = 0.0f;
+        this.leftleg.rotateAngleY = 0.0f;
+        this.leftlegpart1.rotateAngleY = 0.0f;
+        this.leftlegpart2.rotateAngleY = 0.0f;
+        this.leftfoot.rotateAngleY = 0.0f;
+        this.rightarmBS1.rotateAngleY = 0.0f;
+        this.rightarmBS2.rotateAngleY = 0.0f;
+        this.rightarmTS1.rotateAngleY = 0.0f;
+        this.rightarmTS2.rotateAngleY = 0.0f;
+        this.leftarmBS1.rotateAngleY = 0.0f;
+        this.leftarmBS2.rotateAngleY = 0.0f;
+        this.leftarmTS2.rotateAngleY = 0.0f;
+        this.leftarmTS1.rotateAngleY = 0.0f;
+        this.rightarmBS1.rotateAngleZ += MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.rightarmBS2.rotateAngleZ += MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.rightarmBS1.rotateAngleZ += MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.rightarmBS2.rotateAngleZ += MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.leftarmBS1.rotateAngleZ -= MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.leftarmBS2.rotateAngleZ -= MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.leftarmTS1.rotateAngleZ -= MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.leftarmTS2.rotateAngleZ -= MathHelper.cos((float)(var3 * 0.09f)) * 0.05f + 0.05f;
+        this.rightarmBS1.rotateAngleX += MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.rightarmBS2.rotateAngleX += MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.rightarmTS1.rotateAngleX += MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.rightarmTS2.rotateAngleX += MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.leftarmBS1.rotateAngleX -= MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.leftarmBS2.rotateAngleX -= MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.leftarmTS1.rotateAngleX -= MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+        this.leftarmTS2.rotateAngleX -= MathHelper.sin((float)(var3 * 0.067f)) * 0.05f;
+    }
+}
+

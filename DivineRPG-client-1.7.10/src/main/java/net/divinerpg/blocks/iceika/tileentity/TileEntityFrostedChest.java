@@ -1,0 +1,27 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  net.minecraft.tileentity.TileEntityChest
+ */
+package net.divinerpg.blocks.iceika.tileentity;
+
+import net.divinerpg.blocks.iceika.BlockFrostedChest;
+import net.minecraft.tileentity.TileEntityChest;
+
+public class TileEntityFrostedChest
+extends TileEntityChest {
+    public TileEntityFrostedChest() {
+        this.func_145976_a("Frosted Chest");
+    }
+
+    public void closeInventory() {
+        if (this.getBlockType() instanceof BlockFrostedChest) {
+            --this.numPlayersUsing;
+            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
+            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
+            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
+        }
+    }
+}
+
