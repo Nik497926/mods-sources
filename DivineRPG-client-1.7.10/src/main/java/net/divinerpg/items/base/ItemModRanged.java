@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import net.divinerpg.items.base.ItemMod;
 import net.divinerpg.utils.Sound;
-import net.divinerpg.utils.Util;
+import net.divinerpg.utils.TooltipLocalizer;
 import net.divinerpg.utils.tabs.DivineRPGTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,7 +63,7 @@ extends ItemMod {
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
         this.addAdditionalInformation(stack, player, list, par4);
         if (this.getMaxDamage() == -1) {
-            list.add(Util.GREEN + "Infinite Uses");
+            list.add(TooltipLocalizer.infiniteUses());
         }
     }
 

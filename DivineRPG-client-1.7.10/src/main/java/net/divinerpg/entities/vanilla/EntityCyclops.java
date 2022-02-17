@@ -70,7 +70,7 @@ extends EntityPeacefulUntilAttacked {
     public boolean attackEntityFrom(DamageSource source, float par2) {
         boolean hurt = super.attackEntityFrom(source, par2);
         if (hurt && source.getEntity() != null && source.getEntity() instanceof EntityPlayer) {
-            List<Entity> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)this, this.boundingBox.expand(20.0, 20.0, 20.0));
+            List<EntityPlayer> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)this, this.boundingBox.expand(20.0, 20.0, 20.0));
             for (Entity e : entities) {
                 if (!(e instanceof EntityCyclops)) continue;
                 ((EntityCyclops)e).makeAngryAt((EntityPlayer)source.getEntity());

@@ -155,6 +155,18 @@ public class VanillaItemsArmor {
     public static Item terranBody = new ItemDivineArmor(EnumArmor.TERRAN, BODY, terranInfo);
     public static Item terranLegs = new ItemDivineArmor(EnumArmor.TERRAN, LEGS, terranInfo);
     public static Item terranBoots = new ItemDivineArmor(EnumArmor.TERRAN, BOOTS, terranInfo);
+    public static Item diamondHelmet = new ItemDivineArmor(EnumArmor.DIAMOND, HEAD);
+    public static Item diamondBody = new ItemDivineArmor(EnumArmor.DIAMOND, BODY);
+    public static Item diamondLegs = new ItemDivineArmor(EnumArmor.DIAMOND, LEGS);
+    public static Item diamondBoots = new ItemDivineArmor(EnumArmor.DIAMOND, BOOTS);
+    public static Item ironHelmet = new ItemDivineArmor(EnumArmor.IRON, HEAD);
+    public static Item ironBody = new ItemDivineArmor(EnumArmor.IRON, BODY);
+    public static Item ironLegs = new ItemDivineArmor(EnumArmor.IRON, LEGS);
+    public static Item ironBoots = new ItemDivineArmor(EnumArmor.IRON, BOOTS);
+    public static Item goldHelmet = new ItemDivineArmor(EnumArmor.GOLD, HEAD);
+    public static Item goldBody = new ItemDivineArmor(EnumArmor.GOLD, BODY);
+    public static Item goldLegs = new ItemDivineArmor(EnumArmor.GOLD, LEGS);
+    public static Item goldBoots = new ItemDivineArmor(EnumArmor.GOLD, BOOTS);
 
     public static void init() {
     }

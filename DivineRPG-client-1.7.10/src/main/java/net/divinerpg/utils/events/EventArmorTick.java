@@ -120,7 +120,7 @@ public class EventArmorTick {
         if (this.boots == VanillaItemsArmor.aquastriveBoots && this.body == VanillaItemsArmor.aquastriveBody && this.legs == VanillaItemsArmor.aquastriveLegs && this.helmet == VanillaItemsArmor.aquastriveHelmet) {
             float speed = 1.1f;
             boolean isJumping = false;
-            isJumping = (Boolean) ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, evt.player, EventArmorFullSet.isJumping);
+            isJumping = (Boolean)ObfuscationReflectionHelper.getPrivateValue(EntityLivingBase.class, evt.player, EventArmorFullSet.isJumping);
             if (evt.player.isInWater()) {
                 if (!evt.player.isSneaking() && !isJumping) {
                     if (evt.player.motionX > (double)(-speed) && evt.player.motionX < (double)speed) {
@@ -173,7 +173,7 @@ public class EventArmorTick {
         if (this.body == VetheaItems.tormentedBody && this.legs == VetheaItems.tormentedLegs && this.boots == VetheaItems.tormentedBoots && this.helmet == VetheaItems.tormentedMask) {
             speedMultiplier = 2.2f;
         }
-        ObfuscationReflectionHelper.setPrivateValue(PlayerCapabilities.class, evt.player.capabilities, 0.1f*speedMultiplier, walkSpeed);
+        ObfuscationReflectionHelper.setPrivateValue(PlayerCapabilities.class, evt.player.capabilities, Float.valueOf(0.1f * speedMultiplier), walkSpeed);
         if (this.body == VetheaItems.glisteningBody && this.legs == VetheaItems.glisteningLegs && this.boots == VetheaItems.glisteningBoots && this.helmet == VetheaItems.glisteningHood) {
             evt.player.fallDistance = -0.5f;
         }

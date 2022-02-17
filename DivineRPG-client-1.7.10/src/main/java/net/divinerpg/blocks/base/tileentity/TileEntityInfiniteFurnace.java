@@ -41,7 +41,7 @@ implements ISidedInventory {
     private String customName;
 
     public TileEntityInfiniteFurnace(String name, int speed) {
-        this.func_145976_a(name);
+        this.setCustomName(name);
         this.speed = speed;
     }
 
@@ -93,7 +93,7 @@ implements ISidedInventory {
         return true;
     }
 
-    public void func_145976_a(String s) {
+    public void setCustomName(String s) {
         this.customName = s;
     }
 

@@ -67,6 +67,7 @@ import net.divinerpg.utils.events.EventArmorFullSet;
 import net.divinerpg.utils.events.EventArmorTick;
 import net.divinerpg.utils.events.EventBonemeal;
 import net.divinerpg.utils.events.EventBucketFill;
+import net.divinerpg.utils.events.EventClientLogin;
 import net.divinerpg.utils.events.EventEnsureVetheaSpawn;
 import net.divinerpg.utils.events.EventHarvest;
 import net.divinerpg.utils.events.EventLightning;
@@ -109,6 +110,7 @@ public class CommonProxy {
         Util.postForgeEvent(new EntityConstructorEvent());
         Util.postForgeEvent(new EventTooltip());
         Util.postForgeEvent(new EventLightning());
+        Util.postFMLEvent(new EventClientLogin());
         Util.postFMLEvent(new Ticker());
         Util.postFMLEvent(new EventEnsureVetheaSpawn());
         Util.postForgeEvent(new EventEnsureVetheaSpawn());

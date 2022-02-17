@@ -14,7 +14,6 @@
  */
 package net.divinerpg.blocks.iceika.tileentity;
 
-import java.util.Iterator;
 import java.util.List;
 import net.divinerpg.blocks.iceika.BlockPresentBox;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +37,7 @@ implements IInventory {
     private int ticksSinceSync;
 
     public TileEntityPresentBox() {
-        this.func_145976_a("Present Box");
+        this.setCustomName("Present Box");
     }
 
     public int getSizeInventory() {
@@ -101,7 +100,7 @@ implements IInventory {
         return this.customName != null && this.customName.length() > 0;
     }
 
-    public void func_145976_a(String name) {
+    public void setCustomName(String name) {
         this.customName = name;
     }
 
@@ -167,27 +166,19 @@ implements IInventory {
     }
 
     public void updateEntity() {
+        float f;
         super.updateEntity();
         ++this.ticksSinceSync;
-        float f;
-
         if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0) {
             this.numPlayersUsing = 0;
-            f = 5.0F;
-            List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)((float)this.xCoord - f), (double)((float)this.yCoord - f), (double)((float)this.zCoord - f), (double)((float)(this.xCoord + 1) + f), (double)((float)(this.yCoord + 1) + f), (double)((float)(this.zCoord + 1) + f)));
-            Iterator iterator = list.iterator();
-
-            while (iterator.hasNext()) {
-                EntityPlayer entityplayer = (EntityPlayer)iterator.next();
-
-                if (entityplayer.openContainer instanceof ContainerChest) {
-                    IInventory iinventory = ((ContainerChest)entityplayer.openContainer).getLowerChestInventory();
-
-                    if (iinventory == this) ++this.numPlayersUsing;
-                }
+            f = 5.0f;
+            List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)((float)this.xCoord - f), (double)((float)this.yCoord - f), (double)((float)this.zCoord - f), (double)((float)(this.xCoord + 1) + f), (double)((float)(this.yCoord + 1) + f), (double)((float)(this.zCoord + 1) + f)));
+            for (EntityPlayer entityplayer : list) {
+                IInventory iinventory;
+                if (!(entityplayer.openContainer instanceof ContainerChest) || (iinventory = ((ContainerChest)entityplayer.openContainer).getLowerChestInventory()) != this) continue;
+                ++this.numPlayersUsing;
             }
         }
-
         this.prevLidAngle = this.lidAngle;
         f = 0.1f;
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0f) {

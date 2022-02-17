@@ -4,7 +4,6 @@
  * Could not load the following classes:
  *  cpw.mods.fml.common.FMLCommonHandler
  *  cpw.mods.fml.common.ObfuscationReflectionHelper
- *  cpw.mods.fml.common.eventhandler.Event
  *  cpw.mods.fml.common.registry.EntityRegistry
  *  cpw.mods.fml.common.registry.GameRegistry
  *  net.minecraft.block.Block
@@ -32,12 +31,7 @@
  *  net.minecraftforge.client.IItemRenderer
  *  net.minecraftforge.client.MinecraftForgeClient
  *  net.minecraftforge.common.MinecraftForge
- *  net.minecraftforge.common.util.BlockSnapshot
  *  net.minecraftforge.common.util.EnumHelper
- *  net.minecraftforge.event.ForgeEventFactory
- *  net.minecraftforge.event.entity.player.PlayerInteractEvent$Action
- *  net.minecraftforge.event.world.BlockEvent$BreakEvent
- *  net.minecraftforge.event.world.BlockEvent$PlaceEvent
  *  net.minecraftforge.fluids.Fluid
  *  net.minecraftforge.fluids.FluidContainerRegistry
  *  net.minecraftforge.fluids.FluidRegistry
@@ -47,7 +41,6 @@ package net.divinerpg.utils;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.lang.reflect.Method;
@@ -81,11 +74,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -294,13 +283,13 @@ public class Util {
 
     public static ChunkCoordinates getPlayerSpawnChunk(EntityPlayer player) {
         String[] spawnChunkNames = new String[]{"c", "spawnChunk", "spawnChunk"};
-        ChunkCoordinates coords = (ChunkCoordinates)ObfuscationReflectionHelper.getPrivateValue(EntityPlayer.class, player, spawnChunkNames);
+        ChunkCoordinates coords = (ChunkCoordinates)ObfuscationReflectionHelper.getPrivateValue(EntityPlayer.class, player, (String[])spawnChunkNames);
         return coords;
     }
 
     public static HashMap<Integer, ChunkCoordinates> getPlayerSpawnChunkMap(EntityPlayer player) {
         String[] spawnChunkMapNames = new String[]{"spawnChunkMap", "spawnChunkMap", "spawnChunkMap"};
-        HashMap map = (HashMap)ObfuscationReflectionHelper.getPrivateValue(EntityPlayer.class, player, spawnChunkMapNames);
+        HashMap map = (HashMap)ObfuscationReflectionHelper.getPrivateValue(EntityPlayer.class, player, (String[])spawnChunkMapNames);
         return map;
     }
 
@@ -348,22 +337,6 @@ public class Util {
         ChunkCoordinates c = new ChunkCoordinates();
         c.set(x, y, z);
         return c;
-    }
-
-    public static boolean isBlockBreakCanceled(World world, EntityPlayer entityPlayer, int x, int y, int z) {
-        BlockEvent.BreakEvent breakEvent = new BlockEvent.BreakEvent(x, y, z, world, world.getBlock(x, y, z), world.getBlockMetadata(x, y, z), entityPlayer);
-        MinecraftForge.EVENT_BUS.post((Event)breakEvent);
-        return breakEvent.isCanceled();
-    }
-
-    public static boolean isBlockPlaceCanceled(World world, EntityPlayer entityPlayer, Block block, int x, int y, int z, int meta) {
-        BlockEvent.PlaceEvent placeEvent = new BlockEvent.PlaceEvent(new BlockSnapshot(world, x, y, z, block, meta), world.getBlock(x, y, z), entityPlayer);
-        MinecraftForge.EVENT_BUS.post((Event)placeEvent);
-        return placeEvent.isCanceled();
-    }
-
-    public static boolean isPlayerInteractCanceled(World world, EntityPlayer entityPlayer, PlayerInteractEvent.Action action, int x, int y, int z, int face) {
-        return ForgeEventFactory.onPlayerInteract((EntityPlayer)entityPlayer, (PlayerInteractEvent.Action)action, (int)x, (int)y, (int)z, (int)face, (World)world).isCanceled();
     }
 
     static {

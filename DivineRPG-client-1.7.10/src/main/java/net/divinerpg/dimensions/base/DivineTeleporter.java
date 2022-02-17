@@ -118,7 +118,7 @@ extends Teleporter {
                 }
             }
         }
-        if (d3 >= 0.0) {
+        if (d3 >= 0) {
             if (flag) {
                 this.destinationCoordinateCache.add(j1, new PortalPosition(i, j, k, this.worldServerInstance.getTotalWorldTime()));
                 this.destinationCoordinateKeys.add(Long.valueOf(j1));

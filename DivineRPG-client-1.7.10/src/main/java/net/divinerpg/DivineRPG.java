@@ -25,14 +25,16 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import net.divinerpg.blocks.base.ModFluid;
+import net.divinerpg.items.arcana.EntityLightning;
 import net.divinerpg.network.MessageArcanaBar;
 import net.divinerpg.network.MessageDivineAccumulator;
 import net.divinerpg.utils.LogHelper;
+import net.divinerpg.utils.Util;
 import net.divinerpg.utils.config.ConfigurationHelper;
 import net.divinerpg.utils.proxies.CommonProxy;
 import net.minecraftforge.fluids.Fluid;
 
-@Mod(modid="divinerpg", name="DivineRPG", version="1.4.1.3")
+@Mod(modid="divinerpg", name="DivineRPG", version="1.4.1.4")
 public class DivineRPG {
     @Mod.Instance(value="divinerpg")
     public static DivineRPG instance;
@@ -45,12 +47,15 @@ public class DivineRPG {
     public void preInit(FMLPreInitializationEvent event) {
         LogHelper.info("Loading DivineRPG...");
         ConfigurationHelper.init(event.getModConfigurationDirectory());
+
         network = NetworkRegistry.INSTANCE.newSimpleChannel("DivineRPGNetwork");
         network.registerMessage(MessageArcanaBar.Handler.class, MessageArcanaBar.class, 0, Side.CLIENT);
         network.registerMessage(MessageDivineAccumulator.Handler.class, MessageDivineAccumulator.class, 1, Side.CLIENT);
+
         proxy.preInitServer(event);
         proxy.preInitClient(event);
         proxy.renderThings();
+        Util.registerProjectile(EntityLightning.class, "FakeLightningFix");
     }
 
     @Mod.EventHandler

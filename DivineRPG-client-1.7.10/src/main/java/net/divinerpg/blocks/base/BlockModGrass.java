@@ -44,7 +44,7 @@ extends BlockMod {
         this.dirt = dirt;
         this.textureName = "divinerpg:" + name;
         this.dirtName = "divinerpg:" + dirtName;
-        this.setBlockTextureName(this.textureName);
+        this.setTextureName(this.textureName);
         this.setTickRandomly(true);
         this.setHarvestLevel("shovel", 3);
     }

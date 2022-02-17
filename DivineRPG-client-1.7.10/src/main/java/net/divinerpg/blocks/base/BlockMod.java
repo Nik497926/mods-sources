@@ -75,10 +75,10 @@ extends Block {
         this.blockType = blockType;
         this.name = name;
         this.rand = new Random();
-        this.setBlockTextureName("divinerpg:" + name);
+        this.setTextureName("divinerpg:" + name);
         this.setStepSound(blockType.getSound());
         this.setCreativeTab(tab);
-        this.setBlockTextureName(this.textureName);
+        this.setTextureName(this.textureName);
         this.setBlockName(name);
         if (!(this instanceof IDivineMetaBlock)) {
             GameRegistry.registerBlock((Block)this, (String)name);
@@ -93,10 +93,10 @@ extends Block {
         this.blockType = blockType;
         this.name = name;
         this.rand = new Random();
-        this.setBlockTextureName("divinerpg:" + name);
+        this.setTextureName("divinerpg:" + name);
         this.setStepSound(blockType.getSound());
         this.setCreativeTab(tab);
-        this.setBlockTextureName(this.textureName);
+        this.setTextureName(this.textureName);
         this.setBlockName(name);
         this.setHardness(hardness);
         if (hardness == -1.0f) {
@@ -116,10 +116,10 @@ extends Block {
         this.blockType = blockType;
         this.name = name;
         this.rand = new Random();
-        this.setBlockTextureName("divinerpg:" + name);
+        this.setTextureName("divinerpg:" + name);
         this.setStepSound(blockType.getSound());
         this.setCreativeTab(tab);
-        this.setBlockTextureName(this.textureName);
+        this.setTextureName(this.textureName);
         this.setBlockName(name);
         this.setHardness(hardness);
         if (hardness == -1.0f) {
@@ -161,7 +161,7 @@ extends Block {
         return this;
     }
 
-    public BlockMod setBlockTextureName(String textureName) {
+    public BlockMod setTextureName(String textureName) {
         this.textureName = textureName;
         return this;
     }

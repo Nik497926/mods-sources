@@ -133,7 +133,7 @@ implements IChunkProvider {
     }
 
     public void generate(int i, int j, Block[] b) {
-        int b0 = 63;
+        byte b0 = 63;
         this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, i * 4 - 2, j * 4 - 2, 10, 10);
         this.generate(i * 4, 0, j * 4);
 
@@ -326,7 +326,7 @@ implements IChunkProvider {
                             f4 = 1.0f + f4 * 4.0f;
                         }
                         float f5 = this.parabolicField[l1 + 2 + (i2 + 2) * 5] / (f3 + 2.0f);
-                        if (biomegenbase1.rootHeight > biomegenbase.heightVariation) {
+                        if (biomegenbase1.rootHeight > biomegenbase.rootHeight) {
                             f5 /= 2.0f;
                         }
                         f += f4 * f5;

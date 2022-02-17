@@ -22,6 +22,10 @@ public class ConfigurationHelper {
     public static boolean keepLoadingArcana;
     public static boolean keepLoadingIceika;
     public static boolean canShowOverlay;
+    public static boolean updateChecker;
+    public static boolean generateHuts;
+    public static boolean generateTrees;
+    public static boolean generateTar;
     public static int eden;
     public static int wildwood;
     public static int apalachia;
@@ -77,9 +81,13 @@ public class ConfigurationHelper {
     }
 
     public static void miscInit() {
+        generateHuts = cfg.get("Worldgen", "Generate livestock merchant huts in the overworld?", true).getBoolean(true);
+        generateTrees = cfg.get("Worldgen", "Generate divine trees in the overworld?", true).getBoolean(true);
+        generateTar = cfg.get("Worldgen", "Generate tar lakes in the overworld?", true).getBoolean(true);
         canShowOverlay = cfg.get("GUI", "Can show overlay in top left corner or debug screen", true).getBoolean(true);
         arcanaX = cfg.get("GUI", "Arcana Bar X", 111).getInt();
         arcanaY = cfg.get("GUI", "Arcana Bar Y", 18).getInt();
+        updateChecker = cfg.get("Updates", "Check For Updates", true).getBoolean(true);
     }
 
     public static int getConfig(String name) {

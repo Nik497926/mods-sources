@@ -29,7 +29,7 @@ extends BlockMod {
 
     public BlockStatue(String name, DivineModel model) {
         super(EnumBlockType.ROCK, name, 6.0f);
-        this.setBlockTextureName("cobblestone");
+        this.setTextureName("cobblestone");
         this.texture = new ResourceLocation("divinerpg:textures/model/" + name + ".png");
         this.model = model;
         this.setHarvestLevel("pickaxe", 0);

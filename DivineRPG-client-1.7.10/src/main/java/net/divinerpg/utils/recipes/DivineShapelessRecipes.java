@@ -10,6 +10,7 @@
 package net.divinerpg.utils.recipes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -31,22 +32,33 @@ implements IRecipe {
     }
 
     public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World) {
-        ArrayList<ItemStack> arraylist = new ArrayList(this.recipeItems);
+        ArrayList arraylist = new ArrayList(this.recipeItems);
+
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 3; ++j) {
                 ItemStack itemstack = par1InventoryCrafting.getStackInRowAndColumn(j, i);
-                if (itemstack == null) continue;
-                boolean flag = false;
-                for (ItemStack itemstack1 : arraylist) {
-                    if (itemstack.getItem() != itemstack1.getItem() || itemstack1.getItemDamage() != Short.MAX_VALUE && itemstack.getItemDamage() != itemstack1.getItemDamage()) continue;
-                    flag = true;
-                    arraylist.remove(itemstack1);
-                    break;
+
+                if (itemstack != null) {
+                    boolean flag = false;
+                    Iterator iterator = arraylist.iterator();
+
+                    while (iterator.hasNext()) {
+                        ItemStack itemstack1 = (ItemStack)iterator.next();
+
+                        if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getItemDamage() == 32767 || itemstack.getItemDamage() == itemstack1.getItemDamage())) {
+                            flag = true;
+                            arraylist.remove(itemstack1);
+                            break;
+                        }
+                    }
+
+                    if (!flag) {
+                        return false;
+                    }
                 }
-                if (flag) continue;
-                return false;
             }
         }
+
         return arraylist.isEmpty();
     }
 

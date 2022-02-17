@@ -64,14 +64,14 @@ import net.minecraft.world.WorldServer;
 public class BlockModPortal
 extends BlockBreakable {
     public static final int[][] sides = new int[][]{new int[0], {3, 1}, {2, 0}};
-    protected String name;
+    protected String field_149995_b;
     protected int dimensionID;
     protected Block fireBlock;
     protected Block blockFrame;
 
     public BlockModPortal(String name, int dimensionID, Block fireBlock, Block blockFrame) {
         super("divinerpg:" + name, Material.portal, false);
-        this.name = name;
+        this.field_149995_b = name;
         this.dimensionID = dimensionID;
         this.fireBlock = fireBlock;
         this.blockFrame = blockFrame;

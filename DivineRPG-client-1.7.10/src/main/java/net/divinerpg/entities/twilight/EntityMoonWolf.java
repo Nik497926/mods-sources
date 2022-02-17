@@ -77,12 +77,12 @@ extends EntityDivineRPGTameable {
     }
 
     protected void updateAITick() {
-        this.dataWatcher.updateObject(18, this.getHealth());
+        this.dataWatcher.updateObject(18, (Object)Float.valueOf(this.getHealth()));
     }
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(18, this.getHealth());
+        this.dataWatcher.addObject(18, (Object)new Float(this.getHealth()));
         this.dataWatcher.addObject(19, (byte) 0);
     }
 

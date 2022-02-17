@@ -19,7 +19,7 @@ import net.divinerpg.utils.LogHelper;
 public class UpdateChecker {
     public static boolean isUpdateAvailable() {
         try {
-            if (!UpdateChecker.getCurrentVersion().contains("1.4.1.3")) {
+            if (!UpdateChecker.getCurrentVersion().contains("1.4.1.4")) {
                 return true;
             }
         }

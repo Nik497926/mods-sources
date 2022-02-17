@@ -12,6 +12,9 @@
  *  net.minecraft.client.particle.EntityFX
  *  net.minecraft.entity.Entity
  *  net.minecraft.entity.player.EntityPlayerMP
+ *  net.minecraft.nbt.NBTBase
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
  *  net.minecraft.util.AxisAlignedBB
  *  net.minecraft.world.IBlockAccess
  *  net.minecraft.world.Teleporter
@@ -34,6 +37,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.Teleporter;
@@ -63,6 +69,13 @@ extends BlockBreakable {
                 player.timeUntilPortal = 10;
             } else if (player.dimension == ConfigurationHelper.vethea) {
                 player.timeUntilPortal = 10;
+                NBTTagCompound persistantData = player.getEntityData().getCompoundTag("PlayerPersisted");
+                persistantData.setTag("VetheaInv", (NBTBase)player.inventory.writeToNBT(new NBTTagList()));
+                player.getEntityData().setTag("PlayerPersisted", (NBTBase)persistantData);
+                player.inventory.clearInventory(null, -1);
+                NBTTagList inv = persistantData.getTagList("OverworldInv", 10);
+                player.inventory.readFromNBT(inv);
+                player.inventoryContainer.detectAndSendChanges();
                 player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, (Teleporter)new TeleporterVetheaToOverworld(player.mcServer.worldServerForDimension(0)));
             }
         }

@@ -12,19 +12,31 @@
  */
 package net.divinerpg.client.render.gui;
 
+import java.io.IOException;
+import java.net.SocketException;
 import net.divinerpg.utils.Util;
+import net.divinerpg.utils.config.ConfigurationHelper;
+import net.divinerpg.utils.events.UpdateChecker;
 import net.divinerpg.utils.items.TwilightItemsArmor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GUIOverlay {
+    private String text = "";
+    private String text2 = "";
     public static int guiTick = 600;
+    private boolean seen = false;
     private ScaledResolution res;
     private static final ResourceLocation r = new ResourceLocation("divinerpg:textures/gui/armorBar.png");
+
+    public void drawOverlay() {
+
+    }
 
     public void drawArmor() {
         GL11.glDisable((int)2929);

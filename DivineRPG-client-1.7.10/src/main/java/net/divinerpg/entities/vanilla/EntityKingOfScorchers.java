@@ -51,7 +51,7 @@ extends EntityDivineRPGBoss {
     protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(16, 100);
-        this.dataWatcher.addObject(13, (byte) 0);
+        this.dataWatcher.addObject(13, (byte)0);
     }
 
     protected void updateAITasks() {

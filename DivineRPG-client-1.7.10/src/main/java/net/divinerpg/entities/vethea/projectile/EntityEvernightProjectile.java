@@ -4,8 +4,8 @@
  * Could not load the following classes:
  *  net.minecraft.entity.Entity
  *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.passive.EntityChicken
  *  net.minecraft.entity.projectile.EntityThrowable
+ *  net.minecraft.util.DamageSource
  *  net.minecraft.util.MovingObjectPosition
  *  net.minecraft.world.World
  */
@@ -13,8 +13,8 @@ package net.divinerpg.entities.vethea.projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -41,11 +41,7 @@ extends EntityThrowable {
 
     protected void onImpact(MovingObjectPosition par1) {
         if (par1.entityHit != null && par1.entityHit != this.thrower) {
-            EntityChicken chicken = new EntityChicken(par1.entityHit.worldObj);
-            chicken.setLocationAndAngles(par1.entityHit.posX, par1.entityHit.posY, par1.entityHit.posZ, par1.entityHit.rotationYaw, 0.0f);
-            chicken.onSpawnWithEgg(null);
-            chicken.func_152117_i(true);
-            par1.entityHit.worldObj.spawnEntityInWorld((Entity)chicken);
+            par1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.thrower), (float)this.damage);
             if (!this.worldObj.isRemote) {
                 this.setDead();
             }

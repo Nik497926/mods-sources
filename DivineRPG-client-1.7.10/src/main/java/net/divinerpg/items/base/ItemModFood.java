@@ -57,7 +57,7 @@ extends ItemFood {
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
         list.add("Fills " + (double)this.func_150905_g(stack) / 2.0 + " Hunger Bars");
-        list.add(this.func_150905_g(stack) + " Saturation");
+        list.add(this.func_150906_h(stack) + " Saturation");
         list.add(!this.isWolfsFavoriteMeat() ? Util.BLUE + "Pet Food:" + EnumChatFormatting.RESET + " false" : Util.BLUE + "Pet Food:" + EnumChatFormatting.RESET + " true");
     }
 }

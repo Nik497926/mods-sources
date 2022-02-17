@@ -44,9 +44,6 @@ extends ItemMod {
             int x = rarTrace.blockX;
             int y = rarTrace.blockY;
             int z = rarTrace.blockZ;
-            if (Util.isBlockBreakCanceled(world, player, x, y, z)) {
-                return stack;
-            }
             if (Math.abs(Math.sqrt(player.posX * player.posX + player.posY * player.posY + player.posZ * player.posZ) - Math.sqrt(x * x + y * y + z * z)) < 100.0) {
                 world.spawnEntityInWorld((Entity)new EntityLightningBolt(world, (double)x, (double)y, (double)z));
                 world.spawnEntityInWorld((Entity)new EntityLightningBolt(world, (double)x, (double)y, (double)z));

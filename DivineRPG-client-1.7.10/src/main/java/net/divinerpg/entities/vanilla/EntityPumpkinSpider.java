@@ -34,7 +34,7 @@ extends EntityDivineRPGMob {
 
     public void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, (byte) 0);
+        this.dataWatcher.addObject(16, (byte)0);
         this.dataWatcher.addObject(17, (Object)0);
     }
 

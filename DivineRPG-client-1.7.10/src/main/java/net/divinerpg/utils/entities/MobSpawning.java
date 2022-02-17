@@ -268,7 +268,7 @@ public class MobSpawning {
             EntityRegistry.addSpawn(EntityTheGrue.class, (int)30, (int)1, (int)4, (EnumCreatureType)EnumCreatureType.monster, (BiomeGenBase[])new BiomeGenBase[]{biome});
             EntityRegistry.addSpawn(EntityCaveclops.class, (int)70, (int)1, (int)4, (EnumCreatureType)EnumCreatureType.monster, (BiomeGenBase[])new BiomeGenBase[]{biome});
             EntityRegistry.addSpawn(EntityEnderSpider.class, (int)4, (int)1, (int)4, (EnumCreatureType)EnumCreatureType.monster, (BiomeGenBase[])new BiomeGenBase[]{biome});
-            EntityRegistry.addSpawn(EntityRainbour.class, (int)2, (int)1, (int)1, (EnumCreatureType)EnumCreatureType.ambient, (BiomeGenBase[])new BiomeGenBase[]{biome});
+            EntityRegistry.addSpawn(EntityRainbour.class, (int)1, (int)1, (int)1, (EnumCreatureType)EnumCreatureType.ambient, (BiomeGenBase[])new BiomeGenBase[]{biome});
         }
     }
 
@@ -303,9 +303,10 @@ public class MobSpawning {
     }
 
     public static boolean overworldBiome(BiomeGenBase b) {
-        List<BiomeGenBase.SpawnListEntry> monsterList = ObfuscationReflectionHelper.getPrivateValue(BiomeGenBase.class, b, "as", "field_76761_J", "spawnableMonsterList");
-        for(BiomeGenBase.SpawnListEntry e : monsterList) {
-            if(e.entityClass == EntityZombie.class) return true;
+        List<BiomeGenBase.SpawnListEntry> monsterList = (List<BiomeGenBase.SpawnListEntry>)ObfuscationReflectionHelper.getPrivateValue(BiomeGenBase.class, b, new String[]{"as", "spawnableMonsterList", "spawnableMonsterList"});
+        for (BiomeGenBase.SpawnListEntry e : monsterList) {
+            if (e.entityClass != EntityZombie.class) continue;
+            return true;
         }
         return false;
     }

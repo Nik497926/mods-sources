@@ -4,6 +4,7 @@
  * Could not load the following classes:
  *  net.minecraft.init.Blocks
  *  net.minecraft.init.Items
+ *  net.minecraft.item.Item
  *  net.minecraft.item.ItemStack
  */
 package net.divinerpg.utils.recipes;
@@ -24,6 +25,7 @@ import net.divinerpg.utils.recipes.IS;
 import net.divinerpg.utils.recipes.RecipeUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class VanillaRecipeHelper
@@ -113,6 +115,30 @@ extends RecipeUtil {
         VanillaRecipeHelper.addRecipe(VanillaItemsWeapons.serenadeStriker, "I  ", "III", "  I", Character.valueOf('I'), Items.diamond);
         VanillaRecipeHelper.addRecipe(VanillaItemsWeapons.serenadeOfHealth, "I  ", "III", "  I", Character.valueOf('I'), VanillaItemsOther.netheriteChunk);
         VanillaRecipeHelper.addRecipe(VanillaItemsWeapons.serenadeOfDeath, "I  ", "III", "  I", Character.valueOf('I'), VanillaItemsOther.shadowBar);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.diamond_chestplate);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.diamond_leggings);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.diamond_boots);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.diamond_helmet);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.golden_chestplate);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.golden_leggings);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.golden_boots);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.golden_helmet);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.iron_chestplate);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.iron_leggings);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.iron_boots);
+        VanillaRecipeHelper.removeCraftingRecipe((Item)Items.iron_helmet);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.diamondHelmet, "III", "I I", Character.valueOf('I'), Items.diamond);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.diamondBody, "I I", "III", "III", Character.valueOf('I'), Items.diamond);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.diamondLegs, "III", "I I", "I I", Character.valueOf('I'), Items.diamond);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.diamondBoots, "I I", "I I", Character.valueOf('I'), Items.diamond);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.ironHelmet, "III", "I I", Character.valueOf('I'), Items.iron_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.ironBody, "I I", "III", "III", Character.valueOf('I'), Items.iron_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.ironLegs, "III", "I I", "I I", Character.valueOf('I'), Items.iron_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.ironBoots, "I I", "I I", Character.valueOf('I'), Items.iron_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.goldHelmet, "III", "I I", Character.valueOf('I'), Items.gold_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.goldBody, "I I", "III", "III", Character.valueOf('I'), Items.gold_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.goldLegs, "III", "I I", "I I", Character.valueOf('I'), Items.gold_ingot);
+        VanillaRecipeHelper.addRecipe(VanillaItemsArmor.goldBoots, "I I", "I I", Character.valueOf('I'), Items.gold_ingot);
         VanillaRecipeHelper.addRecipe(VanillaItemsArmor.realmiteHelmet, "III", "I I", Character.valueOf('I'), VanillaItemsOther.realmiteIngot);
         VanillaRecipeHelper.addRecipe(VanillaItemsArmor.realmiteBody, "I I", "III", "III", Character.valueOf('I'), VanillaItemsOther.realmiteIngot);
         VanillaRecipeHelper.addRecipe(VanillaItemsArmor.realmiteLegs, "III", "I I", "I I", Character.valueOf('I'), VanillaItemsOther.realmiteIngot);

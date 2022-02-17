@@ -269,16 +269,16 @@ extends EntityArrow {
                         if (position.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityTwilightArcher) {
                             ((EntityPlayer)position.entityHit).triggerAchievement((StatBase)DivineRPGAchievements.arrowToTheKnee);
                         }
-                        if (this.getTextureName() == "hunterArrow" && position.entityHit instanceof EntityLivingBase) {
+                        if (this.getTextureName().equals("hunterArrow") && position.entityHit instanceof EntityLivingBase) {
                             ((EntityLivingBase)position.entityHit).addPotionEffect(new PotionEffect(Potion.poison.id, 40, 2));
                         }
                         if (this.isBurning() && !(position.entityHit instanceof EntityEnderman)) {
                             position.entityHit.setFire(5);
                         }
-                        if (this.getTextureName() == "infernoArrow") {
+                        if (this.getTextureName().equals("infernoArrow")) {
                             position.entityHit.setFire(12);
                         }
-                        if (this.getTextureName() == "bluefireArrow" || this.getTextureName() == "snowstormArrow") {
+                        if (this.getTextureName().equals("bluefireArrow") || this.getTextureName().equals("snowstormArrow")) {
                             this.worldObj.createExplosion((Entity)this, this.posX, this.posY, this.posZ, 3.0f, false);
                         }
                         if (position.entityHit instanceof EntityLivingBase) {

@@ -37,7 +37,7 @@ implements IInventory {
     private int ticksSinceSync;
 
     public TileEntityEdenChest() {
-        this.func_145976_a("Eden Chest");
+        this.setCustomName("Eden Chest");
     }
 
     public int getSizeInventory() {
@@ -100,7 +100,7 @@ implements IInventory {
         return this.customName != null && this.customName.length() > 0;
     }
 
-    public void func_145976_a(String name) {
+    public void setCustomName(String name) {
         this.customName = name;
     }
 

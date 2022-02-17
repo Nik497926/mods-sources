@@ -4,7 +4,6 @@
  * Could not load the following classes:
  *  net.minecraft.entity.Entity
  *  net.minecraft.entity.EntityLivingBase
- *  net.minecraft.entity.player.EntityPlayer
  *  net.minecraft.entity.projectile.EntityThrowable
  *  net.minecraft.potion.Potion
  *  net.minecraft.potion.PotionEffect
@@ -16,7 +15,6 @@ package net.divinerpg.entities.vanilla.projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -40,11 +38,8 @@ extends EntityThrowable {
 
     protected void onImpact(MovingObjectPosition var1) {
         if (var1.entityHit != null) {
-            if (this.getThrower() instanceof EntityPlayer) {
-                if (var1.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)((EntityPlayer)this.getThrower())), 14.0f) && var1.entityHit instanceof EntityLivingBase) {
-                    ((EntityLivingBase)var1.entityHit).addPotionEffect(new PotionEffect(Potion.poison.id, 45, 3));
-                }
-            } else if (var1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.getThrower()), 14.0f) && var1.entityHit instanceof EntityLivingBase) {
+            var1.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.getThrower()), 14.0f);
+            if (var1.entityHit instanceof EntityLivingBase) {
                 ((EntityLivingBase)var1.entityHit).addPotionEffect(new PotionEffect(Potion.poison.id, 45, 3));
             }
         }

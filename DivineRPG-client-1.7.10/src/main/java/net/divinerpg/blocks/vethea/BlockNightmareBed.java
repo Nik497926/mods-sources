@@ -12,6 +12,9 @@
  *  net.minecraft.entity.player.EntityPlayer$EnumStatus
  *  net.minecraft.entity.player.EntityPlayerMP
  *  net.minecraft.item.Item
+ *  net.minecraft.nbt.NBTBase
+ *  net.minecraft.nbt.NBTTagCompound
+ *  net.minecraft.nbt.NBTTagList
  *  net.minecraft.util.ChatComponentTranslation
  *  net.minecraft.util.ChunkCoordinates
  *  net.minecraft.util.Direction
@@ -40,6 +43,9 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Direction;
@@ -56,6 +62,7 @@ extends BlockBed {
     private IIcon[] end;
     @SideOnly(value=Side.CLIENT)
     private IIcon[] side;
+    private NBTTagCompound persistantData;
 
     public BlockNightmareBed() {
         String name = "nightmareBedBlock";
@@ -80,6 +87,7 @@ extends BlockBed {
             }
             i1 = world.getBlockMetadata(x, y, z);
         }
+        this.persistantData = player.getEntityData().getCompoundTag("PlayerPersisted");
         if (player.worldObj.provider.dimensionId != ConfigurationHelper.vethea) {
             if (world.getBlockLightValue(x, y, z) > 7) {
                 player.addChatMessage(Util.getChatComponent("You can only use the Nightmare Bed in a dark place."));
@@ -102,6 +110,12 @@ extends BlockBed {
                 EntityPlayer.EnumStatus enumstatus = player.sleepInBedAt(x, y, z);
                 MPPlayer.timeUntilPortal = 10;
                 MPPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(MPPlayer, ConfigurationHelper.vethea, (Teleporter)new TeleporterVethea(MPPlayer.mcServer.worldServerForDimension(ConfigurationHelper.vethea)));
+                this.persistantData.setTag("OverworldInv", (NBTBase)player.inventory.writeToNBT(new NBTTagList()));
+                player.getEntityData().setTag("PlayerPersisted", (NBTBase)this.persistantData);
+                player.inventory.clearInventory(null, -1);
+                NBTTagList inv = this.persistantData.getTagList("VetheaInv", 10);
+                player.inventory.readFromNBT(inv);
+                player.inventoryContainer.detectAndSendChanges();
                 ChunkCoordinates c = new ChunkCoordinates();
                 c.posX = (int)player.posX + 2;
                 c.posY = 18;
@@ -113,6 +127,12 @@ extends BlockBed {
         }
         if (player.worldObj.provider.dimensionId == ConfigurationHelper.vethea) {
             MPPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(MPPlayer, 0, (Teleporter)new TeleporterVethea(MPPlayer.mcServer.worldServerForDimension(0)));
+            this.persistantData.setTag("VetheaInv", (NBTBase)player.inventory.writeToNBT(new NBTTagList()));
+            player.getEntityData().setTag("PlayerPersisted", (NBTBase)this.persistantData);
+            player.inventory.clearInventory(null, -1);
+            NBTTagList inv = this.persistantData.getTagList("OverworldInv", 10);
+            player.inventory.readFromNBT(inv);
+            player.inventoryContainer.detectAndSendChanges();
             return true;
         }
         double d2 = (double)x + 0.5;

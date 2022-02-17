@@ -68,11 +68,7 @@ extends EntityThrowable {
 
     protected void onImpact(MovingObjectPosition position) {
         if (position.entityHit != null) {
-            if (this.getThrower() instanceof EntityPlayer) {
-                position.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)((EntityPlayer)this.getThrower())), this.damage);
-            } else {
-                position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.getThrower()), this.damage);
-            }
+            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage((Entity)this, (Entity)this.getThrower()), this.damage);
         }
         if (!this.worldObj.isRemote) {
             this.setDead();

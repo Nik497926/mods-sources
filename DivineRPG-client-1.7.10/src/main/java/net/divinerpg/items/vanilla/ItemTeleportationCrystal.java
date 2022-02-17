@@ -22,6 +22,8 @@
 package net.divinerpg.items.vanilla;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+
+import java.util.Iterator;
 import java.util.List;
 import net.divinerpg.items.base.ItemMod;
 import net.divinerpg.utils.TooltipLocalizer;
@@ -115,14 +117,17 @@ extends ItemMod {
         ItemTeleportationCrystal.transferPlayerToWorld(player, oldWorldServer, newWorldServer);
         configManager.func_72375_a(player, oldWorldServer);
         ItemTeleportationCrystal.movePlayerToSpawn(player, newWorldServer);
+
         player.playerNetServerHandler.setPlayerLocation(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
         player.theItemInWorldManager.setWorld(newWorldServer);
         configManager.updateTimeAndWeatherForPlayer(player, newWorldServer);
         configManager.syncPlayerInventory(player);
-        for (Object potioneffect : player.getActivePotionEffects()) {
-            player.playerNetServerHandler.sendPacket((Packet)new S1DPacketEntityEffect(player.getEntityId(), (PotionEffect) potioneffect));
+        Iterator<PotionEffect> iterator = player.getActivePotionEffects().iterator();
+        while (iterator.hasNext()) {
+            PotionEffect potioneffect = iterator.next();
+            player.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(player.getEntityId(), potioneffect));
         }
-        FMLCommonHandler.instance().firePlayerChangedDimensionEvent((EntityPlayer)player, oldDimension, newDimension);
+        FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, oldDimension, newDimension);
     }
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
