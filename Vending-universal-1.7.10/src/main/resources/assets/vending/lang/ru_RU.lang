@@ -1,0 +1,27 @@
+tile.vendingMachine.name=Обменный блок
+tile.vendingMachineAdvanced.name=Улучшенный обменный блок
+tile.vendingMachineEco.name=Экономический обменный блок
+item.vendingMachineWrench.name=Ключ обменного блока
+itemGroup.tabVending=Обмен
+
+# GUI
+gui.vendingBlock.eco=эконов
+gui.vendingBlock.select=Выбор
+gui.vendingBlock.storage=Торговый аппарат
+gui.vendingBlock.selling=Продажа
+gui.vendingBlock.buying=Покупка
+gui.vendingBlock.settings=Настройки обменника
+gui.vendingBlock.owner=Продавец
+gui.vendingBlock.infinite=Бесконечность
+gui.vendingBlock.yes=да
+gui.vendingBlock.no=нет
+gui.vendingBlock.apply=Применить
+gui.vendingBlock.isSelling=продает
+gui.vendingBlock.for=за
+gui.vendingBlock.isGivingAway=отдает бесплатно
+gui.vendingBlock.isAccepting=принимает
+
+msg.notFoundItem.txt=Возьмите в руку
+msg.thxForBuy.txt=Спасибо за покупку
+msg.invalidPrice.txt=Слишком низкая цена
+msg.notFoundMoney.txt=Не хватает денег
