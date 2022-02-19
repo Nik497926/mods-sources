@@ -135,9 +135,8 @@ public class CommandHandler implements ICommand {
         PacketDispatcher.sendTo(new SendBalance(Economy.getPlayerBalance(sender)), (EntityPlayerMP)sender);
     }
 
-    public boolean canCommandSenderUseCommand(ICommandSender var1) {
-        return true;
-    }
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender sender) { return true; }
 
     public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
         ArrayList<String> l = new ArrayList<String>(Arrays.asList(MinecraftServer.getServer().getAllUsernames()));

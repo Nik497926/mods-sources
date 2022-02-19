@@ -11,7 +11,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.command.ICommand;
 import net.minecraft.entity.player.EntityPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +32,7 @@ public class Main {
 
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
-        event.registerServerCommand((ICommand) new CommandHandler());
+        event.registerServerCommand(new CommandHandler());
     }
 
     @Mod.EventHandler

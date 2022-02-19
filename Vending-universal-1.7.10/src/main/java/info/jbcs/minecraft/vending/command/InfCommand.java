@@ -22,8 +22,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MovingObjectPosition;
 
-public class InfCommand
-extends CommandBase {
+public class InfCommand extends CommandBase {
     public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_) {
         return p_71519_1_ instanceof EntityPlayer && ((EntityPlayer)p_71519_1_).capabilities.isCreativeMode;
     }
