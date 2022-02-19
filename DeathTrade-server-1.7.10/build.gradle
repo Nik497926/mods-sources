@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://files.minecraftforge.net/maven"
         }
         maven {
             name = "sonatype"
@@ -15,31 +15,44 @@ buildscript {
     }
 }
 
-repositories {
-    flatDir {
-        dirs 'lib'
-    }
-}
-
 apply plugin: 'forge'
 
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-version = "1.4.1.4"
+version = "6.6.6"
 group= "ru.deathcry.deathtrade"
-archivesBaseName = "DeathTradeServer"
+archivesBaseName = "DeathTrade-server"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
-    runDir = "eclipse"
+    runDir = "run"
 }
 
 dependencies {
-    compile name: 'EventHelper-1.7-dev'
-    compile name: archivesBaseName + '-' + version + '-dev'
+    implementation files('craftbukkit-1.7.10-R0.1.jar')
 }
 
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from zipTree('lib/' + archivesBaseName + '-' + version + '.jar')
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }
