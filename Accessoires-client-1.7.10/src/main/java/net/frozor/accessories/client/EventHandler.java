@@ -113,7 +113,7 @@ public class EventHandler {
     @SubscribeEvent
     public void onConnectedToServerEvent(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         CPacketCapeSetting packet = new CPacketCapeSetting(AccessoriesCore.SHOW_MY_CAPE_SETTING, true);
-        event.manager.scheduleOutboundPacket((Packet)new C17PacketCustomPayload("ACS", packet.getBytes()), new GenericFutureListener[0]);
+        event.manager.scheduleOutboundPacket(new C17PacketCustomPayload("ACS", packet.getBytes()), new GenericFutureListener[0]);
     }
 
     @SideOnly(value=Side.CLIENT)

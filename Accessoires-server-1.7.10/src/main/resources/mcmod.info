@@ -1,0 +1,15 @@
+[
+{
+  "modid": "accessories",
+  "name": "Accessories Mod",
+  "description": "Accessories Mod by MinecraftOnly",
+  "version": "1.0",
+  "mcversion": "1.7.10",
+  "url": "http://MinecraftOnly.ru/",
+  "updateUrl": "","authorList": ["FroZor.NET"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

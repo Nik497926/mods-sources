@@ -12,6 +12,7 @@ import net.frozor.accessories.client.ClientProxy;
 import net.frozor.accessories.client.network.packet.IPacket;
 import net.frozor.accessories.client.ui.UIAccessorySidebar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class NetworkHandler {
@@ -39,6 +40,10 @@ public class NetworkHandler {
     @SubscribeEvent
     public void onClientPacket(FMLNetworkEvent.ClientCustomPacketEvent event) {
         try {
+            boolean var10003 = true;
+            boolean var10004 = true;
+            boolean var10005 = true;
+            boolean var10006 = true;
             ByteArrayInputStream inputStream = new ByteArrayInputStream(event.packet.payload().array());
             DataInputStream dis = new DataInputStream(inputStream);
             String var4 = dis.readUTF();
