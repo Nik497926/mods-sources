@@ -1,0 +1,1401 @@
+{ 
+  "_comment" : "indexes items..",
+
+	"amoung_us" : {
+		"type": "FAMILIAR",
+		"model": "amoung_us",
+		"name": "Красный человечек",
+		"new": true,
+		"draw": true,
+		"customTexture": "amoung_us/amoung_us",
+		"author": "Murzir"
+	},
+    "amoung_us_1" : {
+		"type": "FAMILIAR",
+		"model": "amoung_us",
+		"name": "Скажи 'Сыыыр'",
+		"new": true,
+		"draw": true,
+		"customTexture": "amoung_us_1/amoung_us_1",
+		"author": "Murzir"
+	},
+    "amoung_us_2" : {
+		"type": "FAMILIAR",
+		"model": "amoung_us_2",
+		"name": "Чумной Доктор",
+		"new": true,
+		"draw": true,
+		"customTexture": "amoung_us_2/amoung_us_2",
+		"author": "Murzir"
+	},
+    "amoung_us_3" : {
+		"type": "FAMILIAR",
+		"model": "amoung_us_3",
+		"name": "Джейсон Вурхиз",
+		"new": true,
+		"draw": true,
+		"customTexture": "amoung_us_3/amoung_us_3",
+		"author": "Murzir"
+	},
+    "black_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь черная",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/black_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "blue_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь голубая",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/blue_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "lgbt_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь радужная",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/lgbt_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "orange_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь рыжая",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/orange_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "purple_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь розовая",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/purple_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "red_bat_wing" : {
+		"type": "BODY",
+		"model": "bat_wing",
+		"name": "Летучая мышь красная",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bat_wing/red_bat_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "black_bone_wing" : {
+		"type": "BODY",
+		"model": "bone_wing",
+		"name": "Черные крылья Скелета",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bone_wing/black_bone_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "neon_bone_wing" : {
+		"type": "BODY",
+		"model": "bone_wing",
+		"name": "Неоновые крылья Скелета",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bone_wing/neon_bone_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "toxic_bone_wing" : {
+		"type": "BODY",
+		"model": "bone_wing",
+		"name": "Токсичные крылья Скелета",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "bone_wing/toxic_bone_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "black_devil_wing" : {
+		"type": "BODY",
+		"model": "devil_wing",
+		"name": "Угольные крылья",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "devil_wing/black_devil_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "red_devil_wing" : {
+		"type": "BODY",
+		"model": "devil_wing",
+		"name": "Демонические крылья",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "devil_wing/red_devil_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "black_valkirye_wing" : {
+		"type": "BODY",
+		"model": "valkirye_wing",
+		"name": "Черная Валькирия",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "valkirye_wing/black_valkirye_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "blue_valkirye_wing" : {
+		"type": "BODY",
+		"model": "valkirye_wing",
+		"name": "Морская Валькирия",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "valkirye_wing/blue_valkirye_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "druide_valkirye_wing" : {
+		"type": "BODY",
+		"model": "valkirye_wing",
+		"name": "Древесная Валькирия",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "valkirye_wing/druide_valkirye_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "purple_valkirye_wing" : {
+		"type": "BODY",
+		"model": "valkirye_wing",
+		"name": "Магическая Валькирия",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "valkirye_wing/purple_valkirye_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "red_valkirye_wing" : {
+		"type": "BODY",
+		"model": "valkirye_wing",
+		"name": "Огненная Валькирия",
+		"new": true,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "valkirye_wing/red_valkirye_wing",
+		"author": "AHdr0Hchik & Murzir"
+	},
+    "jetpack_black" : {
+		"type": "BODY",
+		"model": "jetpack",
+		"name": "Космический ДжетПак",
+		"new": true,
+		"draw": true,
+		"customTexture": "jetpack/jetpack_black",
+		"author": "AHdr0Hchik"
+	},
+    "jetpack_orange" : {
+		"type": "BODY",
+		"model": "jetpack",
+		"name": "Подводный ДжетПак",
+		"new": true,
+		"draw": true,
+		"customTexture": "jetpack/jetpack_orange",
+		"author": "AHdr0Hchik"
+	},
+    "medicinskaya_maska" : {
+		"type": "HEAD",
+		"model": "medicinskaya_maska",
+		"name": "Медицинская маска белая",
+		"new": false,
+		"draw": true,
+		"customTexture": "medicinskaya_maska/medicinskaya_maska",
+		"author": "Murzir"
+	},
+	"black_medicinskaya_maska" : {
+		"type": "HEAD",
+		"model": "medicinskaya_maska",
+		"name": "Медицинская маска черная",
+		"new": false,
+		"draw": true,
+		"customTexture": "medicinskaya_maska/black_medicinskaya_maska",
+		"author": "Murzir"
+	},
+	"love_medicinskaya_maska" : {
+		"type": "HEAD",
+		"model": "love_medicinskaya_maska",
+		"name": "Медицинская маска с принтом",
+		"new": false,
+		"draw": true,
+		"customTexture": "love_medicinskaya_maska/love_medicinskaya_maska",
+		"author": "Murzir"
+	},
+	"coronavirus_1" : {
+		"type": "FAMILIAR",
+		"model": "coronavirus_1",
+		"name": "Коронавирус 1",
+		"new": false,
+		"draw": true,
+		"customTexture": "coronavirus_1/coronavirus_1",
+		"author": "Murzir"
+	},
+	"coronavirus_2" : {
+		"type": "FAMILIAR",
+		"model": "coronavirus_2",
+		"name": "Коронавирус 2",
+		"new": false,
+		"draw": true,
+		"customTexture": "coronavirus_2/coronavirus_2",
+		"author": "Murzir"
+	},
+	"coronavirus_3" : {
+		"type": "FAMILIAR",
+		"model": "coronavirus_2",
+		"name": "Коронавирус 3",
+		"new": false,
+		"draw": true,
+		"customTexture": "coronavirus_2/coronavirus_3",
+		"author": "Murzir"
+	},
+	"bruni" : {
+		"type": "HEAD",
+		"model": "bruni",
+		"name": "Саламандра Бруни",
+		"new": false,
+		"draw": true,
+		"customTexture": "minigames:head/bruni",
+		"author": "MissMir"
+	},
+	"red" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Красные крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/red",
+		"author": "Murzir"
+	},
+	"blue" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Синие крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/blue",
+		"author": "Murzir"
+	},
+	"lightblue" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Голубые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/lightblue",
+		"author": "Murzir"
+	},
+	"purple" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Фиолетовые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/purple",
+		"author": "Murzir"
+	},
+	"darkpurple" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Фиолетовые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/darkpurple",
+		"author": "Murzir"
+	},
+	"green" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Зеленые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/green",
+		"author": "Murzir"
+	},
+	"orange" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Оранжевые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/orange",
+		"author": "Murzir"
+	},
+	"yellow" : {
+		"type": "BODY",
+		"model": "butterfly1_wing",
+		"name": "Желтые крылья бабочки",
+		"new": false,
+		"draw": true,
+		"isWing": true,
+		"customTexture": "butterfly1_wing/yellow",
+		"author": "Murzir"
+	},
+  "wing_1_black" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Черные механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_black",
+    "author": "Murzir"
+  },
+  "wing_1_gray" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Серые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_gray",
+    "author": "Murzir"
+  },
+  "wing_1_darkblue" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Синие механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_darkblue",
+    "author": "Murzir"
+  },
+  "wing_1_blue" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Голубые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_blue",
+    "author": "Murzir"
+  },
+  "wing_1_green" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Зеленые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_green",
+    "author": "Murzir"
+  },
+  "wing_1_yellow" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Желтые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_yellow",
+    "author": "Murzir"
+  },
+  "wing_1_red" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Красные механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_red",
+    "author": "Murzir"
+  },
+  "wing_1_purple" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Розовые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_purple",
+    "author": "Murzir"
+  },
+  "wing_1_pastel2" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Нежно-розовые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_pastel2",
+    "author": "Murzir"
+  },
+  "wing_1_pastel" : {
+    "type": "BODY",
+    "model": "wing_1",
+    "name": "Бежевые механические крылья",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "wing_1/wing_1_pastel",
+    "author": "Murzir"
+  },
+  "lords_sword_blue" : {
+    "type": "BODY",
+    "model": "lords_sword",
+    "name": "Ледяной меч Лорда",
+    "new": false,
+    "draw": true,
+    "customTexture": "lords_sword/lords_sword_blue",
+    "author": "unknown"
+  },  
+  "lords_sword_green" : {
+    "type": "BODY",
+    "model": "lords_sword",
+    "name": "Природный меч Лорда",
+    "new": false,
+    "draw": true,
+    "customTexture": "lords_sword/lords_sword_green",
+    "author": "unknown"
+  },  
+  "lords_sword_orange" : {
+    "type": "BODY",
+    "model": "lords_sword",
+    "name": "Огненный меч Лорда",
+    "new": false,
+    "draw": true,
+    "customTexture": "lords_sword/lords_sword_orange",
+    "author": "unknown"
+  },  
+  "lords_sword_red" : {
+    "type": "BODY",
+    "model": "lords_sword",
+    "name": "Кровавый меч Лорда",
+    "new": false,
+    "draw": true,
+    "customTexture": "lords_sword/lords_sword_red",
+    "author": "unknown"
+  },  
+  "gendji_dagger" : {
+    "type": "BODY",
+    "model": "gendji_dagger",
+    "name": "Клинок Гэндзи",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },  
+  "familiar_zombi" : {
+    "type": "FAMILIAR",
+    "model": "familiar_zombi",
+    "name": "Зомби",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "mask_captain_america" : {
+    "type": "HEAD",
+    "model": "mask_captain_america",
+    "name": "Маска Капитана Америка",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "mask_iron_man" : {
+    "type": "HEAD",
+    "model": "mask_iron_man",
+    "name": "Маска Железного человека",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "melon_block" : {
+    "type": "HEAD",
+    "model": "melon_block",
+    "name": "Арбуз",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "familiar_drakula" : {
+    "type": "FAMILIAR",
+    "model": "familiar_drakula",
+    "name": "Дракула",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "familiar_skeleton" : {
+    "type": "FAMILIAR",
+    "model": "familiar_skeleton",
+    "name": "Скелетон",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },  
+  "dva" : {
+    "type": "HEAD",
+    "model": "dva",
+    "name": "Головной убор D.Va",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "korona_korolya" : {
+    "type": "HEAD",
+    "model": "korona_korolya",
+    "name": "Корона Короля",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "koto-shapka" : {
+    "type": "HEAD",
+    "model": "koto-shapka",
+    "name": "Кото-шапка",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "maska_dyavola" : {
+    "type": "HEAD",
+    "model": "maska_dyavola",
+    "name": "Маска Дьявола",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "maska_shturmovika" : {
+    "type": "HEAD",
+    "model": "maska_shturmovika",
+    "name": "Маска Штурмовика",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "novogodnyaya_shapka" : {
+    "type": "HEAD",
+    "model": "novogodnyaya_shapka",
+    "name": "Новогодняя шапка",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "roga_olenya" : {
+    "type": "HEAD",
+    "model": "roga_olenya",
+    "name": "Оленьи рога",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "strela_v_golove" : {
+    "type": "HEAD",
+    "model": "strela_v_golove",
+    "name": "Стрела в голове",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "svino_shapka" : {
+    "type": "HEAD",
+    "model": "svino_shapka",
+    "name": "Свино-шапка",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "nakidka" : {
+    "type": "BODY",
+    "model": "nakidka",
+    "name": "Накидка",
+    "new": false,
+    "draw": true,
+    "author": "unknown"
+  },
+  "bruni" : {
+    "type": "HEAD",
+    "model": "bruni",
+    "name": "Саламандра Бруни",
+    "new": false,
+    "draw": true,
+    "author": "MissMir"
+  },
+  "flit" : {
+    "type": "FAMILIAR",
+    "model": "flit",
+    "name": "Колибри Флит",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:familiar/flit",
+    "author": "MissMir"
+  },
+  "ratatui" : {
+    "type": "HEAD",
+    "model": "ratatui",
+    "name": "Рататуй",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/ratatui",
+    "author": "MissMir"
+  },
+  "green_staff" : {
+    "type": "BODY",
+    "model": "staff",
+    "name": "Природный посох",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/green_staff",
+    "author": "Leep"
+  },
+  "orange_staff" : {
+    "type": "BODY",
+    "model": "staff",
+    "name": "Огненный посох",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/orange_staff",
+    "author": "Leep"
+  },
+  "blue_staff" : {
+    "type": "BODY",
+    "model": "staff",
+    "name": "Ледяной посох",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/blue_staff",
+    "author": "Leep"
+  },
+  "bloody_staff" : {
+    "type": "BODY",
+    "model": "staff",
+    "name": "Кровавый посох",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/bloody_staff",
+    "author": "Leep"
+  },
+  "green_axe" : {
+    "type": "BODY",
+    "model": "axe",
+    "name": "Природная секира",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/green_axe",
+    "author": "Leep"
+  },
+  "bloody_axe" : {
+    "type": "BODY",
+    "model": "axe",
+    "name": "Кровавая секира",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/bloody_axe",
+    "author": "Leep"
+  },
+  "blue_axe" : {
+    "type": "BODY",
+    "model": "axe",
+    "name": "Ледяная секира",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/blue_axe",
+    "author": "Leep"
+  },
+  "orange_axe" : {
+    "type": "BODY",
+    "model": "axe",
+    "name": "Огненная секира",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/orange_axe",
+    "author": "Leep"
+  },
+  "blood_bow" : {
+    "type": "BODY",
+    "model": "bow",
+    "name": "Кровавый лук",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/blood_bow",
+    "author": "Leep"
+  },
+  "orange_bow" : {
+    "type": "BODY",
+    "model": "bow",
+    "name": "Огненный лук",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/orange_bow",
+    "author": "Leep"
+  },
+  "green_bow" : {
+    "type": "BODY",
+    "model": "bow",
+    "name": "Природный лук",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/green_bow",
+    "author": "Leep"
+  },
+  "blue_bow" : {
+    "type": "BODY",
+    "model": "bow",
+    "name": "Ледяной лук",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:body/blue_bow",
+    "author": "Leep"
+  },
+  "witchhat" : {
+    "type": "HEAD",
+    "model": "witchhat",
+    "name": "Шляпа ведьмы",
+    "new": false,
+    "draw": true,
+    "author": "FroZor"
+  },
+  "friday13mask" : {
+    "type": "HEAD",
+    "model": "friday13mask",
+    "name": "Маска маньяка",
+    "new": false,
+    "draw": true,
+    "author": "FroZor"
+  },
+  "head_stormtroopers" : {
+    "type": "HEAD",
+    "model": "head_stormtroopers",
+    "name": "Шлем штурмовика",
+    "new": false,
+    "draw": true,
+    "author": "CyberEnderMan"
+  },
+  "kokoshnik" : {
+    "type": "HEAD",
+    "model": "kokoshnik",
+    "name": "Кокошник",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "helmet_horns_blue" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с синими рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_blue",
+    "author": "Murzir"
+  },
+  "helmet_horns_cyan" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с бирюзовыми рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_cyan",
+    "author": "Murzir"
+  },
+  "helmet_horns_pink" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с розовыми рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_pink",
+    "author": "Murzir"
+  },
+  "helmet_horns_red" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с красными рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_red",
+    "author": "Murzir"
+  },
+  "helmet_horns_green" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с зелеными рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_green",
+    "author": "Murzir"
+  },
+  "helmet_horns_yellow" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с желтыми рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_yellow",
+    "author": "Murzir"
+  },
+  "helmet_horns_purple" : {
+    "type": "HEAD",
+    "model": "helmet_horns",
+    "name": "Шлем с фиолетовыми рогами",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/helmet_horns_purple",
+    "author": "Murzir"
+  },
+  "head_stormtroopers2" : {
+    "type": "HEAD",
+    "model": "stormtroopers_head2",
+    "name": "Шлем штурмовика в очках",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "crown_king" : {
+    "type": "HEAD",
+    "model": "crown_king",
+    "name": "Корона Короля",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "gadgetcopter" : {
+    "type": "HEAD",
+    "model": "gadgetcopter",
+    "name": "Пропеллер инспектора Гаджета ",
+    "new": false,
+    "draw": true
+  },
+  "xmas_cap" : {
+    "type": "HEAD",
+    "model": "xmas_cap",
+    "name": "Шляпа Деда мороза",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "buratino_hat" : {
+    "type": "HEAD",
+    "model": "buratino_hat",
+    "name": "Шляпа буратино",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "pharaoh" : {
+    "type": "HEAD",
+    "model": "pharaoh",
+    "name": "Фараон",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/pharaoh",
+    "author": "Murzir"
+  },
+  "deadmau5" : {
+    "type": "HEAD",
+    "model": "deadmau5",
+    "name": "Deadmau5 ушки",
+    "new": false,
+    "draw": true,
+    "author": "FroZor"
+  },
+  "christmas_unicorn" : {
+    "type": "HEAD",
+    "model": "christmas_unicorn",
+    "name": "Новогодняя шапка с Единорогом",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/christmas_unicorn",
+    "author": "Hoochuu"
+  },
+  "cup_with_belt" : {
+    "type": "HEAD",
+    "model": "cup_with_belt",
+    "name": "Шапка с ремешком",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/cup_with_belt",
+    "author": "Hoochuu"
+  },
+  "cup_with_snowman" : {
+    "type": "HEAD",
+    "model": "cup_with_belt",
+    "name": "Шапка со снеговиком",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/cup_with_snowman",
+    "author": "Hoochuu"
+  },
+  "cup_with_lines" : {
+    "type": "HEAD",
+    "model": "cup_with_lines",
+    "name": "Шапка с полосками",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/cup_with_lines",
+    "author": "Hoochuu"
+  },
+  "antler" : {
+    "type": "HEAD",
+    "model": "antler",
+    "name": "Рога оленя",
+    "new": false,
+    "draw": true,
+    "author": "Hidara"
+  },
+  "Ushanka" : {
+    "type": "HEAD",
+    "model": "Ushanka",
+    "name": "Шапка Ушанка",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/Ushanka",
+    "author": "Hidara"
+  },
+  "cat_hat" : {
+    "type": "HEAD",
+    "model": "cat_hat",
+    "name": "Кото-шляпа",
+    "new": false,
+    "draw": true,
+    "customTexture": "minigames:head/cat_hat",
+    "author": "MissMir"
+  },
+  "bird_hat" : {
+    "type": "HEAD",
+    "model": "bird_hat",
+    "name": "Птице-шляпа",
+    "new": false,
+    "draw": true,
+    "author": "MissMir"
+  },
+  "mask_diablo" : {
+    "type": "HEAD",
+    "model": "mask_diablo",
+    "name": "Маска дьявола",
+    "new": false,
+    "draw": true,
+    "author": "MrKaNeKi"
+  },
+  "arrow" : {
+    "type": "HEAD",
+    "model": "arrow",
+    "name": "Стрела в голове",
+    "new": false,
+    "draw": true,
+    "author": "SUSHIMAKER"
+  },
+  "maya_hat" : {
+    "type": "HEAD",
+    "model": "maya_hat",
+    "name": "Шляпа Майа",
+    "new": false,
+    "draw": true,
+    "author": "SUSHIMAKER"
+  },
+  "face_panda" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лицо Панды",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_panda"
+  },
+  "face_pumpkin1" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лицо злой тыквы",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_pumpkin1"
+  },
+  "face_pumpkin2" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лицо доброй тыквы",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_pumpkin2"
+  },
+  "face_dota2cm" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Crystal Maiden",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2cm"
+  },
+  "face_dota2axe" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Axe",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2axe"
+  },
+  "face_dota2jugger" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Juggernaut",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2jugger"
+  },
+  "face_dota2drowranger" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Drow Ranger",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2drowranger"
+  },
+  "face_dota2pudge" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Pudge",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2pudge"
+  },
+  "face_dota2qop" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Queen of Pain",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2qop"
+  },
+  "face_dota2templar" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Templar Assassin",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2templar"
+  },
+  "face_dota2venge" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Vengeful Spirit",
+    "new": false,
+    "draw": true,
+    "customTexture": "dota/dota2venge"
+  },
+  "face_dota2wking" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Dota 2 Wraith King",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_wking"
+  },
+  "face_ghost" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лицо каспера",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_ghost"
+  },
+  "face_groot" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Я есть Груууут",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_groot"
+  },
+  "face_penivaiz" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лицо Пеннивайза",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_penivaiz"
+  },
+  "face_deadpool" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Дэдпул",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_deadpool"
+  },
+  "face_dva" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "D.Va",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_dva"
+  },
+  "face_mei" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Мэй",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_mei"
+  },
+  "face_lucio" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Лусио",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_lucio"
+  },
+  "face_mercy" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Ангел",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_mercy"
+  },
+  "face_reaper" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Жнец",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_reaper"
+  },
+  "face_soldier" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Солдат-76",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_soldier"
+  },
+  "face_tracer" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Трейсер",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_tracer"
+  },
+  "face_breakingbad" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Во все тяжкие",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_breakingbad"
+  },
+  "face_ironman" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Железный человек",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_ironman"
+  },
+  "face_devil" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Дьявол",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_devil"
+  },
+  "face_ninja" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Ниндзя",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_ninja"
+  },
+  "face_undead" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Нежить",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_undead"
+  },
+  "face_teddybear" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Teddy Bear",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_teddybear"
+  },
+  "face_moroz" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Мороз",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_moroz"
+  },
+  "face_zombieHD" : {
+    "type": "FACE",
+    "model": "default",
+    "name": "Зомби",
+    "new": false,
+    "draw": true,
+    "customTexture": "default/face_zombieHD"
+  },
+  "backpack_pig" : {
+    "type": "BODY",
+    "model": "backpack_pig",
+    "name": "Рюкзак поросёнка",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "backpack_cow" : {
+    "type": "BODY",
+    "model": "backpack_cow",
+    "name": "Рюкзак коровы",
+    "new": false,
+    "draw": true,
+    "author": "Murzir"
+  },
+  "beauty_wing_white" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Белые крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_white",
+    "author": "Murzir"
+  },
+  "beauty_wing_black" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Черные крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_black",
+    "author": "Murzir"
+  },
+  "beauty_wing_red" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Красные крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_red",
+    "author": "Murzir"
+  },
+  "beauty_wing_green" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Зеленые крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_green",
+    "author": "Murzir"
+  },
+  "beauty_wing_blue" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Синие крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_blue",
+    "author": "Murzir"
+  },
+  "beauty_wing_lightblue" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Голубые крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_lightblue",
+    "author": "Murzir"
+  },
+  "beauty_wing_pink" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Розовые крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_pink",
+    "author": "Murzir"
+  },
+  "beauty_wing_yellow" : {
+    "type": "BODY",
+    "model": "beauty_wing",
+    "name": "Желтые крылья Ангела",
+    "new": false,
+    "draw": true,
+    "isWing": true,
+    "customTexture": "beauty_wing/beauty_wing_yellow",
+    "author": "Murzir"
+  },
+  "avatar_steve" : {
+    "type": "FAMILIAR",
+    "model": "avatar",
+    "name": "Фамильяр Стив",
+    "new": false,
+    "draw": true,
+    "customTexture": "mconly/avatar_steve",
+    "author": "FroZor"
+  },
+  "avatar_frozor" : {
+    "type": "FAMILIAR",
+    "model": "avatar",
+    "name": "Фамильяр FroZor",
+    "new": false,
+    "draw": true,
+    "customTexture": "mconly/avatar_frozor",
+    "author": "FroZor"
+  },
+  "avatar_goodie" : {
+    "type": "FAMILIAR",
+    "model": "avatar",
+    "name": "Фамильяр Goodie",
+    "new": false,
+    "draw": true,
+    "customTexture": "mconly/avatar_goodie",
+    "author": "FroZor"
+  },
+  "avatar_Murzir" : {
+    "type": "FAMILIAR",
+    "model": "avatar",
+    "name": "Фамильяр Murzir",
+    "new": false,
+    "draw": true,
+    "customTexture": "mconly/avatar_Murzir",
+    "author": "FroZor"
+  },
+  "avatar_lena15" : {
+    "type": "FAMILIAR",
+    "model": "avatar",
+    "name": "Фамильяр Lena15",
+    "new": false,
+    "draw": true,
+    "customTexture": "mconly/avatar_lena15",
+    "author": "FroZor"
+   }
+}

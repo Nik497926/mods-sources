@@ -1,0 +1,13 @@
+newmtl Element
+Kd 1 1 1
+map_Kd amoung_us_2_.png
+illum 2
+
+newmtl Element (Instance)
+Kd 1 1 1
+map_Kd amoung_us_2_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

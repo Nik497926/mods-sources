@@ -1,0 +1,13 @@
+newmtl Element
+Kd 1 1 1
+map_Kd bat_wing_.png
+illum 2
+
+newmtl Element (Instance)
+Kd 1 1 1
+map_Kd bat_wing_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

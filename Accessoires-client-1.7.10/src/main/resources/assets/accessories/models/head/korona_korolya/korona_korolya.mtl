@@ -1,0 +1,8 @@
+newmtl Element
+Kd 1 1 1
+map_Kd Cubik_Model_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

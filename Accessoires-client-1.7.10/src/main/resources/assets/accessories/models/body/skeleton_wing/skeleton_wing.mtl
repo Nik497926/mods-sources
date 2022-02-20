@@ -1,0 +1,8 @@
+newmtl Element
+Kd 1 1 1
+map_Kd skeleton_wing_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

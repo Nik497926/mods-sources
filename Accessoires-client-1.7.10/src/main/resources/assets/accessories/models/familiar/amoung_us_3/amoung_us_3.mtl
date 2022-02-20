@@ -1,0 +1,8 @@
+newmtl Element
+Kd 1 1 1
+map_Kd amoung_us_3_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

@@ -1,0 +1,10 @@
+{
+	"display": {
+		"gui": {
+			"translation":  [ -2.4, 0, 0 ]
+		},
+		"head": {
+			"translation":  [ -2.4, -3, 2.4 ]
+		}
+	}
+}

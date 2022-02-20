@@ -1,0 +1,8 @@
+newmtl Element
+Kd 1 1 1
+map_Kd love_medicinskaya_maska_.png
+illum 2
+
+newmtl Voxel
+illum 2
+

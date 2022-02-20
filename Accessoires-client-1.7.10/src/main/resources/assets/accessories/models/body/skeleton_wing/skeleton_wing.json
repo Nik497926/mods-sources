@@ -1,0 +1,13 @@
+{
+	"display": {
+		"gui": {
+			"translation":  [ 1, 0, 0 ],
+			"scale":  [ 0.9, 0.9, 0.9 ]
+		},
+		"head": {
+			"rotation":  [ -16, -33, -21 ],
+			"translation":  [ 6, -18, 29.5 ],
+			"scale":  [ 2.5, 2.5, 2.5 ]
+		}
+	}
+}

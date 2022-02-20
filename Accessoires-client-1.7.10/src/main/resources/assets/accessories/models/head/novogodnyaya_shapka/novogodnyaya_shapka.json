@@ -1,0 +1,9 @@
+{
+	"display": {
+		"head": {
+			"rotation":  [ 0, 0, -10 ],
+			"translation":  [ 1.85, 16, -1 ],
+			"scale":  [ 1.6, 1.6, 1.6 ]
+		}
+	}
+}

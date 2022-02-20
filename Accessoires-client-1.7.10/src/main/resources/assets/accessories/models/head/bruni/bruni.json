@@ -1,0 +1,8 @@
+{
+	"display": {
+		"head": {
+			"rotation":  [ 0, 90, 0 ],
+			"translation":  [ 0, 14.6, 0 ]
+		}
+	}
+}
