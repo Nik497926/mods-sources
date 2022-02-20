@@ -1,60 +1,56 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+	repositories {
+		mavenCentral()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+	}
+}
+
+repositories {
+	flatDir {
+		dirs 'lib'
+	}
 }
 
 apply plugin: 'forge'
 
-version = "4.2.3.5"
-group= "ru.deathcry.deathtrade"
-archivesBaseName = "Thaumcraft-server"
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
+version = "4.2.3.5"
+group= "thaumcraft"
+archivesBaseName = "thaumcraft-server-1.7.10"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+	sourceCompatibility = targetCompatibility = '1.8'
+}
 
 minecraft {
-    version = "1.7.10-10.13.4.1614-1.7.10"
-    runDir = "run"
+	version = "1.7.10-10.13.4.1614-1.7.10"
+	runDir = "eclipse"
 }
 
 dependencies {
-    implementation files('lib/Baubles-1.7.10-1.0.1.10-dev.jar')
-    implementation files('lib/EventHelper-1.7.10-1.11-dev.jar')
-    implementation files('lib/Thaumcraft-1.7.10-4.2.3.5-dev.jar')
+	compile name: 'EventHelper-1.7.10-1.11-dev'
+	compile name: 'Baubles-1.7.10-1.0.1.10-dev'
+	compile name: 'Thaumcraft-1.7.10-4.2.3.5-dev'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-    }
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+jar {
+	manifest {
+		attributes 'FMLCorePlugin': 'thaumcraft.codechicken.core.launch.DepLoader'
+		attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from zipTree('lib/Thaumcraft-1.7.10-4.2.3.5-dev.jar')
 }
