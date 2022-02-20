@@ -15,11 +15,11 @@ extends GuiButton {
     private ResourceLocation checked;
     private boolean value;
     private float scale;
-    private ResourceLocation unchecked = new ResourceLocation(AbstractAnimation.l("\u0000C\u0002E\u0012S\u000eR\bE\u0012\u001a\u0015E\u0019T\u0014R\u0004SNU\b\u000f\u0014N\u0002H\u0004C\nE\u0005\r\u0002H\u0004C\nB\u000eXOP\u000fG"));
+    private ResourceLocation unchecked = new ResourceLocation("Accessories:textures/ui/unchecked*checkbox.png");
 
     public UICheckBox(int x, int y, String buttonText, float scaleFactor, boolean defaultValue) {
         super(-1, x, y, buttonText);
-        this.checked = new ResourceLocation(AbstractAnimation.l("\u0000C\u0002E\u0012S\u000eR\bE\u0012\u001a\u0015E\u0019T\u0014R\u0004SNU\b\u000f\u0002H\u0004C\nE\u0005\r\u0002H\u0004C\nB\u000eXOP\u000fG"));
+        this.checked = new ResourceLocation("Accessories:textures/ui/checked*checkbox.png");
         this.height = 10;
         this.width = 80;
         this.value = defaultValue;
@@ -38,7 +38,7 @@ extends GuiButton {
             GL11.glEnable((int)3042);
             GL11.glScalef((float)0.5f, (float)0.5f, (float)0.5f);
             GL11.glTranslatef((float)25.0f, (float)6.0f, (float)0.0f);
-            Minecraft.getMinecraft().fontRenderer.drawString((hovered ? AbstractAnimation.l("\u00c6\u0017") : AbstractAnimation.l("\u00c6\u0018")) + this.displayString, 0, 0, -1);
+            Minecraft.getMinecraft().fontRenderer.drawString((hovered ? "§7" : "§8") + this.displayString, 0, 0, -1);
             GL11.glPopMatrix();
         }
     }

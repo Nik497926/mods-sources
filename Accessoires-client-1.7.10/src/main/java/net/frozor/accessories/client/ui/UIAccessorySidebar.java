@@ -52,12 +52,12 @@ extends GuiScreen {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)5.0f, (float)5.0f, (float)0.0f);
         GL11.glScalef((float)0.64f, (float)0.64f, (float)0.64f);
-        this.mc.fontRenderer.drawStringWithShadow(UIScroll.l("\u0475\u008c\u0001x\u000fD\u0010\u000b]\u000b\u0475\u008c\u0002") + AccessoriesCore.SHOW_ACCESSORIES_SETTING, 0, 0, -16777216);
-        this.mc.fontRenderer.drawStringWithShadow(String.format(UIItem.l("\u0437\u00edC\u0007J?V/}p\u0005\u0458\u0082/\u0000.\u0437\u00edCf\u0005\u0007J?V/|p\u0005\u0458\u0082/\u0000."), mouseX, mouseY), 0, 14, -16777216);
-        this.mc.fontRenderer.drawStringWithShadow(String.format(UIScroll.l("\u0439\u00c0M5N\u0014\u0007G|\u000eO\u0013C]\u000b\u0475\u008c\u0002\u000e\u0003\u0439\u00c0MK\u000b/N\u000eL\u000f_]\u000b\u0475\u008c\u0002\u000e\u0003"), this.resolution.getScaledWidth(), this.resolution.getScaledHeight()), 0, 28, -16777216);
-        this.mc.fontRenderer.drawStringWithShadow(String.format(UIItem.l("\u0437\u00edC'D8B#K\u0006@,Qp\u0005\u0458\u0082/\u0000d\u0015,"), Float.valueOf(this.marginLeft)), 0, 42, -16777216);
-        this.mc.fontRenderer.drawStringWithShadow(String.format(UIScroll.l("\u0475\u008c\u0001F\u0006Y\u0000B\t\u007f\b[]\u000b\u0475\u008c\u0002\u000eI\u001b\u0001"), Float.valueOf(this.marginTop)), 0, 56, -16777216);
-        this.mc.fontRenderer.drawStringWithShadow(String.format(UIItem.l("\u0458\u0082,v)D&@9\u001fj\u0437\u00ed@oA\u0458\u0082,\tj\u0437\u00ed@o\u000bz\u0014,"), this.resolution.getScaleFactor(), Float.valueOf(this.scaleFactor)), 0, 80, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow("В§fShow : В§e" + AccessoriesCore.SHOW_ACCESSORIES_SETTING, 0, 0, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow(String.format("В§fMouseX: В§e%dВ§f, MouseY: В§e%d", mouseX, mouseY), 0, 14, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow(String.format("В§fRes, Width: В§e%dВ§f, Height: В§e%d", this.resolution.getScaledWidth(), this.resolution.getScaledHeight()), 0, 28, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow(String.format("В§fmarginLeft: В§e%.0f", Float.valueOf(this.marginLeft)), 0, 42, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow(String.format("В§fmarginTop: В§e%.0f", Float.valueOf(this.marginTop)), 0, 56, -16777216);
+        this.mc.fontRenderer.drawStringWithShadow(String.format("В§fScales: В§e%dВ§f, В§e%.01f", this.resolution.getScaleFactor(), Float.valueOf(this.scaleFactor)), 0, 80, -16777216);
         GL11.glPopMatrix();
     }
 
@@ -130,7 +130,7 @@ extends GuiScreen {
         if (this.showMyCapeButton.mousePressed(this.mc, mouseX, mouseY)) {
             this.showMyCapeButton.func_146113_a(this.mc.getSoundHandler());
             AccessoriesCore.SHOW_MY_CAPE_SETTING = !AccessoriesCore.SHOW_MY_CAPE_SETTING;
-            AccessoriesCore.instance.changeValue(UIScroll.l("X\u000fD\u0010t\nR8H\u0006[\u0002"), AccessoriesCore.SHOW_MY_CAPE_SETTING + "");
+            AccessoriesCore.instance.changeValue("show_my_cape", AccessoriesCore.SHOW_MY_CAPE_SETTING + "");
             this.showMyCapeButton.changeValue(AccessoriesCore.SHOW_MY_CAPE_SETTING);
             ClientProxy.equipManager.getEquipData().setShowCape(AccessoriesCore.SHOW_MY_CAPE_SETTING);
             CPacketCapeSetting packet = new CPacketCapeSetting(AccessoriesCore.SHOW_MY_CAPE_SETTING, false);
@@ -168,13 +168,13 @@ extends GuiScreen {
         RenderHelper.drawRect(80.0, 0.0, 0.0, 130.0, 0x59000000);
         RenderHelper.drawRect(81.0, 0.0, 0.0, 131.0, 0x59000000);
         RenderHelper.drawGradientLeftToRight(80, 14, -872415232, 0);
-        this.mc.fontRenderer.drawStringWithShadow(UIItem.l("\u0435\u0470\u0464\u047f\u0464\u040b\u0466\u047a\u0465\u0401"), 3, 3, -1);
+        this.mc.fontRenderer.drawStringWithShadow("Аксессуары", 3, 3, -1);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)0.0f, (float)132.0f, (float)0.0f);
         RenderHelper.drawRect(80.0, 0.0, 0.0, 14.0, 0x64000000);
         RenderHelper.drawRect(81.0, 0.0, 0.0, 15.0, 0x64000000);
         GL11.glScalef((float)0.8f, (float)0.8f, (float)0.8f);
-        this.mc.fontRenderer.drawString(Util.formattingBalance(ClientProxy.equipManager.getUserBalance()) + UIScroll.l("\u000bC"), 16, 5, -18379, true);
+        this.mc.fontRenderer.drawString(Util.formattingBalance(ClientProxy.equipManager.getUserBalance()) + " $", 16, 5, -18379, true);
         GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
         GL11.glScalef((float)0.9f, (float)0.9f, (float)0.9f);
         this.mc.getTextureManager().bindTexture(Resources.GOLDEN_COIN);
@@ -215,8 +215,8 @@ extends GuiScreen {
                 this.category.add(new UIButton(CategoryType.values()[i], CategoryType.values()[i].getName(), (int)this.marginLeft + (int)(55.0f * this.scaleFactor), (int)this.marginTop + (int)((float)(30 + 18 * i) * this.scaleFactor), 50, 16, this.scaleFactor));
             }
         }
-        this.showAccessoriesButton = new UICheckBox((int)this.marginLeft, (int)(this.marginTop + 109.0f * this.scaleFactor), Util.rus(UIItem.l("\u046a\u042b\u046a\u0471\u046b\u0427\u046b\u201c\u046b\u203f\u046b\u042fj\u0405\u0442\u0405\u041e\u0404\u0448\u0405\u00fa\u0404\u20e6\u0405\u00ff\u0405\u044f\u0405\u041b\u0404\u0445")), this.scaleFactor, AccessoriesCore.SHOW_ACCESSORIES_SETTING);
-        this.showMyCapeButton = new UICheckBox((int)this.marginLeft, (int)(this.marginTop + 120.0f * this.scaleFactor), Util.rus(UIScroll.l("\u040b\u043b\u040b\u00d2\u000b\u0447\u047c\u0447\u047e\u0447\u047f\u0447\u009b\u0447\u009c\u0446\u2012\u0447\u042d\u0447\u009b\u0446\u2031\u0446\u0421G\u040b\u0430\u040b\u00dc\u040b\u00d7\u040a\u2057")), this.scaleFactor, AccessoriesCore.SHOW_MY_CAPE_SETTING);
+        this.showAccessoriesButton = new UICheckBox((int)this.marginLeft, (int)(this.marginTop + 109.0f * this.scaleFactor), "Скрыть Украшения", this.scaleFactor, AccessoriesCore.SHOW_ACCESSORIES_SETTING);
+        this.showMyCapeButton = new UICheckBox((int)this.marginLeft, (int)(this.marginTop + 120.0f * this.scaleFactor), "Не показывать плащ", this.scaleFactor, AccessoriesCore.SHOW_MY_CAPE_SETTING);
     }
 
     public void onGuiClosed() {

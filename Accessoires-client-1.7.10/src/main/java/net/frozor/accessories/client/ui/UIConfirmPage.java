@@ -108,7 +108,7 @@ implements IPage {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)81.0f, (float)25.0f, (float)0.0f);
         GL11.glScalef((float)0.64f, (float)0.64f, (float)0.64f);
-        mc.fontRenderer.drawStringWithShadow(UIItem.l("\u0082,\u0437\u0401\u0005\u0479\u041b\u0408\u041b\u0478\u046ej\u041a\u0474\u0467\u040a\u0415\u0408\u041d\u0408\u0469j\u0082/") + Util.formattingBalance(this.item.getPrice()) + UIItem.l("\u0005\u00edC\u0467\u041f\u0474\u0418u"), -(mc.fontRenderer.getStringWidth(UIItem.l("\u0082,\u0437\u0401\u0005\u0479\u041b\u0408\u041b\u0478\u046ej\u041a\u0474\u0467\u040a\u0415\u0408\u041d\u0408\u0469j\u0082/") + Util.formattingBalance(this.item.getPrice()) + UIItem.l("\u0005\u00edC\u0467\u041f\u0474\u0418u")) / 2), 0, -1);
+        mc.fontRenderer.drawStringWithShadow("§fВы готовы потратить §e" + Util.formattingBalance(this.item.getPrice()) + " §fмонет?", -(mc.fontRenderer.getStringWidth("§fВы готовы потратить §e" + Util.formattingBalance(this.item.getPrice()) + " §fмонет?") / 2), 0, -1);
         GL11.glPopMatrix();
         GL11.glPopMatrix();
         for (UIButton button : this.buttons) {
@@ -120,8 +120,8 @@ implements IPage {
     public void init(float marginLeft, float marginTop, float scaleFactor) {
         this.scaleFactor = scaleFactor;
         this.buttons.clear();
-        this.buttons.add(new UIButton(EnumAction.CONFIRM, Util.rus(UIItem.l("\u0405\u0415\u0405\u041f\u0405\u04db\u0404\u2050\u0405\u044c\u0405\u00ff\u0404\u0448\u0405\u04db\u0405\u041b\u0404\u2050\u0404\u0440")), (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 44.0f * scaleFactor + 3.0f), 50, 14, scaleFactor));
-        this.buttons.add(new UIButton(EnumAction.CANCEL, Util.rus(UIItem.l("\u0405\u0411\u0404\u2050\u0405\u0412\u0405\u00ff\u0405\u044f\u0405\u00fa")), (int)(marginLeft + 197.0f * scaleFactor), (int)(marginTop + 44.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
+        this.buttons.add(new UIButton(EnumAction.CONFIRM, "Подтвердить", (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 44.0f * scaleFactor + 3.0f), 50, 14, scaleFactor));
+        this.buttons.add(new UIButton(EnumAction.CANCEL, "Отмена", (int)(marginLeft + 197.0f * scaleFactor), (int)(marginTop + 44.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
     }
 
     @Override

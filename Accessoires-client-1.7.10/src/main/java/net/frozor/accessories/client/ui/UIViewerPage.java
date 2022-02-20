@@ -52,20 +52,20 @@ implements IPage {
         GL11.glScalef((float)0.65f, (float)0.65f, (float)0.65f);
         GL11.glPushMatrix();
         GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
-        mc.fontRenderer.drawStringWithShadow(UIItem.l("\u00ed\u001d\u045a\u0417\u0408\u041b\u040a"), 4, 4, -1);
+        mc.fontRenderer.drawStringWithShadow("§8Автор", 4, 4, -1);
         GL11.glPopMatrix();
-        mc.fontRenderer.drawStringWithShadow(AbstractAnimation.l("\u00c6E") + this.item.getAuthor(), 6, 12, -1);
+        mc.fontRenderer.drawStringWithShadow("§e" + this.item.getAuthor(), 6, 12, -1);
         if (this.item.isHas()) {
             GL11.glPushMatrix();
             GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
-            mc.fontRenderer.drawStringWithShadow(UIItem.l("\u00edD\u0450\u0466\u0475\u041e\u047f\u0418\u0474"), 328 - mc.fontRenderer.getStringWidth(AbstractAnimation.l("\u0087\u0000\u043a\u0422\u041f\u045a\u0415\u045c\u041e")), 12, -1);
+            mc.fontRenderer.drawStringWithShadow("§aКуплено", 328 - mc.fontRenderer.getStringWidth("§aКуплено"), 12, -1);
             GL11.glPopMatrix();
         } else {
             GL11.glPushMatrix();
             GL11.glScalef((float)0.75f, (float)0.75f, (float)0.75f);
-            mc.fontRenderer.drawStringWithShadow(UIItem.l("\u00ed\u0012\u046b\u0467\u0474\u041d\u0476\u041b\u040b\u0467\u0406"), 328 - mc.fontRenderer.getStringWidth(AbstractAnimation.l("\u0087V\u0401\u0423\u041e\u0459\u041c\u045f\u0461\u0423\u046c")), 4, -1);
+            mc.fontRenderer.drawStringWithShadow("§7Стоимость", 328 - mc.fontRenderer.getStringWidth("§7Стоимость"), 4, -1);
             GL11.glPopMatrix();
-            mc.fontRenderer.drawStringWithShadow(UIItem.l("\u0082|") + Util.formattingBalance(this.item.getPrice()) + AbstractAnimation.l("A\u0004"), 245 - mc.fontRenderer.getStringWidth(UIItem.l("\u0082|") + Util.formattingBalance(this.item.getPrice()) + AbstractAnimation.l("A\u0004")) - 4, 12, -1);
+            mc.fontRenderer.drawStringWithShadow("§6" + Util.formattingBalance(this.item.getPrice()) + " $", 245 - mc.fontRenderer.getStringWidth("§6" + Util.formattingBalance(this.item.getPrice()) + " $") - 4, 12, -1);
         }
         GL11.glPopMatrix();
         GL11.glPushMatrix();
@@ -207,7 +207,7 @@ implements IPage {
     public void init(float marginLeft, float marginTop, float scaleFactor) {
         this.scaleFactor = scaleFactor;
         this.buttons.clear();
-        this.buttons.add(new UIButton(EnumAction.BACK, UIItem.l("\u0457\u0415\u047d\u0415\u047e"), (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 120.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
+        this.buttons.add(new UIButton(EnumAction.BACK, "Назад", (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 120.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
         this.updateButton();
     }
 

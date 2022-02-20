@@ -44,7 +44,7 @@ public class ItemTransformVec3f {
     }
 
     public String toString() {
-        return UIScroll.l("b\u0013N\n\u007f\u0015J\tX\u0001D\u0015F1N\u0004\u0018\u0001P\u0015D\u0013J\u0013B\bEZ") + this.rotation + UIItem.l("\tjQ8D$V&D>L%Kw") + this.translation + UIScroll.l("\u0007GX\u0004J\u000bNZ") + this.scale + '}';
+        return "ItemTransformVec3f{rotation=" + this.rotation + ", translation=" + this.translation + ", scale=" + this.scale + '}';
     }
 
     public int hashCode() {
@@ -67,24 +67,24 @@ public class ItemTransformVec3f {
             }
             JsonArray jsonarray = JsonUtils.getJsonArray(jsonObject, key);
             if (jsonarray.size() != 3) {
-                throw new JsonParseException(UIScroll.l("\"S\u0017N\u0004_\u0002OG\u0018G") + key + UIItem.l("\u0005<D&P/Vf\u0005,J?K.\u001fj") + jsonarray.size());
+                throw new JsonParseException("Expected 3 " + key + " values, found: " + jsonarray.size());
             }
             float[] afloat = new float[3];
             for (int i = 0; i < afloat.length; ++i) {
-                afloat[i] = JsonUtils.getFloat(jsonarray.get(i), key + UIScroll.l("<") + i + UIItem.l("\u0017"));
+                afloat[i] = JsonUtils.getFloat(jsonarray.get(i), key + "[" + i + "]");
             }
             return new Vector3f(afloat[0], afloat[1], afloat[2]);
         }
 
         public ItemTransformVec3f deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-            Vector3f vector3f = this.parseVector3f(jsonobject, UIScroll.l("Y\b_\u0006_\u000eD\t"), ROTATION_DEFAULT);
-            Vector3f vector3f1 = this.parseVector3f(jsonobject, UIItem.l(">W+K9I+Q#J$"), TRANSLATION_DEFAULT);
+            Vector3f vector3f = this.parseVector3f(jsonobject, "rotation", ROTATION_DEFAULT);
+            Vector3f vector3f1 = this.parseVector3f(jsonobject, "translation", TRANSLATION_DEFAULT);
             vector3f1.scale(0.0625f);
             vector3f1.x = MathHelper.clamp(vector3f1.x, -5.0f, 5.0f);
             vector3f1.y = MathHelper.clamp(vector3f1.y, -5.0f, 5.0f);
             vector3f1.z = MathHelper.clamp(vector3f1.z, -5.0f, 5.0f);
-            Vector3f vector3f2 = this.parseVector3f(jsonobject, UIScroll.l("\u0014H\u0006G\u0002"), SCALE_DEFAULT);
+            Vector3f vector3f2 = this.parseVector3f(jsonobject, "scale", SCALE_DEFAULT);
             vector3f2.x = MathHelper.clamp(vector3f2.x, -4.0f, 4.0f);
             vector3f2.y = MathHelper.clamp(vector3f2.y, -4.0f, 4.0f);
             vector3f2.z = MathHelper.clamp(vector3f2.z, -4.0f, 4.0f);

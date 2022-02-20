@@ -19,7 +19,7 @@ implements IPacket {
         try {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(bytes);
-            out.writeUTF(UIScroll.l("&h4\u00114c(|8h&{\""));
+            out.writeUTF("ACS:SHOW_CAPE");
             out.writeBoolean(this._value);
             out.writeBoolean(this._isFirstJoin);
             return bytes.toByteArray();

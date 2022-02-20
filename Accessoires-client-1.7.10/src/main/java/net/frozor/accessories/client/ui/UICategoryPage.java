@@ -172,7 +172,7 @@ implements IPage {
                 GL11.glEnable((int)3008);
                 RenderHelper.drawRect(14.0, 0.0, 0.0, 4.0, -65536);
                 GL11.glScalef((float)0.425f, (float)0.425f, (float)0.425f);
-                mc.fontRenderer.drawString(UIItem.l("\u0457\u041b\u0478\u046e\u0473"), 1, 1, -328966);
+                mc.fontRenderer.drawString("Новый", 1, 1, -328966);
                 GL11.glDisable((int)3042);
                 GL11.glDisable((int)3008);
                 GL11.glPopMatrix();
@@ -195,7 +195,7 @@ implements IPage {
     public void init(float marginLeft, float marginTop, float scaleFactor) {
         this.scaleFactor = scaleFactor;
         this.buttons.clear();
-        this.buttons.add(new UIButton(EnumAction.BACK, AbstractAnimation.l("\u043d\u0451\u0417\u0451\u0414"), (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 120.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
+        this.buttons.add(new UIButton(EnumAction.BACK, "Назад", (int)(marginLeft + 82.0f * scaleFactor), (int)(marginTop + 120.0f * scaleFactor + 3.0f), 47, 14, scaleFactor));
         this.scroll = new UIScroll((ClientProxy.equipManager.items.get((Object)this.categoryType).size() - 1) / 15);
         if (this.lastScrollStageInit != -1) {
             this.scroll.setStage(this.lastScrollStageInit);

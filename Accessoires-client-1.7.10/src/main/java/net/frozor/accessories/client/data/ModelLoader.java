@@ -26,14 +26,13 @@ public class ModelLoader {
     private static String fileIndexes = "assets/accessories/models/indexes.json";
 
     public static void printError(AccessoryItem item, HashMap<ParseError, String> errors) {
-        Logger.info(String.format(UIItem.l("l\u001e`\u0007\u0005\u000fw\u0018j\u0018vj\u001fj\u00009"), item.getINDEX()));
+        Logger.info(String.format("ITEM ERRORS : %s", item.getINDEX()));
         for (Map.Entry<ParseError, String> map : errors.entrySet()) {
             Object[] objectArray = new Object[2];
-            objectArray[0] = map.getKey().name().replaceAll(UIItem.l("\u0015"), UIItem.l("j"));
+            objectArray[0] = map.getKey().name().replaceAll("_", " ");
             objectArray[1] = map.getValue();
-            Logger.info(String.format(UIItem.l("\u0005g\u0005oVf\u0005:D>Mj^oV7"), objectArray));
+            Logger.info(String.format(" - %s, path {%s}", objectArray));
         }
-        Logger.info(UIItem.l("j"));
     }
 
     public static LinkedHashMap<CategoryType, LinkedHashMap<String, AccessoryItem>> initModels() {
@@ -41,81 +40,81 @@ public class ModelLoader {
         for (CategoryType type : CategoryType.values()) {
             modelsArray.put(type, new LinkedHashMap());
         }
-        Logger.info(UIItem.l("\u0006J+A#K-\u0005'J.@&Vd\u000bd"));
+
         try {
             JsonParser jsonParser = new JsonParser();
-            JsonElement element = jsonParser.parse((Reader)new InputStreamReader(AccessoriesCore.class.getClassLoader().getResourceAsStream(fileIndexes)));
+            JsonElement element = jsonParser.parse(new InputStreamReader(AccessoriesCore.class.getClassLoader().getResourceAsStream(fileIndexes)));
             for (Map.Entry map : element.getAsJsonObject().entrySet()) {
                 String modelPath;
-                if (((String)map.getKey()).equalsIgnoreCase(UIItem.l("z)J'H/K>"))) continue;
+                if (((String)map.getKey()).equalsIgnoreCase("_comment")) continue;
                 JsonObject item = ((JsonElement)map.getValue()).getAsJsonObject();
                 HashMap<ParseError, String> errors = new HashMap<ParseError, String>();
-                AccessoryItem accessoryItem = new AccessoryItem((String)map.getKey(), CategoryType.valueOf(item.get(UIItem.l("Q3U/")).getAsString()));
-                accessoryItem.setName(item.get(UIItem.l("K+H/")).getAsString());
-                if (item.has(UIItem.l("D?Q\"J8"))) {
-                    accessoryItem.setAuthor(item.get(UIItem.l("D?Q\"J8")).getAsString());
+                AccessoryItem accessoryItem = new AccessoryItem((String)map.getKey(), CategoryType.valueOf(item.get("type").getAsString()));
+                accessoryItem.setName(item.get("name").getAsString());
+                if (item.has("author")) {
+                    accessoryItem.setAuthor(item.get("author").getAsString());
                 }
-                if (item.has(UIItem.l("$@="))) {
-                    accessoryItem.setNews(item.get(UIItem.l("$@=")).getAsBoolean());
+                if (item.has("new")) {
+                    accessoryItem.setNews(item.get("new").getAsBoolean());
                 }
-                if (item.has(UIItem.l("L9r#K-"))) {
-                    accessoryItem.setWing(item.get(UIItem.l("L9r#K-")).getAsBoolean());
+                if (item.has("isWing")) {
+                    accessoryItem.setWing(item.get("isWing").getAsBoolean());
                 }
-                if (!ModelLoader.fileExist(modelPath = String.format(UIItem.l("'J.@&Ve\u0000{\u00019\no\u0017nVe\u0000x\u00019\u000b%G "), accessoryItem.getType().name().toLowerCase(), item.get(UIItem.l("'J.@&")).getAsString()))) {
+                if (!ModelLoader.fileExist(modelPath = String.format("models/%1$s/%2$s/%2$s.obj", accessoryItem.getType().name().toLowerCase(), item.get("model").getAsString()))) {
                     errors.put(ParseError.NOT_FOUND_MODEL, modelPath);
                 } else {
-                    accessoryItem.setModel(AdvancedModelLoader.loadModel((ResourceLocation)new ResourceLocation(UIItem.l("D)F/V9J8L/Vp") + modelPath)));
+                    accessoryItem.setModel(AdvancedModelLoader.loadModel(new ResourceLocation("accessories:" + modelPath)));
                 }
-                if (item.has(UIItem.l(")P9Q%H\u001e@2Q?W/"))) {
-                    String customTexturePath = String.format(UIItem.l("H%A/I9\noVe\u00009\u000b:K-"), accessoryItem.getType().name().toLowerCase(), item.get(UIItem.l(")P9Q%H\u001e@2Q?W/")).getAsString());
-                    accessoryItem.setTexture(new ResourceLocation(UIItem.l("D)F/V9J8L/Vp") + customTexturePath));
+                if (item.has("customTexture")) {
+                    String customTexturePath = String.format("models/%s/%s.png", accessoryItem.getType().name().toLowerCase(), item.get("customTexture").getAsString());
+                    accessoryItem.setTexture(new ResourceLocation("accessories:" + customTexturePath));
                     if (!ModelLoader.fileExist(customTexturePath)) {
                         errors.put(ParseError.NOT_FOUND_TEXTURE, customTexturePath);
                     }
                 } else {
-                    String localTexturePath = String.format(UIItem.l("'J.@&Ve\u0000{\u00019\no\u0017nVe\u0000x\u00019\u000b:K-"), accessoryItem.getType().name().toLowerCase(), accessoryItem.getINDEX());
-                    accessoryItem.setTexture(new ResourceLocation(UIItem.l("D)F/V9J8L/Vp") + localTexturePath));
+                    String localTexturePath = String.format("models/%1$s/%2$s/%2$s.png", accessoryItem.getType().name().toLowerCase(), accessoryItem.getINDEX());
+                    accessoryItem.setTexture(new ResourceLocation("accessories:" + localTexturePath));
                     if (!ModelLoader.fileExist(localTexturePath)) {
                         errors.put(ParseError.NOT_FOUND_TEXTURE, localTexturePath);
                     }
                 }
-                InputStream inputStream = AccessoriesCore.class.getClassLoader().getResourceAsStream(String.format(UIItem.l("+V9@>VeD)F/V9J8L/VeH%A/I9\noVe\u0000x\u00019\no\u0017nVdO9J$"), accessoryItem.getType().name().toLowerCase(), item.get(UIItem.l("'J.@&")).getAsString()));
+                InputStream inputStream = AccessoriesCore.class.getClassLoader().getResourceAsStream(String.format("assets/accessories/models/%s/%2$s/%2$s.json", accessoryItem.getType().name().toLowerCase(), item.get("model").getAsString()));
                 if (inputStream != null) {
                     JsonObject jsonObject = jsonParser.parse((Reader)new InputStreamReader(inputStream)).getAsJsonObject();
                     ItemTransformVec3f itemTransformVec3f = ItemTransformVec3f.DEFAULT;
-                    if (jsonObject.getAsJsonObject().has(UIItem.l(".L9U&D3"))) {
+                    if (jsonObject.getAsJsonObject().has("display")) {
                         JsonArray jsonArray;
-                        JsonObject prefs = jsonObject.getAsJsonObject(UIItem.l(".L9U&D3"));
+                        JsonObject prefs = jsonObject.getAsJsonObject("display");
                         ItemTransformVec3f.Deserializer deserializer = new ItemTransformVec3f.Deserializer();
-                        itemTransformVec3f = deserializer.deserialize(prefs.get(UIItem.l("M/D.")), null, null);
-                        if (prefs.has(UIItem.l("M/D."))) {
-                            JsonObject headJsonObject = prefs.getAsJsonObject(UIItem.l("M/D."));
+                        itemTransformVec3f = deserializer.deserialize(prefs.get("head"), null, null);
+                        if (prefs.has("head")) {
+                            JsonObject headJsonObject = prefs.getAsJsonObject("head");
                             for (Map.Entry headJson : headJsonObject.entrySet()) {
-                                if (((String)headJson.getKey()).equalsIgnoreCase(UIItem.l("W%Q+Q#J$"))) {
+                                if (((String)headJson.getKey()).equalsIgnoreCase("rotation")) {
                                     jsonArray = ((JsonElement)headJson.getValue()).getAsJsonArray();
                                     accessoryItem.getPreferencesRenderer().setRotation(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                                 }
-                                if (((String)headJson.getKey()).equalsIgnoreCase(UIItem.l(">W+K9I+Q#J$"))) {
+                                if (((String)headJson.getKey()).equalsIgnoreCase("translation")) {
                                     jsonArray = ((JsonElement)headJson.getValue()).getAsJsonArray();
                                     accessoryItem.getPreferencesRenderer().setTranslation(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                                 }
-                                if (!((String)headJson.getKey()).equalsIgnoreCase(UIItem.l("9F+I/"))) continue;
+                                if (!((String)headJson.getKey()).equalsIgnoreCase("scale")) continue;
                                 jsonArray = ((JsonElement)headJson.getValue()).getAsJsonArray();
                                 accessoryItem.getPreferencesRenderer().setScale(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                             }
                         }
-                        if (prefs.has(UIItem.l("-P#"))) {
-                            JsonObject guiJsonObject = prefs.getAsJsonObject(UIItem.l("-P#"));
+                        if (prefs.has("gui")) {
+                            JsonObject guiJsonObject = prefs.getAsJsonObject("gui");
                             for (Map.Entry guiJson : guiJsonObject.entrySet()) {
-                                if (((String)guiJson.getKey()).equalsIgnoreCase(UIItem.l("W%Q+Q#J$"))) {
+                                if (((String)guiJson.getKey()).equalsIgnoreCase("rotation")) {
                                     jsonArray = ((JsonElement)guiJson.getValue()).getAsJsonArray();
                                     accessoryItem.getPreferencesGui().setRotation(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                                 }
-                                if (((String)guiJson.getKey()).equalsIgnoreCase(UIItem.l(">W+K9I+Q#J$"))) {
+                                if (((String)guiJson.getKey()).equalsIgnoreCase("translation")) {
                                     jsonArray = ((JsonElement)guiJson.getValue()).getAsJsonArray();
                                     accessoryItem.getPreferencesGui().setTranslation(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                                 }
-                                if (!((String)guiJson.getKey()).equalsIgnoreCase(UIItem.l("9F+I/"))) continue;
+                                if (!((String)guiJson.getKey()).equalsIgnoreCase("scale")) continue;
                                 jsonArray = ((JsonElement)guiJson.getValue()).getAsJsonArray();
                                 accessoryItem.getPreferencesGui().setScale(jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(), jsonArray.get(2).getAsFloat());
                             }
@@ -123,7 +122,7 @@ public class ModelLoader {
                     }
                     accessoryItem.headTransform = itemTransformVec3f;
                 } else {
-                    errors.put(ParseError.NOT_FOUND_JSON, String.format(UIItem.l("H%A/I9\noVe\u0000x\u00019\no\u0017nVdO9J$"), accessoryItem.getType().name().toLowerCase(), item.get(UIItem.l("'J.@&")).getAsString()));
+                    errors.put(ParseError.NOT_FOUND_JSON, String.format("models/%s/%2$s/%2$s.json", accessoryItem.getType().name().toLowerCase(), item.get("model").getAsString()));
                 }
                 if (errors.size() > 0) {
                     ModelLoader.printError(accessoryItem, errors);
@@ -140,12 +139,12 @@ public class ModelLoader {
         for (LinkedHashMap map : modelsArray.values()) {
             countItems += map.values().size();
         }
-        Logger.info(String.format(UIItem.l("m+VjG/@$\u0005&J+A/Aj\u0000.\u0005'J.@&Vd"), countItems));
+
         return modelsArray;
     }
 
     public static boolean fileExist(String path) {
-        InputStream inputStream = AccessoriesCore.class.getClassLoader().getResourceAsStream(UIItem.l("+V9@>VeD)F/V9J8L/Ve") + path);
+        InputStream inputStream = AccessoriesCore.class.getClassLoader().getResourceAsStream("assets/accessories/" + path);
         return inputStream != null;
     }
 

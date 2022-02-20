@@ -71,11 +71,11 @@ public class AccessoriesCore {
 
     public void initSettings() {
         try {
-            File file = new File(Minecraft.getMinecraft().mcDataDir, UIItem.l("V/Q>L$BdO9J$"));
+            File file = new File(Minecraft.getMinecraft().mcDataDir, "setting.json");
             if (!file.exists()) {
                 JsonObject obj = new JsonObject();
-                obj.addProperty(MODID, UIItem.l("Q8P/"));
-                obj.addProperty(UIItem.l("V\"J=z'\\\u0015F+U/"), UIItem.l("Q8P/"));
+                obj.addProperty(MODID, "true");
+                obj.addProperty("show_my_cape", "true");
                 file.createNewFile();
                 try (FileWriter writer = new FileWriter(file);){
                     Gson gson = new GsonBuilder().create();
@@ -85,7 +85,7 @@ public class AccessoriesCore {
             this.fileSettings = file;
             JsonElement element = new JsonParser().parse(new JsonReader((Reader)new FileReader(this.fileSettings)));
             SHOW_ACCESSORIES_SETTING = element.getAsJsonObject().get(MODID).getAsBoolean();
-            SHOW_MY_CAPE_SETTING = element.getAsJsonObject().get(UIItem.l("V\"J=z'\\\u0015F+U/")).getAsBoolean();
+            SHOW_MY_CAPE_SETTING = element.getAsJsonObject().get("show_my_cape").getAsBoolean();
         }
         catch (Exception ex) {
             ex.printStackTrace();

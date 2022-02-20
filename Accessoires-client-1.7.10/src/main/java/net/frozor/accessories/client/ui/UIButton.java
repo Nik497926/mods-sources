@@ -79,7 +79,7 @@ extends GuiButton {
             GL11.glScalef((float)this.scaleFactor, (float)this.scaleFactor, (float)this.scaleFactor);
             GL11.glTranslatef((float)((float)this.width / this.scaleFactor / 2.0f), (float)((float)this.height / this.scaleFactor / 3.0f), (float)0.0f);
             GL11.glScalef((float)0.68f, (float)0.68f, (float)0.68f);
-            mc.fontRenderer.drawStringWithShadow((hovered ? AbstractAnimation.l("\u00c6\u0016") : "") + this.displayString, -mc.fontRenderer.getStringWidth(this.displayString) / 2, 0, -1);
+            mc.fontRenderer.drawStringWithShadow((hovered ? "§6" : "") + this.displayString, -mc.fontRenderer.getStringWidth(this.displayString) / 2, 0, -1);
             GL11.glPopMatrix();
             GL11.glPopMatrix();
         }

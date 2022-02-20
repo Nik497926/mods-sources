@@ -210,7 +210,7 @@ public class EquipManager {
         }
 
         public String toString() {
-            return UIScroll.l("\"Z\u0012B\u0017o\u0006_\u0006P/n&oZ") + this.HEAD + UIScroll.l("K\u000b!j$nZ") + this.FACE + UIScroll.l("K\u000b%d#rZ") + this.BODY + UIScroll.l("K\u000b!j*b+b&yZ") + this.FAMILIAR + UIScroll.l("K\u000b\u0014C\b\\$J\u0017NZ") + this.showCape + '}';
+            return "EquipData{HEAD=" + this.HEAD + ", FACE=" + this.FACE + ", BODY=" + this.BODY + ", FAMILIAR=" + this.FAMILIAR + ", showCape=" + this.showCape + '}';
         }
 
         public AccessoryItem getBODY() {

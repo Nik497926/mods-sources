@@ -31,17 +31,15 @@ extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
-        Logger.info(UIItem.l("j"));
-        Logger.info(UIScroll.l("j\u0004H\u0002X\u0014D\u0015B\u0002XGf\bOGG\bJ\u0003B\tLI\u0005I"));
-        Logger.info(UIItem.l("j"));
         EventHandler handler = new EventHandler();
-        MinecraftForge.EVENT_BUS.register((Object)handler);
-        FMLCommonHandler.instance().bus().register((Object)handler);
+        MinecraftForge.EVENT_BUS.register(handler);
+        FMLCommonHandler.instance().bus().register(handler);
+
         FMLEventChannel ch = NetworkRegistry.INSTANCE.newEventDrivenChannel("ACS");
-        ch.register((Object)new NetworkHandler());
+        ch.register(new NetworkHandler());
+
         equipManager = new EquipManager();
         ClientProxy.equipManager.items = ModelLoader.initModels();
-        Logger.info(UIScroll.l("G"));
     }
 
     @Override

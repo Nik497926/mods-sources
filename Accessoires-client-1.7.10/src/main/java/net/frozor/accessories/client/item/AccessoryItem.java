@@ -265,7 +265,7 @@ public class AccessoryItem {
         }
 
         public String toString() {
-            return "CustomPreferences{rotation=" + Arrays.toString(this.rotation) + UIScroll.l("\u0007G_\u0015J\tX\u000bJ\u0013B\bEZ") + Arrays.toString(this.translation) + ", scale=" + Arrays.toString(this.scale) + '}';
+            return "CustomPreferences{rotation=" + Arrays.toString(this.rotation) + ", translation=" + Arrays.toString(this.translation) + ", scale=" + Arrays.toString(this.scale) + '}';
         }
 
         public float[] getRotation() {

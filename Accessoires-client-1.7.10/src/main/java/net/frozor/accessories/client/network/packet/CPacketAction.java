@@ -10,8 +10,7 @@ import net.frozor.accessories.client.item.animation.AbstractAnimation;
 import net.frozor.accessories.client.network.packet.IPacket;
 import net.frozor.accessories.client.ui.UIItem;
 
-public class CPacketAction
-implements IPacket {
+public class CPacketAction implements IPacket {
     private Action action;
     private String indexItem;
 
@@ -20,7 +19,7 @@ implements IPacket {
         try {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(bytes);
-            out.writeUTF(AbstractAnimation.l(" c2\u001a") + this.action.name());
+            out.writeUTF("ACS:" + this.action.name());
             out.writeUTF(this.indexItem);
             return bytes.toByteArray();
         }
@@ -35,26 +34,26 @@ implements IPacket {
         this.indexItem = indexItem;
     }
 
-    public static final class Action
-    extends Enum<Action> {
-        private static final /* synthetic */ Action[] $VALUES;
-        public static final /* enum */ Action TAKEOFF;
-        public static final /* enum */ Action PURCHASE;
-        public static final /* enum */ Action EQUIP;
+    public static final class Action {
+        private static final Action[] $VALUES;
+        public static final Action TAKEOFF;
+        public static final Action PURCHASE;
+        public static final Action EQUIP;
 
-        /*
-         * WARNING - Possible parameter corruption
-         * WARNING - void declaration
-         */
-        private /* synthetic */ Action() {
-            void var2_-1;
-            void var1_-1;
+        public String name;
+
+        private Action(String name, int i) {
+            this.name = name;
+        }
+
+        public String name() {
+            return name;
         }
 
         static {
-            PURCHASE = new Action(UIItem.l("u\u001fw\tm\u000bv\u000f"), 0);
-            EQUIP = new Action(AbstractAnimation.l("e0u(p"), 1);
-            TAKEOFF = new Action(UIItem.l("\u001ed\u0001`\u0005c\f"), 2);
+            PURCHASE = new Action("PURCHASE", 0);
+            EQUIP = new Action("EQUIP", 1);
+            TAKEOFF = new Action("TAKEOFF", 2);
             Action[] actionArray = new Action[3];
             actionArray[0] = PURCHASE;
             actionArray[1] = EQUIP;
@@ -63,7 +62,11 @@ implements IPacket {
         }
 
         public static Action valueOf(String name) {
-            return Enum.valueOf(Action.class, name);
+            for (Action a : $VALUES) {
+                if (a.name.equals(name)) return a;
+            }
+
+            return TAKEOFF;
         }
 
         public static Action[] values() {
