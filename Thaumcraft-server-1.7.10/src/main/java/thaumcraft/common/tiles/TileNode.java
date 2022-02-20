@@ -954,36 +954,7 @@ public class TileNode extends TileThaumcraft implements INode, IWandable
 		return change;
 	}
 
-	private boolean handleHungryNodeSecond(boolean change)
-	{
-		if (this.getNodeType() == NodeType.HUNGRY && this.count % 50 == 0)
-		{
-			int x = this.xCoord + this.worldObj.rand.nextInt(16) - this.worldObj.rand.nextInt(16);
-			int y = this.yCoord + this.worldObj.rand.nextInt(16) - this.worldObj.rand.nextInt(16);
-			int z = this.zCoord + this.worldObj.rand.nextInt(16) - this.worldObj.rand.nextInt(16);
-			if (y > this.worldObj.getHeightValue(x, z))
-				y = this.worldObj.getHeightValue(x, z);
-
-			Vec3 v1 = Vec3.createVectorHelper(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D);
-			Vec3 v2 = Vec3.createVectorHelper(x + 0.5D, y + 0.5D, z + 0.5D);
-			MovingObjectPosition mop = ThaumcraftApiHelper.rayTraceIgnoringSource(this.worldObj, v1, v2, true, false, false);
-			if (mop != null && this.getDistanceFrom(mop.blockX, mop.blockY, mop.blockZ) < 256.0D)
-			{
-				x = mop.blockX;
-				y = mop.blockY;
-				z = mop.blockZ;
-				Block bi = this.worldObj.getBlock(x, y, z);
-				this.worldObj.getBlockMetadata(x, y, z);
-				if (!bi.isAir(this.worldObj, x, y, z))
-				{
-					float hardness = bi.getBlockHardness(this.worldObj, x, y, z);
-					// TODO gamerforEA add condition [3]
-					if (hardness >= 0.0F && hardness < 5.0F && !EventUtils.cantBreak(ModUtils.getModFake(this.worldObj), x, y, z))
-						this.worldObj.func_147480_a(x, y, z, true);
-				}
-			}
-		}
-
+	private boolean handleHungryNodeSecond(boolean change) {
 		return change;
 	}
 
