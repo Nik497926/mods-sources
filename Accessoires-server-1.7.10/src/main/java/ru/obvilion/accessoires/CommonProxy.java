@@ -1,7 +1,7 @@
 /*
  * Decompiled with CFR 0.152.
  */
-package net.frozor.accessories;
+package ru.obvilion.accessoires;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;

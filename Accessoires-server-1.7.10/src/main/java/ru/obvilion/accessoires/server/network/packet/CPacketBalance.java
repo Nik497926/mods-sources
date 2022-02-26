@@ -1,4 +1,4 @@
-package net.frozor.accessories.server.network.packet;
+package ru.obvilion.accessoires.server.network.packet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

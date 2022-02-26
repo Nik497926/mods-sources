@@ -1,12 +1,14 @@
-package net.frozor.accessories.server.network.packet;
+package ru.obvilion.accessoires.server.network.packet;
 
-import net.frozor.accessories.data.AccessoryItem;
+import ru.obvilion.accessoires.data.AccessoryItem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CPacketItemsInfo implements IPacket {
+    ArrayList<AccessoryItem> _items;
 
     @Override
     public byte[] getBytes() {
@@ -14,12 +16,12 @@ public class CPacketItemsInfo implements IPacket {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(bytes);
             out.writeUTF("ACS:ITEMS_INFO");
-            out.writeInt(AccessoryItem.ALL_INSTANCES.size());
+            out.writeInt(_items.size());
 
-            for (AccessoryItem item : AccessoryItem.ALL_INSTANCES) {
+            for (AccessoryItem item : _items) {
                 out.writeUTF(item.name);
                 out.writeInt(item.price);
-                out.writeBoolean(false); // TODO: has
+                out.writeBoolean(item.has);
                 out.writeUTF(item.author);
             }
 
@@ -29,5 +31,9 @@ public class CPacketItemsInfo implements IPacket {
             ex.printStackTrace();
             return new byte[0];
         }
+    }
+
+    public CPacketItemsInfo(ArrayList<AccessoryItem> items) {
+        this._items = items;
     }
 }

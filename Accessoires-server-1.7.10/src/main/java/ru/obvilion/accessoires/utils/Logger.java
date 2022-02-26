@@ -1,20 +1,20 @@
 /*
  * Decompiled with CFR 0.152.
  */
-package net.frozor.accessories.utils;
+package ru.obvilion.accessoires.utils;
 
-import net.frozor.accessories.AccessoriesCore;
+import ru.obvilion.accessoires.AccessoriesMod;
 import org.apache.logging.log4j.LogManager;
 
 public class Logger {
     public static org.apache.logging.log4j.Logger logger = LogManager.getLogger("AccessoriesMod");
 
     public static void info(String s) {
-        logger.info(s);
+        logger.info("[Accessories] " + s);
     }
 
     public static void debug(String s) {
-        if (AccessoriesCore.DEBUG) logger.info(s);
+        if (AccessoriesMod.DEBUG) logger.info("[Accessories] " + s);
     }
 }
 
