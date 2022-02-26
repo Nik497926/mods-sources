@@ -15,11 +15,11 @@ extends GuiButton {
     private ResourceLocation checked;
     private boolean value;
     private float scale;
-    private ResourceLocation unchecked = new ResourceLocation("Accessories:textures/ui/unchecked*checkbox.png");
+    private ResourceLocation unchecked = new ResourceLocation("Accessories:textures/ui/unchecked-checkbox.png");
 
     public UICheckBox(int x, int y, String buttonText, float scaleFactor, boolean defaultValue) {
         super(-1, x, y, buttonText);
-        this.checked = new ResourceLocation("Accessories:textures/ui/checked*checkbox.png");
+        this.checked = new ResourceLocation("Accessories:textures/ui/checked-checkbox.png");
         this.height = 10;
         this.width = 80;
         this.value = defaultValue;
