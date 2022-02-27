@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "AnotherPack2",
+    "name": "Arima - AnotherPack 2",
+    "description": "Мод добавляющий в игру разнообразные сооружения, инструменты, оружия, мобов и т.д.",
+    "version": "1.511.22",
+    "mcversion": "1.7.10",
+    "url": "https://obvilion.ru",
+    "authorList": ["Arima"],
+    "credits": "",
+    "logoFile": "/AP.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

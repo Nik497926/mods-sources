@@ -1,0 +1,17 @@
+{
+"item0": {"category": "master","sounds": [{"name": "item0","stream": false}]},
+"item1": {"category": "master","sounds": [{"name": "item1","stream": false}]},
+"item2": {"category": "master","sounds": [{"name": "item2","stream": false}]},
+"item3": {"category": "master","sounds": [{"name": "item3","stream": false}]},
+"nya1": {"category": "master","sounds": [{"name": "nya1","stream": false}]},
+"nya2": {"category": "master","sounds": [{"name": "nya2","stream": false}]},
+"nya3": {"category": "master","sounds": [{"name": "nya3","stream": false}]},
+"nya4": {"category": "master","sounds": [{"name": "nya4","stream": false}]},
+"nya5": {"category": "master","sounds": [{"name": "nya5","stream": false}]},
+"scythe_hit_1_": {"category": "master","sounds": [{"name": "Scythe/scythe_hit_1_","stream": false}]},
+"scythe_hit_2_": {"category": "master","sounds": [{"name": "Scythe/scythe_hit_2_","stream": false}]},
+"scythe_hit_3_": {"category": "master","sounds": [{"name": "Scythe/scythe_hit_3_","stream": false}]},
+"Coup_de_Grace": {"category": "master","sounds": [{"name": "Scythe/Coup_de_Grace","stream": false}]},
+"rwby": {"category": "master","sounds": [{"name": "Scythe/rwby","stream": false}]},
+"Stifling_Dagger": {"category": "master","sounds": [{"name": "Scythe/Stifling_Dagger","stream": false}]}
+}
