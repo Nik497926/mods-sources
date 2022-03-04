@@ -13,7 +13,7 @@ public class Kit {
             for (Object item : (List)items) {
                 if (item instanceof String) {
                     result.add(item.toString());
-                    System.out.println(item.toString());
+                    System.out.println(item);
                 }
             }
         }

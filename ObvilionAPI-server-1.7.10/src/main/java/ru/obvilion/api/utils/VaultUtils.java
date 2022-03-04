@@ -11,8 +11,8 @@ public class VaultUtils {
 
     public static boolean supported() {
         try {
-            Class.forName("net.milkbowl.vault.economy.Economy");
-        } catch (ClassNotFoundException e) { return false; }
+            economy = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
+        } catch (Exception e) { return false; }
 
         return true;
     }
@@ -38,10 +38,13 @@ public class VaultUtils {
     }
 
     private static Economy getEconomy() {
-        RegisteredServiceProvider economyProvider;
-        if (economy == null && (economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class)) != null) {
-            economy = (Economy)economyProvider.getProvider();
+        if (economy == null) {
+            RegisteredServiceProvider<Economy> economyProvider;
+            if ((economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class)) != null) {
+                economy = (Economy)economyProvider.getProvider();
+            }
         }
+
         return economy;
     }
 }

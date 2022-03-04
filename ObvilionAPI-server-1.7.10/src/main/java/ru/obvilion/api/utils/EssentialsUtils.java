@@ -1,39 +1,29 @@
 package ru.obvilion.api.utils;
 
-import com.earth2me.essentials.Essentials;
 import org.bukkit.configuration.ConfigurationSection;
 import ru.obvilion.api.essentials.Kit;
+import ru.obvilion.api.inject.InjectionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EssentialsUtils {
-    private static Essentials essentials;
-
     public static boolean supported() {
-        try {
-            Class.forName("com.earth2me.essentials.Essentials");
-        } catch (ClassNotFoundException e) { return false; }
+        if (!InjectionManager.initialized) {
+            InjectionManager.init();
+        }
 
-        return true;
+        return InjectionManager.essentials != null;
     }
 
     public static List<Kit> getKits() {
         List<Kit> result = new ArrayList<>();
 
-        ConfigurationSection cs = essentials.getSettings().getKits();
+        ConfigurationSection cs = InjectionManager.essentials.getKitsConfig();
         for (String kit : cs.getKeys(false)) {
-            result.add(new Kit(essentials.getSettings().getKit(kit)));
+            result.add(new Kit(InjectionManager.essentials.getKitConfig(kit)));
         }
 
         return result;
-    }
-
-    public static Essentials getEssentials() {
-        if (essentials == null) {
-            essentials = (Essentials) Essentials.getProvidingPlugin(Essentials.class);
-        }
-
-        return essentials;
     }
 }

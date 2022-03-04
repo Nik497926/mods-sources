@@ -33,7 +33,7 @@ minecraft {
 dependencies {
     implementation files('libs/craftbukkit-1.7.10.jar')
     implementation files('libs/luckperms-5.4.5.jar')
-    implementation files('libs/essentials-2.14.1.3.jar')
+    //implementation files('libs/essentials-2.14.1.3.jar')
     implementation files('libs/permissionsex-1.22.10.jar')
     implementation files('libs/vault-1.4.1.jar')
 }
