@@ -1,21 +1,23 @@
 package ru.obvilion.api.inject.permissions.luckperms;
 
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.group.Group;
-import net.luckperms.api.model.user.User;
-import net.luckperms.api.node.NodeType;
-import net.luckperms.api.node.types.PrefixNode;
-import net.luckperms.api.node.types.SuffixNode;
 import ru.obvilion.api.inject.permissions.IPermissionsInjection;
-import ru.obvilion.api.inject.permissions.pex.PexGroup;
+import ru.obvilion.api.inject.permissions.api.*;
 import ru.obvilion.api.utils.InjectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class LPInjection {
+    public static Class[] classes = new Class[] {
+            IGroup.class, IPermission.class, IPrefix.class, ISuffix.class, IUser.class, LPGroup.class,
+            LPPermission.class, LPPrefix.class, LPSuffix.class, LPUser.class
+    };
     public static IPermissionsInjection getInjection() {
+        for (Class c : classes) {
+            InjectionUtils.injectClassN("LuckPerms", c);
+            System.out.println("INJECTED " + c.getName());
+        }
+
         Class<?> clazz = InjectionUtils.injectClass("LuckPerms", LPInjection.class);
         if (clazz != null)
             try {

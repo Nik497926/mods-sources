@@ -25,6 +25,20 @@ public final class InjectionUtils {
         }
     }
 
+    public static Class<?> injectClassN(String pluginName, Class<?> clazz) {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+        if (plugin == null)
+            return null;
+
+        try (InputStream in = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + "$Inj.class")) {
+            byte[] bytes = ByteStreams.toByteArray(in);
+            return (Class<?>) defineClass.invoke(plugin.getClass().getClassLoader(), clazz.getName(), bytes, 0, bytes.length);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
     static {
         try {
             defineClass = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);

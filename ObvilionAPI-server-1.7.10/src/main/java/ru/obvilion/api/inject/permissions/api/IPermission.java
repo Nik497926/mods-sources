@@ -1,13 +1,9 @@
 package ru.obvilion.api.inject.permissions.api;
 
-public interface IPrefix {
-    String get();
+public interface IPermission {
+    String getPermission();
 
-    void rename(String prefix);
-
-    int getPriority();
-
-    void setPriority(int priority);
+    void editPermission(String permission);
 
     long getExpiry();
 

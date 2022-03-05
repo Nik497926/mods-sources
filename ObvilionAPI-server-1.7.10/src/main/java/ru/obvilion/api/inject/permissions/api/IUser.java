@@ -7,29 +7,41 @@ public interface IUser {
 
     IGroup getPrimaryGroup();
 
-    List<IPrefix> getOwnPrefixes();
+    String getPrefix();
 
-    List<ISuffix> getOwnSuffixes();
+    String getSuffix();
+
+    IPrefix getPrefixObj();
+
+    ISuffix getSuffixObj();
 
     IPrefix getOwnPrefix();
 
     ISuffix getOwnSuffix();
 
-    IPrefix editOwnPrefix(IPrefix from, String prefix, long expiry);
+    void setOwnPrefix(IPrefix to);
 
-    ISuffix editOwnSuffix(ISuffix from, String prefix, long expiry);
+    void setOwnSuffix(ISuffix to);
 
-    void removeOwnPrefix(IPrefix prefix);
+    boolean removeOwnPrefix();
 
-    void removeOwnSuffix(ISuffix suffix);
+    boolean removeOwnSuffix();
 
     void save();
 
+    List<IPermission> getPermissions();
+
+    IPermission getPermission(String permission);
+
     boolean hasPermission(String permission);
+
+    boolean hasPermission(IPermission permission);
 
     boolean addPermission(String permission);
 
-    boolean addPermission(String permission, long expiry);
+    boolean addPermission(IPermission permission);
 
-    void removePermission(String permission);
+    boolean removePermission(String permission);
+
+    boolean removePermission(IPermission permission);
 }

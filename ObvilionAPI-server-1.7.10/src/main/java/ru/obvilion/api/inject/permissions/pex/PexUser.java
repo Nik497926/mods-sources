@@ -1,9 +1,6 @@
 package ru.obvilion.api.inject.permissions.pex;
 
-import ru.obvilion.api.inject.permissions.api.IGroup;
-import ru.obvilion.api.inject.permissions.api.IPrefix;
-import ru.obvilion.api.inject.permissions.api.ISuffix;
-import ru.obvilion.api.inject.permissions.api.IUser;
+import ru.obvilion.api.inject.permissions.api.*;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
@@ -34,16 +31,21 @@ public class PexUser implements IUser {
         return all.size() > 0 ? new PexGroup(all.get(all.size() - 1)) : null;
     }
 
+    @Override
+    public String getPrefix() {
+        return null;
+    }
+
+    @Override
+    public String getSuffix() {
+        return null;
+    }
+
     public List<IPrefix> getOwnPrefixes() {
         List<IPrefix> all = new ArrayList<>();
         all.add(new PexPrefix(user.getOwnPrefix()));
 
         return all;
-    }
-
-    @Override
-    public ArrayList<ISuffix> getOwnSuffixes() {
-        return null;
     }
 
     @Override
@@ -57,23 +59,23 @@ public class PexUser implements IUser {
     }
 
     @Override
-    public IPrefix editOwnPrefix(IPrefix from, String prefix, long expiry) {
-        return null;
-    }
-
-    @Override
-    public ISuffix editOwnSuffix(ISuffix from, String prefix, long expiry) {
-        return null;
-    }
-
-    @Override
-    public void removeOwnPrefix(IPrefix prefix) {
+    public void setOwnPrefix(IPrefix to) {
 
     }
 
     @Override
-    public void removeOwnSuffix(ISuffix suffix) {
+    public void setOwnSuffix(ISuffix to) {
 
+    }
+
+    @Override
+    public boolean removeOwnPrefix() {
+        return false;
+    }
+
+    @Override
+    public boolean removeOwnSuffix() {
+        return false;
     }
 
     @Override
@@ -82,7 +84,22 @@ public class PexUser implements IUser {
     }
 
     @Override
+    public List<IPermission> getPermissions() {
+        return null;
+    }
+
+    @Override
+    public IPermission getPermission(String permission) {
+        return null;
+    }
+
+    @Override
     public boolean hasPermission(String permission) {
+        return false;
+    }
+
+    @Override
+    public boolean hasPermission(IPermission permission) {
         return false;
     }
 
@@ -92,12 +109,17 @@ public class PexUser implements IUser {
     }
 
     @Override
-    public boolean addPermission(String permission, long expiry) {
+    public boolean addPermission(IPermission permission) {
         return false;
     }
 
     @Override
-    public void removePermission(String permission) {
+    public boolean removePermission(String permission) {
+        return false;
+    }
 
+    @Override
+    public boolean removePermission(IPermission permission) {
+        return false;
     }
 }

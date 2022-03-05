@@ -9,7 +9,7 @@ public class PexPrefix implements IPrefix {
         this.prefix = prefix;
     }
 
-    public String getPrefix() {
+    public String get() {
         return prefix;
     }
 
