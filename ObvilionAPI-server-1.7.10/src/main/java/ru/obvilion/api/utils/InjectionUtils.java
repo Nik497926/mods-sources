@@ -25,16 +25,16 @@ public final class InjectionUtils {
         }
     }
 
-    public static Class<?> injectClassN(String pluginName, Class<?> clazz) {
+    public static Class<?> getClass(String pluginName, String path) {
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
         if (plugin == null)
             return null;
 
-        try (InputStream in = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + "$Inj.class")) {
-            byte[] bytes = ByteStreams.toByteArray(in);
-            return (Class<?>) defineClass.invoke(plugin.getClass().getClassLoader(), clazz.getName(), bytes, 0, bytes.length);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        try {
+           return plugin.getClass().getClassLoader().loadClass(path);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Failed loading " + path + " class!");
+            e.printStackTrace();
             return null;
         }
     }

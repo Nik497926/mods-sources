@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import ru.obvilion.api.inject.essentials.EssentialsInjection;
 import ru.obvilion.api.inject.essentials.IEssentialsInjection;
 import ru.obvilion.api.inject.permissions.IPermissionsInjection;
-import ru.obvilion.api.inject.permissions.luckperms.LPInjection;
-import ru.obvilion.api.inject.permissions.pex.PexInjection;
+import ru.obvilion.api.utils.InjectionUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class InjectionManager {
     public static boolean initialized = false;
@@ -14,24 +16,24 @@ public class InjectionManager {
     public static IPermissionsInjection pex;
 
     public static void init() {
-        if (Bukkit.getPluginManager().getPlugin("Essentials") != null)
-            essentials = EssentialsInjection.getInjection();
+        Class<?> plugin = InjectionUtils.getClass("ObvilionAPI", "ru.obvilion.api.ObvilionPlugin");
+        if (plugin == null) {
+            System.err.println("[ObvilionAPI] Plugin not found! ");
+            return;
+        }
 
-        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null)
-            pex = LPInjection.getInjection();
+        try {
+            Method m = plugin.getDeclaredMethod("getEssentialsInjection");
+            essentials = (IEssentialsInjection) m.invoke(null);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
-        if (pex == null && Bukkit.getPluginManager().getPlugin("PermissionsEx") != null)
-            pex = PexInjection.getInjection();
-    }
-
-    static {
-        new Thread(() -> {
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            init();
-        }).start();
+        try {
+            Method m = plugin.getDeclaredMethod("getPermissionsInjection");
+            pex = (IPermissionsInjection) m.invoke(null);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
