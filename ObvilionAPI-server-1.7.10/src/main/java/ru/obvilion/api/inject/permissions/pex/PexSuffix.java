@@ -1,48 +1,50 @@
 package ru.obvilion.api.inject.permissions.pex;
 
 import ru.obvilion.api.inject.permissions.api.IGroup;
-import ru.obvilion.api.inject.permissions.api.IPrefix;
+import ru.obvilion.api.inject.permissions.api.ISuffix;
 import ru.obvilion.api.inject.permissions.api.IUser;
 
-public class PexPrefix implements IPrefix {
-    public String prefix;
+public class PexSuffix implements ISuffix {
+    public String suffix;
     public Object owner = null;
 
-    public PexPrefix(String prefix) {
-        this.prefix = prefix;
+    public PexSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
-    public PexPrefix(String prefix, IUser user) {
-        this.prefix = prefix;
+    public PexSuffix(String suffix, IUser user) {
+        this.suffix = suffix;
         this.owner = user;
     }
 
-    public PexPrefix(String prefix, IGroup group) {
-        this.prefix = prefix;
+    public PexSuffix(String suffix, IGroup group) {
+        this.suffix = suffix;
         this.owner = group;
     }
 
     private void update() {
         if (owner instanceof PexUser) {
             PexUser user = (PexUser) owner;
-            user.setOwnPrefix(this);
+            user.setOwnSuffix(this);
         }
         else if (owner instanceof PexGroup) {
             PexGroup group = (PexGroup) owner;
-            group.setPrefix(this);
+            group.setSuffix(this);
         }
     }
 
+    @Override
     public String get() {
-        return prefix;
+        return suffix;
     }
 
     @Override
-    public void rename(String prefix) {
-        this.prefix = prefix;
+    public void rename(String suffix) {
+        this.suffix = suffix;
         update();
     }
 
+    @Override
     public int getPriority() {
         return -1;
     }
@@ -52,6 +54,7 @@ public class PexPrefix implements IPrefix {
 
     }
 
+    @Override
     public long getExpiry() {
         return 0;
     }

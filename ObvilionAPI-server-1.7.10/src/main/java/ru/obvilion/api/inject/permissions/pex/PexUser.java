@@ -4,7 +4,6 @@ import ru.obvilion.api.inject.permissions.api.*;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,93 +32,142 @@ public class PexUser implements IUser {
 
     @Override
     public String getPrefix() {
-        return null;
+        return user.getPrefix();
     }
 
     @Override
     public String getSuffix() {
+        return user.getSuffix();
+    }
+
+    @Override
+    public IPrefix getPrefixObj() {
+        IPrefix f = this.getOwnPrefix();
+        if (f != null) return f;
+
+        for (IGroup g : getGroups()) {
+            if (g.getPrefix().get().equals(getPrefix())) {
+                return g.getPrefix();
+            }
+        }
         return null;
     }
 
-    public List<IPrefix> getOwnPrefixes() {
-        List<IPrefix> all = new ArrayList<>();
-        all.add(new PexPrefix(user.getOwnPrefix()));
+    @Override
+    public ISuffix getSuffixObj() {
+        ISuffix f = this.getOwnSuffix();
+        if (f != null) return f;
 
-        return all;
+        for (IGroup g : getGroups()) {
+            if (g.getSuffix().get().equals(getPrefix())) {
+                return g.getSuffix();
+            }
+        }
+        return null;
     }
 
     @Override
     public IPrefix getOwnPrefix() {
-        return null;
+        return new PexPrefix(user.getOwnPrefix(), this);
     }
 
     @Override
     public ISuffix getOwnSuffix() {
-        return null;
+        return new PexSuffix(user.getOwnPrefix(), this);
     }
 
     @Override
     public void setOwnPrefix(IPrefix to) {
-
+        user.setPrefix(to.get(), null);
     }
 
     @Override
     public void setOwnSuffix(ISuffix to) {
-
+        user.setSuffix(to.get(), null);
     }
 
     @Override
     public boolean removeOwnPrefix() {
-        return false;
+        if (getOwnPrefix().get() == null) {
+            return false;
+        }
+
+        user.setPrefix(null, null);
+        return true;
     }
 
     @Override
     public boolean removeOwnSuffix() {
-        return false;
+        if (getOwnSuffix().get() == null) {
+            return false;
+        }
+
+        user.setSuffix(null, null);
+        return true;
     }
 
     @Override
     public void save() {
-
+        user.save();
     }
 
     @Override
     public List<IPermission> getPermissions() {
-        return null;
+        return user.getOwnPermissions(null).stream().map(s -> new PexPermission(s, this)).collect(Collectors.toList());
     }
 
     @Override
     public IPermission getPermission(String permission) {
-        return null;
+        return hasPermission(permission) ? new PexPermission(permission, this) : null;
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return false;
+        return user.getOwnPermissions(null).contains(permission);
     }
 
     @Override
     public boolean hasPermission(IPermission permission) {
-        return false;
+        return user.getOwnPermissions(null).contains(permission.get());
     }
 
     @Override
     public boolean addPermission(String permission) {
-        return false;
+        if (hasPermission(permission)) {
+            return false;
+        }
+
+        user.addPermission(permission);
+        return true;
     }
 
     @Override
     public boolean addPermission(IPermission permission) {
-        return false;
+        if (hasPermission(permission)) {
+            return false;
+        }
+
+        user.addPermission(permission.get());
+        return true;
     }
 
     @Override
     public boolean removePermission(String permission) {
-        return false;
+        if (!hasPermission(permission)) {
+            return false;
+        }
+
+        user.removePermission(permission);
+        return true;
     }
 
     @Override
     public boolean removePermission(IPermission permission) {
-        return false;
+        if (!hasPermission(permission)) {
+            return false;
+        }
+
+        user.removePermission(permission.get());
+        return true;
     }
 }
