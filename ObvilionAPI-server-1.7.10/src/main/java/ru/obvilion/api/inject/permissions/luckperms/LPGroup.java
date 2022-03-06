@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LPGroup implements IGroup {
-    Group group;
+    public Group group;
 
     public LPGroup(Group group) {
         this.group = group;
     }
+
     public LPGroup(String group) {
         this.group = LuckPermsProvider.get().getGroupManager().getGroup(group);
     }
@@ -29,7 +30,7 @@ public class LPGroup implements IGroup {
     @Override
     public IPrefix getPrefix() {
         return group.getNodes(NodeType.PREFIX).stream()
-                .map(LPPrefix::new)
+                .map(n -> new LPPrefix(n, this))
                 .max(Comparator.comparingInt(IPrefix::getPriority))
                 .orElse(null);
     }
@@ -37,7 +38,7 @@ public class LPGroup implements IGroup {
     @Override
     public ISuffix getSuffix() {
         return group.getNodes(NodeType.SUFFIX).stream()
-                .map(LPSuffix::new)
+                .map(n -> new LPSuffix(n, this))
                 .max(Comparator.comparingInt(ISuffix::getPriority))
                 .orElse(null);
     }
@@ -46,6 +47,7 @@ public class LPGroup implements IGroup {
     public void setPrefix(IPrefix prefix) {
         removePrefix();
         prefix.setOwner(this);
+
         group.data().add(((LPPrefix) prefix).node);
         save();
     }
@@ -54,6 +56,7 @@ public class LPGroup implements IGroup {
     public void setSuffix(ISuffix suffix) {
         removeSuffix();
         suffix.setOwner(this);
+
         group.data().add(((LPSuffix) suffix).node);
         save();
     }
@@ -82,24 +85,35 @@ public class LPGroup implements IGroup {
 
     @Override
     public List<IPermission> getPermissions() {
-        return group.getNodes(NodeType.PERMISSION).stream().map(pn -> new LPPermission(pn, this)).collect(Collectors.toList());
+        return group.getNodes(NodeType.PERMISSION)
+                .stream()
+                .map(pn -> new LPPermission(pn, this))
+                .collect(Collectors.toList());
     }
 
     @Override
     public IPermission getPermission(String permission) {
-        return group.getNodes(NodeType.PERMISSION).stream().filter(pn -> pn.getPermission().equals(permission))
-                .findFirst().map(pn -> new LPPermission(pn, this)).orElse(null);
+        return group.getNodes(NodeType.PERMISSION)
+                .stream()
+                .filter(pn -> pn.getPermission().equals(permission))
+                .findFirst()
+                .map(pn -> new LPPermission(pn, this))
+                .orElse(null);
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return group.getNodes(NodeType.PERMISSION).stream().anyMatch(pn -> pn.getPermission().equals(permission));
+        return group.getNodes(NodeType.PERMISSION)
+                .stream()
+                .anyMatch(pn -> pn.getPermission().equals(permission));
     }
 
     @Override
     public boolean hasPermission(IPermission permission) {
-        return group.getNodes(NodeType.PERMISSION).stream().anyMatch(pn -> pn.getPermission()
-                .equals(permission.getPermission()));
+        return group.getNodes(NodeType.PERMISSION)
+                .stream()
+                .anyMatch(pn -> pn.getPermission()
+                .equals(permission.get()));
     }
 
     @Override

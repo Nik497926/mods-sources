@@ -1,9 +1,9 @@
 package ru.obvilion.api.inject.permissions.api;
 
 public interface IPermission {
-    String getPermission();
+    String get();
 
-    void editPermission(String permission);
+    void rename(String permission);
 
     long getExpiry();
 

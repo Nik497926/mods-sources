@@ -10,10 +10,12 @@ public class LPPrefix implements IPrefix {
     public LPPrefix(PrefixNode node) {
         this.node = node;
     }
+
     public LPPrefix(PrefixNode node, LPUser user) {
         this.node = node;
         this.owner = user;
     }
+
     public LPPrefix(PrefixNode node, LPGroup group) {
         this.node = node;
         this.owner = group;

@@ -12,13 +12,16 @@ public class LPPermission implements IPermission {
     public LPPermission(String permission) {
         this.node = PermissionNode.builder(permission).build();
     }
+
     public LPPermission(PermissionNode permission) {
         this.node = permission;
     }
+
     public LPPermission(PermissionNode permission, IUser user) {
         this.node = permission;
         this.owner = user;
     }
+
     public LPPermission(PermissionNode permission, IGroup group) {
         this.node = permission;
         this.owner = group;
@@ -29,12 +32,12 @@ public class LPPermission implements IPermission {
     }
 
     @Override
-    public String getPermission() {
+    public String get() {
         return node.getPermission();
     }
 
     @Override
-    public void editPermission(String permission) {
+    public void rename(String permission) {
         if (owner instanceof LPUser) {
             LPUser user = (LPUser) owner;
             user.removePermission(this);

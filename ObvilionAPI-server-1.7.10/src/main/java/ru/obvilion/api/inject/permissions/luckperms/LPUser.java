@@ -21,7 +21,10 @@ public class LPUser implements IUser {
     }
 
     public List<IGroup> getGroups() {
-        return user.getInheritedGroups(user.getQueryOptions()).stream().map(LPGroup::new).collect(Collectors.toList());
+        return user.getInheritedGroups(user.getQueryOptions())
+                .stream()
+                .map(LPGroup::new)
+                .collect(Collectors.toList());
     }
 
     public IGroup getPrimaryGroup() {
@@ -67,17 +70,29 @@ public class LPUser implements IUser {
     }
 
     private List<IPrefix> getOwnPrefixes() {
-        return user.getNodes(NodeType.PREFIX).stream().map(n -> new LPPrefix(n, this)).collect(Collectors.toList());
+        return user.getNodes(NodeType.PREFIX)
+                .stream()
+                .map(n -> new LPPrefix(n, this))
+                .collect(Collectors.toList());
     }
     private List<ISuffix> getOwnSuffixes() {
-        return user.getNodes(NodeType.SUFFIX).stream().map(n -> new LPSuffix(n, this)).collect(Collectors.toList());
+        return user.getNodes(NodeType.SUFFIX)
+                .stream()
+                .map(n -> new LPSuffix(n, this))
+                .collect(Collectors.toList());
     }
 
     public IPrefix getOwnPrefix() {
-        return getOwnPrefixes().stream().max(Comparator.comparingInt(IPrefix::getPriority)).orElse(null);
+        return getOwnPrefixes()
+                .stream()
+                .max(Comparator.comparingInt(IPrefix::getPriority))
+                .orElse(null);
     }
     public ISuffix getOwnSuffix() {
-        return getOwnSuffixes().stream().max(Comparator.comparingInt(ISuffix::getPriority)).orElse(null);
+        return getOwnSuffixes()
+                .stream()
+                .max(Comparator.comparingInt(ISuffix::getPriority))
+                .orElse(null);
     }
 
     public void setOwnPrefix(IPrefix to) {
@@ -119,20 +134,31 @@ public class LPUser implements IUser {
     }
 
     public List<IPermission> getPermissions() {
-        return user.getNodes(NodeType.PERMISSION).stream().map(pn -> new LPPermission(pn, this)).collect(Collectors.toList());
+        return user.getNodes(NodeType.PERMISSION)
+                .stream()
+                .map(pn -> new LPPermission(pn, this))
+                .collect(Collectors.toList());
     }
 
     public IPermission getPermission(String permission) {
-        return user.getNodes(NodeType.PERMISSION).stream().filter(pn -> pn.getPermission().equals(permission))
-                .findFirst().map(pn -> new LPPermission(pn, this)).orElse(null);
+        return user.getNodes(NodeType.PERMISSION)
+                .stream()
+                .filter(pn -> pn.getPermission().equals(permission))
+                .findFirst()
+                .map(pn -> new LPPermission(pn, this))
+                .orElse(null);
     }
 
     public boolean hasPermission(String permission) {
-        return user.getNodes(NodeType.PERMISSION).stream().anyMatch(pn -> pn.getPermission().equals(permission));
+        return user.getNodes(NodeType.PERMISSION)
+                .stream()
+                .anyMatch(pn -> pn.getPermission().equals(permission));
     }
     public boolean hasPermission(IPermission permission) {
-        return user.getNodes(NodeType.PERMISSION).stream().anyMatch(pn -> pn.getPermission()
-                .equals(permission.getPermission()));
+        return user.getNodes(NodeType.PERMISSION)
+                .stream()
+                .anyMatch(pn -> pn.getPermission()
+                .equals(permission.get()));
     }
 
     public boolean addPermission(String permission) {

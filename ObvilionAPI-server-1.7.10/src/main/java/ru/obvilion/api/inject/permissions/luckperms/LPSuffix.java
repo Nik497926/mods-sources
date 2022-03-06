@@ -1,6 +1,5 @@
 package ru.obvilion.api.inject.permissions.luckperms;
 
-import net.luckperms.api.node.types.PrefixNode;
 import net.luckperms.api.node.types.SuffixNode;
 import ru.obvilion.api.inject.permissions.api.ISuffix;
 
@@ -11,10 +10,12 @@ public class LPSuffix implements ISuffix {
     public LPSuffix(SuffixNode node) {
         this.node = node;
     }
+
     public LPSuffix(SuffixNode node, LPUser user) {
         this.node = node;
         this.owner = user;
     }
+
     public LPSuffix(SuffixNode node, LPGroup group) {
         this.node = node;
         this.owner = group;
@@ -38,7 +39,9 @@ public class LPSuffix implements ISuffix {
 
     @Override
     public void rename(String suffix) {
-        node = SuffixNode.builder(suffix, node.getPriority()).expiry(node.getExpiry()).build();
+        node = SuffixNode.builder(suffix, node.getPriority())
+                .expiry(node.getExpiry())
+                .build();
         update();
     }
 
@@ -49,7 +52,9 @@ public class LPSuffix implements ISuffix {
 
     @Override
     public void setPriority(int priority) {
-        node = SuffixNode.builder(node.getKey(), priority).expiry(node.getExpiry()).build();
+        node = SuffixNode.builder(node.getKey(), priority)
+                .expiry(node.getExpiry())
+                .build();
         update();
     }
 
@@ -63,7 +68,9 @@ public class LPSuffix implements ISuffix {
         if (expiry > 0) {
             node = SuffixNode.builder(node.getKey(), node.getPriority()).build();
         } else {
-            node = SuffixNode.builder(node.getKey(), node.getPriority()).expiry(expiry).build();
+            node = SuffixNode.builder(node.getKey(), node.getPriority())
+                    .expiry(expiry)
+                    .build();
         }
 
         update();
