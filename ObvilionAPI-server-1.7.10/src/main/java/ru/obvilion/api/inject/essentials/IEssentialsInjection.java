@@ -1,11 +1,10 @@
 package ru.obvilion.api.inject.essentials;
 
-import org.bukkit.configuration.ConfigurationSection;
-
-import java.util.Map;
+import ru.obvilion.api.inject.essentials.api.IKit;
+import java.util.List;
 
 public interface IEssentialsInjection {
-    ConfigurationSection getKitsConfig();
+    List<IKit> getKits();
 
-    Map<String, Object> getKitConfig(String kitName);
+    IKit getKit(String kit);
 }

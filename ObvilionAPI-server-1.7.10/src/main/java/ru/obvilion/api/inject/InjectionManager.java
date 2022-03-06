@@ -1,7 +1,5 @@
 package ru.obvilion.api.inject;
 
-import org.bukkit.Bukkit;
-import ru.obvilion.api.inject.essentials.EssentialsInjection;
 import ru.obvilion.api.inject.essentials.IEssentialsInjection;
 import ru.obvilion.api.inject.permissions.IPermissionsInjection;
 import ru.obvilion.api.utils.InjectionUtils;

@@ -1,29 +1,27 @@
 package ru.obvilion.api.inject.essentials;
 
 import com.earth2me.essentials.Essentials;
+import ru.obvilion.api.inject.essentials.api.EssKit;
 import ru.obvilion.api.inject.essentials.api.IKit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EssentialsInjection implements IEssentialsInjection {
-//    @Override
-//    public ConfigurationSection getKitsConfig() {
-//        return getEssentials().getSettings().getKits();
-//    }
-//
-//    @Override
-//    public Map<String, Object> getKitConfig(String kitName) {
-//        return getEssentials().getSettings().getKit(kitName);
-//    }
     public static Essentials essentials;
 
     @Override
     public List<IKit> getKits() {
-        return null;
+        return getEssentials()
+                .getSettings().getKits()
+                .getKeys(false)
+                .stream()
+                .map(EssKit::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public IKit getKit(String kit) {
-        return null;
+        return new EssKit(kit);
     }
 
     public static Essentials getEssentials() {
