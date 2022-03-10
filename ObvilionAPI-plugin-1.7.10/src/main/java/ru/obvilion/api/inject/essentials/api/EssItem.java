@@ -1,6 +1,7 @@
 package ru.obvilion.api.inject.essentials.api;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class EssItem implements IItem {
 
     public String item_id;
     public int count;
-    public Map<String, String> meta;
+    public Map<String, String> meta = new HashMap<>();
 
     public EssItem(String item) {
         this.line = item;

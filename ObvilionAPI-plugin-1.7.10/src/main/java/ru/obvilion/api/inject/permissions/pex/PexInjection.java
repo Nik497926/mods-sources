@@ -19,7 +19,4 @@ public class PexInjection implements IPermissionsInjection {
         boolean has = PermissionsEx.getPermissionManager().getGroup(group) == null;
         return has ? (IGroup) new PexGroup(group) : null;
     }
-
-//        public void setGroupUntil(UUID playerId, String group, long val) { setOwnOption(playerId, "group-" + group + "-until", val+""); }
-//        public void setGroupUntil(String userName, String group, long val) { setOwnOption(userName, "group-" + group + "-until", val+""); }
 }
