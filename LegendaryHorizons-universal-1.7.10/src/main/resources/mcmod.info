@@ -1,0 +1,11 @@
+[
+{
+  "modid": "LegendaryHorizons",
+  "name": "LegendaryHorizons",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "screenshots": [],
+  "dependencies": []
+}
+]
