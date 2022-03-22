@@ -54,16 +54,6 @@ ISequentialBreaker {
         return side == 1 ? Color.HSBtoRGB(glub == 0 ? 0.3334f : (glub == 2 ? 0.5834f : 0.0f), 1.0f, 1.0f) : 0xFFFFFF;
     }
 
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[2];
-        this.iconsDop = new IIcon[6];
-        this.icons[1] = par1IconRegister.registerIcon("extrabotania:awakepick_1");
-        for (int i = 0; i < this.iconsDop.length; ++i) {
-            this.iconsDop[i] = par1IconRegister.registerIcon("extrabotania:awakepick" + i);
-        }
-        this.icons[0] = this.iconsDop[0];
-    }
-
     public IIcon getIcon(ItemStack stack, int pass) {
         int rad = ItemNBTHelper.getInteger(stack, "thisRad", 0);
         if (rad < this.iconsDop.length) {

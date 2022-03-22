@@ -37,13 +37,6 @@ IFlowerComponent {
         this.setMaxStackSize(1);
     }
 
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[4];
-        for (int i = 0; i < 4; ++i) {
-            this.icons[i] = IconHelper.forItem(par1IconRegister, this, i);
-        }
-    }
-
     public void getSubItems(Item item, CreativeTabs tab, List list) {
         for (int i = 0; i < 4; ++i) {
             list.add(new ItemStack(item, 1, i));

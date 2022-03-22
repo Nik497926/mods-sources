@@ -48,14 +48,6 @@ IManaUsingItem {
         GameRegistry.registerItem(this, this.name);
     }
 
-    public void registerIcons(IIconRegister iconRegister) {
-        this.icons = new IIcon[3];
-        this.icons[0] = iconRegister.registerIcon("extrabotania:" + this.name);
-        this.itemIcon = this.icons[0];
-        this.icons[1] = iconRegister.registerIcon("extrabotania:" + this.name + "0");
-        this.icons[2] = iconRegister.registerIcon("extrabotania:" + this.name + "1");
-    }
-
     public IIcon getIcon(ItemStack stack, int pass) {
         int type = ItemNBTHelper.getInt(stack, "type", 0);
         switch (type) {

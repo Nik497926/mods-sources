@@ -26,10 +26,5 @@ extends Item {
     public String getUnlocalizedNameInefficiently(ItemStack par1ItemStack) {
         return super.getUnlocalizedNameInefficiently(par1ItemStack);
     }
-
-    @SideOnly(value=Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.itemIcon = IconHelper.forItem(par1IconRegister, this);
-    }
 }
 

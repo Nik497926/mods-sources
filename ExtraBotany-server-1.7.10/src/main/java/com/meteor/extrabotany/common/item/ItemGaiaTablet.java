@@ -5,7 +5,6 @@ package com.meteor.extrabotany.common.item;
 
 import java.awt.Color;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,7 +16,6 @@ import net.minecraft.world.World;
 import vazkii.botania.api.mana.ICreativeManaProvider;
 import vazkii.botania.api.mana.IManaItem;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
-import vazkii.botania.client.core.helper.IconHelper;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.item.ItemMod;
 
@@ -61,13 +59,6 @@ IManaTooltipDisplay {
             super.setDamage(stack, 0);
         }
         return 0;
-    }
-
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[2];
-        for (int i = 0; i < this.icons.length; ++i) {
-            this.icons[i] = IconHelper.forItem(par1IconRegister, this, i);
-        }
     }
 
     public IIcon getIcon(ItemStack stack, int pass) {

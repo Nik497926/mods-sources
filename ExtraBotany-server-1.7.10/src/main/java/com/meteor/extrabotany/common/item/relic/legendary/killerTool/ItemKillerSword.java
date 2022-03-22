@@ -10,9 +10,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.awt.Color;
 import java.util.List;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +21,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -60,14 +56,6 @@ IManaUsingItem {
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
         GameRegistry.registerItem(this, this.name);
-    }
-
-    public void registerIcons(IIconRegister iconRegister) {
-        this.icons = new IIcon[3];
-        this.icons[0] = iconRegister.registerIcon("extrabotania:" + this.name);
-        this.itemIcon = this.icons[0];
-        this.icons[1] = iconRegister.registerIcon("extrabotania:" + this.name + "0");
-        this.icons[2] = iconRegister.registerIcon("extrabotania:" + this.name + "1");
     }
 
     public IIcon getIcon(ItemStack stack, int pass) {
@@ -113,19 +101,7 @@ IManaUsingItem {
     }
 
     public static void addBindInfo(List list, ItemStack stack, EntityPlayer player) {
-        if (GuiScreen.isShiftKeyDown()) {
-            String bind = ItemKillerSword.getSoulbindUsernameS(stack);
-            if (bind.isEmpty()) {
-                ItemKillerSword.addStringToTooltips(StatCollector.translateToLocal("botaniamisc.relicUnbound"), list);
-            } else {
-                ItemKillerSword.addStringToTooltips(String.format(StatCollector.translateToLocal("botaniamisc.relicSoulbound"), bind), list);
-                if (!ItemRelic.isRightPlayer(player, stack)) {
-                    ItemKillerSword.addStringToTooltips(String.format(StatCollector.translateToLocal("botaniamisc.notYourSagittarius"), bind), list);
-                }
-            }
-        } else {
-            ItemKillerSword.addStringToTooltips(StatCollector.translateToLocal("botaniamisc.shiftinfo"), list);
-        }
+
     }
 
     public static String getSoulbindUsernameS(ItemStack stack) {

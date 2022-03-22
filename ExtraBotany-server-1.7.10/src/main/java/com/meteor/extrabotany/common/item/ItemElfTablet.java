@@ -63,13 +63,6 @@ IManaTooltipDisplay {
         return 0;
     }
 
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[2];
-        for (int i = 0; i < this.icons.length; ++i) {
-            this.icons[i] = IconHelper.forItem(par1IconRegister, this, i);
-        }
-    }
-
     public IIcon getIcon(ItemStack stack, int pass) {
         return this.icons[Math.min(1, pass)];
     }

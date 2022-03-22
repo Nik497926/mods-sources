@@ -110,13 +110,6 @@ IWandHUD {
         }
     }
 
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-        for (String s : BotaniaAPI.getAllSubTiles()) {
-            if (s.isEmpty()) continue;
-            BotaniaAPI.getSignatureForName(s).registerIcons(par1IconRegister);
-        }
-    }
-
     public IIcon getIcon(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
         return ((TileSpecialFlower)par1iBlockAccess.getTileEntity(par2, par3, par4)).getIcon();
     }

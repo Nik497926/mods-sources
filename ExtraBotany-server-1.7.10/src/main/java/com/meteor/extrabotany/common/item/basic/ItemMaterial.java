@@ -34,21 +34,6 @@ implements IFlowerComponent {
         this.setHasSubtypes(true);
     }
 
-    @SideOnly(value=Side.CLIENT)
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-        for (int i = 0; i < 13; ++i) {
-            par3List.add(new ItemStack(par1, 1, i));
-        }
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[13];
-        for (int i = 0; i < this.icons.length; ++i) {
-            this.icons[i] = IconHelper.forName(par1IconRegister, LibItemName.MATERIAL_NAMES[i]);
-        }
-    }
-
     public ItemStack onEaten(ItemStack par1ItemStack, World world, EntityPlayer entityplayer) {
         if (!entityplayer.capabilities.isCreativeMode) {
             --par1ItemStack.stackSize;
@@ -76,22 +61,12 @@ implements IFlowerComponent {
         return "item." + LibItemName.MATERIAL_NAMES[Math.min(12, par1ItemStack.getItemDamage())];
     }
 
-    @SideOnly(value=Side.CLIENT)
-    public IIcon getIconFromDamage(int par1) {
-        return this.icons[Math.min(this.icons.length - 1, par1)];
-    }
-
     public boolean canFit(ItemStack arg0, IInventory arg1) {
         return true;
     }
 
     public int getParticleColor(ItemStack arg0) {
         return 0;
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-        return par1ItemStack.getItemDamage() == 11 ? Color.HSBtoRGB((float)(Botania.proxy.getWorldElapsedTicks() * 2L % 360L) / 360.0f, 0.25f, 1.0f) : 0xFFFFFF;
     }
 }
 
