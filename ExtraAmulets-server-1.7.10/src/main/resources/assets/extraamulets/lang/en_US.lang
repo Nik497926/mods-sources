@@ -1,0 +1,20 @@
+#English (EN)
+#Especially for excalibur-craft.ru
+
+#Items
+item.amulet_earth.name=Amulet of the Earth
+item.amulet_fire.name=Amulet of Fire
+item.amulet_water.name=Amulet of Water
+item.amulet_wind.name=Amulet of the Wind
+item.amulet_bee.name=Amulet of Equality
+item.amulet_infinite.name=Amulet of Infinite
+item.amulet_tools.name=Amulet of Worker
+item.amulet_cats.name=Amulet of Cats
+item.amulet_dragon.name=Amulet of Dragon
+item.amulet_shield.name=Amulet of Shield
+item.amulet_witches.name=Amulet of Witches
+
+ability.critical_damage.tooltip=§5Critical damage with chance %s and increase damage %s
+ability.falling_protection.tooltip=§5Falling Protection
+ability.reduce_magic_damage.tooltip=§5Reduce magic damage %s
+ability.bypass_armor.tooltip=§5Chance %s bypass armor

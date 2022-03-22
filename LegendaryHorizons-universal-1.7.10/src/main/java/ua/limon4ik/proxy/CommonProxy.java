@@ -4,7 +4,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 import ua.limon4ik.blocks.AutoElvenTrade;
 import ua.limon4ik.blocks.AutoManaPool;
 import ua.limon4ik.blocks.AutoMatrixBlock;

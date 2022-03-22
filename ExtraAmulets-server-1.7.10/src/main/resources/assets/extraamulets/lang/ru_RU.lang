@@ -1,0 +1,20 @@
+#Russian (RU)
+#Перевод специально для excalibur-craft.ru
+
+#Items
+item.amulet_earth.name=Амулет Земли
+item.amulet_fire.name=Амулет Огня
+item.amulet_water.name=Амулет Воды
+item.amulet_wind.name=Амулет Ветра
+item.amulet_bee.name=Амулет Пчелы
+item.amulet_infinite.name=Амулет Бесконечности
+item.amulet_tools.name=Амулет Рабочего
+item.amulet_cats.name=Амулет Мягкой Лапки
+item.amulet_dragon.name=Амулет Дракона
+item.amulet_shield.name=Амулет Щита
+item.amulet_witches.name=Амулет Ведьмы
+
+ability.critical_damage.tooltip=§5Шанс нанести двойной урон
+ability.falling_protection.tooltip=§5Защита от падения
+ability.reduce_magic_damage.tooltip=§5Уменьшение получаемого магического урона
+ability.bypass_armor.tooltip=§5Шанс проигнорировать броню при нанесении урона
