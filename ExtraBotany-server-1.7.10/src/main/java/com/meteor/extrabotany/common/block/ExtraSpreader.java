@@ -7,6 +7,9 @@ import com.meteor.extrabotany.common.block.tile.TileExtraSpreader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.List;
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -216,8 +219,9 @@ IWireframeAABBProvider {
         return new TileExtraSpreader();
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
-        ((TileExtraSpreader)world.getTileEntity(x, y, z)).renderHUD(mc, res);
+
     }
 
     public LexiconEntry getEntry(World world, int x, int y, int z, EntityPlayer player, ItemStack lexicon) {

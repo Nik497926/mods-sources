@@ -3,14 +3,9 @@
  */
 package com.meteor.extrabotany.common.block.tile;
 
-import com.meteor.extrabotany.common.block.tile.TileEAltar;
-import com.meteor.extrabotany.common.block.tile.TileTransformater;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -162,9 +157,6 @@ extends TileEntity {
             return true;
         }
         return false;
-    }
-
-    public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
     }
 }
 

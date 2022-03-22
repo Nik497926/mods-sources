@@ -5,6 +5,8 @@ package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.common.block.tile.TileBlockPoolEfir;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -53,11 +55,9 @@ IWandHUD {
         return false;
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-        TileEntity te = world.getTileEntity(i, i1, i2);
-        if (te != null && te instanceof TileBlockPoolEfir) {
-            ((TileBlockPoolEfir)te).renderHUD(minecraft, scaledResolution, world, i, i1, i2);
-        }
+
     }
 }
 

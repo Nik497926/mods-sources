@@ -7,14 +7,10 @@ import com.meteor.extrabotany.common.item.ModItems;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -23,7 +19,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 import thaumcraft.common.Thaumcraft;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.ManaItemHandler;
@@ -142,28 +137,6 @@ implements ISparkAttachable {
             }
             VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
         }
-        if (this.worldObj.isRemote) {
-            if (this.cd_client > 0) {
-                --this.cd_client;
-                return;
-            }
-            if (this.listSeller.containsKey(Minecraft.getMinecraft().thePlayer.getCommandSenderName())) {
-                float radius = 7.0f;
-                float r = 0.0f;
-                float g = 1.0f;
-                float b = 0.0f;
-                for (int i = 0; i < 360; i += 8) {
-                    float sync = (float)i * (float)Math.PI / 180.0f;
-                    double xc = (double)this.xCoord + 0.5 - Math.cos(sync) * (double)radius;
-                    double yc = (double)this.yCoord + 0.5;
-                    double zc = (double)this.zCoord + 0.5 - Math.sin(sync) * (double)radius;
-                    Botania.proxy.sparkleFX(this.worldObj, xc, yc, zc, r, g, b, 5.0f, 20);
-                }
-                this.cd_client = 20;
-                EntityClientPlayerMP pl = Minecraft.getMinecraft().thePlayer;
-                Thaumcraft.proxy.arcLightning(this.worldObj, (double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5, Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ, 0.1f, 1.0f, 1.0f, 0.4f);
-            }
-        }
     }
 
     public void writeToNBT(NBTTagCompound compound) {
@@ -254,12 +227,6 @@ implements ISparkAttachable {
 
     public int getCurrentMana() {
         return this.mana;
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        int x = res.getScaledWidth() / 2;
-        int y = res.getScaledHeight() / 2;
-        HUDHandler.renderManaBar(x - 51, y - 35, 255, 0.75f, this.mana, this.maxMana);
     }
 }
 

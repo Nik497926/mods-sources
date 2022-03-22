@@ -8,19 +8,10 @@ import com.google.common.collect.Multimap;
 import com.meteor.extrabotany.common.event.EventSkill;
 import com.meteor.extrabotany.common.item.ModItems;
 import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGBoots;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGChest;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGHelm;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGLegs;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -32,12 +23,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -53,7 +42,6 @@ implements IVisDiscountGear {
     private static final String TAG_SOULBIND = "soulbind";
     Achievement achievement;
     static ItemStack[] armorset;
-    protected ModelBiped[] models = null;
     List playersWithFlight = new ArrayList();
     private static final int[] gaia;
     private static final int[] exmachina;
@@ -108,26 +96,6 @@ implements IVisDiscountGear {
             ItemNBTHelper.setInt(it, "exmachina", e);
             ItemNBTHelper.setInt(it, "asgard", a);
         }
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-        ModelBiped model = this.getArmorModelForSlot(entityLiving, itemStack, armorSlot);
-        if (model == null) {
-            model = this.provideArmorModelForSlot(itemStack, armorSlot);
-        }
-        if (model != null) {
-            return model;
-        }
-        return super.getArmorModel(entityLiving, itemStack, armorSlot);
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack, int slot) {
-        if (this.models == null) {
-            this.models = new ModelBiped[4];
-        }
-        return this.models[slot];
     }
 
     public static Boolean getFullArmorSeven(EntityPlayer player, int lvl) {

@@ -7,6 +7,9 @@ import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -138,8 +141,9 @@ ICraftAchievement {
         return true;
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
-        ((TileElfPool)world.getTileEntity(x, y, z)).renderHUD(mc, res);
+
     }
 
     public LexiconEntry getEntry(World world, int i, int i1, int i2, EntityPlayer entityPlayer, ItemStack itemStack) {

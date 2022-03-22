@@ -6,6 +6,8 @@ package com.meteor.extrabotany.common.block;
 import com.meteor.extrabotany.common.block.tile.TileTransformater;
 import com.meteor.extrabotany.common.item.basic.ItemEfirFragment;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -32,9 +34,6 @@ IWandHUD {
 
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileTransformater();
-    }
-
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public boolean isOpaqueCube() {
@@ -66,9 +65,9 @@ IWandHUD {
         return false;
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-        TileTransformater te = (TileTransformater)world.getTileEntity(i, i1, i2);
-        te.renderHUD(minecraft, scaledResolution, world, i, i1, i2);
+
     }
 }
 

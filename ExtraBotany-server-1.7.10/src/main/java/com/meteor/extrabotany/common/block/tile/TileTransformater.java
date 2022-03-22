@@ -3,22 +3,16 @@
  */
 package com.meteor.extrabotany.common.block.tile;
 
-import com.meteor.extrabotany.common.block.tile.TileBlockPoolEfir;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.awt.Color;
 import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -324,26 +318,6 @@ ISparkAttachable {
             return new ChunkCoordinates(this.withConnect[0], this.withConnect[1], this.withConnect[2]);
         }
         return new ChunkCoordinates(0, -1, 0);
-    }
-
-    public void renderHUD(Minecraft minecraft, ScaledResolution res, World world, int i, int i1, int i2) {
-        String s0;
-        int x = res.getScaledWidth() / 2;
-        int y = res.getScaledHeight() / 2 - 8;
-        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(2929);
-        if (this.getStackInSlot(0) != null) {
-            RenderHelper.renderProgressPie(x - 8, y - 5, (float)this.mana / 10000.0f, this.getStackInSlot(0));
-            s0 = Integer.toString(this.mana);
-            minecraft.fontRenderer.drawString(s0 + "\u00a7r", x - 27 - s0.length() * 5, y, new Color(52735).getRGB());
-            minecraft.fontRenderer.drawString(this.manaRequired + "\u00a7r", x + 27, y, new Color(52735).getRGB());
-        }
-        HUDHandler.renderManaBar(x - 50, y + 15, 0xFF3333, 0.75f, this.efir, 1000000);
-        s0 = Integer.toString(this.efir);
-        minecraft.fontRenderer.drawString(s0 + "\u00a7r", x - 27 - s0.length() * 5, y + 27, new Color(16747677).getRGB());
-        minecraft.fontRenderer.drawString("1000000\u00a7r", x + 27, y + 27, new Color(16747677).getRGB());
-        minecraft.fontRenderer.drawString("\u042d\u0444\u0438\u0440\u00a7r", x - "\u042d\u0444\u0438\u0440".length() * 5 / 2, y + 27, new Color(16747677).getRGB());
-        GL11.glEnable(2929);
     }
 }
 

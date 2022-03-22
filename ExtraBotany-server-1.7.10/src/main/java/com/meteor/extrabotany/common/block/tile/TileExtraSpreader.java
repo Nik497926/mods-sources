@@ -6,16 +6,11 @@ package com.meteor.extrabotany.common.block.tile;
 import com.meteor.extrabotany.common.block.ModBlocks;
 import java.util.List;
 import java.util.UUID;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -26,7 +21,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 import vazkii.botania.api.internal.IManaBurst;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.BurstProperties;
@@ -481,46 +475,6 @@ IRedirectable {
         }
         Vec3 vec31 = vec3.addVector((double)f7 * d3, (double)f6 * d3, (double)f8 * d3);
         return world.func_147447_a(vec3, vec31, par3, !par3, par3);
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        String name = StatCollector.translateToLocal(new ItemStack(ModBlocks.extraSpreader, 1, this.getBlockMetadata()).getUnlocalizedName().replaceAll("tile.", "tile.botania:") + ".name");
-        int color = this.isRedstone() ? 0xFF0000 : (this.isDreamwood() ? 16711854 : 65280);
-        HUDHandler.drawSimpleManaHUD(color, this.knownMana, this.getMaxMana(), name, res);
-        ItemStack lens = this.getStackInSlot(0);
-        if (lens != null) {
-            GL11.glEnable(3042);
-            GL11.glBlendFunc(770, 771);
-            String lensName = lens.getDisplayName();
-            int width = 16 + mc.fontRenderer.getStringWidth(lensName) / 2;
-            int x = res.getScaledWidth() / 2 - width;
-            int y = res.getScaledHeight() / 2 + 50;
-            mc.fontRenderer.drawStringWithShadow(lensName, x + 20, y + 5, color);
-            RenderHelper.enableGUIStandardItemLighting();
-            RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, lens, x, y);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(2896);
-            GL11.glDisable(3042);
-        }
-        if (this.receiver != null) {
-            TileEntity receiverTile = (TileEntity)this.receiver;
-            ItemStack recieverStack = new ItemStack(this.worldObj.getBlock(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord), 1, receiverTile.getBlockMetadata());
-            GL11.glEnable(3042);
-            GL11.glBlendFunc(770, 771);
-            if (recieverStack != null && recieverStack.getItem() != null) {
-                String stackName = recieverStack.getDisplayName();
-                int width = 16 + mc.fontRenderer.getStringWidth(stackName) / 2;
-                int x = res.getScaledWidth() / 2 - width;
-                int y = res.getScaledHeight() / 2 + 30;
-                mc.fontRenderer.drawStringWithShadow(stackName, x + 20, y + 5, color);
-                RenderHelper.enableGUIStandardItemLighting();
-                RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, recieverStack, x, y);
-                RenderHelper.disableStandardItemLighting();
-            }
-            GL11.glDisable(2896);
-            GL11.glDisable(3042);
-        }
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public void onClientDisplayTick() {

@@ -13,10 +13,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,9 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatBase;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
@@ -39,7 +33,6 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
     private static final String TAG_SOULBIND = "soulbind";
     Achievement achievement;
     static ItemStack[] armorset;
-    protected ModelBiped[] models = null;
     List playersWithFlight = new ArrayList();
     public static ItemArmor.ArmorMaterial material;
 
@@ -50,24 +43,6 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
     @Override
     public String getArmorTextureAfterInk(ItemStack stack, int slot) {
         return "extrabotania:textures/models/armor/killer.png";
-    }
-
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-        ModelBiped model = this.getArmorModelForSlot(entityLiving, itemStack, armorSlot);
-        if (model == null) {
-            model = this.provideArmorModelForSlot(itemStack, armorSlot);
-        }
-        if (model != null) {
-            return model;
-        }
-        return super.getArmorModel(entityLiving, itemStack, armorSlot);
-    }
-
-    public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack, int slot) {
-        if (this.models == null) {
-            this.models = new ModelBiped[4];
-        }
-        return this.models[slot];
     }
 
     private static Boolean getArmorSeven(ItemStack stack, int lvl) {
@@ -86,47 +61,12 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
         return multimap;
     }
 
-    public void registerIcons(IIconRegister par1IconRegister) {
-        switch (this.armorType) {
-            case 0: {
-                this.itemIcon = par1IconRegister.registerIcon("extrabotania:killerhelm");
-                break;
-            }
-            case 1: {
-                this.itemIcon = par1IconRegister.registerIcon("extrabotania:killerchest");
-                break;
-            }
-            case 2: {
-                this.itemIcon = par1IconRegister.registerIcon("extrabotania:killerlegs");
-                break;
-            }
-            case 3: {
-                this.itemIcon = par1IconRegister.registerIcon("extrabotania:killerboots");
-            }
-        }
-    }
-
     @Override
     public ItemStack[] getArmorSetStacks() {
         if (armorset == null) {
             armorset = new ItemStack[]{new ItemStack(ModItems.killerhelm), new ItemStack(ModItems.killerchest), new ItemStack(ModItems.killerlegs), new ItemStack(ModItems.killerboots)};
         }
         return armorset;
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
-        list.add("\u00a7bArmor Set: " + StatCollector.translateToLocal("botania.armorset.killer.name"));
-        list.add(StatCollector.translateToLocal("botania.armorset.killer.desc0"));
-        if (!GuiScreen.isCtrlKeyDown()) {
-            list.add(StatCollector.translateToLocal("botania.armorset.killer.desc1") + this.getCount(player));
-        } else {
-            list.add(" \u00a7f- " + StatCollector.translateToLocal("item.botania:killerhelm.name"));
-            list.add(" \u00a7f- " + StatCollector.translateToLocal("item.botania:killerchest.name"));
-            list.add(" \u00a7f- " + StatCollector.translateToLocal("item.botania:killerlegs.name"));
-            list.add(" \u00a7f- " + StatCollector.translateToLocal("item.botania:killerboots.name"));
-        }
-        ItemKillerArmor.addBindInfo(list, stack, player);
     }
 
     private boolean fullTrueArmor(EntityPlayer pl) {

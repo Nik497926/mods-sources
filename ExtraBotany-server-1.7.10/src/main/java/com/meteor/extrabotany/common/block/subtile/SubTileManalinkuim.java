@@ -5,15 +5,11 @@ package com.meteor.extrabotany.common.block.subtile;
 
 import com.meteor.extrabotany.common.lexicon.LexiconModData;
 import java.awt.Color;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.internal.IManaNetwork;
@@ -239,12 +235,6 @@ extends SubTileEntity {
 
     public boolean isValidBinding() {
         return this.linkedCollector != null && !this.linkedCollector.isInvalid() && this.supertile.getWorldObj().getTileEntity(this.linkedCollector.xCoord, this.linkedCollector.yCoord, this.linkedCollector.zCoord) == this.linkedCollector;
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        String name = StatCollector.translateToLocal("tile.botania:flower." + this.getUnlocalizedName() + ".name");
-        int color = this.getColor();
-        BotaniaAPI.internalHandler.drawComplexManaHUD(color, this.knownMana, this.getMaxMana(), name, res, BotaniaAPI.internalHandler.getBindDisplayForFlowerType(this), this.isValidBinding());
     }
 
     public boolean isOvergrowthAffected() {

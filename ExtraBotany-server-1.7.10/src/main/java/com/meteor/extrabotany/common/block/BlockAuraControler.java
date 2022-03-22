@@ -5,12 +5,13 @@ package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.common.block.tile.TileAuraControler;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -112,11 +113,9 @@ IWandable {
         return new TileAuraControler();
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-        TileEntity te = world.getTileEntity(i, i1, i2);
-        if (te instanceof TileAuraControler) {
-            ((TileAuraControler)te).renderHUD(minecraft, scaledResolution);
-        }
+
     }
 
     public boolean onUsedByWand(EntityPlayer entityPlayer, ItemStack itemStack, World world, int i, int i1, int i2, int i3) {

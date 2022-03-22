@@ -5,6 +5,8 @@ package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.common.block.tile.TileEAltar;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -34,10 +36,8 @@ IWandHUD {
         return new TileEAltar();
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-    }
-
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public void breakBlock(World world, int x, int y, int z, Block block, int side) {

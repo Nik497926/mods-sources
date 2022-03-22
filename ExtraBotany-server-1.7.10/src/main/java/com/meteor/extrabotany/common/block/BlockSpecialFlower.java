@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.ITileEntityProvider;
@@ -190,6 +193,7 @@ IWandHUD {
         return ((TileSpecialFlower)world.getTileEntity(x, y, z)).onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     }
 
+    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
         ((TileSpecialFlower)world.getTileEntity(x, y, z)).renderHUD(mc, res);
     }

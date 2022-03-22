@@ -5,8 +5,6 @@ package com.meteor.extrabotany.common.block.subtile.functional;
 
 import com.meteor.extrabotany.common.lexicon.LexiconModData;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -54,10 +52,6 @@ extends SubTileFunctional {
 
     public boolean acceptsRedstone() {
         return true;
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        super.renderHUD(mc, res);
     }
 
     public RadiusDescriptor getRadius() {

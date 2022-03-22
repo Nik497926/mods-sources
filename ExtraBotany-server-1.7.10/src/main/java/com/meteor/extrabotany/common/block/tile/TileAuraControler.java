@@ -4,25 +4,20 @@
 package com.meteor.extrabotany.common.block.tile;
 
 import com.meteor.extrabotany.common.block.BlockElfPool;
-import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -389,26 +384,6 @@ ISidedInventory {
 
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         return true;
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        if (this.getStackInSlot(0) == null) {
-            return;
-        }
-        ArrayList<TilePedestal> ped = this.getPed();
-        ArrayList<ItemStack> items = this.getItemsFromPed(ped);
-        if (items.size() < 2) {
-            return;
-        }
-        boolean isnew = this.isNewEssence(items);
-        if (!this.trueItem(items, isnew)) {
-            return;
-        }
-        int x = res.getScaledWidth() / 2 + 20;
-        int y = res.getScaledHeight() / 2 - 8;
-        RenderHelper.renderProgressPie(x, y, (float)this.proccess / 600.0f, this.getStackInSlot(0));
-        String s = "\u00a7f\u0421\u0442\u0430\u0442\u0443\u0441: " + (this.isStoped ? "\u00a7c\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d" : "\u00a72\u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
-        mc.fontRenderer.drawStringWithShadow(s, x - 20 - s.length() / 2, y + 20, 0xFFFFFF);
     }
 
     public int[] getAccessibleSlotsFromSide(int i) {

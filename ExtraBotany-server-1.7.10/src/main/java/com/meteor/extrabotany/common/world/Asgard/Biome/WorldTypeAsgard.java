@@ -3,7 +3,6 @@
  */
 package com.meteor.extrabotany.common.world.Asgard.Biome;
 
-import com.meteor.extrabotany.common.world.Asgard.Biome.AsgardGenLayerBiome;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.GenLayerBiomeEdge;

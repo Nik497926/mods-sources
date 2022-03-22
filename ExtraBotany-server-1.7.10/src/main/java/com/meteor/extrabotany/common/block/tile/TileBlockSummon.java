@@ -5,13 +5,9 @@ package com.meteor.extrabotany.common.block.tile;
 
 import com.djgiannuzz.thaumcraftneiplugin.ModItems;
 import com.meteor.extrabotany.common.entity.EntityAsgard;
-import java.awt.Color;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -22,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -31,14 +26,12 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.visnet.VisNetHandler;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.spark.ISparkAttachable;
 import vazkii.botania.api.mana.spark.ISparkEntity;
-import vazkii.botania.client.core.helper.RenderHelper;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 
 public class TileBlockSummon
@@ -431,33 +424,6 @@ implements ISparkAttachable {
             _res[i] = var0;
         }
         return _res;
-    }
-
-    public void renderHUD(Minecraft minecraft, ScaledResolution res) {
-        if (this.work && this.save != null) {
-            int i;
-            int x = res.getScaledWidth() / 2;
-            int y = res.getScaledHeight() / 2 - 8;
-            RenderHelper.renderProgressPie(x - 8, y - 5, (float)this.mana / (float)this.needMana, this.save);
-            minecraft.fontRenderer.drawString(Integer.toString(this.mana), x - 50 - Integer.toString(this.mana).length(), y, new Color(52735).getRGB());
-            minecraft.fontRenderer.drawString(Integer.toString(this.needMana), x + 30 - Integer.toString(this.needMana).length(), y, new Color(52735).getRGB());
-            ItemStack[] _aspect = this.getItemsWithHUD();
-            net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
-            GL11.glEnable(32826);
-            for (i = 0; i < _aspect.length; ++i) {
-                RenderItem.getInstance().renderItemAndEffectIntoGUI(minecraft.fontRenderer, minecraft.renderEngine, _aspect[i], x + this.xCoordHudAsp[i], y + 24);
-            }
-            net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(2929);
-            for (i = 0; i < _aspect.length; ++i) {
-                minecraft.fontRenderer.drawString(Integer.toString(this.needAsp.getAmount(this.aspListHUD[i])), x + (this.needAsp.getAmount(this.aspListHUD[i]) > 9 ? this.xCoordHudAspText[i] : this.xCoordHudAspTextSafe[i]), y + 40, this.aspListHUD[i].getColor());
-            }
-            GL11.glEnable(2929);
-        } else {
-            int xc = res.getScaledWidth() / 2 - minecraft.fontRenderer.getStringWidth("\u041d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442") / 2;
-            int yc = res.getScaledHeight() / 2 + 10;
-            minecraft.fontRenderer.drawStringWithShadow("\u041d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442", xc, yc, new Color(0xFF5500).getRGB());
-        }
     }
 }
 

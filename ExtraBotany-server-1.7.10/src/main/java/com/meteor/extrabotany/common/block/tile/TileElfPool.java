@@ -4,24 +4,18 @@
 package com.meteor.extrabotany.common.block.tile;
 
 import com.meteor.extrabotany.common.block.ModBlocks;
-import java.awt.Color;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.api.BotaniaAPI;
@@ -163,13 +157,6 @@ IThrottledPacket {
         if (this.soundTicks > 0) {
             --this.soundTicks;
         }
-        if (this.worldObj.isRemote) {
-            double particleChance = 1.0 - (double)this.getCurrentMana() / (double)this.manaCap * 0.1;
-            Color color = new Color(50943);
-            if (Math.random() > particleChance) {
-                Botania.proxy.wispFX(this.worldObj, (double)this.xCoord + 0.3 + Math.random() * 0.5, (double)this.yCoord + 0.6 + Math.random() * 0.25, (double)this.zCoord + Math.random(), (float)color.getRed() / 255.0f, (float)color.getGreen() / 255.0f, (float)color.getBlue() / 255.0f, (float)Math.random() / 3.0f, (float)(-Math.random()) / 25.0f, 2.0f);
-            }
-        }
         if (this.sendPacket && this.ticks % 10 == 0) {
             VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
             this.sendPacket = false;
@@ -290,30 +277,6 @@ IThrottledPacket {
             }
         }
         this.worldObj.playSoundAtEntity(player, "botania:ding", 0.11f, 1.0f);
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        ItemStack pool = new ItemStack(ModBlocks.elfpool, 1, this.getBlockMetadata());
-        String name = StatCollector.translateToLocal(pool.getUnlocalizedName().replaceAll("tile.", "tile.botania:") + ".name");
-        int color = 0x4444FF;
-        HUDHandler.drawSimpleManaHUD(color, this.knownMana, this.manaCap, name, res);
-        int x = res.getScaledWidth() / 2 - 11;
-        int y = res.getScaledHeight() / 2 + 30;
-        int u = this.outputting ? 22 : 0;
-        int v = 38;
-        GL11.glEnable(3042);
-        GL11.glBlendFunc(770, 771);
-        mc.renderEngine.bindTexture(HUDHandler.manaBar);
-        RenderHelper.drawTexturedModalRect(x, y, 0.0f, u, v, 22, 15);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        ItemStack tablet = new ItemStack(ModItems.manaTablet);
-        ItemManaTablet.setStackCreative(tablet);
-        net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
-        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, tablet, x - 20, y);
-        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, pool, x + 26, y);
-        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(2896);
-        GL11.glDisable(3042);
     }
 
     public boolean canRecieveManaFromBursts() {

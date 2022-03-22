@@ -11,7 +11,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -36,9 +35,6 @@ implements ITileEntityProvider {
 
     public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileBlockBoost();
-    }
-
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity) {

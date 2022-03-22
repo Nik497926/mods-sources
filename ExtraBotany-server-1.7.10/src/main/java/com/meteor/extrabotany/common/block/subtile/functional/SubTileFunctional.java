@@ -4,15 +4,11 @@
 package com.meteor.extrabotany.common.block.subtile.functional;
 
 import java.awt.Color;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import vazkii.botania.api.BotaniaAPI;
@@ -177,12 +173,6 @@ extends SubTileEntity {
 
     public boolean isValidBinding() {
         return this.linkedPool != null && !this.linkedPool.isInvalid() && this.supertile.getWorldObj().getTileEntity(this.linkedPool.xCoord, this.linkedPool.yCoord, this.linkedPool.zCoord) == this.linkedPool;
-    }
-
-    public void renderHUD(Minecraft mc, ScaledResolution res) {
-        String name = StatCollector.translateToLocal("tile.botania:flower." + this.getUnlocalizedName() + ".name");
-        int color = this.getColor();
-        BotaniaAPI.internalHandler.drawComplexManaHUD(color, this.knownMana, this.getMaxMana(), name, res, BotaniaAPI.internalHandler.getBindDisplayForFlowerType(this), this.isValidBinding());
     }
 }
 

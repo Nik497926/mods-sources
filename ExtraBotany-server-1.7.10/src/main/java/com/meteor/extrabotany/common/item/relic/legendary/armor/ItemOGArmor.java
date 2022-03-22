@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -21,14 +20,12 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.StatBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.item.IRelic;
-import vazkii.botania.client.model.armor.ModelArmorTerrasteel;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.item.equipment.armor.manasteel.ItemManasteelArmor;
@@ -53,12 +50,6 @@ implements IRelic {
         multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 0.1, 1));
         multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 10.0, 0));
         return multimap;
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public ModelBiped provideArmorModelForSlot(ItemStack stack, int slot) {
-        this.models[slot] = new ModelArmorTerrasteel(slot);
-        return this.models[slot];
     }
 
     public String getArmorTextureAfterInk(ItemStack stack, int slot) {

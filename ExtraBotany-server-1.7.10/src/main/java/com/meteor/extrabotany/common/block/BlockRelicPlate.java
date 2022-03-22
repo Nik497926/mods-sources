@@ -73,15 +73,6 @@ implements ILexiconable {
         return false;
     }
 
-    @Override
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-        this.icons = new IIcon[3];
-        for (int i = 0; i < this.icons.length; ++i) {
-            this.icons[i] = IconHelper.forBlock(par1IconRegister, this, i);
-        }
-        overlay = IconHelper.forBlock(par1IconRegister, this, "overlay");
-    }
-
     public IIcon getIcon(int par1, int par2) {
         return this.icons[Math.min(2, par1)];
     }
