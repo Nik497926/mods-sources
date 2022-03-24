@@ -328,7 +328,19 @@ implements IBotaniaBossWithShader {
     }
 
     public boolean isAggored() {
-        return this.dataWatcher.getWatchableObjectByte(21) == 1;
+        try {
+            return this.dataWatcher.getWatchableObjectInt(21) == 1;
+        } catch (Exception e) {
+
+        }
+
+        try {
+            return this.dataWatcher.getWatchableObjectByte(21) == 1;
+        } catch (Exception e) {
+
+        }
+
+        return false;
     }
 
     public int getTPDelay() {
@@ -347,7 +359,19 @@ implements IBotaniaBossWithShader {
     }
 
     public boolean isHardMode() {
-        return this.dataWatcher.getWatchableObjectByte(27) == 1;
+        try {
+            return this.dataWatcher.getWatchableObjectInt(27) == 1;
+        } catch (Exception e) {
+
+        }
+
+        try {
+            return this.dataWatcher.getWatchableObjectByte(27) == 1;
+        } catch (Exception e) {
+
+        }
+
+        return false;
     }
 
     public int getPlayerCount() {
@@ -926,34 +950,69 @@ implements IBotaniaBossWithShader {
         return true;
     }
 
-    @Override
-    public int getBossBarShaderProgram(boolean b) {
-        return 0;
-    }
-
-    @Override
-    public ShaderCallback getBossBarShaderCallback(boolean b, int i) {
-        return null;
-    }
-
-    @Override
+    @SideOnly(Side.CLIENT)
     public ResourceLocation getBossBarTexture() {
-        return null;
+        return LibReference.BAR_BOSS;
     }
 
-    @Override
+    @SideOnly(Side.CLIENT)
     public Rectangle getBossBarTextureRect() {
-        return null;
+        if (barRect == null) {
+            barRect = new Rectangle(0, 0, 185, 15);
+        }
+
+        return barRect;
     }
 
-    @Override
+    @SideOnly(Side.CLIENT)
     public Rectangle getBossBarHPTextureRect() {
-        return null;
+        if (hpBarRect == null) {
+            hpBarRect = new Rectangle(0, barRect.y + barRect.height, 181, 7);
+        }
+
+        return hpBarRect;
     }
 
-    @Override
-    public void bossBarRenderCallback(ScaledResolution scaledResolution, int i, int i1) {
+    @SideOnly(Side.CLIENT)
+    public void bossBarRenderCallback(ScaledResolution res, int x, int y) {
+        GL11.glPushMatrix();
+        int px = x + 160;
+        int py = y + 12;
+        Minecraft mc = Minecraft.getMinecraft();
+        ItemStack stack = new ItemStack(Items.skull, 1, 3);
+        mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
+        RenderHelper.enableGUIStandardItemLighting();
+        GL11.glEnable(32826);
+        RenderItem.getInstance().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack, px, py);
+        RenderHelper.disableStandardItemLighting();
+        boolean unicode = mc.fontRenderer.getUnicodeFlag();
+        mc.fontRenderer.setUnicodeFlag(true);
+        mc.fontRenderer.drawStringWithShadow("" + this.getPlayerCount(), px + 15, py + 4, 16777215);
+        mc.fontRenderer.setUnicodeFlag(unicode);
+        GL11.glPopMatrix();
+    }
 
+    @SideOnly(Side.CLIENT)
+    public int getBossBarShaderProgram(boolean background) {
+        return background ? 0 : ShaderHelper.dopplegangerBar;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public ShaderCallback getBossBarShaderCallback(boolean background, int shader) {
+        if (this.shaderCallback == null) {
+            this.shaderCallback = new ShaderCallback(){
+
+                public void call(int shader) {
+                    int grainIntensityUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"grainIntensity");
+                    int hpFractUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"hpFract");
+                    float time = EntityGaiaIII.this.getInvulTime();
+                    float grainIntensity = time > 20.0f ? 1.0f : Math.max(EntityGaiaIII.this.isHardMode() ? 0.5f : 0.0f, time / 20.0f);
+                    ARBShaderObjects.glUniform1fARB((int)grainIntensityUniform, (float)grainIntensity);
+                    ARBShaderObjects.glUniform1fARB((int)hpFractUniform, (float)(EntityGaiaIII.this.getHealth() / EntityGaiaIII.this.getMaxHealth()));
+                }
+            };
+        }
+        return background ? null : this.shaderCallback;
     }
 
     public static class BeaconComponent
