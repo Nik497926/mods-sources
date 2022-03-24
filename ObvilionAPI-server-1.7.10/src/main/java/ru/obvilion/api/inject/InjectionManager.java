@@ -20,7 +20,7 @@ public class InjectionManager {
     public static void init() {
         Class<?> plugin = InjectionUtils.getClass("ObvilionAPI", "ru.obvilion.api.ObvilionPlugin");
         if (plugin == null) {
-            System.err.println("[ObvilionAPI] Plugin not found! ");
+            System.err.println("[ObvilionAPI] Plugin not found!");
             return;
         }
 
