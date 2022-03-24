@@ -1,0 +1,16 @@
+[
+{
+  "modid": "StrangerMind",
+  "name": "Stranger Mind",
+  "description": "Custom blocks and other items",
+  "version": "1.41",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SkyDrive_"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

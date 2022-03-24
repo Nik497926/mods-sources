@@ -1,0 +1,4 @@
+{
+  "open_box": {"category": "master", "sounds": ["mireille:open_box"]},
+  "smoke": {"category": "master", "sounds": ["mireille:smoke"]}
+}
