@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "verbose": true,
+  "minVersion": "0.7.11",
+  "compatibilityLevel": "JAVA_8",
+  "package": "ru.samopis.photon.aaaaa.mixin",
+  "refmap": "mixins.aaaaa.refmap.json",
+  "mixins": [
+    "ru.obvilion.additionpanels.mixin.MixinAppEngInternalInventory",
+    "ru.obvilion.additionpanels.mixin.MixinDualityInterface",
+    "ru.obvilion.additionpanels.mixin.ContainerUpgradeableAccessor"
+  ],
+  "target": "@env(INIT)",
+  "client": [],
+  "server": []
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "AdditionPanels",
+    "name": "Addition Panels",
+    "description": "Addon for IC2",
+    "version": "1.0.0",
+    "mcversion": "1.7.10",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Obvilion.ru"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

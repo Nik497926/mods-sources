@@ -1,0 +1,120 @@
+﻿tile.solarpanelinfernal.name=Инфернальная солнечная панель
+tile.solarpanelsupporting.name=Супремиальная солнечная панель
+tile.solarpanelassembly.name=Ассамбленальная солнечная панель
+tile.solarpanelformorite.name=Форфоритовая солнечная панель
+tile.solarpanelspatial.name=Пространственная солнечная панель
+tile.solarpanelsun.name=Солнечная панель Солнце
+tile.solarpanelproksima.name=Солнечная панель Проксима
+tile.solarpanelglize.name=Солнечная панель Глизе
+tile.solarpanelofthevirgin.name=Солнечная панель Девы
+tile.solarpanelross.name=Солнечная панель Росс
+tile.solarpanelhoneybees.name=Солнечная панель медовых пчёл
+tile.solarpaneluraniumbees.name=Солнечная панель урановых пчёл
+tile.solarpanelplatinumbees.name=Солнечная панель платиновых пчёл
+tile.solarpanelofredneedbees.name=Солнечная панель покрасневших пчёл
+tile.solarpanelforesterlevel1.name=Солнечная панель 1 уровня лесника
+tile.solarpanelforesterlevel2.name=Солнечная панель 2 уровня лесника
+tile.solarpanelforesterlevel3.name=Солнечная панель 3 уровня лесника
+tile.solarpanelforesterlevel4.name=Солнечная панель 4 уровня лесника
+tile.solarpanelmeasurement.name=Солнечная панель измерений
+tile.solarpanelblades.name=Солнечная панель безграничности
+tile.solarpaneluniverse.name=Солнечная панель вселенной
+
+tile.cobblestonegenerator.name=Генератор булыжника
+tile.fruitgenerator.name=Генератор еды
+
+tile.advancedmfsu.name=Улучшенный МФЭХ
+tile.interface18.name=МЭ Интерфейс х18
+tile.interface27.name=МЭ Интерфейс х27
+tile.interface36.name=МЭ Интерфейс х36
+
+item.storagecell2k.name=2К кб МЭ ячейка хранения
+item.storagecell4k.name=4К кб МЭ ячейка хранения
+item.storagecell16k.name=16К кб МЭ ячейка хранения
+item.storagecell64k.name=64К кб МЭ ячейка хранения
+item.storagecell256k.name=256К кб МЭ ячейка хранения
+
+
+
+gui.storage=Емкость
+gui.maxOutput=Макс выход
+gui.generating=Генерация
+gui.energyPerTick=EU/t
+
+tile.quantumgenerator.name=Обычный квантовый генератор
+tile.ultimatebluequantumgenerator.name=Ультимативно-синий квантовый генератор
+tile.ultimatevioletquantumgenerator.name=Ультимативно-фиолетовый квантовый генератор
+tile.ultimateneonquantumgenerator.name=Ультимативно-неонный квантовый генератор
+tile.ultimateintergalacticquantumgenerator.name=Ультимативно-межгалактический квантовый генератор
+
+
+
+tooltip.solarpaneluraniumbees.day=§a§lГенерация днём: %s EU/t
+tooltip.solarpaneluraniumbees.night=§a§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelspatial.day=§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lднём: %s EU/t
+tooltip.solarpanelspatial.night=§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lночью: %s EU/t
+
+tooltip.solarpanelproksima.day=§6§lГенерация днём: %s EU/t
+tooltip.solarpanelproksima.night=§6§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelblades.day=§4§lГенерация днём: %s EU/t
+tooltip.solarpanelblades.night=§4§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelsun.day=§4§lГ§c§lе§6§lн§4§lе§c§lр§6§lа§4§lц§c§lи§6§lя днём: %s EU/t
+tooltip.solarpanelsun.night=§4§lГ§c§lе§6§lн§4§lе§c§lр§6§lа§4§lц§c§lи§6§lя ночью: %s EU/t
+
+tooltip.solarpanelofthevirgin.day=§b§lГенерация днём: %s EU/t
+tooltip.solarpanelofthevirgin.night=§b§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelross.day=§c§lГенерация днём: %s EU/t
+tooltip.solarpanelross.night=§c§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelinfernal.day=§4§lГ§c§lе§6§lн§4§lе§c§lр§6§lа§4§lц§c§lи§6§lя днём: %s EU/t
+tooltip.solarpanelinfernal.night=§4§lГ§c§lе§6§lн§4§lе§c§lр§6§lа§4§lц§c§lи§6§lя ночью: %s EU/t
+
+tooltip.solarpanelglize.day=§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lднём: %s EU/t
+tooltip.solarpanelglize.night=§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lночью: %s EU/t
+
+tooltip.solarpanelsupporting.day=§a§lГенерация днём: %s EU/t
+tooltip.solarpanelsupporting.night=§a§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelformorite.day=§1§lГенерация днём: %s EU/t
+tooltip.solarpanelformorite.night=§1§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelassembly.day=§7§lГенерация днём: %s EU/t
+tooltip.solarpanelassembly.night=§7§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelforesterlevel4.day=§2§lГенерация днём: %s EU/t
+tooltip.solarpanelforesterlevel4.night=§2§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelforesterlevel3.day=§2§lГенерация днём: %s EU/t
+tooltip.solarpanelforesterlevel3.night=§2§lГенерация ночью: %s EU/t
+
+tooltip.solarpaneluniverse.day=§a§lГ§b§lе§3§lн§1§lе§9§lр§d§lа§5§lц§a§lи§b§lя §3§lднём: %s EU/t
+tooltip.solarpaneluniverse.night=§a§lГ§b§lе§3§lн§1§lе§9§lр§d§lа§5§lц§a§lи§b§lя §3§lночью: %s EU/t
+
+tooltip.solarpanelhoneybees.day=§c§lГенерация днём: %s EU/t
+tooltip.solarpanelhoneybees.night=§c§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelplatinumbees.day=§3§lГенерация днём: %s EU/t
+tooltip.solarpanelplatinumbees.night=§3§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelofredneedbees.day=§4§lГенерация днём: %s EU/t
+tooltip.solarpanelofredneedbees.night=§4§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelforesterlevel2.day=§2§lГенерация днём: %s EU/t
+tooltip.solarpanelforesterlevel2.night=§2§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelforesterlevel1.day=§2§lГенерация днём: %s EU/t
+tooltip.solarpanelforesterlevel1.night=§2§lГенерация ночью: %s EU/t
+
+tooltip.solarpanelmeasurement.day=§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lднём: %s EU/t
+tooltip.solarpanelmeasurement.night=:§b§lГ§3§lе§1§lн§9§lе§d§lр§5§lа§b§lц§3§lи§1§lя §9§lночью: %s EU/t
+
+tooltip.ultimatevioletquantumgenerator=§d§lВ§5§lы§d§lх§5§lо§d§lд §5§lэнергии: %s EU/t макс.
+tooltip.ultimateintergalacticquantumgenerator=§6§lВ§b§lы§3§lх§1§lо§9§lд §d§lэ§5§lн§d§lе§9§lр§1§lг§3§lи§b§lи: %s EU/t макс.
+tooltip.ultimatebluequantumgenerator=§b§lВыход энергии: %s EU/t макс.
+tooltip.quantumgenerator=§d§lВ§5§lы§4§lх§c§lо§4§lд §5§lэ§d§lн§5§lе§4§lр§c§lг§4§lи§5§lи: %s EU/t макс.
+tooltip.ultimateneonquantumgenerator=§4§lВыход энергии: %s EU/t макс.
+
