@@ -1,6 +1,7 @@
 package ru.obvilion.api;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.obvilion.api.inject.essentials.EssentialsInjection;
@@ -11,13 +12,24 @@ import ru.obvilion.api.inject.permissions.pex.PexInjection;
 import ru.obvilion.api.inject.vault.IVaultInjection;
 import ru.obvilion.api.inject.vault.VaultInjection;
 
-public class ObvilionPlugin extends JavaPlugin {
-    private static IPermissionsInjection pexInjection;
-    private static IEssentialsInjection essentialsInjection;
-    private static IVaultInjection vaultInjection;
+import java.util.ArrayList;
+import java.util.List;
 
-    public static String getVersion() {
-        return "1.0.7";
+public class ObvilionPlugin extends JavaPlugin {
+    public static IPermissionsInjection pexInjection;
+    public static IEssentialsInjection essentialsInjection;
+    public static IVaultInjection vaultInjection;
+
+    public static ObvilionPlugin INSTANCE;
+
+    public static List<Runnable> onLoadListeners = new ArrayList<>();
+    public static List<Runnable> onEnableListeners = new ArrayList<>();
+    public static List<Runnable> onDisableListeners = new ArrayList<>();
+    public static List<Listener> bukkitListeners = new ArrayList<>();
+
+    public ObvilionPlugin() {
+        super();
+        INSTANCE = this;
     }
 
     @Override
@@ -36,6 +48,10 @@ public class ObvilionPlugin extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             vaultInjection = new VaultInjection();
         }
+
+        for (Runnable r : onLoadListeners) {
+            r.run();
+        }
     }
 
     @Override
@@ -44,22 +60,16 @@ public class ObvilionPlugin extends JavaPlugin {
         System.out.println("- Permissions " + (pexInjection == null ? "not " : "") + "supported");
         System.out.println("- Essentials " + (essentialsInjection == null ? "not " : "") + "supported");
         System.out.println("- Vault " + (vaultInjection == null ? "not " : "") + "supported");
+
+        for (Runnable r : onEnableListeners) {
+            r.run();
+        }
     }
 
     @Override
     public void onDisable() {
-
-    }
-
-    public static IPermissionsInjection getPermissionsInjection() {
-        return pexInjection;
-    }
-
-    public static IEssentialsInjection getEssentialsInjection() {
-        return essentialsInjection;
-    }
-
-    public static IVaultInjection getVaultInjection() {
-        return vaultInjection;
+        for (Runnable r : onDisableListeners) {
+            r.run();
+        }
     }
 }

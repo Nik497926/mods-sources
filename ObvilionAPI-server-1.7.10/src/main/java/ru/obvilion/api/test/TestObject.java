@@ -1,4 +1,4 @@
-package ru.obvilion.api.db.test;
+package ru.obvilion.api.test;
 
 import ru.obvilion.api.db.DatabaseObject;
 import ru.obvilion.api.db.annotations.*;

@@ -10,8 +10,7 @@ public class DatabaseObject implements Cloneable {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
+            throw new IllegalStateException(e);
         }
     }
 

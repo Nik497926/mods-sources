@@ -1,19 +1,14 @@
 package ru.obvilion.api.db;
 
-import net.minecraft.world.biome.BiomeGenHell;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
 import ru.obvilion.api.db.annotations.*;
 import ru.obvilion.api.db.constructors.SelectOptions;
 import ru.obvilion.api.db.constructors.UpdateOptions;
-import ru.obvilion.api.db.constructors.conditions.*;
-import ru.obvilion.api.db.test.TestObject;
 import ru.obvilion.api.utils.NumberUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.Date;
 
 public class DatabaseConnection {
     public final DatabaseType type;
@@ -82,12 +77,18 @@ public class DatabaseConnection {
         }
     }
 
-    public <T> void createTable(Class<T> c) throws IllegalAccessException, InstantiationException {
+    public <T> void createTable(Class<T> c) {
         DatabaseTable dt = c.getAnnotation(DatabaseTable.class);
         String table = dt == null ? c.getSimpleName() : dt.value();
 
         Field[] fields = c.getDeclaredFields();
-        T exemplar = c.newInstance();
+        T exemplar;
+
+        try {
+            exemplar = c.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
         String query = "CREATE TABLE IF NOT EXISTS " + table + " (";
 
@@ -116,7 +117,13 @@ public class DatabaseConnection {
             String default_value = " DEFAULT ";
 
             if (def == null) {
-                Object val = f.get(exemplar);
+                Object val;
+
+                try {
+                    val = f.get(exemplar);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
 
                 if (!NumberUtils.isNullOrZero(val)) {
                     default_value += DatabaseUtils.getValueString(val);
@@ -245,7 +252,7 @@ public class DatabaseConnection {
                 result.add(obj);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return result;
@@ -257,46 +264,5 @@ public class DatabaseConnection {
 
     public <T> List<T> getElements(Class<T> c) {
         return getElements(c, new SelectOptions());
-    }
-
-    public static void main(String[] args) throws IllegalAccessException, InstantiationException {
-        Properties properties = new Properties();
-        properties.setProperty("user", "");
-        properties.setProperty("password", "");
-
-        DatabaseConnection con = new DatabaseConnection(DatabaseType.POSTGRES, "balarama.db.elephantsql.com", 5432, "xddvirje", properties);
-        con.connect();
-
-        // Remove table if exists
-        // con.dropTable(TestObject.class);
-
-        // Create table if not exists
-        con.createTable(TestObject.class);
-
-        // Insert record
-        TestObject testObject = new TestObject();
-        testObject.text = "123";
-        testObject.date = new Date(1123213123);
-
-        con.addRecord(testObject);
-
-        // Select records from table
-        List<TestObject> objects = con.getElements(TestObject.class);
-        System.out.println(objects);
-
-        // Edit record from table
-        TestObject record = objects.get(0);
-        record.random_number = 12345;
-        record.text = "This is new text 2!";
-
-        UpdateOptions options = new UpdateOptions();
-        options.setRows("random_number", "text");
-        options.setCondition(new EqualsCond("id"));
-
-        con.editRecord(record, options);
-
-        // Select records from table
-        objects = con.getElements(TestObject.class);
-        System.out.println(objects);
     }
 }

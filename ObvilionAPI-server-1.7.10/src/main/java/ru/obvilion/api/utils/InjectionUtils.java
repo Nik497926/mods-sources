@@ -10,21 +10,6 @@ import java.lang.reflect.Method;
 public final class InjectionUtils {
     private static final Method defineClass;
 
-    // Need Inj subclass
-    public static Class<?> injectClass(String pluginName, Class<?> clazz) {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
-        if (plugin == null)
-            return null;
-
-        try (InputStream in = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + "$Inj.class")) {
-            byte[] bytes = ByteStreams.toByteArray(in);
-            return (Class<?>) defineClass.invoke(plugin.getClass().getClassLoader(), null, bytes, 0, bytes.length);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            return null;
-        }
-    }
-
     public static Class<?> getClass(String pluginName, String path) {
         Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
         if (plugin == null)

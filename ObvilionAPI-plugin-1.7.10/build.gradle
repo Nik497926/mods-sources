@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.7"
+version = "1.0.9"
 group= "ru.obvilion.api"
-archivesBaseName = "obvilion-api-server"
+archivesBaseName = "obvilion-api-plugin"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
