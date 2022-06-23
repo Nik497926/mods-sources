@@ -31,6 +31,8 @@ import ru.obvilion.accessoires.server.network.packet.IPacket;
 import ru.obvilion.accessoires.utils.Logger;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
+import ru.obvilion.api.inject.InjectionManager;
+import ru.obvilion.api.inject.permissions.api.IUser;
 
 public class NetworkHandler {
     private static String channel = "ACS";

@@ -1,0 +1,87 @@
+# Tiles
+tile.block_silent_spawner.name=Silent Spawner
+tile.block_silent_spawner_standalone.name=Silent Spawner Standalone
+tile.block_chunkloader.name=Chunk Loader
+tile.block_trade_station.name=Trade station
+
+# GUI
+itemGroup.senergetics=SEnergetics
+gui.gui_silent_spawner.name=Silent Spawner
+
+gui.gui_silent_spawner_draw_exp_button.overlay=Draw collected exp<br>§7Collected exp levels: §e%d
+gui.gui_silent_spawner_indicator_exp.overlay=Хранилище опыта<br>§7Хранится сейчас: §e%d мБ <br>§7Вместимость хранилища: §e%d мБ <br>§7Осталось: §e%d мБ
+gui.gui_silent_spawner_lvl.overlay=Spawner Level<br>§7Current spawner level: §e%d<br>§7Available lvl-ups: §e%d<br><br>§6Check info about spawner<br>§6upgrades items for level ups.
+gui.gui_item_bag_button.overlay.locked=§7Текущий статус: §cЗаблокирован<br><br>§6Нажмите, чтобы разблокировать<br>§6его для других игроков.
+gui.gui_item_bag_button.overlay.unlocked=§7Текущий статус: §aРазблокирован<br><br>§6Нажмите, чтобы заблокировать<br>§6его для других игроков.
+gui.gui_chunkloader_insert_ticket=§cInsert ticket
+gui.gui_trade_station_storage.title=Trade station storage
+gui.gui_trade_station_purchase.title=Trade station of %s
+gui.gui_trade_station_settings.title=Trade station settings
+gui.gui_trade_station_settings.econs_placeholder=Item price
+
+# Items
+item.item_mob_debug.name=Entity Debugger
+item.item_mob_scanner.name=Mob Scanner
+item.item_spawner_upgrade_speed.name=§eImproving of Time
+item.item_spawner_upgrade_looting.name=§eImproving of Extraction
+item.item_spawner_upgrade_experience.name=§eImproving of Experience Extraction
+item.item_spawner_upgrade_super.name=§cSuper spawner upgrade
+item.item_spawner_upgrade_lvl_2.name=§2Upgrading the spawner to level 2
+item.item_spawner_upgrade_lvl_3.name=§9Upgrading the spawner to level 3
+item.item_bag.name=SE-Bag
+item.item_chunkloader_ticket.name=§cChunk Loader Ticket
+
+# Items and blocks lore
+tile.block_silent_spawner.lore=Powered by electricity, requires constant power.<br><br>Battery capacity: §e40.000.000<br>Consumption: §e%energyPerTick% EU/t
+#
+tile.block_silent_spawner_standalone.lore=Powered by built-in panels.<br><br>Consumption: §eNo<br>Feature: §eWorks without lights
+#
+tile.block_chunkloader.lore=Works using special tickets<br>for the chunk loader. They can only be<br>obtained from our store on the website.
+#
+tile.block_trade_station.lore=Этот блок позволяет торговать<br>с другими игроками используя<br>игровую валюту сервера!
+#
+item.item_mob_debug.lore=Print entity class to the chat
+#
+item.item_mob_scanner.lore=To record information about a creature, right-click on it
+item.item_mob_scanner_selected.lore=Contains information about the mob:<br>§e%entityName%
+#
+item.item_spawner_upgrade_speed.lore=Speeds up the spawner twice.
+item.item_spawner_upgrade_looting.lore=Improves production from mobs twice<br>(taking into account the level<br>of enchantment of production on the sword).
+item.item_spawner_upgrade_experience.lore=Improves experience production from mobs twice.
+item.item_spawner_upgrade_super.lore=It contains three improvements at once:<br> - Experience mining increased 2x more<br> - The speed of spawning mobs - every 2х more<br> - Each kill of a mob brings 2x more items<br>This allows you to use the spawner to the maximum,<br>with all the improvements at once!<br><br>§eThis addon is available in the store:<br>§6https://simpleminecraft.ru/cabinet/shop
+#
+item.item_spawner_upgrade_lvl_2.lore=Increases spawner speed to §e10 seconds.<br>(Standard speed is 20 seconds.)<br>Energy consumption increases to §e%s EU/t.<br><br>Click Shift + RMB on a spawner to install.<br>To remove from a spawner, Shift + RMB on a spawner without an item in hand or with another item.
+item.item_spawner_upgrade_lvl_3.lore=Increases spawner speed to §e5 seconds.<br>(Standard speed is 20 seconds.)<br>Energy consumption increases to §e%s EU/t.<br><br>Shift + Right click on the spawner to install.<br>To remove from a spawner, click Shift + RMB on a spawner without an item in your hands or with another item.
+#
+item.item_bag.owner.lore=Owner: §e%s
+item.item_bag.no_owner.lore=Open bag for some magic!
+item.item_bag.lore=<br>§eContains inside §6104<br>§eslots for you items!
+item.item_bag.details.lore=§6Press Shift to see the<br>§6 contents of your inventory
+item.item_bag.inventory.lore=§6Inventory contains:
+#
+item.item_chunkloader_ticket.lore.time=%d h. %02d min. %02d sec
+item.item_chunkloader_ticket.lore=Available time: %s.<br>The ticket is valid for 24 hours.<br><br>§eThis item is available in the store:<br>§6https://simpleminecraft.ru/cabinet/shop
+#
+item.panel_particle_collector_photon.name=Поглотитель фотонов
+item.panel_particle_collector_boson.name=Поглотитель базонов
+item.panel_particle_collector_gluon.name=Поглотитель глюонов
+item.panel_particle_collector_quark.name=Поглотитель кварков
+item.panel_particle_collector_barion.name=Поглотитель барионов
+item.panel_particle_collector_fermion.name=Поглотитель фермионов
+item.panel_particle_collector_quantum.name=Поглотитель квантов
+item.block_solar_panel.name=Улучшаемая солнечная панель
+
+# Chat messages
+message.item_mob_scanner_override.text=The mob data has already been recorded. To overwrite, click the item with Shift + RMB on the desired creature.
+message.item_mob_scanner_success.text=The creature's data is recorded.
+message.item_mob_scanner_no_allowed.text=This mob has not been added to the spawner permissions. If you want us to add it, write head to the server moderator!
+#
+message.item_spawner_upgrade_lvl_equals.text=§cThis spawner already has a level %s upgrade.
+message.item_spawner_upgrade_lvl_not_exists.text=§cThe spawner must be upgraded to level %s first.
+message.item_spawner_upgrade_lvl_setup.text=You have upgraded your spawner to level %s!
+message.item_spawner_upgrade_lvl_remove.text=Level %s upgrade removed from spawner.
+#
+message.block_silent_spawner_inventory_full.text=§cInventory of Silent Spawner is full! Block coords: %s
+#
+message.item_bag_access_error.text=§cBag is blocked by owner.
+message.item_bag_access_error_for_owner.text=§cTry to open your blocked Bag from player: %s.

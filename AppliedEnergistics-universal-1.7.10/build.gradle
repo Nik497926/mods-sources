@@ -1,0 +1,121 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = "https://jcenter.bintray.com/" }
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
+    }
+}
+
+apply plugin: 'forge'
+
+version = "1.1.0"
+group = "appeng"
+archivesBaseName = "ae2-universal"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "run"
+}
+
+dependencies {
+    compileOnly 'net.minecraft:launchwrapper:1.11'
+    compileOnly 'com.google.code.findbugs:jsr305:1.3.9'
+    compileOnly 'org.ow2.asm:asm-debug-all:5.0.3'
+    compileOnly 'com.typesafe.akka:akka-actor_2.11:2.3.3'
+    compileOnly 'com.typesafe:config:1.2.1'
+    compileOnly 'org.scala-lang:scala-actors-migration_2.11:1.1.0'
+    compileOnly 'org.scala-lang:scala-compiler:2.11.1'
+    compileOnly 'org.scala-lang.plugins:scala-continuations-library_2.11:1.0.2'
+    compileOnly 'org.scala-lang.plugins:scala-continuations-plugin_2.11.1:1.0.2'
+    compileOnly 'org.scala-lang:scala-library:2.11.1'
+    compileOnly 'org.scala-lang:scala-parser-combinators:2.11.0-M4'
+    compileOnly 'org.scala-lang:scala-reflect:2.11.1'
+    compileOnly 'org.scala-lang:scala-swing:2.11.0-M4'
+    compileOnly 'org.scala-lang:scala-xml:2.11.0-M4'
+    compileOnly 'net.sf.jopt-simple:jopt-simple:4.5'
+    compileOnly 'lzma:lzma:0.0.1'
+    compileOnly 'com.mojang:realms:1.3.5'
+    compileOnly 'org.apache.commons:commons-compress:1.8.1'
+    compileOnly 'org.apache.httpcomponents:httpclient:4.3.3'
+    compileOnly 'commons-logging:commons-logging:1.1.3'
+    compileOnly 'org.apache.httpcomponents:httpcore:4.3.2'
+    compileOnly 'java3d:vecmath:1.3.1'
+    compileOnly 'net.sf.trove4j:trove4j:3.0.3'
+    compileOnly 'com.ibm.icu:icu4j-core-mojang:51.2'
+    compileOnly 'com.paulscode:codecjorbis:20101023'
+    compileOnly 'com.paulscode:codecwav:20101023'
+    compileOnly 'com.paulscode:libraryjavasound:20101123'
+    compileOnly 'com.paulscode:librarylwjglopenal:20100824'
+    compileOnly 'com.paulscode:soundsystem:20120107'
+    compileOnly 'io.netty:netty-all:4.0.10.Final'
+    compileOnly 'com.google.guava:guava:17.0'
+    compileOnly 'org.apache.commons:commons-lang3:3.3.2'
+    compileOnly 'commons-io:commons-io:2.4'
+    compileOnly 'commons-codec:commons-codec:1.9'
+    compileOnly 'net.java.jinput:jinput:2.0.5'
+    compileOnly 'net.java.jutils:jutils:1.0.0'
+    compileOnly 'com.google.code.gson:gson:2.2.4'
+    compileOnly 'com.mojang:authlib:1.5.16'
+    compileOnly 'org.apache.logging.log4j:log4j-api:2.0-beta9'
+    compileOnly 'org.apache.logging.log4j:log4j-core:2.0-beta9'
+    compileOnly 'org.lwjgl.lwjgl:lwjgl:2.9.1'
+    compileOnly 'org.lwjgl.lwjgl:lwjgl_util:2.9.1'
+    compileOnly 'tv.twitch:twitch:5.16'
+
+    compileOnly 'org.yaml:snakeyaml:1.16'
+    compileOnly 'com.lmax:disruptor:3.2.1'
+    compileOnly 'org.apache.commons:commons-dbcp2:2.1.1'
+    compileOnly 'net.openhft:koloboke-api-jdk8:0.6.8'
+    compileOnly 'jline:jline:2.13', {transitive = false}
+
+    compileOnly 'net.openhft:koloboke-impl-jdk8:0.6.8'
+    compileOnly 'mysql:mysql-connector-java:5.1.31'
+
+    implementation files('./lib/Mekanism-1.7.10-Pa4ok-client.jar')
+    implementation files('./lib/BetterStorage-1.7.10-0.11.3.123.20-api.jar')
+    implementation files('./lib/buildcraft-7.0.9-dev.jar')
+    implementation files('./lib/CodeChickenCore-1.7.10-1.0.7.47-dev.jar')
+    implementation files('./lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
+    implementation files('./lib/ForgeMultipart-1.7.10-1.2.0.347-dev.jar')
+    implementation files('./lib/industrialcraft-2-2.2.717-experimental-api.jar')
+    implementation files('./lib/NotEnoughItems-1.7.10-1.0.5.120-dev.jar')
+    implementation files('./lib/OpenComputers-MC1.7.10-1.5.12.26-api.jar')
+    implementation files('./lib/PneumaticCraft-1.7.10-1.9.15-105-api.jar')
+    implementation files('./lib/RotaryCraft-1.7.10-V31b.jar')
+    implementation files('./lib/MineFactoryReloaded.jar')
+    implementation files('./lib/InventoryTweaks-1.59-dev-152-1.7.10.jar')
+    implementation files('./lib/CraftGuide_mc1.7.10_1.7.1.0_forge.jar')
+    implementation files('./lib/Immibis-Core-1.7.10.jar')
+    implementation files('./lib/Railcraft_1.7.10-9.12.2.0.jar')
+    implementation files('./lib/Waila-1.5.10_1.7.10.jar')
+    implementation files('./lib/ColoredLightsCore-1.3.7.39.jar')
+}
+
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'appeng.transformer.AppEngCore'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+
+    // specify which files are really included, can control which APIs should be in
+    include "appeng/**"
+    include "assets/**"
+    include "mcmod.info"
+    include "pack.mcmeta"
+}

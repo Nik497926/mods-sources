@@ -1,0 +1,102 @@
+# Тайлы
+tile.block_silent_spawner.name=Тихий спавнер
+tile.block_silent_spawner_standalone.name=Автономный тихий спавнер
+tile.block_chunkloader.name=Загрузчик чанков
+tile.block_machine_smart_metal_former.name=Улучшенный металоформовщик
+tile.block_machine_smart_furnace.name=Улучшенная электропечь
+tile.block_machine_smart_recycler.name=Улучшенный утилизатор
+tile.block_machine_smart_crusher.name=Улучшенный дробитель
+tile.block_machine_smart_compressor.name=Улучшенный компрессор
+tile.block_machine_smart_extractor.name=Улучшенный экстрактор
+tile.block_molecular_collector.name=Молекулярный преобразователь
+tile.block_machine_lava_generator.name=Генератор лавы
+tile.block_nether_star_collector.name=Сборщик звезд Ада
+
+# Гуишки
+itemGroup.senergetics=SEnergetics
+gui.gui_silent_spawner.name=Тихий спавнер
+gui.gui_silent_spawner_draw_exp_button.overlay=Выдать себе наколпенный опыт<br>§7Собрано очков опыта: §e%d
+gui.gui_silent_spawner_indicator_exp.overlay=Хранилище опыта<br>§7Хранится сейчас: §e%d мБ<br>§7Вместимость хранилища: §e%d мБ<br>§7Осталось: §e%d мБ
+gui.gui_silent_spawner_lvl.overlay=Уровень спавнера<br>§7Текущий уровень: §e%d<br>§7Доступно улучшений: §e%d<br><br>§6Подробнее о улучшениях<br>§6спавнера можно узнать введя<br>§6в поиске NEI @SEnergetics и найти<br>§6улучшения спавенера.
+gui.gui_chunkloader_insert_ticket=§cВставьте билет
+
+# Предметы
+item.item_mob_debug.name=Дебагер сущностей
+item.item_mob_scanner.name=Сканер мобов
+item.item_spawner_upgrade_speed.name=§eУлучшение скорости
+item.item_spawner_upgrade_looting.name=§eУлучшение добычи
+item.item_spawner_upgrade_experience.name=§eУлучшение добычи опыта
+item.item_spawner_upgrade_super.name=§cСупер улучшение спаунера
+item.item_spawner_upgrade_lvl_2.name=§2Улучшение спавнера до 2-го уровня
+item.item_spawner_upgrade_lvl_3.name=§9Улучшение спавнера до 3-го уровня
+item.item_chunkloader_ticket_level_1.name=§cБилет для загрузчика чанков (1 уровень)
+item.item_chunkloader_ticket_level_2.name=§cБилет для загрузчика чанков (2 уровень)
+item.item_chunkloader_ticket_level_3.name=§cБилет для загрузчика чанков (3 уровень)
+item.item_chunkloader_ticket_level_4.name=§cБилет для загрузчика чанков (4 уровень)
+
+
+# Описание предметов
+tile.block_silent_spawner.lore=Работает от электричества, требует постоянного питания.<br><br>Емкость аккумулятора: §e40.000.000 EU<br>Потребление: §e%energyPerTick% EU/т
+tile.block_silent_spawner_standalone.lore=Работает от встроенных в него панелей.<br><br>Потребление: §eОтсутствует<br>Особенность: §eРаботает без источников света
+#
+tile.block_chunkloader.lore=Работает загружая 9 чанков (по одному<br>с каждой стороны) с использованием<br>специальных билетов.<br><br>Одного билета хватает на 24 часа.<br><br>§eБилеты можно получить только в нашем<br>§eмагазине на сайте:<br>§6https://simpleminecraft.ru/cabinet/shop
+#
+item.item_mob_debug.lore=Выводит класс существа в чат
+#
+item.item_mob_scanner.lore=Для записи информации о существе кликние ПКМ по нему
+item.item_mob_scanner_selected.lore=Содержит информацию о существе:<br>§e%entityName%
+#
+item.item_spawner_upgrade_speed.lore=Ускоряет работу спаунера в два раза.
+item.item_spawner_upgrade_looting.lore=Повышает добычу ресурсов в два раза.<br>(учитывая уровни зачарования добычи на мече).
+item.item_spawner_upgrade_experience.lore=Повышает добычу опыта в 2 раза.
+item.item_spawner_upgrade_super.lore=Содержит в себе сразу три улучшения:<br>- Добыча опыта увеличена в 2 раза<br>- Скорость спавна существ - увеличивается в 2 раза<br>- Каждое убийство существа приносит x2 предметов<br>Это позволяет использовать спавнер по максимуму,<br>сразу со всеми улучшениями!<br><br>§eЭтот аддон доступен в магазине:<br>§6https://simpleminecraft.ru/cabinet/shop
+#
+item.item_spawner_upgrade_lvl_2.lore=Повышает скорость работы спавнера до §e10 секунд.<br>(Стандартная скорость 20 секунд.)<br>Потребление энергии увеличивается до §e%s EU/т.<br><br>Нужно кликнуть Shift + ПКМ по спавнеру для установки.<br>Чтобы снять со спавнера кликните Shift + ПКМ по<br>спавнеру без предмета в руках или с другим предметом.
+item.item_spawner_upgrade_lvl_3.lore=Повышает скорость работы спавнера до §e5 секунд.<br>(Стандартная скорость 20 секунд.)<br>Потребление энергии увеличивается до §e%s EU/т.<br><br>Нужно кликнуть Shift + ПКМ по спавнеру для установки.<br>Чтобы снять со спавнера кликните Shift + ПКМ по<br>спавнеру без предмета в руках или с другим предметом.
+#
+item.item_chunkloader_ticket.lore.time=%d ч, %02d мин, %02d сек.
+item.item_chunkloader_ticket.lore=Оставшееся время: %s<br>Билет расчитан на %s.<br><br>§eЭтот предмет доступен в магазине:<br>§6https://simpleminecraft.ru/cabinet/shop
+#
+tile.block_machine_smart_compressor.lore=
+tile.block_machine_smart_recycler.lore=
+tile.block_machine_smart_extractor.lore=
+tile.block_machine_smart_crusher.lore=
+tile.block_machine_smart_metal_former.lore=
+tile.block_machine_smart_furnace.lore=
+#
+item.panel_particle_collector_photon.name=Поглотитель фотонов
+item.panel_particle_collector_boson.name=Поглотитель базонов
+item.panel_particle_collector_gluon.name=Поглотитель глюонов
+item.panel_particle_collector_quark.name=Поглотитель кварков
+item.panel_particle_collector_barion.name=Поглотитель барионов
+item.panel_particle_collector_fermion.name=Поглотитель фермионов
+item.panel_particle_collector_quantum.name=Поглотитель квантов
+item.panel_particle_collector_neutron.name=Поглотитель нейтронов
+item.item_panel_particle_core_photon.name=Ядро фотонного поглотителя
+item.item_panel_particle_core_boson.name=Ядро базонного поглотителя
+item.item_panel_particle_core_gluon.name=Ядро глюонного поглотителя
+item.item_panel_particle_core_quark.name=Ядро кваркового поглотителя
+item.item_panel_particle_core_barion.name=Ядро барионного поглотителя
+item.item_panel_particle_core_fermion.name=Ядро фермионного поглотителя
+item.item_panel_particle_core_quantum.name=Ядро квантового поглотителя
+item.item_panel_particle_core_neutron.name=Ядро нейтронного поглотителя
+item.item_spawner_upgrade_scheme.name=Схема улучшения спавнера
+item.panel_particle_collector_scheme.name=Схема улучшения поглотителя
+item.item_machine_upgrade_overclock.name=Улучшенный ускоритель
+tile.block_solar_panel.name=Улучшаемая солнечная панель
+tile.block_smart_transformer.name=Улучшенный трансформатор
+
+# Сообщения в чате
+message.item_mob_scanner_override.text=Данные о существе уже были записаны. Для перезаписи данных кликните предметом с Shift + ПКМ по нужному существу.
+message.item_mob_scanner_success.text=Данные о существе записаны.
+message.item_mob_scanner_no_allowed.text=Этот моб не добавлен в разрешения для спавнера. Хотите чтобы мы его добавили, напишите хед модератору сервера!
+#
+message.item_spawner_upgrade_lvl_equals.text=§сЭтот спавнер уже имеет улучшение %s уровня.
+message.item_spawner_upgrade_lvl_not_exists.text=§сНеобходимо сначала улучшить спавнер до %s уровня.
+message.item_spawner_upgrade_lvl_setup.text=Вы улучшили спавнер до %s уровня!
+message.item_spawner_upgrade_lvl_remove.text=Улучшение %s уровня снято со спавнера.
+#
+message.block_silent_spawner_inventory_full.text=§cИнвентарь спавнера переполнен! Координаты блока: %s
+#
+message.item_bag_access_error.text=§cРюкзак заблокирован владельцем. Вы не можете открыть его.
+message.item_bag_access_error_for_owner.text=§cВаш рюкзак попытался открыть игрок: %s.

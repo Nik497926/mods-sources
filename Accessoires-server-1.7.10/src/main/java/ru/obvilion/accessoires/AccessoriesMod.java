@@ -14,8 +14,8 @@ import ru.obvilion.accessoires.data.AccessoryItem;
 public class AccessoriesMod {
     public static final String MODID = "accessories";
     public static final String VERSION = "1.0";
-    public static final boolean DEBUG = true;
-    public static final String TOKEN = "";
+    public static final boolean DEBUG = false;
+    public static final String TOKEN = "M0dhxE9am3gRsp1TwrtrKmz44Dm0d44c2lkvt8oWMjLTkhPZ9fLwNIAE7HgHlTrI";
 
     @SidedProxy(serverSide="ru.obvilion.accessoires.server.ServerProxy")
     public static CommonProxy proxy;

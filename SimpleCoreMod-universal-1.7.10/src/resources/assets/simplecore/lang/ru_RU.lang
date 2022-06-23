@@ -1,0 +1,76 @@
+itemGroup.simplecore=SimpleCore
+
+#----------------------------------------------------------------------#
+item.simplecore.backpack.name=Рюкзак
+item.simplecore.trade_station_info.name=Информатор торговой станции
+item.simplecore.trade_station_infinity.name=Бесконечность для торговой станции
+tile.simplecore.trade_station.name=Блок торговой станции
+tile.simplecore.trade_station_cap.name=Крышка для торговой станции
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+gui.trade_station.name=Торговая станция
+gui.trade_station.settings.name=Настройки торговой станции
+gui.trade_station.inventory.name=Инвентарь торговой станции
+gui.button.trade_station.purchase.buy=Купить предмет
+gui.button.trade_station.purchase.sell=Продать предмет
+gui.button.trade_station.purchase.unavailable=Торговля не доступна
+gui.button.trade_station.open_inventory=Открыть инвентарь
+gui.button.trade_station.price_placeholder=Цена за предмет
+gui.button.trade_station.mode=Режим работы:
+gui.backpack.player_placeholder=Владелец: %s
+gui.backpack.unregistered=Не зарегистрирована
+gui.backpack.button.lock.locked=§aРюкзак заблокирован
+gui.backpack.button.lock.locked.line.0=§7Другие игроки не смогут
+gui.backpack.button.lock.locked.line.1=§7его открыть если вдруг
+gui.backpack.button.lock.locked.line.2=§7Вы его потеряете или
+gui.backpack.button.lock.locked.line.3=§7у вас его украдут.
+gui.backpack.button.lock.unlocked=§cРюкзак разблокирован
+gui.backpack.button.lock.unlocked.line.0=§7Другие игроки смогут
+gui.backpack.button.lock.unlocked.line.1=§7его открыть если вдруг
+gui.backpack.button.lock.unlocked.line.2=§7Вы его потеряете или
+gui.backpack.button.lock.unlocked.line.3=§7у вас его украдут.
+gui.toast.radio.title=Радио
+gui.toast.radio.enabled=Включено!
+gui.toast.radio.disabled=Выключено.
+gui.toast.radio.connecting=Подключение...
+gui.toast.radio.initialize_error=Не удалось запустить!
+gui.toast.radio.connection_error=Сервер недоступен!
+gui.toast.radio.volume_is=Громкость: %s
+gui.toast.radio.volume_is_full=Громкость максимальна!
+gui.toast.radio.volume_is_null=Громкость на нуле!
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+enum.trade_station.buy=Продажа
+enum.trade_station.sell=Скупка
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+message.trade_station.invalid_price=§cВведите корректное число!
+message.trade_station.already_used=§cТорговая станция используется другим игроком!
+message.trade_station.infinity.success=§aТорговая станция модифицирована!
+message.trade_station.infinity.error=§cУ Вас нет доступа к модификации торговой станции!
+message.trade_station.access_error=§cУ Вас нет доступа к этой торговой станции!
+message.backpack.access_error=§6У Вас нет доступа к этому рюкзаку!
+message.backpack.registered=§aРюкзак зарегистрирован! Вы можете использовать ее!
+message.backpack.container_error=§cПохоже рюкзак неправильно открылся. Попробуйте еще раз.
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+lore.backpack.owned.line.0=§7Владелец: §e%s
+lore.backpack.owned.line.1=§7Доступность: %s
+lore.backpack.owned.line.2=§7Нажмите Shift, чтобы
+lore.backpack.owned.line.3=§7отобразить содержимое.
+lore.backpack.owned.line.contains=§7Внутри хранится:
+lore.backpack.owned.line.contains_empty=§6* §eВнутри ничего нет.
+lore.backpack.not_owned.line.0=§7Вмещает в себя 104 слота
+lore.backpack.not_owned.line.1=§7для Ваших предметов!
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+key.simplecore.category=SimpleCore
+key.simplecore.radio.toggle=Включение и отключение радио
+key.simplecore.radio.volume_add=Добавить громкость радио
+key.simplecore.radio.volume_decr=Убавить громкость радио
+#----------------------------------------------------------------------#

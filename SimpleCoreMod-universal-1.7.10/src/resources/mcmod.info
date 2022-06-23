@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "simplecore",
+    "name": "SimpleCore",
+    "description": "Все, в одном!",
+    "version": "1.0.3",
+    "mcversion": "1.12.2",
+    "url": "https://simpleminecraft.ru",
+    "updateUrl": "",
+    "authorList": [
+      "Goodvise"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

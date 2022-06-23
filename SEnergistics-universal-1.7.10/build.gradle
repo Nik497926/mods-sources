@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+version = "1.0"
+group= "ru.simplemc.senergetics"
+archivesBaseName = "SEnergetics-universal"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "run"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "ic2"
+        url = "https://maven.ic2.player.to/"
+    }
+}
+
+dependencies {
+    implementation files('EnderIO-1.7.10-2.3.0.428.jar')
+    implementation files('CodeChickenLib-1.7.10-1.1.3.138.jar')
+    implementation files('NotEnoughItems-1.7.10-1.0.5.120.jar')
+    implementation 'net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

@@ -1,0 +1,76 @@
+itemGroup.simplecore=SimpleCore
+
+#----------------------------------------------------------------------#
+item.simplecore.backpack.name=Backpack
+item.simplecore.trade_station_info.name=Informator for Trade Station
+item.simplecore.trade_station_infinity.name=Infinity for Trade Station
+tile.simplecore.trade_station.name=Trade Station
+tile.simplecore.trade_station_cap.name=Trade Station Cap
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+gui.trade_station.name=Trade Station
+gui.trade_station.settings.name=Trade Station Settings
+gui.trade_station.inventory.name=Trade Station Inventory
+gui.button.trade_station.purchase.buy=Buy Item
+gui.button.trade_station.purchase.sell=Sell Item
+gui.button.trade_station.purchase.unavailable=Trade unavailable
+gui.button.trade_station.open_inventory=Open inventory
+gui.button.trade_station.mode=Current mode is:
+gui.button.trade_station.price_placeholder=Item price
+gui.backpack.player_placeholder=Owner: %s
+gui.backpack.unregistered=Not register
+gui.backpack.button.lock.locked=§aBackpack is locked
+gui.backpack.button.lock.locked.line.0=§7Other players will not
+gui.backpack.button.lock.locked.line.1=§7be able to open it if
+gui.backpack.button.lock.locked.line.2=§7suddenly you will lose it
+gui.backpack.button.lock.locked.line.3=§7or it will be stolen from you.
+gui.backpack.button.lock.unlocked=§cBackpack is unlocked
+gui.backpack.button.lock.unlocked.line.0=§7Other players can
+gui.backpack.button.lock.unlocked.line.1=§7open it if suddenly
+gui.backpack.button.lock.unlocked.line.2=§7you will lose it or
+gui.backpack.button.lock.unlocked.line.3=§7it will be stolen from you.
+gui.toast.radio.title=Radio
+gui.toast.radio.enabled=Enabled!
+gui.toast.radio.disabled=Disabled.
+gui.toast.radio.connecting=Connecting...
+gui.toast.radio.initialize_error=Failed initialize player!
+gui.toast.radio.connection_error=Failed to server connect!
+gui.toast.radio.volume_is=Volume is: %s
+gui.toast.radio.volume_is_full=Volume is full!
+gui.toast.radio.volume_is_null=Volume is null!
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+enum.trade_station.buy=Buy
+enum.trade_station.sell=Sell
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+message.trade_station.invalid_price=§cWrite valid numeric price!
+message.trade_station.already_used=§cTrade station already used by another player!
+message.trade_station.infinity.success=§aTrade station successful modified!
+message.trade_station.infinity.error=§cYou dont have permission to modify trade station!
+message.trade_station.access_error=§cYou dont have permission for this Trade Station!
+message.backpack.access_error=§6You dont have permission for open this Backpack!
+message.backpack.registered=§aBackpack successful registered! You can use it!
+message.backpack.container_error=§cFailed to open backpack. Try again.
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+lore.backpack.owned.line.0=§7Owner: §e%s
+lore.backpack.owned.line.1=§7Availability: %s
+lore.backpack.owned.line.2=§7Press Shift to show
+lore.backpack.owned.line.3=§7backpack content.
+lore.backpack.owned.line.contains=§7Internally stored:
+lore.backpack.owned.line.contains_empty=§6* §eThere is nothing inside.
+lore.backpack.not_owned.line.0=§7Has 104 slots
+lore.backpack.not_owned.line.1=§7for your items!
+#----------------------------------------------------------------------#
+
+#----------------------------------------------------------------------#
+key.simplecore.category=SimpleCore
+key.simplecore.radio.toggle=Toggle radio (enable or disable)
+key.simplecore.radio.volume_add=Add radio volume
+key.simplecore.radio.volume_decr=Decr radio volume
+#----------------------------------------------------------------------#

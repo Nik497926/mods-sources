@@ -31,7 +31,7 @@ minecraft {
 }
 
 dependencies {
-    implementation files('craftbukkit-1.7.10-R0.1.jar')
+    implementation files('test.jar')
 }
 
 sourceSets {
