@@ -44,9 +44,7 @@ import appeng.container.ContainerNull;
 import appeng.container.ContainerOpenContext;
 import appeng.container.implementations.*;
 import appeng.core.stats.Achievements;
-import appeng.helpers.IInterfaceHost;
-import appeng.helpers.IPriorityHost;
-import appeng.helpers.WirelessTerminalGuiObject;
+import appeng.helpers.*;
 import appeng.items.contents.QuartzKnifeObj;
 import appeng.parts.automation.PartFormationPlane;
 import appeng.parts.automation.PartLevelEmitter;
@@ -54,6 +52,7 @@ import appeng.parts.misc.PartStorageBus;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartInterfaceTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
+import appeng.parts.reporting.PartPatternTerminalEx;
 import appeng.tile.crafting.TileCraftingTile;
 import appeng.tile.crafting.TileMolecularAssembler;
 import appeng.tile.grindstone.TileGrinder;
@@ -133,6 +132,8 @@ public enum GuiBridge implements IGuiHandler
 
 	GUI_PATTERN_TERMINAL( ContainerPatternTerm.class, PartPatternTerminal.class, GuiHostType.WORLD, SecurityPermissions.CRAFT ),
 
+	GUI_PATTERN_TERMINAL_EX( ContainerPatternTermEx.class, PartPatternTerminalEx.class, GuiHostType.WORLD, SecurityPermissions.CRAFT ),
+
 	// extends (Container/Gui) + Bus
 	GUI_LEVEL_EMITTER( ContainerLevelEmitter.class, PartLevelEmitter.class, GuiHostType.WORLD, SecurityPermissions.BUILD ),
 
@@ -150,7 +151,11 @@ public enum GuiBridge implements IGuiHandler
 
 	GUI_INTERFACE_TERMINAL( ContainerInterfaceTerminal.class, PartInterfaceTerminal.class, GuiHostType.WORLD, SecurityPermissions.BUILD ),
 
-	GUI_CRAFTING_STATUS( ContainerCraftingStatus.class, ITerminalHost.class, GuiHostType.ITEM_OR_WORLD, SecurityPermissions.CRAFT );
+	GUI_CRAFTING_STATUS( ContainerCraftingStatus.class, ITerminalHost.class, GuiHostType.ITEM_OR_WORLD, SecurityPermissions.CRAFT ),
+
+	GUI_RENAMER( ContainerRenamer.class, ICustomNameObject.class, GuiHostType.WORLD, SecurityPermissions.BUILD ),
+
+	GUI_ORE_FILTER( ContainerOreFilter.class, IOreFilterable.class, GuiHostType.ITEM_OR_WORLD, null );
 
 	private final Class tileClass;
 	private final Class containerClass;
@@ -209,8 +214,9 @@ public enum GuiBridge implements IGuiHandler
 	public Object getServerGuiElement( final int ordinal, final EntityPlayer player, final World w, final int x, final int y, final int z )
 	{
 		final ForgeDirection side = ForgeDirection.getOrientation( ordinal & 0x07 );
-		final GuiBridge ID = values()[ordinal >> 4];
+		final GuiBridge ID = values()[ordinal >> 5];
 		final boolean stem = ( ( ordinal >> 3 ) & 1 ) == 1;
+		final boolean xIsSlotIndex = ( ( ordinal >> 4 ) & 1 ) == 1;
 		if( ID.type.isItem() )
 		{
 			ItemStack it = null;
@@ -218,7 +224,7 @@ public enum GuiBridge implements IGuiHandler
 			{
 				it = player.inventory.getCurrentItem();
 			}
-			else if( x >= 0 && x < player.inventory.mainInventory.length )
+			else if( xIsSlotIndex && x >= 0 && x < player.inventory.mainInventory.length )
 			{
 				it = player.inventory.getStackInSlot( x );
 			}
@@ -391,8 +397,9 @@ public enum GuiBridge implements IGuiHandler
 	public Object getClientGuiElement( final int ordinal, final EntityPlayer player, final World w, final int x, final int y, final int z )
 	{
 		final ForgeDirection side = ForgeDirection.getOrientation( ordinal & 0x07 );
-		final GuiBridge ID = values()[ordinal >> 4];
+		final GuiBridge ID = values()[ordinal >> 5];
 		final boolean stem = ( ( ordinal >> 3 ) & 1 ) == 1;
+		final boolean xIsSlotIndex = ( ( ordinal >> 4 ) & 1 ) == 1;
 		if( ID.type.isItem() )
 		{
 			ItemStack it = null;
@@ -400,7 +407,7 @@ public enum GuiBridge implements IGuiHandler
 			{
 				it = player.inventory.getCurrentItem();
 			}
-			else if( x >= 0 && x < player.inventory.mainInventory.length )
+			else if (xIsSlotIndex && x >= 0 && x < player.inventory.mainInventory.length )
 			{
 				it = player.inventory.getStackInSlot( x );
 			}

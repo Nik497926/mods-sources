@@ -18,7 +18,6 @@
 
 package appeng.tile.networking;
 
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.GridFlags;
 import appeng.api.networking.events.MENetworkControllerChange;

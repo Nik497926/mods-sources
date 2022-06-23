@@ -35,8 +35,6 @@ import java.util.Map;
 
 
 @MCVersion( "1.7.10" )
-@IFMLLoadingPlugin.Name( "appliedenergistics2-core" )
-
 public final class AppEngCore extends DummyModContainer implements IFMLLoadingPlugin
 {
 	private final ModMetadata metadata = new ModMetadata();

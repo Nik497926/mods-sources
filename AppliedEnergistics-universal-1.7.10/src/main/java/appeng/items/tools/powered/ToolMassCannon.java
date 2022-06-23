@@ -66,6 +66,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.EnumSet;
@@ -187,7 +188,7 @@ public class ToolMassCannon extends AEBasePoweredItem implements IStorageCell
 				}
 				else
 				{
-					if( Platform.isServer() )
+					if( Platform.isServer() && !(p instanceof FakePlayer) )
 					{
 						p.addChatMessage( PlayerMessages.AmmoDepleted.get() );
 					}
@@ -533,5 +534,15 @@ public class ToolMassCannon extends AEBasePoweredItem implements IStorageCell
 	public double getIdleDrain()
 	{
 		return 0.5;
+	}
+
+	@Override
+	public String getOreFilter(ItemStack is) {
+		return Platform.openNbtData( is ).getString( "OreFilter" );
+	}
+
+	@Override
+	public void setOreFilter(ItemStack is, String filter) {
+		Platform.openNbtData( is ).setString("OreFilter", filter);
 	}
 }

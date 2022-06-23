@@ -167,7 +167,6 @@ public class AppEngInternalAEInventory implements IInventory, Iterable<ItemStack
 			if( this.te != null && Platform.isServer() )
 			{
 				this.te.onChangeInventory( this, slot, InvOperation.decreaseStackSize, ns, null );
-				this.te.saveChanges();
 			}
 
 			return ns;
@@ -214,7 +213,6 @@ public class AppEngInternalAEInventory implements IInventory, Iterable<ItemStack
 			}
 
 			this.te.onChangeInventory( this, slot, InvOperation.setInventorySlotContents, removed, added );
-			this.te.saveChanges();
 		}
 	}
 
@@ -242,7 +240,6 @@ public class AppEngInternalAEInventory implements IInventory, Iterable<ItemStack
 		if( this.te != null && Platform.isServer() )
 		{
 			this.te.onChangeInventory( this, -1, InvOperation.markDirty, null, null );
-			this.te.saveChanges();
 		}
 	}
 

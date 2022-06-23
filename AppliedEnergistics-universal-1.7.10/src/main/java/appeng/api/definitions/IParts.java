@@ -40,6 +40,12 @@ public interface IParts
 
 	AEColoredItemDefinition cableDense();
 
+	AEColoredItemDefinition cableDenseCovered();
+
+	AEColoredItemDefinition cableUltraDenseCovered();
+
+	AEColoredItemDefinition cableUltraDenseSmart();
+
 	AEColoredItemDefinition lumenCableSmart();
 
 	AEColoredItemDefinition lumenCableCovered();
@@ -107,4 +113,8 @@ public interface IParts
 	IItemDefinition storageMonitor();
 
 	IItemDefinition conversionMonitor();
+
+	IItemDefinition patternTerminalEx();
+
+	IItemDefinition p2PTunnelGregtech();
 }

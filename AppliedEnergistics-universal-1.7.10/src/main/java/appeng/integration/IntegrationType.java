@@ -65,7 +65,14 @@ public enum IntegrationType
 
 	OpenComputers( IntegrationSide.BOTH, "OpenComputers", "OpenComputers" ),
 
-	PneumaticCraft( IntegrationSide.BOTH, "PneumaticCraft", "PneumaticCraft" );
+	PneumaticCraft( IntegrationSide.BOTH, "PneumaticCraft", "PneumaticCraft" ),
+
+	GT( IntegrationSide.BOTH, "GregTech", "gregtech" ),
+
+	Chisel(IntegrationSide.BOTH, "Chisel", "chisel"),
+
+	Jabba(IntegrationSide.BOTH, "Jabba", "JABBA")
+	;
 
 	public final IntegrationSide side;
 	public final String dspName;

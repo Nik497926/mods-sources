@@ -95,8 +95,10 @@ public class AENetworkProxy implements IGridBlock
 		}
 	}
 
-	public void validate() {
-		if (this.gp instanceof AEBaseTile) {
+	public void validate()
+	{
+		if( this.gp instanceof AEBaseTile )
+		{
 			TickHandler.INSTANCE.addInit( (AEBaseTile) this.gp );
 		}
 	}

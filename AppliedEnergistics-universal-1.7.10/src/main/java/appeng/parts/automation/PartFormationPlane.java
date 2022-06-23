@@ -48,11 +48,11 @@ import appeng.util.prioitylist.FuzzyPriorityList;
 import appeng.util.prioitylist.PrecisePriorityList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,9 +62,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,6 @@ public class PartFormationPlane extends PartUpgradeable implements ICellContaine
 	private int priority = 0;
 	private boolean wasActive = false;
 	private boolean blocked = false;
-
 	public PartFormationPlane( final ItemStack is )
 	{
 		super( is );
@@ -428,7 +428,7 @@ public class PartFormationPlane extends PartUpgradeable implements ICellContaine
 
 		if( w.getBlock( x, y, z ).isReplaceable( w, x, y, z ) )
 		{
-			if( placeBlock == YesNo.YES && ( i instanceof ItemBlock || i instanceof IPlantable || i instanceof ItemSkull || i instanceof ItemFirework || i instanceof IPartItem || i instanceof ItemReed ) )
+			if( placeBlock == YesNo.YES && ( i instanceof ItemBlock || i instanceof IPlantable || i instanceof ItemSkull || i instanceof ItemFirework || i instanceof ItemReed ) )
 			{
 				final EntityPlayer player = Platform.getPlayer( (WorldServer) w );
 				Platform.configurePlayer( player, side, this.getTile() );
@@ -454,45 +454,40 @@ public class PartFormationPlane extends PartUpgradeable implements ICellContaine
 					{
 						boolean Worked = false;
 
-						if( ForgeEventFactory.onItemUseStart( player, is, 1 ) >= 0 )
+						if( side.offsetX == 0 && side.offsetZ == 0 )
 						{
-							if( side.offsetX == 0 && side.offsetZ == 0 )
-							{
-								Worked = i.onItemUse( is, player, w, x + side.offsetX, y + side.offsetY, z + side.offsetZ, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
-							}
-
-							if( !Worked && side.offsetX == 0 && side.offsetZ == 0 )
-							{
-								Worked = i.onItemUse( is, player, w, x - side.offsetX, y - side.offsetY, z - side.offsetZ, side.ordinal(), side.offsetX, side.offsetY, side.offsetZ );
-							}
-
-							if( !Worked && side.offsetY == 0 )
-							{
-								Worked = i.onItemUse( is, player, w, x, y - 1, z, ForgeDirection.UP.ordinal(), side.offsetX, side.offsetY, side.offsetZ );
-							}
-
-							if( !Worked )
-							{
-								i.onItemUse( is, player, w, x, y, z, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
-							}
-
-							maxStorage -= is.stackSize;
+							Worked = i.onItemUse( is, player, w, x + side.offsetX, y + side.offsetY, z + side.offsetZ, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
 						}
+
+						if( !Worked && side.offsetX == 0 && side.offsetZ == 0 )
+						{
+							Worked = i.onItemUse( is, player, w, x - side.offsetX, y - side.offsetY, z - side.offsetZ, side.ordinal(), side.offsetX, side.offsetY, side.offsetZ );
+						}
+
+						if( !Worked && side.offsetY == 0 )
+						{
+							Worked = i.onItemUse( is, player, w, x, y - 1, z, ForgeDirection.UP.ordinal(), side.offsetX, side.offsetY, side.offsetZ );
+						}
+
+						if( !Worked )
+						{
+							i.onItemUse( is, player, w, x, y, z, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
+						}
+
+						maxStorage -= is.stackSize;
+					}
+					else if (i instanceof ItemFirework)
+					{
+						i.onItemUse( is, player, w, x, y, z, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
+						maxStorage -= is.stackSize;
 					}
 					else
 					{
-						Block block = null;
 						player.setCurrentItemOrArmor( 0, is.copy() );
-						if( i instanceof ItemBlock )
-							block = ( (ItemBlock) i ).field_150939_a;
-						if( i instanceof IPartItem )
-							block = AEApi.instance().definitions().blocks().multiPart().maybeBlock().orNull();
-						if( block == null ||
-								!ForgeEventFactory.onPlayerBlockPlace(
-										owner == null ? player : owner,
-										new BlockSnapshot( w, x, y, z, block, i.getMetadata( is.getItemDamage() ) ),
-										side.getOpposite()
-								).isCanceled() )
+						BlockSnapshot blockSnapshot = new BlockSnapshot( w, x, y, z, ( (ItemBlock) i ).field_150939_a, i.getMetadata( is.getItemDamage() ) );
+						BlockEvent.PlaceEvent event = new BlockEvent.PlaceEvent( blockSnapshot, w.getBlock( x, y, z ), owner == null ? player : owner );
+						MinecraftForge.EVENT_BUS.post( event );
+						if( !event.isCanceled() )
 						{
 							i.onItemUse( is, player, w, x, y, z, side.getOpposite().ordinal(), side.offsetX, side.offsetY, side.offsetZ );
 							maxStorage -= is.stackSize;
@@ -547,8 +542,16 @@ public class PartFormationPlane extends PartUpgradeable implements ICellContaine
 
 						if( !w.spawnEntityInWorld( result ) )
 						{
-							result.setDead();
-							worked = false;
+							if (((EntityItem)result).getEntityItem().getItem() == Item.getItemFromBlock(Blocks.dragon_egg))
+							{ 	// Ducttape fix for HEE replacing the Dragon Egg
+								// HEE does cancel the event but does not mark passed entity as dead
+								worked = true;
+							}
+							else {
+								// e.g. ExU item collector cancels item spawn, but takes the item inside
+								worked = result.isDead;
+								result.setDead();
+							}
 						}
 					}
 				}

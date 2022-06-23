@@ -75,6 +75,32 @@ public enum PartType
 				}
 			},
 
+	CableDenseCovered( 520, EnumSet.of( AEFeature.Channels ), EnumSet.noneOf( IntegrationType.class ), PartDenseCableCovered.class )
+			{
+				@Override
+				public boolean isCable()
+				{
+					return true;
+				}
+			},
+
+	CableUltraDenseCovered( 540, EnumSet.of( AEFeature.Channels ), EnumSet.noneOf( IntegrationType.class ), PartUltraDenseCableCovered.class )
+			{
+				@Override
+				public boolean isCable()
+				{
+					return true;
+				}
+			},
+	CableUltraDenseSmart( 560, EnumSet.of( AEFeature.Channels ), EnumSet.noneOf( IntegrationType.class ), PartUltraDenseCableSmart.class )
+			{
+				@Override
+				public boolean isCable()
+				{
+					return true;
+				}
+			},
+
 	ToggleBus( 80, EnumSet.of( AEFeature.Core ), EnumSet.noneOf( IntegrationType.class ), PartToggleBus.class ),
 
 	InvertedToggleBus( 100, EnumSet.of( AEFeature.Core ), EnumSet.noneOf( IntegrationType.class ), PartInvertedToggleBus.class ),
@@ -133,7 +159,11 @@ public enum PartType
 
 	P2PTunnelPressure( 469, EnumSet.of( AEFeature.P2PTunnel, AEFeature.P2PTunnelPressure ), EnumSet.of( IntegrationType.PneumaticCraft ), PartP2PPressure.class, GuiText.PressureTunnel ),
 
-	InterfaceTerminal( 480, EnumSet.of( AEFeature.InterfaceTerminal ), EnumSet.noneOf( IntegrationType.class ), PartInterfaceTerminal.class );
+	P2PTunnelGT( 470, EnumSet.of( AEFeature.P2PTunnel, AEFeature.P2PTunnelGregtech ), EnumSet.of( IntegrationType.GT ), PartP2PGT5Power.class, GuiText.GTTunnel ),
+
+	InterfaceTerminal( 480, EnumSet.of( AEFeature.InterfaceTerminal ), EnumSet.noneOf( IntegrationType.class ), PartInterfaceTerminal.class ),
+
+	PatternTerminalEx( 500, EnumSet.of( AEFeature.Patterns ), EnumSet.noneOf( IntegrationType.class ), PartPatternTerminalEx.class );
 
 	private final int baseDamage;
 	private final Set<AEFeature> features;

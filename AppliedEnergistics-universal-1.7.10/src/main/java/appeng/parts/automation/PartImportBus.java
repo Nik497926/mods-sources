@@ -41,7 +41,9 @@ import appeng.me.GridAccessException;
 import appeng.util.InventoryAdaptor;
 import appeng.util.Platform;
 import appeng.util.inv.IInventoryDestination;
+import appeng.util.inv.ItemSlot;
 import appeng.util.item.AEItemStack;
+import appeng.util.prioitylist.OreFilteredList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -189,24 +191,36 @@ public class PartImportBus extends PartSharedItemBus implements IInventoryDestin
 				final IMEMonitor<IAEItemStack> inv = this.getProxy().getStorage().getItemInventory();
 				final IEnergyGrid energy = this.getProxy().getEnergy();
 
-				boolean Configured = false;
-				for( int x = 0; x < this.availableSlots(); x++ )
-				{
-					final IAEItemStack ais = this.getConfig().getAEStackInSlot( x );
-					if( ais != null && this.itemToSend > 0 )
-					{
-						Configured = true;
-						while( this.itemToSend > 0 )
-						{
-							if( this.importStuff( myAdaptor, ais, inv, energy, fzMode ) )
-							{
-								break;
+				boolean configured = false;
+				if (this.getInstalledUpgrades( Upgrades.ORE_FILTER ) == 0) {
+					for (int x = 0; x < this.availableSlots(); x++) {
+						final IAEItemStack ais = this.getConfig().getAEStackInSlot(x);
+						if (ais != null && this.itemToSend > 0) {
+							configured = true;
+							while (this.itemToSend > 0) {
+								if (this.importStuff(myAdaptor, ais, inv, energy, fzMode)) {
+									break;
+								}
+							}
+						}
+					}
+				} else if (!oreFilterString.isEmpty()) {
+					configured = true;
+					if (filterPredicate == null)
+						filterPredicate = OreFilteredList.makeFilter(oreFilterString);
+					for (ItemSlot slot : myAdaptor) {
+						if (this.itemToSend <= 0)
+							break;
+						if (slot.isExtractable() && filterPredicate != null && filterPredicate.test(slot.getAEItemStack())) {
+							while (this.itemToSend > 0) {
+								if (this.importStuff(myAdaptor, slot.getAEItemStack(), inv, energy, fzMode))
+									break;
 							}
 						}
 					}
 				}
 
-				if( !Configured )
+				if( !configured )
 				{
 					while( this.itemToSend > 0 )
 					{
@@ -297,13 +311,12 @@ public class PartImportBus extends PartSharedItemBus implements IInventoryDestin
 		if( this.getInstalledUpgrades( Upgrades.FUZZY ) > 0 )
 		{
 			simResult = myAdaptor.simulateSimilarRemove( toSend, itemStackToImport, fzMode, this.configDestination( inv ) );
-			itemAmountNotStorable = this.destination.injectItems( AEItemStack.create( simResult ), Actionable.SIMULATE, this.source );
 		}
 		else
 		{
 			simResult = myAdaptor.simulateRemove( toSend, itemStackToImport, this.configDestination( inv ) );
-			itemAmountNotStorable = this.destination.injectItems( AEItemStack.create( simResult ), Actionable.SIMULATE, this.source );
 		}
+		itemAmountNotStorable = this.destination.injectItems( AEItemStack.create( simResult ), Actionable.SIMULATE, this.source );
 
 		if( itemAmountNotStorable != null )
 		{

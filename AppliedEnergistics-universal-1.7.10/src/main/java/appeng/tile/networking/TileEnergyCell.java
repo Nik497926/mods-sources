@@ -33,7 +33,6 @@ import appeng.tile.grid.AENetworkTile;
 import appeng.util.SettingsFrom;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.Sys;
 
 
 public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
@@ -65,7 +64,8 @@ public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
 
 	private void changePowerLevel()
 	{
-		if( this.notLoaded() ) {
+		if( this.notLoaded() )
+		{
 			return;
 		}
 
@@ -80,7 +80,8 @@ public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
 			boundMetadata = 0;
 		}
 
-		if( this.currentMeta != boundMetadata ) {
+		if( this.currentMeta != boundMetadata )
+		{
 			this.currentMeta = boundMetadata;
 			this.worldObj.setBlockMetadataWithNotify( this.xCoord, this.yCoord, this.zCoord, this.currentMeta, 2 );
 		}
@@ -89,7 +90,8 @@ public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
 	@TileEvent( TileEventType.WORLD_NBT_WRITE )
 	public void writeToNBT_TileEnergyCell( final NBTTagCompound data )
 	{
-		if( !this.worldObj.isRemote ) {
+		if( !this.worldObj.isRemote )
+		{
 			data.setDouble( "internalCurrentPower", this.internalCurrentPower );
 		}
 	}
@@ -118,7 +120,8 @@ public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
 	@Override
 	public NBTTagCompound downloadSettings( final SettingsFrom from )
 	{
-		if( from == SettingsFrom.DISMANTLE_ITEM ) {
+		if( from == SettingsFrom.DISMANTLE_ITEM )
+		{
 			final NBTTagCompound tag = new NBTTagCompound();
 			tag.setDouble( "internalCurrentPower", this.internalCurrentPower );
 			tag.setDouble( "internalMaxPower", this.getInternalMaxPower() ); // used for tool tip.
@@ -232,7 +235,7 @@ public class TileEnergyCell extends AENetworkTile implements IAEPowerStorage
 
 	private double getInternalMaxPower()
 	{
-		return this.internalMaxPower;
+		return this.internalMaxPower * PowerMultiplier.CONFIG.multiplier;
 	}
 
 	void setInternalMaxPower( final double internalMaxPower )

@@ -19,6 +19,7 @@
 package appeng.block.networking;
 
 
+import appeng.api.config.PowerMultiplier;
 import appeng.client.texture.ExtraBlockTextures;
 import appeng.core.features.AEFeature;
 import appeng.tile.networking.TileDenseEnergyCell;
@@ -64,6 +65,6 @@ public class BlockDenseEnergyCell extends BlockEnergyCell
 	@Override
 	public double getMaxPower()
 	{
-		return 200000.0 * 8.0;
+		return 200000.0 * 8.0 * PowerMultiplier.CONFIG.multiplier;
 	}
 }

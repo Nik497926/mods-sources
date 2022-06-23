@@ -56,6 +56,11 @@ public abstract class AppEngPacket
 		this.p = data;
 	}
 
+	public int size()
+	{
+		return this.p.array().length;
+	}
+
 	public FMLProxyPacket getProxy()
 	{
 		if( this.p.array().length > 2 * 1024 * 1024 ) // 2k walking room :)

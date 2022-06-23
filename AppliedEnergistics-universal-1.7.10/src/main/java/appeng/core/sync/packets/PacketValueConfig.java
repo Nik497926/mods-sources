@@ -87,10 +87,10 @@ public class PacketValueConfig extends AppEngPacket
 			final IMouseWheelItem si = (IMouseWheelItem) is.getItem();
 			si.onWheel( is, this.Value.equals( "WheelUp" ) );
 		}
-		else if( this.Name.equals( "Terminal.Cpu" ) && c instanceof ContainerCraftingStatus )
+		else if( this.Name.equals( "Terminal.Cpu.Set" ) && c instanceof ContainerCraftingStatus )
 		{
 			final ContainerCraftingStatus qk = (ContainerCraftingStatus) c;
-			qk.cycleCpu( this.Value.equals( "Next" ) );
+			qk.selectCPU( Integer.parseInt( this.Value ) );
 		}
 		else if( this.Name.equals( "Terminal.Cpu" ) && c instanceof ContainerCraftConfirm )
 		{
@@ -112,6 +112,11 @@ public class PacketValueConfig extends AppEngPacket
 			final ContainerQuartzKnife qk = (ContainerQuartzKnife) c;
 			qk.setName( this.Value );
 		}
+		else if( this.Name.equals( "QuartzKnife.ReName" ) && c instanceof ContainerRenamer )
+		{
+			final ContainerRenamer qk = (ContainerRenamer) c;
+			qk.setNewName( this.Value );
+		}
 		else if( this.Name.equals( "TileSecurity.ToggleOption" ) && c instanceof ContainerSecurity )
 		{
 			final ContainerSecurity sc = (ContainerSecurity) c;
@@ -121,6 +126,11 @@ public class PacketValueConfig extends AppEngPacket
 		{
 			final ContainerPriority pc = (ContainerPriority) c;
 			pc.setPriority( Integer.parseInt( this.Value ), player );
+		}
+		else if( this.Name.equals( "OreFilter" ) && c instanceof ContainerOreFilter )
+		{
+			final ContainerOreFilter fc = (ContainerOreFilter) c;
+			fc.setFilter(this.Value);
 		}
 		else if( this.Name.equals( "LevelEmitter.Value" ) && c instanceof ContainerLevelEmitter )
 		{
@@ -136,7 +146,12 @@ public class PacketValueConfig extends AppEngPacket
 			}
 			else if( this.Name.equals( "PatternTerminal.Encode" ) )
 			{
-				cpt.encode();
+				if (this.Value.equals( "2" ))
+					cpt.encodeAndMoveToInventory(false);
+				else if (this.Value.equals( "6" ))
+					cpt.encodeAndMoveToInventory(true);
+				else
+					cpt.encode();
 			}
 			else if( this.Name.equals( "PatternTerminal.Clear" ) )
 			{
@@ -145,6 +160,43 @@ public class PacketValueConfig extends AppEngPacket
 			else if( this.Name.equals( "PatternTerminal.Substitute" ) )
 			{
 				cpt.getPatternTerminal().setSubstitution( this.Value.equals( "1" ) );
+			}
+			else if( this.Name.equals( "PatternTerminal.Double" ) )
+			{
+				cpt.doubleStacks(Value.equals( "1" ));
+			}
+		}
+		else if( this.Name.startsWith( "PatternTerminalEx." ) && c instanceof ContainerPatternTermEx )
+		{
+			final ContainerPatternTermEx cpt = (ContainerPatternTermEx) c;
+			if( this.Name.equals( "PatternTerminalEx.Encode" ) )
+			{
+				if (this.Value.equals( "2" ))
+					cpt.encodeAndMoveToInventory(false);
+				else if (this.Value.equals( "6" ))
+					cpt.encodeAndMoveToInventory(true);
+				else
+					cpt.encode();
+			}
+			else if( this.Name.equals( "PatternTerminalEx.Clear" ) )
+			{
+				cpt.clear();
+			}
+			else if( this.Name.equals( "PatternTerminalEx.Substitute" ) )
+			{
+				cpt.getPatternTerminal().setSubstitution( this.Value.equals( "1" ) );
+			}
+			else if( this.Name.equals( "PatternTerminalEx.Invert" ) )
+			{
+				cpt.getPatternTerminal().setInverted( Value.equals( "1" ) );
+			}
+			else if( this.Name.equals( "PatternTerminalEx.Double" ) )
+			{
+				cpt.doubleStacks(Value.equals( "1" ));
+			}
+			else if( this.Name.equals( "PatternTerminalEx.ActivePage" ) )
+			{
+				cpt.getPatternTerminal().setActivePage(Integer.parseInt( Value ));
 			}
 		}
 		else if( this.Name.startsWith( "StorageBus." ) && c instanceof ContainerStorageBus )

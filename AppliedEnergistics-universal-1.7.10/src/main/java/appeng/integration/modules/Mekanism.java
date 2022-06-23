@@ -36,7 +36,7 @@ public final class Mekanism implements IMekanism, IIntegrationModule
 	@Reflected
 	public Mekanism()
 	{
-		IntegrationHelper.testClassExistence( this, mekanism.api.energy.IStrictEnergyAcceptor.class );
+		//IntegrationHelper.testClassExistence( this, mekanism.api.energy.IStrictEnergyAcceptor.class );
 	}
 
 	@Override

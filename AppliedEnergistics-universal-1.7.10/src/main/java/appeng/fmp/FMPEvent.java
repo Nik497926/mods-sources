@@ -59,7 +59,6 @@ public class FMPEvent
 
 	private static boolean place( final EntityPlayer player, final World world )
 	{
-		System.out.println("place");
 		final MovingObjectPosition hit = RayTracer.reTrace( world, player );
 		if( hit == null )
 		{

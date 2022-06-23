@@ -46,6 +46,7 @@ import appeng.core.AELog;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.PacketMEInventoryUpdate;
 import appeng.core.sync.packets.PacketValueConfig;
+import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.me.helpers.ChannelPowerSrc;
 import appeng.util.ConfigManager;
 import appeng.util.IConfigManagerHost;
@@ -236,7 +237,9 @@ public class ContainerMEMonitorable extends AEBaseContainer implements IConfigMa
 			this.updatePowerStatus();
 
 			final boolean oldAccessible = this.canAccessViewCells;
-			this.canAccessViewCells = this.hasAccess( SecurityPermissions.BUILD, false );
+			this.canAccessViewCells =
+					this.host instanceof WirelessTerminalGuiObject
+							|| this.hasAccess( SecurityPermissions.BUILD, false );
 			if( this.canAccessViewCells != oldAccessible )
 			{
 				for( int y = 0; y < 5; y++ )

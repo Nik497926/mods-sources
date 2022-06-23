@@ -92,9 +92,9 @@ public class AEItemDef
 
 		if( this.getItem() == otherStack.getItem() && dmg == this.getDamageValue() )
 		{
-			if( ( this.getTagCompound() != null ) == otherStack.hasTagCompound() )
+			if( ( this.getTagCompound() != null ) != otherStack.hasTagCompound() )
 			{
-				return true;
+				return false;
 			}
 
 			if( this.getTagCompound() != null && otherStack.hasTagCompound() )

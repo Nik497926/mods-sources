@@ -88,6 +88,7 @@ public class GuiCraftingCPU extends AEBaseGui implements ISortSource
 	private List<IAEItemStack> visual = new ArrayList<IAEItemStack>();
 	private GuiButton cancel;
 	private int tooltip = -1;
+	private ItemStack hoveredStack;
 
 	public GuiCraftingCPU( final InventoryPlayer inventoryPlayer, final Object te )
 	{
@@ -211,6 +212,8 @@ public class GuiCraftingCPU extends AEBaseGui implements ISortSource
 		int toolPosX = 0;
 		int toolPosY = 0;
 
+		hoveredStack = null;
+
 		final int offY = 23;
 
 		final ReadableNumberConverter converter = ReadableNumberConverter.INSTANCE;
@@ -310,11 +313,14 @@ public class GuiCraftingCPU extends AEBaseGui implements ISortSource
 
 					if( lineList.size() > 0 )
 					{
+						addItemTooltip(is, lineList);
 						dspToolTip = dspToolTip + '\n' + Joiner.on( "\n" ).join( lineList );
 					}
 
 					toolPosX = x * ( 1 + SECTION_LENGTH ) + ITEMSTACK_LEFT_OFFSET + SECTION_LENGTH - 8;
 					toolPosY = y * offY + ITEMSTACK_TOP_OFFSET;
+
+					hoveredStack = is;
 				}
 
 				this.drawItem( posX, posY, is );
@@ -485,5 +491,9 @@ public class GuiCraftingCPU extends AEBaseGui implements ISortSource
 	public Enum getSortDisplay()
 	{
 		return ViewItems.ALL;
+	}
+
+	public ItemStack getHoveredStack() {
+		return hoveredStack;
 	}
 }

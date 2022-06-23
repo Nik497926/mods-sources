@@ -44,6 +44,7 @@ import appeng.me.GridAccessException;
 import appeng.util.InventoryAdaptor;
 import appeng.util.Platform;
 import appeng.util.item.AEItemStack;
+import appeng.util.prioitylist.OreFilteredList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import cpw.mods.fml.relauncher.Side;
@@ -53,7 +54,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
-
 
 public class PartExportBus extends PartSharedItemBus implements ICraftingRequester
 {
@@ -113,48 +113,54 @@ public class PartExportBus extends PartSharedItemBus implements ICraftingRequest
 
 			if( destination != null )
 			{
-				int x = 0;
+				if (this.getInstalledUpgrades( Upgrades.ORE_FILTER ) == 0) {
+					int x = 0;
 
-				for( x = 0; x < this.availableSlots() && this.itemToSend > 0; x++ )
-				{
-					final int slotToExport = this.getStartingSlot( schedulingMode, x );
+					for (x = 0; x < this.availableSlots() && this.itemToSend > 0; x++) {
+						final int slotToExport = this.getStartingSlot(schedulingMode, x);
 
-					final IAEItemStack ais = this.getConfig().getAEStackInSlot( slotToExport );
+						final IAEItemStack ais = this.getConfig().getAEStackInSlot(slotToExport);
 
-					if( ais == null || this.itemToSend <= 0 || this.craftOnly() )
-					{
-						if( this.isCraftingEnabled() )
-						{
-							this.didSomething = this.craftingTracker.handleCrafting( slotToExport, this.itemToSend, ais, destination, this.getTile().getWorldObj(), this.getProxy().getGrid(), cg, this.mySrc ) || this.didSomething;
-						}
-						continue;
-					}
-
-					final long before = this.itemToSend;
-
-					if( this.getInstalledUpgrades( Upgrades.FUZZY ) > 0 )
-					{
-						for( final IAEItemStack o : ImmutableList.copyOf( inv.getStorageList().findFuzzy( ais, fzMode ) ) )
-						{
-							this.pushItemIntoTarget( destination, energy, inv, o );
-							if( this.itemToSend <= 0 )
-							{
-								break;
+						if (ais == null || this.itemToSend <= 0 || this.craftOnly()) {
+							if (this.isCraftingEnabled()) {
+								this.didSomething = this.craftingTracker.handleCrafting(slotToExport, this.itemToSend, ais, destination, this.getTile().getWorldObj(), this.getProxy().getGrid(), cg, this.mySrc) || this.didSomething;
 							}
+							continue;
+						}
+
+						final long before = this.itemToSend;
+
+						if (this.getInstalledUpgrades(Upgrades.FUZZY) > 0) {
+							for (final IAEItemStack o : ImmutableList.copyOf(inv.getStorageList().findFuzzy(ais, fzMode))) {
+								this.pushItemIntoTarget(destination, energy, inv, o);
+								if (this.itemToSend <= 0) {
+									break;
+								}
+							}
+						} else {
+							this.pushItemIntoTarget(destination, energy, inv, ais);
+						}
+
+						if (this.itemToSend == before && this.isCraftingEnabled()) {
+							this.didSomething = this.craftingTracker.handleCrafting(slotToExport, this.itemToSend, ais, destination, this.getTile().getWorldObj(), this.getProxy().getGrid(), cg, this.mySrc) || this.didSomething;
 						}
 					}
-					else
-					{
-						this.pushItemIntoTarget( destination, energy, inv, ais );
-					}
 
-					if( this.itemToSend == before && this.isCraftingEnabled() )
-					{
-						this.didSomething = this.craftingTracker.handleCrafting( slotToExport, this.itemToSend, ais, destination, this.getTile().getWorldObj(), this.getProxy().getGrid(), cg, this.mySrc ) || this.didSomething;
+					this.updateSchedulingMode(schedulingMode, x);
+				}
+				else if (!oreFilterString.isEmpty())
+				{
+					if (filterPredicate == null)
+						filterPredicate = OreFilteredList.makeFilter(oreFilterString);
+
+					for (IAEItemStack stack : inv.getStorageList()) {
+						if (stack == null || filterPredicate == null || !this.filterPredicate.test(stack))
+							continue;
+						this.pushItemIntoTarget(destination, energy, inv, stack);
+						if (this.itemToSend <= 0)
+							break;
 					}
 				}
-
-				this.updateSchedulingMode( schedulingMode, x );
 			}
 			else
 			{

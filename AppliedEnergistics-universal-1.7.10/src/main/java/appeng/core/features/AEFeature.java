@@ -103,6 +103,7 @@ public enum AEFeature
 	P2PTunnelLight( Constants.CATEGORY_P2P_TUNNELS ),
 	P2PTunnelOpenComputers( Constants.CATEGORY_P2P_TUNNELS ),
 	P2PTunnelPressure( Constants.CATEGORY_P2P_TUNNELS ),
+	P2PTunnelGregtech( Constants.CATEGORY_P2P_TUNNELS ),
 
 	MassCannonBlockDamage( Constants.CATEGORY_BLOCK_FEATURES ),
 	TinyTNTBlockDamage( Constants.CATEGORY_BLOCK_FEATURES ),

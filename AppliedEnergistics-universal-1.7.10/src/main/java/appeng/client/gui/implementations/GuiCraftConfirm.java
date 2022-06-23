@@ -35,6 +35,7 @@ import appeng.core.sync.packets.PacketValueConfig;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
+import appeng.parts.reporting.PartPatternTerminalEx;
 import appeng.parts.reporting.PartTerminal;
 import appeng.util.Platform;
 import com.google.common.base.Joiner;
@@ -70,6 +71,7 @@ public class GuiCraftConfirm extends AEBaseGui
 	private GuiButton start;
 	private GuiButton selectCPU;
 	private int tooltip = -1;
+	private ItemStack hoveredStack;
 
 	public GuiCraftConfirm( final InventoryPlayer inventoryPlayer, final ITerminalHost te )
 	{
@@ -100,6 +102,11 @@ public class GuiCraftConfirm extends AEBaseGui
 		if( te instanceof PartPatternTerminal )
 		{
 			this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL;
+		}
+
+		if( te instanceof PartPatternTerminalEx)
+		{
+			this.OriginalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
 		}
 	}
 
@@ -235,6 +242,7 @@ public class GuiCraftConfirm extends AEBaseGui
 		final List<String> lineList = new LinkedList<String>();
 		int toolPosX = 0;
 		int toolPosY = 0;
+		hoveredStack = null;
 
 		final int offY = 23;
 
@@ -349,14 +357,16 @@ public class GuiCraftConfirm extends AEBaseGui
 				if( this.tooltip == z - viewStart )
 				{
 					dspToolTip = Platform.getItemDisplayName( is );
-
 					if( lineList.size() > 0 )
 					{
-						dspToolTip = dspToolTip + '\n' + Joiner.on( "\n" ).join( lineList );
+						addItemTooltip(is, lineList);
+						dspToolTip = dspToolTip +  '\n' + Joiner.on( "\n" ).join( lineList );
 					}
 
 					toolPosX = x * ( 1 + sectionLength ) + xo + sectionLength - 8;
 					toolPosY = y * offY + yo;
+
+					hoveredStack = is;
 				}
 
 				this.drawItem( posX, posY, is );
@@ -573,5 +583,8 @@ public class GuiCraftConfirm extends AEBaseGui
 				AELog.debug( e );
 			}
 		}
+	}
+	public ItemStack getHoveredStack() {
+		return hoveredStack;
 	}
 }

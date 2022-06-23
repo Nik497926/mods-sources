@@ -50,9 +50,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 
-public class TileCharger extends AENetworkPowerTile implements ICrankable
-{
-
+public class TileCharger extends AENetworkPowerTile implements ICrankable {
 	private final int[] sides = { 0 };
 	private final AppEngInternalInventory inv = new AppEngInternalInventory( this, 1 );
 	private int tickTickTimer = 0;
@@ -121,11 +119,11 @@ public class TileCharger extends AENetworkPowerTile implements ICrankable
 		final ItemStack myItem = this.getStackInSlot( 0 );
 
 		// charge from the network!
-		if( this.getInternalCurrentPower() < 1499 )
+		if( this.getInternalCurrentPower() < getInternalMaxPower() )
 		{
 			try
 			{
-				this.injectExternalPower( PowerUnits.AE, this.getProxy().getEnergy().extractAEPower( Math.min( 150.0, 1500.0 - this.getInternalCurrentPower() ), Actionable.MODULATE, PowerMultiplier.ONE ) );
+				this.injectExternalPower( PowerUnits.AE, this.getProxy().getEnergy().extractAEPower( Math.min( 150.0, getInternalMaxPower() - this.getInternalCurrentPower() ), Actionable.MODULATE, PowerMultiplier.ONE ) );
 				this.tickTickTimer = 20; // keep ticking...
 			}
 			catch( final GridAccessException e )
@@ -157,11 +155,11 @@ public class TileCharger extends AENetworkPowerTile implements ICrankable
 				this.tickTickTimer = 20; // keep ticking...
 			}
 		}
-		else if( this.getInternalCurrentPower() > 1499 && materials.certusQuartzCrystal().isSameAs( myItem ) )
+		else if( this.getInternalCurrentPower() == getInternalMaxPower() && materials.certusQuartzCrystal().isSameAs( myItem ) )
 		{
 			if( Platform.getRandomFloat() > 0.8f ) // simulate wait
 			{
-				this.extractAEPower( this.getInternalMaxPower(), Actionable.MODULATE, PowerMultiplier.CONFIG );// 1500
+				this.extractAEPower( this.getInternalMaxPower()/PowerMultiplier.CONFIG.multiplier, Actionable.MODULATE, PowerMultiplier.CONFIG );// 1500
 
 				for( final ItemStack charged : materials.certusQuartzCrystalCharged().maybeStack( myItem.stackSize ).asSet() )
 				{

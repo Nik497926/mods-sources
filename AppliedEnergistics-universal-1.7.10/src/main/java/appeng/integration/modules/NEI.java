@@ -20,6 +20,8 @@ package appeng.integration.modules;
 
 
 import appeng.client.gui.AEBaseMEGui;
+import appeng.client.gui.implementations.GuiCraftConfirm;
+import appeng.client.gui.implementations.GuiCraftingCPU;
 import appeng.client.gui.implementations.GuiCraftingTerm;
 import appeng.client.gui.implementations.GuiPatternTerm;
 import appeng.core.AEConfig;
@@ -29,9 +31,11 @@ import appeng.integration.IIntegrationModule;
 import appeng.integration.IntegrationHelper;
 import appeng.integration.abstraction.INEI;
 import appeng.integration.modules.NEIHelpers.*;
+import codechicken.nei.api.INEIGuiHandler;
 import codechicken.nei.api.IStackPositioner;
 import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.guihook.IContainerTooltipHandler;
+import codechicken.nei.guihook.IContainerObjectHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -45,7 +49,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 
-public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule
+public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule, IContainerObjectHandler
 {
 	@Reflected
 	public static NEI instance;
@@ -55,6 +59,7 @@ public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule
 	// recipe handler...
 	private Method registerRecipeHandler;
 	private Method registerUsageHandler;
+	private Method registerNEIGuiHandler;
 
 	@Reflected
 	public NEI() throws ClassNotFoundException
@@ -74,13 +79,17 @@ public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule
 	{
 		this.registerRecipeHandler = this.apiClass.getDeclaredMethod( "registerRecipeHandler", codechicken.nei.recipe.ICraftingHandler.class );
 		this.registerUsageHandler = this.apiClass.getDeclaredMethod( "registerUsageHandler", codechicken.nei.recipe.IUsageHandler.class );
+		this.registerNEIGuiHandler = this.apiClass.getDeclaredMethod("registerNEIGuiHandler", INEIGuiHandler.class);
+		registerNEIGuiHandler.invoke(apiClass, new NEIGuiHandler());
 
 		this.registerRecipeHandler( new NEIAEShapedRecipeHandler() );
 		this.registerRecipeHandler( new NEIAEShapelessRecipeHandler() );
 		this.registerRecipeHandler( new NEIInscriberRecipeHandler() );
 		this.registerRecipeHandler( new NEIWorldCraftingHandler() );
-		this.registerRecipeHandler( new NEIGrinderRecipeHandler() );
-
+		if ( AEConfig.instance.isFeatureEnabled( AEFeature.GrindStone ) )
+		{
+			this.registerRecipeHandler(new NEIGrinderRecipeHandler());
+		}
 		if( AEConfig.instance.isFeatureEnabled( AEFeature.Facades ) && AEConfig.instance.isFeatureEnabled( AEFeature.EnableFacadeCrafting ) )
 		{
 			this.registerRecipeHandler( new NEIFacadeRecipeHandler() );
@@ -88,6 +97,7 @@ public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule
 
 		// large stack tooltips
 		GuiContainerManager.addTooltipHandler( this );
+		GuiContainerManager.addObjectHandler(this);
 
 		// crafting terminal...
 		final Method registerGuiOverlay = this.apiClass.getDeclaredMethod( "registerGuiOverlay", Class.class, String.class, IStackPositioner.class );
@@ -175,5 +185,42 @@ public class NEI implements INEI, IContainerTooltipHandler, IIntegrationModule
 		}
 
 		return currentToolTip;
+	}
+	@Override
+	public void guiTick(GuiContainer gui) {
+
+	}
+
+	@Override
+	public void refresh(GuiContainer gui) {
+
+	}
+
+	@Override
+	public void load(GuiContainer gui) {
+
+	}
+
+	@Override
+	public ItemStack getStackUnderMouse(GuiContainer gui, int mousex, int mousey) {
+		if (gui instanceof GuiCraftConfirm)
+			return ((GuiCraftConfirm)gui).getHoveredStack();
+		else if (gui instanceof GuiCraftingCPU)
+			return ((GuiCraftingCPU)gui).getHoveredStack();
+		return null;
+	}
+
+	@Override
+	public boolean objectUnderMouse(GuiContainer gui, int mousex, int mousey) {
+		return false;
+	}
+
+	@Override
+	public boolean shouldShowTooltip(GuiContainer gui) {
+		if (gui instanceof GuiCraftConfirm)
+			return ((GuiCraftConfirm)gui).getHoveredStack() == null;
+		if (gui instanceof GuiCraftingCPU)
+			return ((GuiCraftingCPU)gui).getHoveredStack() == null;
+		return true;
 	}
 }

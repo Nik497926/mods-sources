@@ -113,15 +113,18 @@ public final class ItemBasicStorageCell extends AEBaseItem implements IStorageCe
 
 				if( handler.isPreformatted() )
 				{
-					final String list = ( handler.getIncludeExcludeMode() == IncludeExclude.WHITELIST ? GuiText.Included : GuiText.Excluded ).getLocal();
+					String filter = cellInventory.getOreFilter();
+					if (filter.isEmpty()) {
+						final String list = (handler.getIncludeExcludeMode() == IncludeExclude.WHITELIST ? GuiText.Included : GuiText.Excluded).getLocal();
 
-					if( handler.isFuzzy() )
-					{
-						lines.add( GuiText.Partitioned.getLocal() + " - " + list + ' ' + GuiText.Fuzzy.getLocal() );
+						if (handler.isFuzzy()) {
+							lines.add(GuiText.Partitioned.getLocal() + " - " + list + ' ' + GuiText.Fuzzy.getLocal());
+						} else {
+							lines.add(GuiText.Partitioned.getLocal() + " - " + list + ' ' + GuiText.Precise.getLocal());
+						}
 					}
-					else
-					{
-						lines.add( GuiText.Partitioned.getLocal() + " - " + list + ' ' + GuiText.Precise.getLocal() );
+					else {
+						lines.add(GuiText.PartitionedOre.getLocal() + " : " + filter);
 					}
 				}
 			}
@@ -221,6 +224,16 @@ public final class ItemBasicStorageCell extends AEBaseItem implements IStorageCe
 	}
 
 	@Override
+	public String getOreFilter(ItemStack is) {
+		return Platform.openNbtData( is ).getString( "OreFilter" );
+	}
+
+	@Override
+	public void setOreFilter(ItemStack is, String filter) {
+		Platform.openNbtData( is ).setString("OreFilter", filter);
+	}
+
+	@Override
 	public ItemStack onItemRightClick( final ItemStack stack, final World world, final EntityPlayer player )
 	{
 		this.disassembleDrive( stack, world, player );
@@ -235,7 +248,6 @@ public final class ItemBasicStorageCell extends AEBaseItem implements IStorageCe
 			{
 				return false;
 			}
-
 			final InventoryPlayer playerInventory = player.inventory;
 			final IMEInventoryHandler inv = AEApi.instance().registries().cell().getCellInventory( stack, null, StorageChannel.ITEMS );
 			if( inv != null && playerInventory.getCurrentItem() == stack )

@@ -20,6 +20,7 @@ package appeng.container.implementations;
 
 
 import appeng.api.AEApi;
+import appeng.api.config.PowerMultiplier;
 import appeng.api.implementations.guiobjects.INetworkTool;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridBlock;
@@ -121,7 +122,7 @@ public class ContainerNetworkStatus extends AEBaseContainer
 						{
 							final IAEItemStack ais = AEItemStack.create( is );
 							ais.setStackSize( 1 );
-							ais.setCountRequestable( (long) ( blk.getIdlePowerUsage() * 100.0 ) );
+							ais.setCountRequestable( (long) PowerMultiplier.CONFIG.multiply ( blk.getIdlePowerUsage() * 100.0 ) );
 							list.add( ais );
 						}
 					}

@@ -72,14 +72,8 @@ public class ContainerStorageBus extends ContainerUpgradeable
 		{
 			for( int x = 0; x < 9; x++ )
 			{
-				if( y < 2 )
-				{
-					this.addSlotToContainer( new SlotFakeTypeOnly( config, y * 9 + x, xo + x * 18, yo + y * 18 ) );
-				}
-				else
-				{
-					this.addSlotToContainer( new OptionalSlotFakeTypeOnly( config, this, y * 9 + x, xo, yo, x, y, y - 2 ) );
-				}
+//				this.addSlotToContainer( new SlotFakeTypeOnly( config, y * 9 + x, xo + x * 18, yo + y * 18 ) );
+				this.addSlotToContainer( new OptionalSlotFakeTypeOnly( config, this, y * 9 + x, xo, yo, x, y, y ) );
 			}
 		}
 
@@ -121,9 +115,12 @@ public class ContainerStorageBus extends ContainerUpgradeable
 	@Override
 	public boolean isSlotEnabled( final int idx )
 	{
+		if (this.getUpgradeable().getInstalledUpgrades(Upgrades.ORE_FILTER) > 0)
+			return false;
+
 		final int upgrades = this.getUpgradeable().getInstalledUpgrades( Upgrades.CAPACITY );
 
-		return upgrades > idx;
+		return upgrades > (idx-2);
 	}
 
 	public void clear()

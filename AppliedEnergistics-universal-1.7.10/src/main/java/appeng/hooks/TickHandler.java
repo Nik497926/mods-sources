@@ -48,7 +48,6 @@ import net.minecraftforge.event.world.WorldEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 
 public class TickHandler
@@ -93,8 +92,10 @@ public class TickHandler
 		}
 	}
 
-	public void addInit( final AEBaseTile tile ) {
-		if (Platform.isServer()) {
+	public void addInit( final AEBaseTile tile )
+	{
+		if( Platform.isServer() ) // for no there is no reason to care about this on the client...
+		{
 			this.getRepo().tiles.add( tile );
 		}
 	}
@@ -160,7 +161,8 @@ public class TickHandler
 	}
 
 	@SubscribeEvent
-	public void onChunkLoad( final ChunkEvent.Load load ) {
+	public void onChunkLoad( final ChunkEvent.Load load )
+	{
 		for( final Object te : load.getChunk().chunkTileEntityMap.values() )
 		{
 			if( te instanceof AEBaseTile )
@@ -171,21 +173,23 @@ public class TickHandler
 	}
 
 	@SubscribeEvent
-	public void onTick( final TickEvent ev ) {
-		if( ev.type == Type.CLIENT && ev.phase == Phase.START ) {
+	public void onTick( final TickEvent ev )
+	{
+
+		if( ev.type == Type.CLIENT && ev.phase == Phase.START )
+		{
 			this.tickColors( this.cliPlayerColors );
 			EntityFloatingItem.ageStatic = ( EntityFloatingItem.ageStatic + 1 ) % 60000;
 			final CableRenderMode currentMode = AEApi.instance().partHelper().getCableRenderMode();
-
-			if( currentMode != this.crm ) {
+			if( currentMode != this.crm )
+			{
 				this.crm = currentMode;
 				CommonHelper.proxy.triggerUpdates();
 			}
-
-			return;
 		}
 
-		if( ev.type == Type.WORLD && ev.phase == Phase.END ) {
+		if( ev.type == Type.WORLD && ev.phase == Phase.END )
+		{
 			final WorldTickEvent wte = (WorldTickEvent) ev;
 			synchronized( this.craftingJobs )
 			{
@@ -207,26 +211,23 @@ public class TickHandler
 		}
 
 		// for no there is no reason to care about this on the client...
-		else if( ev.type == Type.SERVER && ev.phase == Phase.END ) {
+		else if( ev.type == Type.SERVER && ev.phase == Phase.END )
+		{
 			this.tickColors( this.srvPlayerColors );
 			// ready tiles.
-
-			if (this.getRepo().tiles.size() > 0)
-			System.err.println("tiles " + this.getRepo().tiles.size());
-
 			final HandlerRep repo = this.getRepo();
-			while (!repo.tiles.isEmpty()) {
+			while( !repo.tiles.isEmpty() )
+			{
 				final AEBaseTile bt = repo.tiles.poll();
-
-				if (!bt.isInvalid()) {
+				if( !bt.isInvalid() )
+				{
 					bt.onReady();
 				}
 			}
 
-			//System.err.println("networks " + this.getRepo().networks.size());
-
 			// tick networks.
-			for( final Grid g : this.getRepo().networks ) {
+			for( final Grid g : this.getRepo().networks )
+			{
 				g.update();
 			}
 
@@ -235,7 +236,8 @@ public class TickHandler
 		}
 
 		// world synced queue(s)
-		if( ev.type == Type.WORLD && ev.phase == Phase.START ) {
+		if( ev.type == Type.WORLD && ev.phase == Phase.START )
+		{
 			final World world = ( (WorldTickEvent) ev ).world;
 			final Queue<IWorldCallable<?>> queue = this.callQueue.get( world );
 			this.processQueue( queue, world );

@@ -30,14 +30,17 @@ public enum PlayerMessages
 	isNowLocked, isNowUnlocked,
 	AmmoDepleted,
 	CommunicationError, OutOfRange, DeviceNotPowered, DeviceNotWirelessTerminal, DeviceNotLinked, StationCanNotBeLocated,
-	SettingCleared,;
+	SettingCleared,
+	TunnelNotConnected,	TunnelInputIsAt, TunnelHasNoOutputs, TunnelOutputsAreAt,
+	InterfaceInOtherDim, InterfaceHighlighted
+	;
 
 	public IChatComponent get()
 	{
 		return new ChatComponentTranslation( this.getName() );
 	}
 
-	String getName()
+	public String getName()
 	{
 		return "chat.appliedenergistics2." + this.toString();
 	}

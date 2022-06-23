@@ -67,7 +67,7 @@ public class QuantumCluster implements ILocatable, IAECluster
 	@SubscribeEvent
 	public void onUnload( final WorldEvent.Unload e )
 	{
-		if( this.center.getWorldObj() == e.world )
+		if( this.center != null && this.center.getWorldObj() == e.world )
 		{
 			this.setUpdateStatus( false );
 			this.destroy();

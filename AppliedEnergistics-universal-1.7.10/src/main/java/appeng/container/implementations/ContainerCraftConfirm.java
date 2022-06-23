@@ -45,6 +45,7 @@ import appeng.core.sync.packets.PacketSwitchGuis;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.parts.reporting.PartCraftingTerminal;
 import appeng.parts.reporting.PartPatternTerminal;
+import appeng.parts.reporting.PartPatternTerminalEx;
 import appeng.parts.reporting.PartTerminal;
 import appeng.util.Platform;
 import com.google.common.collect.ImmutableSet;
@@ -132,6 +133,8 @@ public class ContainerCraftConfirm extends AEBaseContainer
 		{
 			return;
 		}
+		if (getGrid() == null)
+			return;
 
 		final ICraftingGrid cc = this.getGrid().getCache( ICraftingGrid.class );
 		final ImmutableSet<ICraftingCPU> cpuSet = cc.getCpus();
@@ -290,6 +293,8 @@ public class ContainerCraftConfirm extends AEBaseContainer
 	private IGrid getGrid()
 	{
 		final IActionHost h = ( (IActionHost) this.getTarget() );
+		if (h == null || h.getActionableNode() == null)
+			return null;
 		return h.getActionableNode().getGrid();
 	}
 
@@ -342,7 +347,12 @@ public class ContainerCraftConfirm extends AEBaseContainer
 			originalGui = GuiBridge.GUI_PATTERN_TERMINAL;
 		}
 
-		if( this.result != null && !this.isSimulation() )
+		if( ah instanceof PartPatternTerminalEx)
+		{
+			originalGui = GuiBridge.GUI_PATTERN_TERMINAL_EX;
+		}
+
+		if( this.result != null && !this.isSimulation() && getGrid() != null)
 		{
 			final ICraftingGrid cc = this.getGrid().getCache( ICraftingGrid.class );
 			final ICraftingLink g = cc.submitJob( this.result, null, this.getSelectedCpu() == -1 ? null : this.cpus.get( this.getSelectedCpu() ).getCpu(), true, this.getActionSrc() );

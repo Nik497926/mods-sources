@@ -43,9 +43,14 @@ public class AppEngInternalInventory implements IInventory, Iterable<ItemStack>
 
 	public AppEngInternalInventory( final IAEAppEngInventory inventory, final int size )
 	{
+		this(inventory, size, 64);
+	}
+
+	public AppEngInternalInventory( final IAEAppEngInventory inventory, final int size, final int maxstack )
+	{
 		this.setTileEntity( inventory );
 		this.size = size;
-		this.maxStack = 64;
+		this.maxStack = maxstack;
 		this.inv = new ItemStack[size];
 	}
 
@@ -151,9 +156,9 @@ public class AppEngInternalInventory implements IInventory, Iterable<ItemStack>
 			}
 
 			this.getTileEntity().onChangeInventory( this, slot, InvOperation.setInventorySlotContents, removed, added );
-
-			this.markDirty();
 		}
+
+		this.markDirty();
 	}
 
 	@Override
@@ -180,7 +185,6 @@ public class AppEngInternalInventory implements IInventory, Iterable<ItemStack>
 		if( this.getTileEntity() != null && this.eventsEnabled() )
 		{
 			this.getTileEntity().onChangeInventory( this, -1, InvOperation.markDirty, null, null );
-			this.getTileEntity().saveChanges();
 		}
 	}
 
@@ -217,7 +221,6 @@ public class AppEngInternalInventory implements IInventory, Iterable<ItemStack>
 		if( this.getTileEntity() != null && this.eventsEnabled() )
 		{
 			this.getTileEntity().onChangeInventory( this, slotIndex, InvOperation.markDirty, null, null );
-			this.getTileEntity().saveChanges();
 		}
 	}
 

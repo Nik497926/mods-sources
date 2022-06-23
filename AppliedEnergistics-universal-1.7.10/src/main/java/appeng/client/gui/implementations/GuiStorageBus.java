@@ -61,6 +61,7 @@ public class GuiStorageBus extends GuiUpgradeable
 		this.rwMode = new GuiImgButton( this.guiLeft - 18, this.guiTop + 48, Settings.ACCESS, AccessRestriction.READ_WRITE );
 		this.storageFilter = new GuiImgButton( this.guiLeft - 18, this.guiTop + 68, Settings.STORAGE_FILTER, StorageFilter.EXTRACTABLE_ONLY );
 		this.fuzzyMode = new GuiImgButton( this.guiLeft - 18, this.guiTop + 88, Settings.FUZZY_MODE, FuzzyMode.IGNORE_ALL );
+		this.oreFilter = new GuiImgButton( this.guiLeft - 18, this.guiTop + 88, Settings.ACTIONS, ActionItems.ORE_FILTER);
 
 		this.buttonList.add( this.priority = new GuiTabButton( this.guiLeft + 154, this.guiTop, 2 + 4 * 16, GuiText.Priority.getLocal(), itemRender ) );
 
@@ -69,6 +70,7 @@ public class GuiStorageBus extends GuiUpgradeable
 		this.buttonList.add( this.rwMode );
 		this.buttonList.add( this.partition );
 		this.buttonList.add( this.clear );
+		this.buttonList.add( this.oreFilter );
 	}
 
 	@Override

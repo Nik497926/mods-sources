@@ -52,6 +52,7 @@ public final class P2PStateWailaDataProvider extends BasePartWailaDataProvider
 	private static final int STATE_INPUT = 2;
 	public static final String TAG_P2P_STATE = "p2p_state";
 	public static final String TAG_P2P_FREQUENCY = "p2p_frequency";
+	public static final String TAG_CUSTOMNAME = "custom_name";
 
 	/**
 	 * Adds state to the tooltip
@@ -97,6 +98,8 @@ public final class P2PStateWailaDataProvider extends BasePartWailaDataProvider
                 final String local = ButtonToolTips.P2PFrequency.getLocal();
 
                 currentToolTip.add( String.format( local, freqTooltip ) );
+                if (nbtData.hasKey(TAG_CUSTOMNAME))
+					currentToolTip.add(nbtData.getString(TAG_CUSTOMNAME));
 			}
 		}
 
@@ -115,9 +118,10 @@ public final class P2PStateWailaDataProvider extends BasePartWailaDataProvider
 				return tag;
 			}
 
-			// Frquency
-			final long frequency = tunnel.getFrequency();
-			tag.setLong( TAG_P2P_FREQUENCY, frequency );
+			if (tunnel.hasCustomName())
+				tag.setString(TAG_CUSTOMNAME, tunnel.getCustomName());
+
+			tag.setLong( TAG_P2P_FREQUENCY, tunnel.getFrequency() );
 
 			// The default state
 			int state = STATE_UNLINKED;

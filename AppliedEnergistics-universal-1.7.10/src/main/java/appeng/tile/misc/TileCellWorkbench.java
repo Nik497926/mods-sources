@@ -23,8 +23,10 @@ import appeng.api.config.CopyMode;
 import appeng.api.config.Settings;
 import appeng.api.config.Upgrades;
 import appeng.api.implementations.IUpgradeableHost;
+import appeng.api.implementations.items.IUpgradeModule;
 import appeng.api.storage.ICellWorkbenchItem;
 import appeng.api.util.IConfigManager;
+import appeng.helpers.IOreFilterable;
 import appeng.tile.AEBaseTile;
 import appeng.tile.TileEvent;
 import appeng.tile.events.TileEventType;
@@ -42,7 +44,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 
-public class TileCellWorkbench extends AEBaseTile implements IUpgradeableHost, IAEAppEngInventory, IConfigManagerHost
+public class TileCellWorkbench extends AEBaseTile implements IUpgradeableHost, IAEAppEngInventory, IConfigManagerHost, IOreFilterable
 {
 
 	private final AppEngInternalInventory cell = new AppEngInternalInventory( this, 1 );
@@ -136,6 +138,16 @@ public class TileCellWorkbench extends AEBaseTile implements IUpgradeableHost, I
 	@Override
 	public int getInstalledUpgrades( final Upgrades u )
 	{
+		final IInventory inv = getCellUpgradeInventory();
+		if (inv != null) {
+			for (int x = 0; x < inv.getSizeInventory(); x++) {
+				final ItemStack is = inv.getStackInSlot(x);
+				if (is != null && is.getItem() instanceof IUpgradeModule) {
+					if (((IUpgradeModule) is.getItem()).getType(is) == u)
+						return 1;
+				}
+			}
+		}
 		return 0;
 	}
 
@@ -204,6 +216,11 @@ public class TileCellWorkbench extends AEBaseTile implements IUpgradeableHost, I
 				c.markDirty();
 			}
 		}
+		else if (inv == cacheUpgrades)
+		{
+			if (getInstalledUpgrades(Upgrades.ORE_FILTER) == 0)
+				setFilter("");
+		}
 	}
 
 	private IInventory getCellConfigInventory()
@@ -254,5 +271,20 @@ public class TileCellWorkbench extends AEBaseTile implements IUpgradeableHost, I
 	public void updateSetting( final IConfigManager manager, final Enum settingName, final Enum newValue )
 	{
 		// nothing here..
+	}
+
+	@Override
+	public String getFilter() {
+		ItemStack is = this.cell.getStackInSlot( 0 );
+		if (is  != null && is.getItem() instanceof ICellWorkbenchItem)
+			return ((ICellWorkbenchItem) is.getItem()).getOreFilter(is);
+		else return "";
+	}
+
+	@Override
+	public void setFilter(String filter) {
+		ItemStack is = this.cell.getStackInSlot( 0 );
+		if (is  != null && is.getItem() instanceof ICellWorkbenchItem)
+			((ICellWorkbenchItem) is.getItem()).setOreFilter(is, filter);
 	}
 }

@@ -30,6 +30,7 @@ import appeng.api.networking.storage.IBaseMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
+import appeng.api.util.WorldCoord;
 import appeng.container.AEBaseContainer;
 import appeng.container.guisync.GuiSync;
 import appeng.core.AELog;
@@ -263,6 +264,11 @@ public class ContainerCraftingCPU extends AEBaseContainer implements IMEMonitorH
 	public boolean hasCustomName()
 	{
 		return this.cpuName != null && this.cpuName.length() > 0;
+	}
+
+	@Override
+	public void setCustomName(String name) {
+		this.cpuName = name;
 	}
 
 	public long getEstimatedTime()

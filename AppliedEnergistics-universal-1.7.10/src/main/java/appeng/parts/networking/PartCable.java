@@ -40,7 +40,6 @@ import appeng.items.parts.ItemMultiPart;
 import appeng.me.GridAccessException;
 import appeng.parts.AEBasePart;
 import appeng.util.Platform;
-import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -116,6 +115,18 @@ public class PartCable extends AEBasePart implements IPartCable
 			else if( this.getCableConnectionType() == AECableType.DENSE )
 			{
 				newPart = parts.cableDense().stack( newColor, 1 );
+			}
+			else if( this.getCableConnectionType() == AECableType.DENSE_COVERED )
+			{
+				newPart = parts.cableDenseCovered().stack( newColor, 1 );
+			}
+			else if( this.getCableConnectionType() == AECableType.ULTRA_DENSE )
+			{
+				newPart = parts.cableDense().stack( newColor, 1 );
+			}
+			else if( this.getCableConnectionType() == AECableType.ULTRA_DENSE_SMART )
+			{
+				newPart = parts.cableDenseCovered().stack( newColor, 1 );
 			}
 
 			boolean hasPermission = true;
@@ -459,7 +470,7 @@ public class PartCable extends AEBasePart implements IPartCable
 					howMany = Math.max( gc.getUsedChannels(), howMany );
 				}
 
-				data.setByte( "usedChannels", (byte) howMany );
+				data.setShort( "usedChannels", (short) howMany );
 			}
 		}
 	}
@@ -467,40 +478,63 @@ public class PartCable extends AEBasePart implements IPartCable
 	@Override
 	public void writeToStream( final ByteBuf data ) throws IOException
 	{
-		int flags = 0;
-		boolean[] writeSide = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
-		int[] channelsPerSide = new int[ForgeDirection.VALID_DIRECTIONS.length];
+		int cs = 0;
+		int sideOut = 0;
 
-		for( final ForgeDirection thisSide : ForgeDirection.VALID_DIRECTIONS )
-		{
-			final IPart part = this.getHost().getPart( thisSide );
-			if( part != null )
-			{
-				writeSide[thisSide.ordinal()] = true;
-				int channels = 0;
-				if( part.getGridNode() != null )
-				{
-					final IReadOnlyCollection<IGridConnection> set = part.getGridNode().getConnections();
-					for( final IGridConnection gc : set )
-					{
-						channels = Math.max( channels, gc.getUsedChannels() );
-					}
-				}
-				channelsPerSide[thisSide.ordinal()] = channels;
-			}
-		}
-
-		IGridNode n = this.getGridNode();
+		final IGridNode n = this.getGridNode();
 		if( n != null )
 		{
+			for( final ForgeDirection thisSide : ForgeDirection.VALID_DIRECTIONS )
+			{
+				final IPart part = this.getHost().getPart( thisSide );
+				if( part != null )
+				{
+					if( part.getGridNode() != null )
+					{
+						final IReadOnlyCollection<IGridConnection> set = part.getGridNode().getConnections();
+						for( final IGridConnection gc : set )
+						{
+							if( this.getProxy().getNode().hasFlag( GridFlags.ULTRA_DENSE_CAPACITY ) && gc.getOtherSide( this.getProxy().getNode() ).hasFlag( GridFlags.ULTRA_DENSE_CAPACITY ) )
+							{
+								sideOut |= ( gc.getUsedChannels() / 16 ) << ( 4 * thisSide.ordinal() );
+							}
+							else if( this.getProxy().getNode().hasFlag( GridFlags.DENSE_CAPACITY ) && gc.getOtherSide( this.getProxy().getNode() ).hasFlag( GridFlags.DENSE_CAPACITY ) )
+							{
+								sideOut |= ( gc.getUsedChannels() / 4 ) << ( 4 * thisSide.ordinal() );
+							}
+							else
+							{
+								sideOut |= ( gc.getUsedChannels() ) << ( 4 * thisSide.ordinal() );
+							}
+						}
+					}
+				}
+			}
+
 			for( final IGridConnection gc : n.getConnections() )
 			{
 				final ForgeDirection side = gc.getDirection( n );
 				if( side != ForgeDirection.UNKNOWN )
 				{
-					writeSide[side.ordinal()] = true;
-					channelsPerSide[side.ordinal()] = gc.getUsedChannels();
-					flags |= ( 1 << side.ordinal() );
+					final boolean isTier3a = this.getProxy().getNode().hasFlag( GridFlags.ULTRA_DENSE_CAPACITY );
+					final boolean isTier3b = gc.getOtherSide( this.getProxy().getNode() ).hasFlag( GridFlags.ULTRA_DENSE_CAPACITY );
+
+					final boolean isTier2a = this.getProxy().getNode().hasFlag( GridFlags.DENSE_CAPACITY );
+					final boolean isTier2b = gc.getOtherSide( this.getProxy().getNode() ).hasFlag( GridFlags.DENSE_CAPACITY );
+
+					if (isTier3a && isTier3b)
+					{
+						sideOut |= ( gc.getUsedChannels() / 16 ) << ( 4 * side.ordinal() );
+					}
+					else if( (isTier3a || isTier2a) && (isTier2b || isTier3b) )
+					{
+						sideOut |= ( gc.getUsedChannels() / 4 ) << ( 4 * side.ordinal() );
+					}
+					else
+					{
+						sideOut |= gc.getUsedChannels() << ( 4 * side.ordinal() );
+					}
+					cs |= ( 1 << side.ordinal() );
 				}
 			}
 		}
@@ -509,7 +543,7 @@ public class PartCable extends AEBasePart implements IPartCable
 		{
 			if( this.getProxy().getEnergy().isNetworkPowered() )
 			{
-				flags |= ( 1 << ForgeDirection.UNKNOWN.ordinal() );
+				cs |= ( 1 << ForgeDirection.UNKNOWN.ordinal() );
 			}
 		}
 		catch( final GridAccessException e )
@@ -517,21 +551,16 @@ public class PartCable extends AEBasePart implements IPartCable
 			// aww...
 		}
 
-		data.writeByte( (byte) flags );
-		// Only write the used channels for sides where we have a part or another cable
-		for( int i = 0; i < writeSide.length; i++ )
-		{
-			if( writeSide[i] )
-			{
-				data.writeByte( channelsPerSide[i] );
-			}
-		}
+		data.writeByte( (byte) cs );
+		data.writeInt( sideOut );
 	}
 
 	@Override
 	public boolean readFromStream( final ByteBuf data ) throws IOException
 	{
-		int cs = data.readByte();
+		final int cs = data.readByte();
+		final int sideOut = data.readInt();
+
 		final EnumSet<ForgeDirection> myC = this.getConnections().clone();
 		final boolean wasPowered = this.powered;
 		this.powered = false;
@@ -539,6 +568,16 @@ public class PartCable extends AEBasePart implements IPartCable
 
 		for( final ForgeDirection d : ForgeDirection.values() )
 		{
+			if( d != ForgeDirection.UNKNOWN )
+			{
+				final int ch = ( sideOut >> ( d.ordinal() * 4 ) ) & 0xF;
+				if( ch != this.getChannelsOnSide()[d.ordinal()] )
+				{
+					channelsChanged = true;
+					this.getChannelsOnSide()[d.ordinal()] = ch;
+				}
+			}
+
 			if( d == ForgeDirection.UNKNOWN )
 			{
 				final int id = 1 << d.ordinal();
@@ -549,30 +588,14 @@ public class PartCable extends AEBasePart implements IPartCable
 			}
 			else
 			{
-				boolean conOnSide = ( cs & ( 1 << d.ordinal() ) ) != 0;
-				if( conOnSide )
+				final int id = 1 << d.ordinal();
+				if( id == ( cs & id ) )
 				{
 					this.getConnections().add( d );
 				}
 				else
 				{
 					this.getConnections().remove( d );
-				}
-
-				int ch = 0;
-
-				// Only read channels if there's a part on this side or a cable connection
-				// This works only because cables are always read *last* from the packet update for
-				// a cable bus
-				if( conOnSide || getHost().getPart( d ) != null )
-				{
-					ch = ( (int) data.readByte() ) & 0xFF;
-				}
-
-				if( ch != this.channelsOnSide[d.ordinal()] )
-				{
-					channelsChanged = true;
-					this.channelsOnSide[d.ordinal()] = ch;
 				}
 			}
 		}

@@ -43,10 +43,8 @@ import java.util.List;
 
 public final class AEConfig extends Configuration implements IConfigurableObject, IConfigManagerHost
 {
-
-	public static final double TUNNEL_POWER_LOSS = 0.05;
-	public static final String VERSION = "@version@";
-	public static final String CHANNEL = "@aechannel@";
+	public static double TUNNEL_POWER_LOSS = 0.05;
+	public static final String VERSION = "rv2-beta-9";
 	public static final String PACKET_CHANNEL = "AE";
 	public static AEConfig instance;
 	public final IConfigManager settings = new ConfigManager( this );
@@ -80,6 +78,15 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 	public boolean enableEffects = true;
 	public boolean useLargeFonts = false;
 	public boolean useColoredCraftingStatus;
+	public boolean preserveSearchBar = true;
+	public boolean showOnlyInterfacesWithFreeSlotsInInterfaceTerminal = false;
+	public int MEMonitorableSmallSize = 6;
+	public int InterfaceTerminalSmallSize = 6;
+
+	public boolean debugLogTiming = false;
+	public boolean debugPathFinding = false;
+	public boolean p2pBackboneTransfer = false;
+	public boolean quantumBridgeBackboneTransfer = false;
 	public int wirelessTerminalBattery = 1600000;
 	public int entropyManipulatorBattery = 200000;
 	public int matterCannonBattery = 200000;
@@ -99,6 +106,7 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 	private double WirelessBaseRange = 16;
 	private double WirelessBoosterRangeMultiplier = 1;
 	private double WirelessBoosterExp = 1.5;
+	public int levelEmitterDelay = 40;
 
 	public AEConfig( final File configFile )
 	{
@@ -108,7 +116,6 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 		FMLCommonHandler.instance().bus().register( this );
 
 		final double DEFAULT_MEKANISM_EXCHANGE = 0.2;
-
 		PowerUnits.MK.conversionRatio = this.get( "PowerRatios", "Mekanism", DEFAULT_MEKANISM_EXCHANGE ).getDouble( DEFAULT_MEKANISM_EXCHANGE );
 		final double DEFAULT_IC2_EXCHANGE = 2.0;
 		PowerUnits.EU.conversionRatio = this.get( "PowerRatios", "IC2", DEFAULT_IC2_EXCHANGE ).getDouble( DEFAULT_IC2_EXCHANGE );
@@ -116,6 +123,10 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 		PowerUnits.WA.conversionRatio = this.get( "PowerRatios", "RotaryCraft", DEFAULT_RTC_EXCHANGE ).getDouble( DEFAULT_RTC_EXCHANGE );
 		final double DEFAULT_RF_EXCHANGE = 0.5;
 		PowerUnits.RF.conversionRatio = this.get( "PowerRatios", "ThermalExpansion", DEFAULT_RF_EXCHANGE ).getDouble( DEFAULT_RF_EXCHANGE );
+		final double DEFAULT_TUNNEL_POWER_LOSS = 0.05;
+		TUNNEL_POWER_LOSS = this.get("PowerRatios", "TunnelPowerLoss", DEFAULT_TUNNEL_POWER_LOSS).getDouble(DEFAULT_TUNNEL_POWER_LOSS);
+		if (TUNNEL_POWER_LOSS < 0 || TUNNEL_POWER_LOSS >= 1)
+			TUNNEL_POWER_LOSS = DEFAULT_TUNNEL_POWER_LOSS;
 
 		final double usageEffective = this.get( "PowerRatios", "UsageMultiplier", 1.0 ).getDouble( 1.0 );
 		PowerMultiplier.CONFIG.multiplier = Math.max( 0.01, usageEffective );
@@ -129,6 +140,8 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 		this.settings.registerSetting( Settings.SEARCH_TOOLTIPS, YesNo.YES );
 		this.settings.registerSetting( Settings.TERMINAL_STYLE, TerminalStyle.TALL );
 		this.settings.registerSetting( Settings.SEARCH_MODE, SearchBoxMode.AUTOSEARCH );
+		this.settings.registerSetting( Settings.SAVE_SEARCH, YesNo.NO );
+		this.settings.registerSetting( Settings.CRAFTING_STATUS, CraftingStatus.TILE);
 
 		this.spawnChargedChance = (float) ( 1.0 - this.get( "worldGen", "spawnChargedChance", 1.0 - this.spawnChargedChance ).getDouble( 1.0 - this.spawnChargedChance ) );
 		this.minMeteoriteDistance = this.get( "worldGen", "minMeteoriteDistance", this.minMeteoriteDistance ).getInt( this.minMeteoriteDistance );
@@ -159,6 +172,11 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 		this.colorApplicatorBattery = this.get( "battery", "colorApplicator", this.colorApplicatorBattery ).getInt( this.colorApplicatorBattery );
 		this.matterCannonBattery = this.get( "battery", "matterCannon", this.matterCannonBattery ).getInt( this.matterCannonBattery );
 
+		this.levelEmitterDelay = this.get( "tickrates", "LevelEmitterDelay", this.levelEmitterDelay ).getInt( this.levelEmitterDelay );
+		this.debugLogTiming = this.get("debug", "LogTiming", this.debugLogTiming).getBoolean(this.debugLogTiming);
+		this.debugPathFinding = this.get("debug", "LogPathFinding", this.debugPathFinding).getBoolean(this.debugPathFinding);
+		this.p2pBackboneTransfer = this.get("debug", "EnableP2pBackboneTransfer", this.p2pBackboneTransfer).getBoolean(this.p2pBackboneTransfer);
+		this.quantumBridgeBackboneTransfer = this.get("debug", "EnableQuantumBridgeBackboneTransfer", this.quantumBridgeBackboneTransfer).getBoolean(this.quantumBridgeBackboneTransfer);
 		this.clientSync();
 
 		for( final AEFeature feature : AEFeature.values() )
@@ -222,7 +240,10 @@ public final class AEConfig extends Configuration implements IConfigurableObject
 		this.enableEffects = this.get( "Client", "enableEffects", true ).getBoolean( true );
 		this.useLargeFonts = this.get( "Client", "useTerminalUseLargeFont", false ).getBoolean( false );
 		this.useColoredCraftingStatus = this.get( "Client", "useColoredCraftingStatus", true ).getBoolean( true );
-
+		this.preserveSearchBar = this.get( "Client", "preserveSearchBar", true ).getBoolean( true );
+		this.showOnlyInterfacesWithFreeSlotsInInterfaceTerminal = this.get( "Client", "showOnlyInterfacesWithFreeSlotsInInterfaceTerminal", false ).getBoolean( false );
+		this.MEMonitorableSmallSize = this.get( "Client", "MEMonitorableSmallSize", 6 ).getInt( 6 );
+		this.InterfaceTerminalSmallSize = this.get( "Client", "InterfaceTerminalSmallSize", 6 ).getInt( 6 );
 		// load buttons..
 		for( int btnNum = 0; btnNum < 4; btnNum++ )
 		{

@@ -139,6 +139,7 @@ public class SyncData
 		try
 		{
 			this.field.set( this.source, val );
+			this.source.onUpdate( this.field.getName(), oldValue, this.field.get( this.source ) );
 		}
 		catch( final IllegalArgumentException e )
 		{

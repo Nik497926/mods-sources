@@ -28,6 +28,7 @@ import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.parts.IPartHost;
 import appeng.api.util.AECableType;
+import appeng.core.AEConfig;
 import appeng.core.AELog;
 import appeng.core.settings.TickRates;
 import appeng.hooks.TickHandler;
@@ -56,7 +57,10 @@ public class PartP2PTunnelME extends PartP2PTunnel<PartP2PTunnelME> implements I
 	{
 		super( is );
 		this.getProxy().setFlags( GridFlags.REQUIRE_CHANNEL, GridFlags.COMPRESSED_CHANNEL );
-		this.outerProxy.setFlags( GridFlags.DENSE_CAPACITY, GridFlags.CANNOT_CARRY_COMPRESSED );
+		if (AEConfig.instance.p2pBackboneTransfer)
+			this.outerProxy.setFlags( GridFlags.DENSE_CAPACITY, GridFlags.ULTRA_DENSE_CAPACITY, GridFlags.CANNOT_CARRY_COMPRESSED );
+		else
+			this.outerProxy.setFlags( GridFlags.DENSE_CAPACITY, GridFlags.CANNOT_CARRY_COMPRESSED );
 	}
 
 	@Override
@@ -232,7 +236,9 @@ public class PartP2PTunnelME extends PartP2PTunnel<PartP2PTunnelME> implements I
 					{
 						final TileEntity start = this.getTile();
 						final TileEntity end = me.getTile();
-						AELog.warn( "Failed to establish a ME P2P Tunnel between the tunnels at [x=%d, y=%d, z=%d] and [x=%d, y=%d, z=%d]", start.xCoord, start.yCoord, start.zCoord, end.xCoord, end.yCoord, end.zCoord );
+						AELog.warn( "Failed to establish a ME P2P Tunnel between the tunnels at [x=%d, y=%d, z=%d, dim=%d] and [x=%d, y=%d, z=%d, dim=%d]",
+								start.xCoord, start.yCoord, start.zCoord, start.hasWorldObj() ? start.getWorldObj().provider.dimensionId : Integer.MAX_VALUE,
+								end.xCoord, end.yCoord, end.zCoord, end.hasWorldObj() ? end.getWorldObj().provider.dimensionId : Integer.MAX_VALUE );
 						// :(
 					}
 				}

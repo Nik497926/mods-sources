@@ -175,17 +175,10 @@ public final class AppEng
 
 		if( this.exportConfig.isExportingItemNamesEnabled() )
 		{
-			if( FMLCommonHandler.instance().getSide().isClient() )
-			{
-				final ExportProcess process = new ExportProcess( this.recipeDirectory, this.exportConfig );
-				final Thread exportProcessThread = new Thread( process );
+			final ExportProcess process = new ExportProcess( this.recipeDirectory, this.exportConfig );
+			final Thread exportProcessThread = new Thread( process );
 
-				this.startService( "AE2 CSV Export", exportProcessThread );
-			}
-			else
-			{
-				AELog.info( "Disabling item.csv export for custom recipes, since creative tab information is only available on the client." );
-			}
+			this.startService( "AE2 CSV Export", exportProcessThread );
 		}
 
 		this.registration.initialize( event, this.recipeDirectory, this.customRecipeConfig );
@@ -236,7 +229,8 @@ public final class AppEng
 	@EventHandler
 	private void serverStopped( final FMLServerStoppedEvent event )
 	{
-		WorldData.instance().onServerStoppped();
+		if (WorldData.instance() != null)
+			WorldData.instance().onServerStoppped();
 		TickHandler.INSTANCE.shutdown();
 	}
 

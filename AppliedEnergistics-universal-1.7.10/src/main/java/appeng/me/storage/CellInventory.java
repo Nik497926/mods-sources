@@ -441,7 +441,7 @@ public class CellInventory implements ICellInventory
 	{
 		if( this.cellItems == null )
 		{
-			this.cellItems = AEApi.instance().storage().createItemList();
+			this.cellItems = AEApi.instance().storage().createPrimitiveItemList();
 		}
 
 		this.cellItems.resetStatus(); // clears totals and stuff.
@@ -492,13 +492,18 @@ public class CellInventory implements ICellInventory
 	@Override
 	public double getIdleDrain()
 	{
-		return this.cellType.getIdleDrain();
+		return this.cellType.getIdleDrain(this.cellItem);
 	}
 
 	@Override
 	public FuzzyMode getFuzzyMode()
 	{
 		return this.cellType.getFuzzyMode( this.cellItem );
+	}
+	@Override
+	public String getOreFilter()
+	{
+		return this.cellType.getOreFilter( this.cellItem );
 	}
 
 	@Override

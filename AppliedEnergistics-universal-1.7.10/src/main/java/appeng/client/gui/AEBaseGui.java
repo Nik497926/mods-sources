@@ -31,6 +31,7 @@ import appeng.container.slot.*;
 import appeng.container.slot.AppEngSlot.hasCalculatedValidness;
 import appeng.core.AELog;
 import appeng.core.AppEng;
+import appeng.core.localization.GuiText;
 import appeng.core.sync.network.NetworkHandler;
 import appeng.core.sync.packets.PacketInventoryAction;
 import appeng.core.sync.packets.PacketSwapSlots;
@@ -146,25 +147,28 @@ public abstract class AEBaseGui extends GuiContainer
 		{
 			if( c instanceof ITooltip )
 			{
-				final ITooltip tooltip = (ITooltip) c;
-				final int x = tooltip.xPos(); // ((GuiImgButton) c).xPosition;
-				int y = tooltip.yPos(); // ((GuiImgButton) c).yPosition;
+				handleTooltip(mouseX, mouseY, (ITooltip) c);
+			}
+		}
+	}
 
-				if( x < mouseX && x + tooltip.getWidth() > mouseX && tooltip.isVisible() )
+	protected void handleTooltip(int mouseX, int mouseY, ITooltip tooltip) {
+		final int x = tooltip.xPos(); // ((GuiImgButton) c).xPosition;
+		int y = tooltip.yPos(); // ((GuiImgButton) c).yPosition;
+
+		if( x < mouseX && x + tooltip.getWidth() > mouseX && tooltip.isVisible() )
+		{
+			if( y < mouseY && y + tooltip.getHeight() > mouseY)
+			{
+				if( y < 15 )
 				{
-					if( y < mouseY && y + tooltip.getHeight() > mouseY )
-					{
-						if( y < 15 )
-						{
-							y = 15;
-						}
+					y = 15;
+				}
 
-						final String msg = tooltip.getMessage();
-						if( msg != null )
-						{
-							this.drawTooltip( x + 11, y + 4, 0, msg );
-						}
-					}
+				final String msg = tooltip.getMessage();
+				if( msg != null && !"".equals(msg))
+				{
+					this.drawTooltip( x + 11, y + 4, 0, msg );
 				}
 			}
 		}
@@ -359,6 +363,42 @@ public abstract class AEBaseGui extends GuiContainer
 				}
 			}
 		}
+		else if( slot instanceof SlotDisconnected )
+		{
+			this.drag_click.add( slot );
+			if( this.drag_click.size() > 1 )
+			{
+				if( itemstack != null )
+				{
+					for( final Slot dr : this.drag_click )
+					{
+						if( slot.getStack() == null)
+						{
+							InventoryAction action = InventoryAction.SPLIT_OR_PLACE_SINGLE;
+							final PacketInventoryAction p = new PacketInventoryAction( action, dr.getSlotIndex(), ( (SlotDisconnected) slot ).getSlot().getId() );
+							NetworkHandler.instance.sendToServer( p );
+						}
+					}
+				}
+
+				else if( isShiftKeyDown() )
+				{
+					for( final Slot dr : this.drag_click )
+					{
+						InventoryAction action = null;
+						if( slot.getStack() != null )
+						{
+							action = InventoryAction.SHIFT_CLICK;
+						}
+						if( action != null )
+						{
+							final PacketInventoryAction p = new PacketInventoryAction( action, dr.getSlotIndex(), ( (SlotDisconnected) slot ).getSlot().getId() );
+							NetworkHandler.instance.sendToServer( p );
+						}
+					}
+				}
+			}
+		}
 		else
 		{
 			super.mouseClickMove( x, y, c, d );
@@ -451,12 +491,23 @@ public abstract class AEBaseGui extends GuiContainer
 
 		if( slot instanceof SlotDisconnected )
 		{
+			if( this.drag_click.size() > 1 )
+			{
+				return;
+			}
+
 			InventoryAction action = null;
 
 			switch( mouseButton )
 			{
 				case 0: // pickup / set-down.
-					action = ctrlDown == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE : InventoryAction.PICKUP_OR_SET_DOWN;
+				{
+					ItemStack heldStack = player.inventory.getItemStack();
+					if (slot.getStack() == null && heldStack != null)
+						action = InventoryAction.SPLIT_OR_PLACE_SINGLE;
+					else if (slot.getStack() != null && (heldStack == null || heldStack.stackSize <= 1))
+						action = InventoryAction.PICKUP_OR_SET_DOWN;
+				}
 					break;
 				case 1:
 					action = ctrlDown == 1 ? InventoryAction.PICKUP_SINGLE : InventoryAction.SHIFT_CLICK;
@@ -663,17 +714,30 @@ public abstract class AEBaseGui extends GuiContainer
 	{
 		super.handleMouseInput();
 
-		final int i = Mouse.getEventDWheel();
-		if( i != 0 && isShiftKeyDown() )
-		{
+		final int wheel = Mouse.getEventDWheel();
+
+		if (wheel != 0) {
 			final int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
 			final int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-			this.mouseWheelEvent( x, y, i / Math.abs( i ) );
+
+			if (isShiftKeyDown()) {
+				this.mouseWheelEvent(x, y, wheel / Math.abs(wheel));
+			} else if (this.getScrollBar() != null) {
+				final GuiScrollbar scrollBar = this.getScrollBar();
+
+				if (
+					x > this.guiLeft && 
+					y - this.guiTop > scrollBar.getTop() && 
+					x <= this.guiLeft + this.xSize && 
+					y - this.guiTop <= scrollBar.getTop() + scrollBar.getHeight()
+				) {
+					this.getScrollBar().wheel(wheel);
+				}
+	
+			}
+
 		}
-		else if( i != 0 && this.getScrollBar() != null )
-		{
-			this.getScrollBar().wheel( i );
-		}
+
 	}
 
 	private void mouseWheelEvent( final int x, final int y, final int wheel )
@@ -944,5 +1008,20 @@ public abstract class AEBaseGui extends GuiContainer
 	public static final synchronized void setSwitchingGuis( final boolean switchingGuis )
 	{
 		AEBaseGui.switchingGuis = switchingGuis;
+	}
+	protected void addItemTooltip(ItemStack is, List<String> lineList)
+	{
+		if (isShiftKeyDown())
+		{
+			List l = is.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+			if (!l.isEmpty())
+				l.remove(0);
+			lineList.addAll(l);
+		}
+		else
+		{
+			lineList.add(GuiText.HoldShiftForTooltip.getLocal());
+		}
+
 	}
 }

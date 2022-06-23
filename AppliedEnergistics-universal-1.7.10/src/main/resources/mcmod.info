@@ -1,10 +1,10 @@
 [
     {
-        "modid":"appliedenergistics2",
-        "name":"Applied Energistics 2",
+        "modid":"${modId}",
+        "name":"${modName}",
         "description":"A Mod about Matter, Energy and using them to conquer the world..",
-        "version":"rv3-beta-86-GTNH",
-        "mcversion":"1.7.10",
+        "version":"${modVersion}",
+        "mcversion":"${minecraftVersion}",
         "url":"https://github.com/GTNewHorizons/Applied-Energistics-2-Unofficial",
         "updateUrl":"",
         "authorList":[

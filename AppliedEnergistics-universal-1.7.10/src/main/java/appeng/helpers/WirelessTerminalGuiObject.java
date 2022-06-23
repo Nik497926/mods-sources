@@ -26,6 +26,7 @@ import appeng.api.config.PowerMultiplier;
 import appeng.api.features.ILocatable;
 import appeng.api.features.IWirelessTermHandler;
 import appeng.api.implementations.guiobjects.IPortableCell;
+import appeng.api.implementations.tiles.IViewCellStorage;
 import appeng.api.implementations.tiles.IWirelessAccessPoint;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridHost;
@@ -44,14 +45,16 @@ import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
 import appeng.api.util.IConfigManager;
 import appeng.container.interfaces.IInventorySlotAware;
+import appeng.items.contents.WirelessTerminalViewCells;
 import appeng.tile.networking.TileWireless;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 
-public class WirelessTerminalGuiObject implements IPortableCell, IActionHost, IInventorySlotAware
+public class WirelessTerminalGuiObject implements IPortableCell, IActionHost, IInventorySlotAware, IViewCellStorage
 {
 
 	private final ItemStack effectiveItem;
@@ -65,6 +68,7 @@ public class WirelessTerminalGuiObject implements IPortableCell, IActionHost, II
 	private double sqRange = Double.MAX_VALUE;
 	private double myRange = Double.MAX_VALUE;
 	private final int inventorySlot;
+	private final WirelessTerminalViewCells viewCells;
 
 	public WirelessTerminalGuiObject( final IWirelessTermHandler wh, final ItemStack is, final EntityPlayer ep, final World w, final int x, final int y, final int z )
 	{
@@ -73,6 +77,7 @@ public class WirelessTerminalGuiObject implements IPortableCell, IActionHost, II
 		this.myPlayer = ep;
 		this.wth = wh;
 		this.inventorySlot = x;
+		this.viewCells = new WirelessTerminalViewCells( is );
 
 		ILocatable obj = null;
 
@@ -377,4 +382,9 @@ public class WirelessTerminalGuiObject implements IPortableCell, IActionHost, II
 		return this.inventorySlot;
 	}
 
+	@Override
+	public IInventory getViewCellStorage()
+	{
+		return this.viewCells;
+	}
 }

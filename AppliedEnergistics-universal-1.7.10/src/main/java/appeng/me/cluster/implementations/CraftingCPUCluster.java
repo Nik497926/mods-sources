@@ -23,6 +23,7 @@ import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.config.FuzzyMode;
 import appeng.api.config.PowerMultiplier;
+import appeng.api.config.Upgrades;
 import appeng.api.implementations.ICraftingPatternItem;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridHost;
@@ -42,6 +43,7 @@ import appeng.api.util.WorldCoord;
 import appeng.container.ContainerNull;
 import appeng.core.AELog;
 import appeng.crafting.*;
+import appeng.helpers.DualityInterface;
 import appeng.me.cache.CraftingGridCache;
 import appeng.me.cluster.IAECluster;
 import appeng.tile.crafting.TileCraftingMonitorTile;
@@ -103,6 +105,12 @@ public final class CraftingCPUCluster implements IAECluster, ICraftingCPU
 		this.min = min;
 		this.max = max;
 	}
+
+    @Override
+    public IAEItemStack getFinalOutput()
+    {
+        return finalOutput;
+    }
 
 	public boolean isDestroyed()
 	{
@@ -634,10 +642,10 @@ public final class CraftingCPUCluster implements IAECluster, ICraftingCPU
 
 					if( !m.isBusy() )
 					{
+						double sum = 0;
 						if( ic == null )
 						{
 							final IAEItemStack[] input = details.getInputs();
-							double sum = 0;
 
 							for( final IAEItemStack anInput : input )
 							{
@@ -646,14 +654,16 @@ public final class CraftingCPUCluster implements IAECluster, ICraftingCPU
 									sum += anInput.getStackSize();
 								}
 							}
+							// upgraded interface uses more power
+							if (m instanceof DualityInterface)
+								sum *= Math.pow(4.0, ((DualityInterface)m).getInstalledUpgrades(Upgrades.PATTERN_CAPACITY));
 
-							// power...
-							if( eg.extractAEPower( sum, Actionable.MODULATE, PowerMultiplier.CONFIG ) < sum - 0.01 )
-							{
+							// check if there is enough power
+							if (eg.extractAEPower( sum, Actionable.SIMULATE, PowerMultiplier.CONFIG ) < sum - 0.01)
 								continue;
-							}
 
-							ic = new InventoryCrafting( new ContainerNull(), 3, 3 );
+							ic = details.isCraftable() ? new InventoryCrafting( new ContainerNull(), 3, 3 ):
+									new InventoryCrafting( new ContainerNull(), details.getInputs().length, 1 );
 							boolean found = false;
 
 							for( int x = 0; x < input.length; x++ )
@@ -726,6 +736,7 @@ public final class CraftingCPUCluster implements IAECluster, ICraftingCPU
 
 						if( m.pushPattern( details, ic ) )
 						{
+							eg.extractAEPower( sum, Actionable.MODULATE, PowerMultiplier.CONFIG );
 							this.somethingChanged = true;
 							this.remainingOperations--;
 
@@ -1311,11 +1322,13 @@ public final class CraftingCPUCluster implements IAECluster, ICraftingCPU
 		return this.elapsedTime;
 	}
 
+    @Override
 	public long getRemainingItemCount()
 	{
 		return this.remainingItemCount;
 	}
 
+    @Override
 	public long getStartItemCount()
 	{
 		return this.startItemCount;

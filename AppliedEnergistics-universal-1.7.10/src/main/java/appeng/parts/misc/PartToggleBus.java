@@ -31,6 +31,7 @@ import appeng.client.texture.CableBusTextures;
 import appeng.helpers.Reflected;
 import appeng.me.helpers.AENetworkProxy;
 import appeng.parts.PartBasicState;
+import appeng.util.Platform;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -42,12 +43,14 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 
 public class PartToggleBus extends PartBasicState
 {
-	private static final int REDSTONE_FLAG = 4;
+	private static final int REDSTONE_FLAG = 8;
 	private final AENetworkProxy outerProxy = new AENetworkProxy( this, "outer", null, true );
 	private IGridConnection connection;
 	private boolean hasRedstone = false;
@@ -91,6 +94,19 @@ public class PartToggleBus extends PartBasicState
 	public AECableType getCableConnectionType( final ForgeDirection dir )
 	{
 		return AECableType.GLASS;
+	}
+
+	@Override
+	public void securityBreak()
+	{
+		if( this.getItemStack().stackSize > 0 )
+		{
+			final List<ItemStack> items = new ArrayList<ItemStack>();
+			items.add( this.getItemStack().copy() );
+			this.getHost().removePart( this.getSide(), false );
+			Platform.spawnDrops( this.getTile().getWorldObj(), this.getTile().xCoord, this.getTile().yCoord, this.getTile().zCoord, items );
+			this.getItemStack().stackSize = 0;
+		}
 	}
 
 	@Override

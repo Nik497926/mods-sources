@@ -35,5 +35,6 @@ public enum TunnelType
 	LIGHT, // Light Tunnel
 	BUNDLED_REDSTONE, // Bundled Redstone Tunnel
 	COMPUTER_MESSAGE, // Computer Message Tunnel
-	PRESSURE // PneumaticCraft Tunnel
+	PRESSURE, // PneumaticCraft Tunnel
+	GT_POWER // GregTech EU Tunnel
 }

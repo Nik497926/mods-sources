@@ -290,6 +290,7 @@ public class AEBaseTile extends TileEntity implements IOrientable, ICommonTile, 
 			{
 				AELog.blockUpdate( this.xCoord, this.yCoord, this.zCoord, this );
 				this.worldObj.markBlockForUpdate( this.xCoord, this.yCoord, this.zCoord );
+				this.worldObj.markTileEntityChunkModified( this.xCoord, this.yCoord, this.zCoord, this );
 			}
 		}
 	}
@@ -554,6 +555,11 @@ public class AEBaseTile extends TileEntity implements IOrientable, ICommonTile, 
 	public boolean hasCustomName()
 	{
 		return this.customName != null && this.customName.length() > 0;
+	}
+
+	@Override
+	public void setCustomName(String name) {
+		setName(name);
 	}
 
 	public void securityBreak()

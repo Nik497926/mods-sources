@@ -173,7 +173,6 @@ public class PartPlacement
 						{
 							if( host.getFacadeContainer().addFacade( fp ) )
 							{
-								host.markForSave();
 								host.markForUpdate();
 								if( !player.capabilities.isCreativeMode )
 								{

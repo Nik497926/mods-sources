@@ -21,6 +21,7 @@ package appeng.integration.modules.waila;
 
 import java.util.List;
 
+import appeng.integration.modules.waila.part.*;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
@@ -36,14 +37,6 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 
 import appeng.api.parts.IPart;
-import appeng.integration.modules.waila.part.ChannelWailaDataProvider;
-import appeng.integration.modules.waila.part.IPartWailaDataProvider;
-import appeng.integration.modules.waila.part.P2PStateWailaDataProvider;
-import appeng.integration.modules.waila.part.PartAccessor;
-import appeng.integration.modules.waila.part.PartStackWailaDataProvider;
-import appeng.integration.modules.waila.part.PowerStateWailaDataProvider;
-import appeng.integration.modules.waila.part.StorageMonitorWailaDataProvider;
-import appeng.integration.modules.waila.part.Tracer;
 
 
 /**
@@ -79,9 +72,9 @@ public final class PartWailaDataProvider implements IWailaDataProvider
 		final IPartWailaDataProvider storageMonitor = new StorageMonitorWailaDataProvider();
 		final IPartWailaDataProvider powerState = new PowerStateWailaDataProvider();
 		final IPartWailaDataProvider p2pState = new P2PStateWailaDataProvider();
-		final IPartWailaDataProvider partStack = new PartStackWailaDataProvider();
+		final IPartWailaDataProvider partStack = new BasePartWailaDataProvider();
 
-		this.providers = Lists.newArrayList( channel, storageMonitor, powerState, partStack, p2pState );
+		this.providers = Lists.newArrayList( channel, storageMonitor, powerState, p2pState, partStack);
 	}
 
 	@Override
@@ -101,6 +94,8 @@ public final class PartWailaDataProvider implements IWailaDataProvider
 			for( final IPartWailaDataProvider provider : this.providers )
 			{
 				wailaStack = provider.getWailaStack( part, config, wailaStack );
+				if (wailaStack != null)
+					break;
 			}
 			return wailaStack;
 		}

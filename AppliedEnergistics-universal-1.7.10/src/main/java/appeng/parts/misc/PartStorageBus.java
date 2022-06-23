@@ -45,6 +45,7 @@ import appeng.core.settings.TickRates;
 import appeng.core.stats.Achievements;
 import appeng.core.sync.GuiBridge;
 import appeng.helpers.IInterfaceHost;
+import appeng.helpers.IOreFilterable;
 import appeng.helpers.IPriorityHost;
 import appeng.helpers.Reflected;
 import appeng.integration.IntegrationType;
@@ -58,6 +59,7 @@ import appeng.transformer.annotations.Integration.Interface;
 import appeng.transformer.annotations.Integration.Method;
 import appeng.util.Platform;
 import appeng.util.prioitylist.FuzzyPriorityList;
+import appeng.util.prioitylist.OreFilteredList;
 import appeng.util.prioitylist.PrecisePriorityList;
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile.PipeType;
@@ -79,7 +81,7 @@ import java.util.List;
 
 @Interface( iname = IntegrationType.BuildCraftTransport, iface = "buildcraft.api.transport.IPipeConnection" )
 public class PartStorageBus extends PartUpgradeable
-		implements IGridTickable, ICellContainer, IMEMonitorHandlerReceiver<IAEItemStack>, IPipeConnection, IPriorityHost
+		implements IGridTickable, ICellContainer, IMEMonitorHandlerReceiver<IAEItemStack>, IPipeConnection, IPriorityHost, IOreFilterable
 {
 	private final BaseActionSource mySrc;
 	private final AppEngInternalAEInventory Config = new AppEngInternalAEInventory( this, 63 );
@@ -90,6 +92,7 @@ public class PartStorageBus extends PartUpgradeable
 	private int handlerHash = 0;
 	private boolean wasActive = false;
 	private byte resetCacheLogic = 0;
+	private String oreFilterString = "";
 
 	@Reflected
 	public PartStorageBus( final ItemStack is )
@@ -160,7 +163,9 @@ public class PartStorageBus extends PartUpgradeable
 	public void upgradesChanged()
 	{
 		super.upgradesChanged();
-		this.resetCache( true );
+		if (getInstalledUpgrades(Upgrades.ORE_FILTER) == 0)
+			this.oreFilterString = "";
+		this.resetCache(true);
 	}
 
 	@Override
@@ -169,6 +174,7 @@ public class PartStorageBus extends PartUpgradeable
 		super.readFromNBT( data );
 		this.Config.readFromNBT( data, "config" );
 		this.priority = data.getInteger( "priority" );
+		this.oreFilterString = data.getString("filter");
 	}
 
 	@Override
@@ -177,6 +183,7 @@ public class PartStorageBus extends PartUpgradeable
 		super.writeToNBT( data );
 		this.Config.writeToNBT( data, "config" );
 		data.setInteger( "priority", this.priority );
+		data.setString("filter", this.oreFilterString);
 	}
 
 	@Override
@@ -431,25 +438,24 @@ public class PartStorageBus extends PartUpgradeable
 					this.handler.setWhitelist( this.getInstalledUpgrades( Upgrades.INVERTER ) > 0 ? IncludeExclude.BLACKLIST : IncludeExclude.WHITELIST );
 					this.handler.setPriority( this.priority );
 
-					final IItemList<IAEItemStack> priorityList = AEApi.instance().storage().createItemList();
+					if (this.oreFilterString.isEmpty()) {
+						final IItemList<IAEItemStack> priorityList = AEApi.instance().storage().createItemList();
 
-					final int slotsToUse = 18 + this.getInstalledUpgrades( Upgrades.CAPACITY ) * 9;
-					for( int x = 0; x < this.Config.getSizeInventory() && x < slotsToUse; x++ )
-					{
-						final IAEItemStack is = this.Config.getAEStackInSlot( x );
-						if( is != null )
-						{
-							priorityList.add( is );
+						final int slotsToUse = 18 + this.getInstalledUpgrades(Upgrades.CAPACITY) * 9;
+						for (int x = 0; x < this.Config.getSizeInventory() && x < slotsToUse; x++) {
+							final IAEItemStack is = this.Config.getAEStackInSlot(x);
+							if (is != null)
+								priorityList.add(is);
+						}
+
+						if (this.getInstalledUpgrades(Upgrades.FUZZY) > 0) {
+							this.handler.setPartitionList(new FuzzyPriorityList(priorityList, (FuzzyMode) this.getConfigManager().getSetting(Settings.FUZZY_MODE)));
+						} else {
+							this.handler.setPartitionList(new PrecisePriorityList(priorityList));
 						}
 					}
-
-					if( this.getInstalledUpgrades( Upgrades.FUZZY ) > 0 )
-					{
-						this.handler.setPartitionList( new FuzzyPriorityList( priorityList, (FuzzyMode) this.getConfigManager().getSetting( Settings.FUZZY_MODE ) ) );
-					}
-					else
-					{
-						this.handler.setPartitionList( new PrecisePriorityList( priorityList ) );
+					else {
+						this.handler.setPartitionList(new OreFilteredList(oreFilterString));
 					}
 
 					if( inv instanceof IMEMonitor )
@@ -563,5 +569,16 @@ public class PartStorageBus extends PartUpgradeable
 	public void saveChanges( final IMEInventory cellInventory )
 	{
 		// nope!
+	}
+
+	@Override
+	public String getFilter() {
+		return oreFilterString;
+	}
+
+	@Override
+	public void setFilter(String filter) {
+		oreFilterString = filter;
+		resetCache(true);
 	}
 }

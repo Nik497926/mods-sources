@@ -19,6 +19,7 @@
 package appeng.core.localization;
 
 
+import appeng.api.config.InsertionMode;
 import appeng.api.config.SchedulingMode;
 import net.minecraft.util.StatCollector;
 
@@ -55,16 +56,41 @@ public enum ButtonToolTips
 
 	LevelType, LevelType_Energy, LevelType_Item, InventoryTweaks, TerminalStyle, TerminalStyle_Full, TerminalStyle_Tall, TerminalStyle_Small,
 
-	Stash, StashDesc, Encode, EncodeDescription, Substitutions, SubstitutionsOn, SubstitutionsOff, SubstitutionsDescEnabled, SubstitutionsDescDisabled, CraftOnly, CraftEither,
+	Stash, StashDesc, Encode, EncodeDescription, Substitutions, PatternSlotConfigTitle, PatternSlotConfigInfo, SubstitutionsDescEnabled, SubstitutionsDescDisabled, CraftOnly, CraftEither,
 
 	Craft, Mod, DoesntDespawn, EmitterMode, CraftViaRedstone, EmitWhenCrafting, ReportInaccessibleItems, ReportInaccessibleItemsYes, ReportInaccessibleItemsNo,
 
 	BlockPlacement, BlockPlacementYes, BlockPlacementNo,
 
 	// Used in the tooltips of the items in the terminal, when moused over
-	ItemsStored, ItemsRequestable, P2PFrequency,
+	ItemsStored, ItemsRequestable, P2PFrequency, SearchStringTooltip,
 
-	SchedulingMode, SchedulingModeDefault, SchedulingModeRoundRobin, SchedulingModeRandom;
+	SchedulingMode, SchedulingModeDefault, SchedulingModeRoundRobin, SchedulingModeRandom, OreFilter, OreFilterHint, DoublePattern, DoublePatternHint,
+
+	SaveSearchString, SaveSearchStringYes, SaveSearchStringNo,
+	CraftingStatus, CraftingStatusDesc,
+	ToggleMolecularAssemblers,
+	ToggleMolecularAssemblersDescOn,
+	ToggleMolecularAssemblersDescOff,
+	ToggleShowFullInterfaces,
+	ToggleShowFullInterfacesOnDesc,
+	ToggleShowFullInterfacesOffDesc,
+	ToggleShowOnlyInvalidInterface,
+	ToggleShowOnlyInvalidInterfaceOnDesc,
+	ToggleShowOnlyInvalidInterfaceOffDesc,
+	HighlightInterface,
+	HighlightInterfaceDesc,
+	SearchFieldInputs,
+	SearchFieldOutputs,
+	SearchFieldNames,
+
+	InsertionModeDefault,
+	InsertionModeDefaultDesc,
+	InsertionModePreferEmpty,
+	InsertionModePreferEmptyDesc,
+	InsertionModeOnlyEmpty,
+	InsertionModeOnlyEmptyDesc,
+	;
 
 	private final String root;
 

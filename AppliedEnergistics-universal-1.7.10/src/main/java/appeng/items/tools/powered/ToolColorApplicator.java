@@ -69,7 +69,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.*;
 
-import org.apache.commons.lang3.text.WordUtils;
 
 public class ToolColorApplicator extends AEBasePoweredItem implements IStorageCell, IItemGroup, IBlockTool, IMouseWheelItem
 {
@@ -79,13 +78,14 @@ public class ToolColorApplicator extends AEBasePoweredItem implements IStorageCe
 	static
 	{
 
-		for( final AEColor color : AEColor.VALID_COLORS )
+		for( final AEColor col : AEColor.values() )
 		{
-			final String dyeName = color.unlocalizedName;
-			final String oreDictName = "dye" + WordUtils.capitalize( dyeName );
-			final int oreDictId = OreDictionary.getOreID( oreDictName );
+			if( col == AEColor.Transparent )
+			{
+				continue;
+			}
 
-			ORE_TO_COLOR.put( oreDictId, color );
+			ORE_TO_COLOR.put( OreDictionary.getOreID( "dye" + col.name() ), col );
 		}
 	}
 
@@ -553,5 +553,15 @@ public class ToolColorApplicator extends AEBasePoweredItem implements IStorageCe
 	public void onWheel( final ItemStack is, final boolean up )
 	{
 		this.cycleColors( is, this.getColor( is ), up ? 1 : -1 );
+	}
+
+	@Override
+	public String getOreFilter(ItemStack is) {
+		return Platform.openNbtData( is ).getString( "OreFilter" );
+	}
+
+	@Override
+	public void setOreFilter(ItemStack is, String filter) {
+		Platform.openNbtData( is ).setString("OreFilter", filter);
 	}
 }

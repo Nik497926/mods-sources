@@ -19,6 +19,7 @@
 package appeng.block.networking;
 
 
+import appeng.api.config.PowerMultiplier;
 import appeng.block.AEBaseItemBlock;
 import appeng.block.AEBaseItemBlockChargeable;
 import appeng.block.AEBaseTileBlock;
@@ -99,7 +100,7 @@ public class BlockEnergyCell extends AEBaseTileBlock
 
 	public double getMaxPower()
 	{
-		return 200000.0;
+		return 200000.0 * PowerMultiplier.CONFIG.multiplier;
 	}
 
 	@Override

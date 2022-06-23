@@ -38,6 +38,9 @@ public final class ApiParts implements IParts
 	private final AEColoredItemDefinition cableCovered;
 	private final AEColoredItemDefinition cableGlass;
 	private final AEColoredItemDefinition cableDense;
+	private final AEColoredItemDefinition cableDenseCovered;
+	private final AEColoredItemDefinition cableUltraDenseSmart;
+	private final AEColoredItemDefinition cableUltraDenseCovered;
 	// private final AEColoredItemDefinition lumenCableSmart;
 	// private final AEColoredItemDefinition lumenCableCovered;
 	// private final AEColoredItemDefinition lumenCableGlass;
@@ -62,12 +65,14 @@ public final class ApiParts implements IParts
 	private final IItemDefinition p2PTunnelLight;
 	private final IItemDefinition p2PTunnelOpenComputers;
 	private final IItemDefinition p2PTunnelPneumaticCraft;
+	private final IItemDefinition p2PTunnelGregtech;
 	private final IItemDefinition cableAnchor;
 	private final IItemDefinition monitor;
 	private final IItemDefinition semiDarkMonitor;
 	private final IItemDefinition darkMonitor;
 	private final IItemDefinition interfaceTerminal;
 	private final IItemDefinition patternTerminal;
+	private final IItemDefinition patternTerminalEx;
 	private final IItemDefinition craftingTerminal;
 	private final IItemDefinition terminal;
 	private final IItemDefinition storageMonitor;
@@ -82,6 +87,9 @@ public final class ApiParts implements IParts
 		this.cableCovered = constructor.constructColoredDefinition( itemMultiPart, PartType.CableCovered );
 		this.cableGlass = constructor.constructColoredDefinition( itemMultiPart, PartType.CableGlass );
 		this.cableDense = constructor.constructColoredDefinition( itemMultiPart, PartType.CableDense );
+		this.cableDenseCovered = constructor.constructColoredDefinition( itemMultiPart, PartType.CableDenseCovered );
+		this.cableUltraDenseSmart = constructor.constructColoredDefinition( itemMultiPart, PartType.CableUltraDenseSmart );
+		this.cableUltraDenseCovered = constructor.constructColoredDefinition( itemMultiPart, PartType.CableUltraDenseCovered );
 		// this.lumenCableSmart = Optional.absent(); // has yet to be implemented, no PartType defined for it yet
 		// this.lumenCableCovered = Optional.absent(); // has yet to be implemented, no PartType defined for it yet
 		// this.lumenCableGlass = Optional.absent(); // has yet to be implemented, no PartType defined for it yet
@@ -106,12 +114,14 @@ public final class ApiParts implements IParts
 		this.p2PTunnelLight = new DamagedItemDefinition( itemMultiPart.createPart( PartType.P2PTunnelLight ) );
 		this.p2PTunnelOpenComputers = new DamagedItemDefinition( itemMultiPart.createPart( PartType.P2PTunnelOpenComputers ) );
 		this.p2PTunnelPneumaticCraft = new DamagedItemDefinition( itemMultiPart.createPart( PartType.P2PTunnelPressure ) );
+		this.p2PTunnelGregtech = new DamagedItemDefinition( itemMultiPart.createPart( PartType.P2PTunnelGT ) );
 		this.cableAnchor = new DamagedItemDefinition( itemMultiPart.createPart( PartType.CableAnchor ) );
 		this.monitor = new DamagedItemDefinition( itemMultiPart.createPart( PartType.Monitor ) );
 		this.semiDarkMonitor = new DamagedItemDefinition( itemMultiPart.createPart( PartType.SemiDarkMonitor ) );
 		this.darkMonitor = new DamagedItemDefinition( itemMultiPart.createPart( PartType.DarkMonitor ) );
 		this.interfaceTerminal = new DamagedItemDefinition( itemMultiPart.createPart( PartType.InterfaceTerminal ) );
 		this.patternTerminal = new DamagedItemDefinition( itemMultiPart.createPart( PartType.PatternTerminal ) );
+		this.patternTerminalEx = new DamagedItemDefinition( itemMultiPart.createPart( PartType.PatternTerminalEx ) );
 		this.craftingTerminal = new DamagedItemDefinition( itemMultiPart.createPart( PartType.CraftingTerminal ) );
 		this.terminal = new DamagedItemDefinition( itemMultiPart.createPart( PartType.Terminal ) );
 		this.storageMonitor = new DamagedItemDefinition( itemMultiPart.createPart( PartType.StorageMonitor ) );
@@ -140,6 +150,24 @@ public final class ApiParts implements IParts
 	public AEColoredItemDefinition cableDense()
 	{
 		return this.cableDense;
+	}
+
+	@Override
+	public AEColoredItemDefinition cableDenseCovered()
+	{
+		return this.cableDenseCovered;
+	}
+
+	@Override
+	public AEColoredItemDefinition cableUltraDenseSmart()
+	{
+		return this.cableUltraDenseSmart;
+	}
+
+	@Override
+	public AEColoredItemDefinition cableUltraDenseCovered()
+	{
+		return this.cableUltraDenseCovered;
 	}
 
 	@Override
@@ -291,6 +319,12 @@ public final class ApiParts implements IParts
 	}
 
 	@Override
+	public IItemDefinition p2PTunnelGregtech()
+	{
+		return this.p2PTunnelGregtech;
+	}
+
+	@Override
 	public IItemDefinition cableAnchor()
 	{
 		return this.cableAnchor;
@@ -324,6 +358,12 @@ public final class ApiParts implements IParts
 	public IItemDefinition patternTerminal()
 	{
 		return this.patternTerminal;
+	}
+
+	@Override
+	public IItemDefinition patternTerminalEx()
+	{
+		return this.patternTerminalEx;
 	}
 
 	@Override

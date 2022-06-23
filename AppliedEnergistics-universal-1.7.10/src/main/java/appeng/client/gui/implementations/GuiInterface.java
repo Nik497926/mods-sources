@@ -19,6 +19,7 @@
 package appeng.client.gui.implementations;
 
 
+import appeng.api.config.InsertionMode;
 import appeng.api.config.Settings;
 import appeng.api.config.YesNo;
 import appeng.client.gui.widgets.GuiImgButton;
@@ -42,6 +43,7 @@ public class GuiInterface extends GuiUpgradeable
 	private GuiTabButton priority;
 	private GuiImgButton BlockMode;
 	private GuiToggleButton interfaceMode;
+	private GuiImgButton insertionMode;
 
 	public GuiInterface( final InventoryPlayer inventoryPlayer, final IInterfaceHost te )
 	{
@@ -60,6 +62,9 @@ public class GuiInterface extends GuiUpgradeable
 
 		this.interfaceMode = new GuiToggleButton( this.guiLeft - 18, this.guiTop + 26, 84, 85, GuiText.InterfaceTerminal.getLocal(), GuiText.InterfaceTerminalHint.getLocal() );
 		this.buttonList.add( this.interfaceMode );
+
+		this.insertionMode = new GuiImgButton( this.guiLeft - 18, this.guiTop + 44,  Settings.INSERTION_MODE, InsertionMode.DEFAULT );
+		this.buttonList.add( this.insertionMode );
 	}
 
 	@Override
@@ -75,18 +80,26 @@ public class GuiInterface extends GuiUpgradeable
 			this.interfaceMode.setState( ( (ContainerInterface) this.cvb ).getInterfaceTerminalMode() == YesNo.YES );
 		}
 
+		if( this.insertionMode != null )
+		{
+			this.insertionMode.set( ( (ContainerInterface) this.cvb ).getInsertionMode());
+		}
+
 		this.fontRendererObj.drawString( this.getGuiDisplayName( GuiText.Interface.getLocal() ), 8, 6, 4210752 );
-
-		this.fontRendererObj.drawString( GuiText.Config.getLocal(), 18, 6 + 11 + 7, 4210752 );
-		this.fontRendererObj.drawString( GuiText.StoredItems.getLocal(), 18, 6 + 60 + 7, 4210752 );
-		this.fontRendererObj.drawString( GuiText.Patterns.getLocal(), 8, 6 + 73 + 7, 4210752 );
-
-		this.fontRendererObj.drawString( GuiText.inventory.getLocal(), 8, this.ySize - 96 + 3, 4210752 );
 	}
 
 	@Override
 	protected String getBackground()
 	{
+		switch (((ContainerInterface) this.cvb).getPatternCapacityCardsInstalled())
+		{
+			case 1:
+				return "guis/interface2.png";
+			case 2:
+				return "guis/interface3.png";
+			case 3:
+				return "guis/interface4.png";
+		}
 		return "guis/interface.png";
 	}
 
@@ -110,6 +123,11 @@ public class GuiInterface extends GuiUpgradeable
 		if( btn == this.BlockMode )
 		{
 			NetworkHandler.instance.sendToServer( new PacketConfigButton( this.BlockMode.getSetting(), backwards ) );
+		}
+
+		if( btn == this.insertionMode )
+		{
+			NetworkHandler.instance.sendToServer( new PacketConfigButton( this.insertionMode.getSetting(), backwards ) );
 		}
 	}
 }

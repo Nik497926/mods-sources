@@ -27,7 +27,6 @@ import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
-import appeng.util.inv.ItemListIgnoreCrafting;
 
 
 public class MECraftingInventory implements IMEInventory<IAEItemStack>
@@ -49,7 +48,7 @@ public class MECraftingInventory implements IMEInventory<IAEItemStack>
 
 	public MECraftingInventory()
 	{
-		this.localCache = new ItemListIgnoreCrafting<>( AEApi.instance().storage().createItemList() );
+		this.localCache = AEApi.instance().storage().createItemList();
 		this.extractedCache = null;
 		this.injectedCache = null;
 		this.missingCache = null;
@@ -94,7 +93,7 @@ public class MECraftingInventory implements IMEInventory<IAEItemStack>
 			this.injectedCache = null;
 		}
 
-		this.localCache = this.target.getAvailableItems( new ItemListIgnoreCrafting<>( AEApi.instance().storage().createItemList() ) );
+		this.localCache = this.target.getAvailableItems( AEApi.instance().storage().createItemList() );
 
 		this.par = parent;
 	}
@@ -133,7 +132,7 @@ public class MECraftingInventory implements IMEInventory<IAEItemStack>
 			this.injectedCache = null;
 		}
 
-		this.localCache = new ItemListIgnoreCrafting<>( AEApi.instance().storage().createItemList() );
+		this.localCache = AEApi.instance().storage().createItemList();
 		for( final IAEItemStack is : target.getStorageList() )
 		{
 			this.localCache.add( target.extractItems( is, Actionable.SIMULATE, src ) );

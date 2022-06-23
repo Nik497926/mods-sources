@@ -54,7 +54,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEAppEngInventory, IOptionalSlotHost, IContainerCraftingPacket
@@ -98,7 +101,6 @@ public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEA
 		{
 			this.addSlotToContainer( this.outputSlots[y] = new SlotPatternOutputs( output, this, y, 110, -76 + y * 18, 0, 0, 1 ) );
 			this.outputSlots[y].setRenderDisabled( false );
-			this.outputSlots[y].setIIcon( -1 );
 		}
 
 		this.addSlotToContainer( this.patternSlotIN = new SlotRestrictedInput( SlotRestrictedInput.PlacableItemType.BLANK_PATTERN, patternInv, 0, 147, -72 - 9, this.getInventoryPlayer() ) );
@@ -172,6 +174,27 @@ public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEA
 
 	}
 
+	public void encodeAndMoveToInventory(boolean encodeWholeStack)
+	{
+		encode();
+		ItemStack output = this.patternSlotOUT.getStack();
+		if ( output != null )
+		{
+			if (encodeWholeStack)
+			{
+				ItemStack blanks = this.patternSlotIN.getStack();
+				this.patternSlotIN.putStack(null);
+				if (blanks != null)
+					output.stackSize += blanks.stackSize;
+			}
+			if (!getPlayerInv().addItemStackToInventory( output ))
+			{
+				getPlayerInv().player.entityDropItem(output, 0);
+			}
+			this.patternSlotOUT.putStack( null );
+		}
+	}
+
 	public void encode()
 	{
 		ItemStack output = this.patternSlotOUT.getStack();
@@ -193,7 +216,7 @@ public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEA
 		else if( output == null )
 		{
 			output = this.patternSlotIN.getStack();
-			if( output == null || !this.isPattern( output ) )
+			if (!this.isPattern( output ))
 			{
 				return; // no blanks.
 			}
@@ -272,7 +295,7 @@ public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEA
 		}
 		else
 		{
-			final List<ItemStack> list = new ArrayList<ItemStack>( 3 );
+			final List<ItemStack> list = new ArrayList<>( 3 );
 			boolean hasValue = false;
 
 			for( final OptionalSlotFake outputSlot : this.outputSlots )
@@ -552,5 +575,61 @@ public class ContainerPatternTerm extends ContainerMEMonitorable implements IAEA
 	public void setSubstitute( final boolean substitute )
 	{
 		this.substitute = substitute;
+	}
+
+	static boolean canDoubleStacks(SlotFake[] slots)
+	{
+		List<SlotFake> enabledSlots = Arrays.stream(slots).filter(SlotFake::isEnabled).collect(Collectors.toList());
+		long emptyStots = enabledSlots.stream().filter(s -> s.getStack() == null).count();
+		long fullSlots = enabledSlots.stream().filter(s-> s.getStack() != null && s.getStack().stackSize * 2 > 127).count();
+		return fullSlots <= emptyStots && emptyStots < enabledSlots.size();
+	}
+
+	static void doubleStacksInternal(SlotFake[] slots)
+	{
+		List<ItemStack> overFlowStacks = new ArrayList<>();
+		List<SlotFake> enabledSlots = Arrays.stream(slots).filter(SlotFake::isEnabled).collect(Collectors.toList());
+		for (final Slot s : enabledSlots)
+		{
+			ItemStack st = s.getStack();
+			if (st == null)
+				continue;
+			if (st.stackSize * 2 > 127)
+			{
+				overFlowStacks.add(st.copy());
+			}
+			else
+			{
+				st.stackSize *= 2;
+				s.putStack(st);
+			}
+		}
+		Iterator<ItemStack> ow = overFlowStacks.iterator();
+		for (final Slot s : enabledSlots) {
+			if (!ow.hasNext())
+				break;
+			if (s.getStack() != null)
+				continue;
+			s.putStack(ow.next());
+		}
+		assert !ow.hasNext();
+	}
+
+	public void doubleStacks(boolean isShift)
+	{
+		if (!isCraftingMode() && canDoubleStacks(craftingSlots) && canDoubleStacks(outputSlots))
+		{
+			doubleStacksInternal(this.craftingSlots);
+			doubleStacksInternal(this.outputSlots);
+			if (isShift)
+			{
+				while (canDoubleStacks(craftingSlots) && canDoubleStacks(outputSlots))
+				{
+					doubleStacksInternal(this.craftingSlots);
+					doubleStacksInternal(this.outputSlots);
+				}
+			}
+			this.detectAndSendChanges();
+		}
 	}
 }

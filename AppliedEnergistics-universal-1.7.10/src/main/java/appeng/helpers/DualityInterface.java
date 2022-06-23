@@ -20,10 +20,7 @@ package appeng.helpers;
 
 
 import appeng.api.AEApi;
-import appeng.api.config.Actionable;
-import appeng.api.config.Settings;
-import appeng.api.config.Upgrades;
-import appeng.api.config.YesNo;
+import appeng.api.config.*;
 import appeng.api.implementations.ICraftingPatternItem;
 import appeng.api.implementations.IUpgradeableHost;
 import appeng.api.implementations.tiles.ICraftingMachine;
@@ -52,6 +49,8 @@ import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
 import appeng.api.util.IConfigManager;
+import appeng.core.AEConfig;
+import appeng.core.AELog;
 import appeng.core.settings.TickRates;
 import appeng.me.GridAccessException;
 import appeng.me.helpers.AENetworkProxy;
@@ -70,6 +69,7 @@ import appeng.util.InventoryAdaptor;
 import appeng.util.Platform;
 import appeng.util.inv.AdaptorIInventory;
 import appeng.util.inv.IInventoryDestination;
+import appeng.util.inv.ItemSlot;
 import appeng.util.inv.WrapperInvSlot;
 import appeng.util.item.AEItemStack;
 import com.google.common.collect.ImmutableSet;
@@ -86,6 +86,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.transport.IItemDuct;
 
 import java.util.*;
 
@@ -109,7 +110,7 @@ public class DualityInterface
 	private final ConfigManager cm = new ConfigManager( this );
 	private final AppEngInternalAEInventory config = new AppEngInternalAEInventory( this, NUMBER_OF_CONFIG_SLOTS );
 	private final AppEngInternalInventory storage = new AppEngInternalInventory( this, NUMBER_OF_STORAGE_SLOTS );
-	private final AppEngInternalInventory patterns = new AppEngInternalInventory( this, NUMBER_OF_PATTERN_SLOTS );
+	private final AppEngInternalInventory patterns = new AppEngInternalInventory( this, NUMBER_OF_PATTERN_SLOTS*4 );
 	private final WrapperInvSlot slotInv = new WrapperInvSlot( this.storage );
 	private final MEMonitorPassThrough<IAEItemStack> items = new MEMonitorPassThrough<IAEItemStack>( new NullInventory<IAEItemStack>(), StorageChannel.ITEMS );
 	private final MEMonitorPassThrough<IAEFluidStack> fluids = new MEMonitorPassThrough<IAEFluidStack>( new NullInventory<IAEFluidStack>(), StorageChannel.FLUIDS );
@@ -126,9 +127,10 @@ public class DualityInterface
 		this.gridProxy = networkProxy;
 		this.gridProxy.setFlags( GridFlags.REQUIRE_CHANNEL );
 
-		this.upgrades = new StackUpgradeInventory( this.gridProxy.getMachineRepresentation(), this, 1 );
+		this.upgrades = new StackUpgradeInventory( this.gridProxy.getMachineRepresentation(), this, 4 );
 		this.cm.registerSetting( Settings.BLOCK, YesNo.NO );
 		this.cm.registerSetting( Settings.INTERFACE_TERMINAL, YesNo.YES );
+		this.cm.registerSetting( Settings.INSERTION_MODE, InsertionMode.DEFAULT );
 
 		this.iHost = ih;
 		this.craftingTracker = new MultiCraftingTracker( this.iHost, 9 );
@@ -138,7 +140,7 @@ public class DualityInterface
 		this.fluids.setChangeSource( actionSource );
 		this.items.setChangeSource( actionSource );
 
-		this.interfaceRequestSource = new InterfaceRequestSource( this.iHost );
+		this.interfaceRequestSource = new InterfaceRequestSource(this.iHost);
 	}
 
 	@Override
@@ -150,6 +152,13 @@ public class DualityInterface
 	@Override
 	public void onChangeInventory( final IInventory inv, final int slot, final InvOperation mc, final ItemStack removed, final ItemStack added )
 	{
+		if (mc == InvOperation.markDirty)
+		{
+			TileEntity te = getHost().getTile();
+			if (te != null && te.getWorldObj() != null)
+				te.getWorldObj().markTileEntityChunkModified( te.xCoord, te.yCoord, te.zCoord, te );
+		}
+
 		if( this.isWorking )
 		{
 			return;
@@ -313,9 +322,8 @@ public class DualityInterface
 
 	private void updateCraftingList()
 	{
-		final Boolean[] accountedFor = { false, false, false, false, false, false, false, false, false }; // 9...
 
-		assert ( accountedFor.length == this.patterns.getSizeInventory() );
+		final boolean[] accountedFor = new boolean[patterns.getSizeInventory()];
 
 		if( !this.gridProxy.isReady() )
 		{
@@ -562,7 +570,12 @@ public class DualityInterface
 	{
 		if( !this.gridProxy.isActive() )
 		{
-			return TickRateModulation.SLEEP;
+			if (AEConfig.instance.debugLogTiming)
+			{
+				TileEntity te = iHost.getTileEntity();
+				AELog.debug("Timing: interface at (%d %d %d) is ticking while the grid is booting", te.xCoord, te.yCoord, te.zCoord);
+			}
+			return this.hasWorkToDo() ? TickRateModulation.SLOWER : TickRateModulation.SLEEP;
 		}
 
 		if( this.hasItemsToSend() )
@@ -598,23 +611,27 @@ public class DualityInterface
 				}
 
 				final InventoryAdaptor ad = InventoryAdaptor.getAdaptor( te, s.getOpposite() );
+				ItemStack Result = whatToSend;
 				if( ad != null )
 				{
-					final ItemStack Result = ad.addItems( whatToSend );
+					Result = ad.addItems( whatToSend, getInsertionMode() );
+				}
+				else if (te instanceof IItemDuct)
+				{
+					Result = ((IItemDuct)te).insertItem(s.getOpposite(), whatToSend);
+				}
+				if( Result == null )
+				{
+					whatToSend = null;
+				}
+				else
+				{
+					whatToSend.stackSize -= whatToSend.stackSize - Result.stackSize;
+				}
 
-					if( Result == null )
-					{
-						whatToSend = null;
-					}
-					else
-					{
-						whatToSend.stackSize -= whatToSend.stackSize - Result.stackSize;
-					}
-
-					if( whatToSend == null )
-					{
-						break;
-					}
+				if( whatToSend == null )
+				{
+					break;
 				}
 			}
 
@@ -656,35 +673,7 @@ public class DualityInterface
 			this.destination = this.gridProxy.getStorage().getItemInventory();
 			final IEnergySource src = this.gridProxy.getEnergy();
 
-			if( this.craftingTracker.isBusy( x ) )
-			{
-				changed = this.handleCrafting( x, adaptor, itemStack ) || changed;
-			}
-			else if( itemStack.getStackSize() > 0 )
-			{
-				// make sure strange things didn't happen...
-				if( adaptor.simulateAdd( itemStack.getItemStack() ) != null )
-				{
-					changed = true;
-					throw new GridAccessException();
-				}
-
-				final IAEItemStack acquired = Platform.poweredExtraction( src, this.destination, itemStack, this.interfaceRequestSource );
-				if( acquired != null )
-				{
-					changed = true;
-					final ItemStack issue = adaptor.addItems( acquired.getItemStack() );
-					if( issue != null )
-					{
-						throw new IllegalStateException( "bad attempt at managing inventory. ( addItems )" );
-					}
-				}
-				else
-				{
-					changed = this.handleCrafting( x, adaptor, itemStack ) || changed;
-				}
-			}
-			else if( itemStack.getStackSize() < 0 )
+			if( itemStack.getStackSize() < 0 )
 			{
 				IAEItemStack toStore = itemStack.copy();
 				toStore.setStackSize( -toStore.getStackSize() );
@@ -719,6 +708,34 @@ public class DualityInterface
 					{
 						throw new IllegalStateException( "bad attempt at managing inventory. ( removeItems )" );
 					}
+				}
+			}
+			else if( this.craftingTracker.isBusy( x ) )
+			{
+				changed = this.handleCrafting( x, adaptor, itemStack );
+			}
+			else if( itemStack.getStackSize() > 0 )
+			{
+				// make sure strange things didn't happen...
+				if( adaptor.simulateAdd( itemStack.getItemStack() ) != null )
+				{
+					changed = true;
+					throw new GridAccessException();
+				}
+
+				final IAEItemStack acquired = Platform.poweredExtraction( src, this.destination, itemStack, this.interfaceRequestSource );
+				if( acquired != null )
+				{
+					changed = true;
+					final ItemStack issue = adaptor.addItems( acquired.getItemStack() );
+					if( issue != null )
+					{
+						throw new IllegalStateException( "bad attempt at managing inventory. ( addItems )" );
+					}
+				}
+				else
+				{
+					changed = this.handleCrafting( x, adaptor, itemStack );
 				}
 			}
 			// else wtf?
@@ -880,6 +897,20 @@ public class DualityInterface
 			}
 		};
 	}
+	private boolean gtMachineHasOnlyCircuit(InventoryAdaptor ad) {
+		for (ItemSlot i : ad) {
+			ItemStack is = i.getItemStack();
+			if (is == null || is.getItem().getUnlocalizedName().equals("gt.integrated_circuit"))
+				continue;
+			return false;
+		}
+		return true;
+	}
+	private boolean inventoryCountsAsEmpty(TileEntity te, InventoryAdaptor ad)
+	{
+		String name = te.getBlockType().getUnlocalizedName();
+		return (name.equals("gt.blockmachines") || name.equals("tile.interface")) && gtMachineHasOnlyCircuit(ad);
+	}
 
 	@Override
 	public boolean pushPattern( final ICraftingPatternDetails patternDetails, final InventoryCrafting table )
@@ -927,26 +958,41 @@ public class DualityInterface
 			final InventoryAdaptor ad = InventoryAdaptor.getAdaptor( te, s.getOpposite() );
 			if( ad != null )
 			{
-				if( this.isBlocking() )
-				{
-					if( ad.simulateRemove( 1, null, null ) != null )
-					{
-						continue;
-					}
-				}
+				if (this.isBlocking() && ad.containsItems() && !inventoryCountsAsEmpty(te, ad))
+					continue;
 
-				if( this.acceptsItems( ad, table ) )
+				if( acceptsItems( ad, table, getInsertionMode() ) )
 				{
 					for( int x = 0; x < table.getSizeInventory(); x++ )
 					{
 						final ItemStack is = table.getStackInSlot( x );
 						if( is != null )
 						{
-							final ItemStack added = ad.addItems( is );
-							this.addToSendList( added );
+							this.addToSendList( ad.addItems( is, getInsertionMode() ) );
 						}
 					}
 					this.pushItemsOut( possibleDirections );
+					return true;
+				}
+			}
+			else if (te instanceof IItemDuct)
+			{
+				boolean hadAcceptedSome = false;
+				for( int x = 0; x < table.getSizeInventory(); x++ )
+				{
+					final ItemStack is = table.getStackInSlot( x );
+					if (is != null)
+					{
+						final ItemStack rest = ((IItemDuct)te).insertItem(s.getOpposite(), is);
+						if (!hadAcceptedSome && rest != null && rest.stackSize == is.stackSize)
+							break; // conduit should accept all the pattern or nothing.
+						hadAcceptedSome = true;
+						this.addToSendList(rest);
+					}
+				}
+				if (hadAcceptedSome)
+				{
+					this.pushItemsOut(possibleDirections);
 					return true;
 				}
 			}
@@ -980,7 +1026,7 @@ public class DualityInterface
 				final InventoryAdaptor ad = InventoryAdaptor.getAdaptor( te, s.getOpposite() );
 				if( ad != null )
 				{
-					if( ad.simulateRemove( 1, null, null ) == null )
+					if( ad.simulateRemove( 1, null, null ) == null || inventoryCountsAsEmpty(te, ad))
 					{
 						allAreBusy = false;
 						break;
@@ -1004,7 +1050,12 @@ public class DualityInterface
 		return this.cm.getSetting( Settings.BLOCK ) == YesNo.YES;
 	}
 
-	private boolean acceptsItems( final InventoryAdaptor ad, final InventoryCrafting table )
+	private InsertionMode getInsertionMode()
+	{
+		return (InsertionMode) cm.getSetting( Settings.INSERTION_MODE );
+	}
+
+	private static boolean acceptsItems( final InventoryAdaptor ad, final InventoryCrafting table, final InsertionMode insertionMode )
 	{
 		for( int x = 0; x < table.getSizeInventory(); x++ )
 		{
@@ -1014,7 +1065,7 @@ public class DualityInterface
 				continue;
 			}
 
-			if( ad.simulateAdd( is.copy() ) != null )
+			if( ad.simulateAdd( is.copy(), insertionMode ) != null )
 			{
 				return false;
 			}
@@ -1076,7 +1127,7 @@ public class DualityInterface
 
 	public IUpgradeableHost getHost()
 	{
-		if( this.getPart() instanceof IUpgradeableHost )
+		if(this.getPart() != null)
 		{
 			return (IUpgradeableHost) this.getPart();
 		}
@@ -1255,7 +1306,7 @@ public class DualityInterface
 		}
 	}
 
-	private class InterfaceRequestSource extends MachineSource
+	private static class InterfaceRequestSource extends MachineSource
 	{
 
 		public InterfaceRequestSource( final IActionHost v )

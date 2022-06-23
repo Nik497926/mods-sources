@@ -27,19 +27,19 @@ import appeng.api.storage.ICellWorkbenchItem;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.core.features.AEFeature;
+import appeng.core.localization.GuiText;
 import appeng.items.AEBaseItem;
 import appeng.items.contents.CellConfig;
 import appeng.items.contents.CellUpgrades;
 import appeng.util.Platform;
 import appeng.util.item.AEItemStack;
-import appeng.util.prioitylist.FuzzyPriorityList;
-import appeng.util.prioitylist.IPartitionList;
-import appeng.util.prioitylist.MergedPriorityList;
-import appeng.util.prioitylist.PrecisePriorityList;
+import appeng.util.prioitylist.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 import java.util.EnumSet;
+import java.util.List;
 
 
 public class ItemViewCell extends AEBaseItem implements ICellWorkbenchItem
@@ -65,31 +65,29 @@ public class ItemViewCell extends AEBaseItem implements ICellWorkbenchItem
 
 			if( ( currentViewCell.getItem() instanceof ItemViewCell ) )
 			{
-				final IItemList<IAEItemStack> priorityList = AEApi.instance().storage().createItemList();
-
 				final ICellWorkbenchItem vc = (ICellWorkbenchItem) currentViewCell.getItem();
 				final IInventory upgrades = vc.getUpgradesInventory( currentViewCell );
 				final IInventory config = vc.getConfigInventory( currentViewCell );
 				final FuzzyMode fzMode = vc.getFuzzyMode( currentViewCell );
+				final String filter = vc.getOreFilter(currentViewCell);
 
 				boolean hasInverter = false;
 				boolean hasFuzzy = false;
-
-				for( int x = 0; x < upgrades.getSizeInventory(); x++ )
-				{
-					final ItemStack is = upgrades.getStackInSlot( x );
-					if( is != null && is.getItem() instanceof IUpgradeModule )
-					{
-						final Upgrades u = ( (IUpgradeModule) is.getItem() ).getType( is );
-						if( u != null )
-						{
-							switch( u )
-							{
+				boolean hasOreFilter = false;
+				for (int x = 0; x < upgrades.getSizeInventory(); x++) {
+					final ItemStack is = upgrades.getStackInSlot(x);
+					if (is != null && is.getItem() instanceof IUpgradeModule) {
+						final Upgrades u = ((IUpgradeModule) is.getItem()).getType(is);
+						if (u != null) {
+							switch (u) {
 								case FUZZY:
 									hasFuzzy = true;
 									break;
 								case INVERTER:
 									hasInverter = true;
+									break;
+								case ORE_FILTER:
+									hasOreFilter = true;
 									break;
 								default:
 							}
@@ -97,28 +95,28 @@ public class ItemViewCell extends AEBaseItem implements ICellWorkbenchItem
 					}
 				}
 
-				for( int x = 0; x < config.getSizeInventory(); x++ )
-				{
-					final ItemStack is = config.getStackInSlot( x );
-					if( is != null )
-					{
-						priorityList.add( AEItemStack.create( is ) );
-					}
+				if (hasOreFilter && !filter.isEmpty()) {
+					myMergedList.addNewList(new OreFilteredList(filter), !hasInverter);
 				}
+				else {
+					final IItemList<IAEItemStack> priorityList = AEApi.instance().storage().createItemList();
 
-				if( !priorityList.isEmpty() )
-				{
-					if( hasFuzzy )
-					{
-						myMergedList.addNewList( new FuzzyPriorityList<IAEItemStack>( priorityList, fzMode ), !hasInverter );
-					}
-					else
-					{
-						myMergedList.addNewList( new PrecisePriorityList<IAEItemStack>( priorityList ), !hasInverter );
+					for (int x = 0; x < config.getSizeInventory(); x++) {
+						final ItemStack is = config.getStackInSlot(x);
+						if (is != null) {
+							priorityList.add(AEItemStack.create(is));
+						}
 					}
 
-					myPartitionList = myMergedList;
+					if (!priorityList.isEmpty()) {
+						if (hasFuzzy) {
+							myMergedList.addNewList(new FuzzyPriorityList<IAEItemStack>(priorityList, fzMode), !hasInverter);
+						} else {
+							myMergedList.addNewList(new PrecisePriorityList<IAEItemStack>(priorityList), !hasInverter);
+						}
+					}
 				}
+				myPartitionList = myMergedList;
 			}
 		}
 
@@ -161,5 +159,22 @@ public class ItemViewCell extends AEBaseItem implements ICellWorkbenchItem
 	public void setFuzzyMode( final ItemStack is, final FuzzyMode fzMode )
 	{
 		Platform.openNbtData( is ).setString( "FuzzyMode", fzMode.name() );
+	}
+
+	@Override
+	public String getOreFilter(ItemStack is) {
+		return Platform.openNbtData( is ).getString( "OreFilter" );
+	}
+
+	@Override
+	public void setOreFilter(ItemStack is, String filter) {
+		Platform.openNbtData( is ).setString("OreFilter", filter);
+	}
+	@Override
+	public void addCheckedInformation(final ItemStack stack, final EntityPlayer player, final List<String> lines, final boolean displayMoreInfo )
+	{
+		String filter = getOreFilter(stack);
+		if (!filter.isEmpty())
+			lines.add(GuiText.PartitionedOre.getLocal() + " : " + filter);
 	}
 }

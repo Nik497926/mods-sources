@@ -117,4 +117,6 @@ public interface ICellInventory extends IMEInventory<IAEItemStack>
 	 * @return the status number for this drive.
 	 */
 	int getStatusForCell();
+
+	String getOreFilter();
 }

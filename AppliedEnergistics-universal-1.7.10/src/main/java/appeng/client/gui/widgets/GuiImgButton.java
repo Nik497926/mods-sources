@@ -92,6 +92,9 @@ public class GuiImgButton extends GuiButton implements ITooltip
 			this.registerApp( 16 * 2 + 5, Settings.SEARCH_MODE, SearchBoxMode.NEI_AUTOSEARCH, ButtonToolTips.SearchMode, ButtonToolTips.SearchMode_NEIAuto );
 			this.registerApp( 16 * 2 + 6, Settings.SEARCH_MODE, SearchBoxMode.NEI_MANUAL_SEARCH, ButtonToolTips.SearchMode, ButtonToolTips.SearchMode_NEIStandard );
 
+			this.registerApp( 16 * 2 + 7, Settings.SAVE_SEARCH, YesNo.YES, ButtonToolTips.SaveSearchString, ButtonToolTips.SaveSearchStringYes );
+			this.registerApp( 16 * 2 + 8, Settings.SAVE_SEARCH, YesNo.NO, ButtonToolTips.SaveSearchString, ButtonToolTips.SaveSearchStringNo );
+
 			this.registerApp( 16 * 5 + 3, Settings.LEVEL_TYPE, LevelType.ENERGY_LEVEL, ButtonToolTips.LevelType, ButtonToolTips.LevelType_Energy );
 			this.registerApp( 16 * 4 + 3, Settings.LEVEL_TYPE, LevelType.ITEM_LEVEL, ButtonToolTips.LevelType, ButtonToolTips.LevelType_Item );
 
@@ -111,6 +114,9 @@ public class GuiImgButton extends GuiButton implements ITooltip
 			this.registerApp( 8, Settings.ACTIONS, ActionItems.ENCODE, ButtonToolTips.Encode, ButtonToolTips.EncodeDescription );
 			this.registerApp( 4 + 3 * 16, Settings.ACTIONS, ItemSubstitution.ENABLED, ButtonToolTips.Substitutions, ButtonToolTips.SubstitutionsDescEnabled );
 			this.registerApp( 7 + 3 * 16, Settings.ACTIONS, ItemSubstitution.DISABLED, ButtonToolTips.Substitutions, ButtonToolTips.SubstitutionsDescDisabled );
+
+			this.registerApp( 8 + 16, Settings.ACTIONS, PatternSlotConfig.C_16_4, ButtonToolTips.PatternSlotConfigTitle, ButtonToolTips.PatternSlotConfigInfo );
+			this.registerApp( 8 + 16, Settings.ACTIONS, PatternSlotConfig.C_4_16, ButtonToolTips.PatternSlotConfigTitle, ButtonToolTips.PatternSlotConfigInfo );
 
 			this.registerApp( 16, Settings.VIEW_MODE, ViewItems.STORED, ButtonToolTips.View, ButtonToolTips.StoredItems );
 			this.registerApp( 18, Settings.VIEW_MODE, ViewItems.ALL, ButtonToolTips.View, ButtonToolTips.StoredCraftable );
@@ -144,6 +150,23 @@ public class GuiImgButton extends GuiButton implements ITooltip
 			this.registerApp( 16 * 15, Settings.SCHEDULING_MODE, SchedulingMode.DEFAULT, ButtonToolTips.SchedulingMode, ButtonToolTips.SchedulingModeDefault );
 			this.registerApp( 16 * 15 + 1, Settings.SCHEDULING_MODE, SchedulingMode.ROUNDROBIN, ButtonToolTips.SchedulingMode, ButtonToolTips.SchedulingModeRoundRobin );
 			this.registerApp( 16 * 15 + 2, Settings.SCHEDULING_MODE, SchedulingMode.RANDOM, ButtonToolTips.SchedulingMode, ButtonToolTips.SchedulingModeRandom );
+
+			this.registerApp( 70, Settings.ACTIONS, ActionItems.ORE_FILTER, ButtonToolTips.OreFilter, ButtonToolTips.OreFilterHint );
+			this.registerApp( 71, Settings.ACTIONS, ActionItems.DOUBLE, ButtonToolTips.DoublePattern, ButtonToolTips.DoublePatternHint );
+			this.registerApp( 16 * 14 + 2, Settings.CRAFTING_STATUS, CraftingStatus.BUTTON, ButtonToolTips.CraftingStatus, ButtonToolTips.CraftingStatusDesc );
+
+			this.registerApp( 4 + 5 * 16, Settings.ACTIONS, ActionItems.TOGGLE_SHOW_ONLY_INVALID_PATTERN_ON, ButtonToolTips.ToggleShowOnlyInvalidInterface, ButtonToolTips.ToggleShowOnlyInvalidInterfaceOnDesc );
+			this.registerApp( 5 + 5 * 16, Settings.ACTIONS, ActionItems.TOGGLE_SHOW_ONLY_INVALID_PATTERN_OFF, ButtonToolTips.ToggleShowOnlyInvalidInterface, ButtonToolTips.ToggleShowOnlyInvalidInterfaceOffDesc );
+
+			this.registerApp( 6 + 5 * 16, Settings.ACTIONS, ActionItems.MOLECULAR_ASSEMBLEERS_ON, ButtonToolTips.ToggleMolecularAssemblers, ButtonToolTips.ToggleMolecularAssemblersDescOn );
+			this.registerApp( 7 + 5 * 16, Settings.ACTIONS, ActionItems.TOGGLE_SHOW_FULL_INTERFACES_ON, ButtonToolTips.ToggleShowFullInterfaces, ButtonToolTips.ToggleShowFullInterfacesOnDesc );
+			this.registerApp( 8 + 5 * 16, Settings.ACTIONS, ActionItems.TOGGLE_SHOW_FULL_INTERFACES_OFF, ButtonToolTips.ToggleShowFullInterfaces, ButtonToolTips.ToggleShowFullInterfacesOffDesc );
+			this.registerApp( 9 + 5 * 16, Settings.ACTIONS, ActionItems.MOLECULAR_ASSEMBLEERS_OFF, ButtonToolTips.ToggleMolecularAssemblers, ButtonToolTips.ToggleMolecularAssemblersDescOff );
+			this.registerApp( 6 + 6 * 16, Settings.ACTIONS, ActionItems.HIGHLIGHT_INTERFACE, ButtonToolTips.HighlightInterface, "" );
+
+            this.registerApp( 16 * 9 + 3, Settings.INSERTION_MODE, InsertionMode.DEFAULT, ButtonToolTips.InsertionModeDefault, ButtonToolTips.InsertionModeDefaultDesc );
+            this.registerApp( 16 * 9 + 4, Settings.INSERTION_MODE, InsertionMode.PREFER_EMPTY, ButtonToolTips.InsertionModePreferEmpty, ButtonToolTips.InsertionModePreferEmptyDesc );
+            this.registerApp( 16 * 9 + 5, Settings.INSERTION_MODE, InsertionMode.ONLY_EMPTY, ButtonToolTips.InsertionModeOnlyEmpty, ButtonToolTips.InsertionModeOnlyEmptyDesc );
 		}
 	}
 

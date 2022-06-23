@@ -71,10 +71,11 @@ public final class ApiMaterials implements IMaterials
 	private final IItemDefinition cardRedstone;
 	private final IItemDefinition cardSpeed;
 	private final IItemDefinition cardCapacity;
+	private final IItemDefinition cardPatternCapacity;
 	private final IItemDefinition cardFuzzy;
 	private final IItemDefinition cardInverter;
 	private final IItemDefinition cardCrafting;
-
+	private final IItemDefinition cardOreFilter;
 	private final IItemDefinition enderDust;
 	private final IItemDefinition flour;
 	private final IItemDefinition goldDust;
@@ -148,9 +149,11 @@ public final class ApiMaterials implements IMaterials
 		this.cardRedstone = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardRedstone ) );
 		this.cardSpeed = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardSpeed ) );
 		this.cardCapacity = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardCapacity ) );
+		this.cardPatternCapacity = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardPatternCapacity ) );
 		this.cardFuzzy = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardFuzzy ) );
 		this.cardInverter = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardInverter ) );
 		this.cardCrafting = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardCrafting ) );
+		this.cardOreFilter = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.CardOreFilter ) );
 
 		this.enderDust = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.EnderDust ) );
 		this.flour = new DamagedItemDefinition( itemMultiMaterial.createMaterial( MaterialType.Flour ) );
@@ -360,6 +363,12 @@ public final class ApiMaterials implements IMaterials
 	{
 		return this.cardCapacity;
 	}
+
+	@Override
+	public IItemDefinition cardPatternCapacity() { return this.cardPatternCapacity;	}
+
+	@Override
+	public IItemDefinition cardOreFilter() { return this.cardOreFilter;	}
 
 	@Override
 	public IItemDefinition cardFuzzy()

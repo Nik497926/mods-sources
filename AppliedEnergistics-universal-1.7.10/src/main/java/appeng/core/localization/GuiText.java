@@ -45,7 +45,7 @@ public enum GuiText
 	CraftingTerminal, FormationPlane, Inscriber, QuartzCuttingKnife,
 
 	// tunnel names
-	METunnel, ItemTunnel, RedstoneTunnel, EUTunnel, FluidTunnel, OCTunnel, LightTunnel, RFTunnel, PressureTunnel,
+	METunnel, ItemTunnel, RedstoneTunnel, EUTunnel, FluidTunnel, OCTunnel, LightTunnel, RFTunnel, PressureTunnel, GTTunnel,
 
 	StoredSize, CopyMode, CopyModeDesc, PatternTerminal,
 
@@ -80,16 +80,27 @@ public enum GuiText
 
 	CraftingCPU, Automatic, CoProcessors, Simulation, Missing,
 
-	InterfaceTerminal, NoCraftingCPUs, Clean, InvalidPattern,
+	InterfaceTerminal, NoCraftingCPUs, Clean, InvalidPattern, UnknownItem,
 
 	InterfaceTerminalHint, Range, TransparentFacades, TransparentFacadesHint,
 
 	NoCraftingJobs, CPUs, FacadeCrafting, inWorldCraftingPresses, ChargedQuartzFind,
 
-	Included, Excluded, Partitioned, Precise, Fuzzy,
+	Included, Excluded, Partitioned, PartitionedOre, Precise, Fuzzy,
 
 	// Used in a terminal to indicate that an item is craftable
 	SmallFontCraft, LargeFontCraft,
+
+	// processing pattern terminal
+	PatternTerminalEx,
+
+	// renaming GUI label
+	Renamer,
+
+	// oredictionary filter GUI label
+	OreFilterLabel,
+
+	HoldShiftForTooltip,
 
 	// Used in a ME Interface when no appropriate TileEntity was detected near it
 	Nothing;

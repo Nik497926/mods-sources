@@ -202,7 +202,7 @@ public abstract class AERootPoweredTile extends AEBaseInvTile implements IAEPowe
 
 	public double getInternalMaxPower()
 	{
-		return this.internalMaxPower;
+		return this.internalMaxPower * PowerMultiplier.CONFIG.multiplier;
 	}
 
 	public void setInternalMaxPower( final double internalMaxPower )

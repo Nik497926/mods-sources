@@ -32,8 +32,10 @@ import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
 import appeng.api.util.IConfigManager;
+import appeng.core.sync.GuiBridge;
 import appeng.helpers.ICustomNameObject;
 import appeng.helpers.IPriorityHost;
+import appeng.items.tools.quartz.ToolQuartzCuttingKnife;
 import appeng.me.helpers.AENetworkProxy;
 import appeng.me.helpers.IGridProxyable;
 import appeng.parts.networking.PartCable;
@@ -106,9 +108,9 @@ public abstract class AEBasePart implements IPart, IGridProxyable, IActionHost, 
 	@Override
 	public void securityBreak()
 	{
-		if( this.getItemStack().stackSize > 0 && this.getGridNode() != null )
+		if( this.getItemStack().stackSize > 0 )
 		{
-			final List<ItemStack> items = new ArrayList<>();
+			final List<ItemStack> items = new ArrayList<ItemStack>();
 			items.add( this.getItemStack().copy() );
 			this.host.removePart( this.getSide(), false );
 			Platform.spawnDrops( this.tile.getWorldObj(), this.tile.xCoord, this.tile.yCoord, this.tile.zCoord, items );
@@ -187,6 +189,11 @@ public abstract class AEBasePart implements IPart, IGridProxyable, IActionHost, 
 	public String getCustomName()
 	{
 		return this.getItemStack().getDisplayName();
+	}
+
+	@Override
+	public void setCustomName(String name) {
+		this.getItemStack().setStackDisplayName(name);
 	}
 
 	@Override
@@ -437,11 +444,10 @@ public abstract class AEBasePart implements IPart, IGridProxyable, IActionHost, 
 	private boolean useMemoryCard( final EntityPlayer player )
 	{
 		final ItemStack memCardIS = player.inventory.getCurrentItem();
-		if( ForgeEventFactory.onItemUseStart( player, memCardIS, 1 ) <= 0 )
-			return false;
-
 		if( memCardIS != null && this.useStandardMemoryCard() && memCardIS.getItem() instanceof IMemoryCard )
 		{
+			if( ForgeEventFactory.onItemUseStart( player, memCardIS, 1 ) <= 0 )
+				return false;
 			final IMemoryCard memoryCard = (IMemoryCard) memCardIS.getItem();
 
 			ItemStack is = this.getItemStack( PartItemStack.Network );
@@ -485,6 +491,17 @@ public abstract class AEBasePart implements IPart, IGridProxyable, IActionHost, 
 		}
 		return false;
 	}
+	private boolean useRenamer( final EntityPlayer player )
+	{
+		final ItemStack is = player.inventory.getCurrentItem();
+		if( is != null && is.getItem() instanceof ToolQuartzCuttingKnife) {
+			if (ForgeEventFactory.onItemUseStart(player, is, 1) <= 0)
+				return false;
+			Platform.openGUI( player, tile, side, GuiBridge.GUI_RENAMER );
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public final boolean onActivate( final EntityPlayer player, final Vec3 pos )
@@ -495,10 +512,8 @@ public abstract class AEBasePart implements IPart, IGridProxyable, IActionHost, 
 		if( event.isCanceled() )
 			return false;
 
-		if( this.useMemoryCard( player ) )
-		{
+		if (this.useMemoryCard( player ) || useRenamer(player))
 			return true;
-		}
 
 		return onPartActivate( player, pos );
 	}
