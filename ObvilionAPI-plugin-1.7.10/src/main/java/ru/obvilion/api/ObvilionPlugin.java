@@ -14,6 +14,7 @@ import ru.obvilion.api.inject.vault.VaultInjection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ObvilionPlugin extends JavaPlugin {
     public static IPermissionsInjection pexInjection;
@@ -26,6 +27,8 @@ public class ObvilionPlugin extends JavaPlugin {
     public static List<Runnable> onEnableListeners = new ArrayList<>();
     public static List<Runnable> onDisableListeners = new ArrayList<>();
     public static List<Listener> bukkitListeners = new ArrayList<>();
+
+    public static Logger logger;
 
     public ObvilionPlugin() {
         super();
@@ -56,10 +59,12 @@ public class ObvilionPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("Obvilion API Plugin - enabled");
-        System.out.println("- Permissions " + (pexInjection == null ? "not " : "") + "supported");
-        System.out.println("- Essentials " + (essentialsInjection == null ? "not " : "") + "supported");
-        System.out.println("- Vault " + (vaultInjection == null ? "not " : "") + "supported");
+        logger = this.getLogger();
+
+        logger.info("Obvilion API Plugin - enabled");
+        logger.info("- Permissions " + (pexInjection == null ? "not " : "") + "supported");
+        logger.info("- Essentials " + (essentialsInjection == null ? "not " : "") + "supported");
+        logger.info("- Vault " + (vaultInjection == null ? "not " : "") + "supported");
 
         for (Runnable r : onEnableListeners) {
             r.run();
