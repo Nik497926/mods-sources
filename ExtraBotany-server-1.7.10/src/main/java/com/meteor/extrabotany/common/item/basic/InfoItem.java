@@ -11,7 +11,7 @@ extends Item {
     public InfoItem() {
         this.setUnlocalizedName("extrabotania.calculator");
         this.setTextureName("extrabotania:calculator");
-        GameRegistry.registerItem(this, "calculator");
+        GameRegistry.registerItem((Item)this, (String)"calculator");
     }
 }
 

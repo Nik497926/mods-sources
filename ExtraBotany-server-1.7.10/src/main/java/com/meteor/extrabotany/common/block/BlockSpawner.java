@@ -21,7 +21,7 @@ implements ITileEntityProvider {
         this.setHardness(0.0f);
         this.setResistance(10.0f);
         this.setBlockName("odinSpawner");
-        GameRegistry.registerBlock(this, "odinSpawner");
+        GameRegistry.registerBlock((Block)this, (String)"odinSpawner");
     }
 
     public String getLocalizedName() {

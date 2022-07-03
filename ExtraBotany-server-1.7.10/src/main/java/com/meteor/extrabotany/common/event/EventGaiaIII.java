@@ -16,9 +16,9 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import vazkii.botania.common.item.relic.ItemRelic;
 
 public class EventGaiaIII {
-    private static final float rankI = 0.75f;
-    private static final float rankII = 0.5f;
-    private static final float rankIII = 0.25f;
+    private static float rankI = 0.75f;
+    private static float rankII = 0.5f;
+    private static float rankIII = 0.25f;
 
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void GaiaHurtEvent(LivingHurtEvent event) {
@@ -51,7 +51,7 @@ public class EventGaiaIII {
                     } else {
                         cap.setHealth(cap.getHealth() - 5.0f);
                     }
-                    cap.addChatMessage(new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73\u0422\u0432\u043e\u0438 \u0430\u0442\u0430\u043a\u0438 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u043a\u0430\u0437\u0443\u0435\u043c\u044b!"));
+                    cap.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73\u0422\u0432\u043e\u0438 \u0430\u0442\u0430\u043a\u0438 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u043a\u0430\u0437\u0443\u0435\u043c\u044b!", new Object[0]));
                     event.ammount = 0.0f;
                 } else {
                     float res = Math.min((float)cap1, event.ammount);

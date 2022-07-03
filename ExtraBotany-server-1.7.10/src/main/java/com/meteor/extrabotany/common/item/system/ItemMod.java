@@ -19,12 +19,17 @@ extends Item {
     }
 
     public Item setUnlocalizedName(String par1Str) {
-        GameRegistry.registerItem(this, par1Str);
+        GameRegistry.registerItem((Item)this, (String)par1Str);
         return super.setUnlocalizedName(par1Str);
     }
 
     public String getUnlocalizedNameInefficiently(ItemStack par1ItemStack) {
         return super.getUnlocalizedNameInefficiently(par1ItemStack);
+    }
+
+    @SideOnly(value=Side.CLIENT)
+    public void registerIcons(IIconRegister par1IconRegister) {
+        this.itemIcon = IconHelper.forItem((IIconRegister)par1IconRegister, (Item)this);
     }
 }
 

@@ -36,9 +36,9 @@ implements IFlowerComponent {
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bol) {
         super.addInformation(stack, player, list, bol);
-        String s = ItemNBTHelper.getString(stack, "owner", "");
+        String s = ItemNBTHelper.getString((ItemStack)stack, (String)"owner", (String)"");
         if (!s.isEmpty()) {
-            list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("item.efir.owner") + s);
+            list.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal((String)"item.efir.owner") + s);
         }
     }
 

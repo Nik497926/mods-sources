@@ -5,7 +5,6 @@ package com.meteor.extrabotany.common.item.relic.legendary.armor.awake;
 
 import com.meteor.extrabotany.common.item.relic.legendary.armor.CoreArmor;
 import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGArmor;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -38,10 +37,10 @@ implements IVisDiscountGear {
     @Override
     public int getVisDiscount(ItemStack itemStack, EntityPlayer entityPlayer, Aspect aspect) {
         if (itemStack != null) {
-            if (ItemNBTHelper.getInt(itemStack, "level", 1) > 2) {
+            if (ItemNBTHelper.getInt((ItemStack)itemStack, (String)"level", (int)1) > 2) {
                 return 5;
             }
-            if (ItemNBTHelper.getInt(itemStack, "level", 1) > 5) {
+            if (ItemNBTHelper.getInt((ItemStack)itemStack, (String)"level", (int)1) > 5) {
                 return 10;
             }
         }

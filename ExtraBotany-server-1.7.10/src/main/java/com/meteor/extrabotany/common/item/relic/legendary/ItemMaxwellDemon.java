@@ -27,7 +27,7 @@ implements IManaUsingItem {
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (ItemMaxwellDemon.isRightPlayer(player, stack)) {
+        if (ItemMaxwellDemon.isRightPlayer((EntityPlayer)player, (ItemStack)stack)) {
             player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         }
         return stack;
@@ -35,8 +35,8 @@ implements IManaUsingItem {
 
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
         super.onUsingTick(stack, player, count);
-        if (ManaItemHandler.requestManaExact(stack, player, 10, true) && count % 5 == 0 && count == 5 && !player.worldObj.isRemote) {
-            ReflectionHelper.setPrivateValue(EntityPlayer.class, player, 20, LibObfuscation.ITEM_IN_USE_COUNT);
+        if (ManaItemHandler.requestManaExact((ItemStack)stack, (EntityPlayer)player, (int)10, (boolean)true) && count % 5 == 0 && count == 5 && !player.worldObj.isRemote) {
+            ReflectionHelper.setPrivateValue(EntityPlayer.class, player, (Object)20, (String[])LibObfuscation.ITEM_IN_USE_COUNT);
             player.addPotionEffect(new PotionEffect(ModPotions.slowparticlesorting.getId(), 1200, 0));
             player.addPotionEffect(new PotionEffect(ModPotions.fastparticlesorting.getId(), 400, 0));
             if (player.getAbsorptionAmount() == 0.0f) {

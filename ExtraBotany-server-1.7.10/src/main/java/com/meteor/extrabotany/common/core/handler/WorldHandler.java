@@ -18,7 +18,7 @@ public class WorldHandler {
         ExplosionMagic explosion = new ExplosionMagic(entity.worldObj, entity, x, y, z, power);
         explosion.isFlaming = p_72885_9_;
         explosion.isSmoking = p_72885_10_;
-        if (ForgeEventFactory.onExplosionStart(entity.worldObj, explosion)) {
+        if (ForgeEventFactory.onExplosionStart((World)entity.worldObj, (Explosion)explosion)) {
             return explosion;
         }
         explosion.doExplosionA();

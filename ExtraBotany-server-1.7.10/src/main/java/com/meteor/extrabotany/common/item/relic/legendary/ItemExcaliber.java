@@ -46,7 +46,7 @@ ILensEffect,
 IManaUsingItem {
     private static final String TAG_ATTACKER_USERNAME = "attackerUsername";
     private static final String TAG_HOME_ID = "homeID";
-    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial("B_EXCALIBER", 3, -1, 6.2f, 20.0f, 40);
+    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial((String)"B_EXCALIBER", (int)3, (int)-1, (float)6.2f, (float)20.0f, (int)40);
     Achievement achievement;
 
     public ItemExcaliber() {
@@ -75,29 +75,30 @@ IManaUsingItem {
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
         if (par3Entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer)par3Entity;
-            ItemRelic.updateRelic(par1ItemStack, player);
-            if (ItemRelic.isRightPlayer(player, par1ItemStack)) {
+            ItemRelic.updateRelic((ItemStack)par1ItemStack, (EntityPlayer)player);
+            if (ItemRelic.isRightPlayer((EntityPlayer)player, (ItemStack)par1ItemStack)) {
+                float check = 0;
                 PotionEffect haste = player.getActivePotionEffect(Potion.digSpeed);
-                float check = haste == null ? 0.16666667f : (check = haste.getAmplifier() == 1 ? 0.5f : 0.2f);
+                float f = haste == null ? 0.16666667f : (check = haste.getAmplifier() == 1 ? 0.5f : 0.2f);
                 if (player.getCurrentEquippedItem() == par1ItemStack && player.swingProgress == check && !par2World.isRemote) {
                     EntityManaBurst burst = this.getBurst(player, par1ItemStack);
-                    par2World.spawnEntityInWorld(burst);
-                    par2World.playSoundAtEntity(player, "botania:terraBlade", 0.4f, 1.4f);
+                    par2World.spawnEntityInWorld((Entity)burst);
+                    par2World.playSoundAtEntity((Entity)player, "botania:terraBlade", 0.4f, 1.4f);
                 }
             }
         }
     }
 
     public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_) {
-        ItemRelic.addBindInfo(p_77624_3_, p_77624_1_, p_77624_2_);
+        ItemRelic.addBindInfo((List)p_77624_3_, (ItemStack)p_77624_1_, (EntityPlayer)p_77624_2_);
     }
 
     public void bindToUsername(String playerName, ItemStack stack) {
-        ItemRelic.bindToUsernameS(playerName, stack);
+        ItemRelic.bindToUsernameS((String)playerName, (ItemStack)stack);
     }
 
     public String getSoulbindUsername(ItemStack stack) {
-        return ItemRelic.getSoulbindUsernameS(stack);
+        return ItemRelic.getSoulbindUsernameS((ItemStack)stack);
     }
 
     public Achievement getBindAchievement() {
@@ -118,8 +119,8 @@ IManaUsingItem {
 
     public Multimap getItemAttributeModifiers() {
         HashMultimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 16.0, 0));
-        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 0.4, 1));
+        multimap.put((Object)SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", 16.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", 0.4, 1));
         return multimap;
     }
 
@@ -134,7 +135,7 @@ IManaUsingItem {
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, TAG_ATTACKER_USERNAME, player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)TAG_ATTACKER_USERNAME, (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
@@ -149,30 +150,30 @@ IManaUsingItem {
     public void updateBurst(IManaBurst burst, ItemStack stack) {
         Entity i$1;
         EntityThrowable entity = (EntityThrowable)burst;
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
-        String attacker = ItemNBTHelper.getString(burst.getSourceLens(), TAG_ATTACKER_USERNAME, "");
-        int homeID = ItemNBTHelper.getInt(stack, TAG_HOME_ID, -1);
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
+        String attacker = ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)TAG_ATTACKER_USERNAME, (String)"");
+        int homeID = ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_HOME_ID, (int)-1);
         if (homeID == -1) {
-            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
+            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
             List<EntityLivingBase> i$ = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entities);
             for (EntityLivingBase cost : i$) {
                 if (cost instanceof EntityPlayer || !(cost instanceof IMob) || cost.hurtTime != 0) continue;
                 homeID = cost.getEntityId();
-                ItemNBTHelper.setInt(stack, TAG_HOME_ID, homeID);
+                ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_HOME_ID, (int)homeID);
                 break;
             }
         }
         List<EntityLivingBase> entities1 = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
         if (homeID != -1 && (i$1 = entity.worldObj.getEntityByID(homeID)) != null) {
-            Vector3 living1 = Vector3.fromEntityCenter(i$1);
-            Vector3 cost1 = Vector3.fromEntityCenter(entity);
+            Vector3 living1 = Vector3.fromEntityCenter((Entity)i$1);
+            Vector3 cost1 = Vector3.fromEntityCenter((Entity)entity);
             Vector3 mana = living1.sub(cost1);
             Vector3 damage = new Vector3(entity.motionX, entity.motionY, entity.motionZ);
             mana.normalize().multiply(damage.mag());
             burst.setMotion(mana.x, mana.y, mana.z);
         }
         for (EntityLivingBase living2 : entities1) {
-            if (living2 instanceof EntityPlayer && (living2.getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living2.hurtTime != 0) continue;
+            if (living2 instanceof EntityPlayer && (((EntityPlayer)living2).getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living2.hurtTime != 0) continue;
             int cost2 = 1;
             int mana1 = burst.getMana();
             if (mana1 < cost2) continue;
@@ -180,7 +181,7 @@ IManaUsingItem {
             float damage1 = 6.0f + toolMaterial.getDamageVsEntity();
             if (burst.isFake() || entity.worldObj.isRemote) continue;
             EntityPlayer player = living2.worldObj.getPlayerEntityByName(attacker);
-            living2.attackEntityFrom(player == null ? DamageSource.magic : DamageSource.causePlayerDamage(player), damage1);
+            living2.attackEntityFrom(player == null ? DamageSource.magic : DamageSource.causePlayerDamage((EntityPlayer)player), damage1);
             entity.setDead();
             break;
         }

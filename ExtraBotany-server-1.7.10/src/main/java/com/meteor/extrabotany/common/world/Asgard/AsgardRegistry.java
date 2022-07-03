@@ -17,8 +17,8 @@ public class AsgardRegistry {
     }
 
     public static void registerDimension() {
-        DimensionManager.registerProviderType(150, AsgardWorldProvider.class, false);
-        DimensionManager.registerDimension(150, 150);
+        DimensionManager.registerProviderType((int)150, AsgardWorldProvider.class, (boolean)false);
+        DimensionManager.registerDimension((int)150, (int)150);
     }
 }
 

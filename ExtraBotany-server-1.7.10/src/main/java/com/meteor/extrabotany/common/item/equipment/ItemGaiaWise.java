@@ -29,25 +29,25 @@ extends ItemBauble
 implements ICosmeticBauble {
     public ItemGaiaWise(String name) {
         super(name);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
         this.setMaxStackSize(1);
     }
 
     public void onPlayerBaubleRender(ItemStack stack, RenderPlayerEvent event, IBaubleRender.RenderType type) {
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
         if (type != IBaubleRender.RenderType.HEAD) {
-            IBaubleRender.Helper.rotateIfSneaking(event.entityPlayer);
-            GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-            GL11.glTranslatef(-0.5f, -0.8f, 0.15f);
-            GL11.glScalef(0.255f, 0.255f, 0.255f);
-            GL11.glTranslatef(0.9f, 1.9f, 0.0f);
+            IBaubleRender.Helper.rotateIfSneaking((EntityPlayer)event.entityPlayer);
+            GL11.glRotatef((float)180.0f, (float)1.0f, (float)0.0f, (float)0.0f);
+            GL11.glTranslatef((float)-0.5f, (float)-0.8f, (float)0.15f);
+            GL11.glScalef((float)0.255f, (float)0.255f, (float)0.255f);
+            GL11.glTranslatef((float)0.9f, (float)1.9f, (float)0.0f);
             IIcon icon = this.getIconFromDamage(0);
             float f = icon.getMinU();
             float f1 = icon.getMaxU();
             float f2 = icon.getMinV();
             float f3 = icon.getMaxV();
-            ItemRenderer.renderItemIn2D(Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625f);
+            ItemRenderer.renderItemIn2D((Tessellator)Tessellator.instance, (float)f1, (float)f2, (float)f, (float)f3, (int)icon.getIconWidth(), (int)icon.getIconHeight(), (float)0.0625f);
         }
     }
 
@@ -56,7 +56,7 @@ implements ICosmeticBauble {
     }
 
     public static ItemStack getGaiaWise(EntityPlayer player) {
-        InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+        InventoryBaubles baubles = PlayerHandler.getPlayerBaubles((EntityPlayer)player);
         ItemStack stack1 = baubles.func_70301_a(1);
         ItemStack stack2 = baubles.func_70301_a(2);
         return ItemGaiaWise.isGaiaWise(stack1) ? stack1 : (ItemGaiaWise.isGaiaWise(stack2) ? stack2 : null);

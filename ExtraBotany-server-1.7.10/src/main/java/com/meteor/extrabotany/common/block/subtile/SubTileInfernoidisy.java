@@ -43,10 +43,9 @@ extends SubTileEntity {
             Block block = world.getBlock(coords.posX, coords.posY, coords.posZ);
             int meta = world.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
             RecipeInfernoidisy recipe = null;
-            for (Object x1 : ExtraBotanyAPI.infernoidisyRecipes) {
-                RecipeInfernoidisy x = (RecipeInfernoidisy) x1;
-                if (!x.matches(world, coords.posX, coords.posY, coords.posZ, this, block, meta)) continue;
-                recipe = x;
+            for (Object x : ExtraBotanyAPI.infernoidisyRecipes) {
+                if (!((RecipeInfernoidisy)x).matches(world, coords.posX, coords.posY, coords.posZ, this, block, meta)) continue;
+                recipe = (RecipeInfernoidisy) x;
                 break;
             }
             if (recipe != null) {
@@ -63,7 +62,7 @@ extends SubTileEntity {
                             Botania.proxy.wispFX(this.supertile.getWorldObj(), var15, y, z, 1.0f, 1.0f, 1.0f, (float)Math.random() / 2.0f);
                         }
                         if (ConfigHandler.blockBreakParticles) {
-                            this.supertile.getWorldObj().playAuxSFX(2001, coords.posX, coords.posY, coords.posZ, Block.getIdFromBlock(recipe.getOutput()) + (recipe.getOutputMeta() << 12));
+                            this.supertile.getWorldObj().playAuxSFX(2001, coords.posX, coords.posY, coords.posZ, Block.getIdFromBlock((Block)recipe.getOutput()) + (recipe.getOutputMeta() << 12));
                         }
                     }
                 }

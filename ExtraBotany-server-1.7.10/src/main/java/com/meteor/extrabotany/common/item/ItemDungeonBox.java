@@ -24,19 +24,19 @@ extends ItemMods {
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        ItemStack s = ChestGenHooks.getOneItem("dungeonChest", player.worldObj.rand);
+        ItemStack s = ChestGenHooks.getOneItem((String)"dungeonChest", (Random)player.worldObj.rand);
         if (!player.worldObj.isRemote) {
             if (player.inventory.hasItem(ModItems.key)) {
                 player.inventory.consumeInventoryItem(ModItems.key);
                 int a = player.worldObj.rand.nextInt(2) + 1;
                 do {
-                    ItemStack s1 = ChestGenHooks.getOneItem("dungeonChest", player.worldObj.rand);
+                    ItemStack s1 = ChestGenHooks.getOneItem((String)"dungeonChest", (Random)player.worldObj.rand);
                     player.inventory.addItemStackToInventory(s1);
                 } while (--a != 0);
                 return s.copy();
             }
             if (!player.inventory.hasItem(ModItems.key)) {
-                player.addChatMessage(new ChatComponentTranslation("botaniamisc.openChest").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+                player.addChatMessage(new ChatComponentTranslation("botaniamisc.openChest", new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
             }
         }
         return stack;

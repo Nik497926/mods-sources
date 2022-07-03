@@ -12,20 +12,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public interface IConfigurableItem {
-    List<ItemConfigField> getFields(ItemStack var1, int var2);
+    public List<ItemConfigField> getFields(ItemStack var1, int var2);
 
-    boolean hasProfiles();
+    public boolean hasProfiles();
 
-    class ProfileHelper {
+    public static class ProfileHelper {
         public static NBTTagCompound getProfileCompound(ItemStack stack) {
             int profile = ItemNBTHelper.getInteger(stack, "ConfigProfile", 0);
             NBTTagCompound stackCompound = ItemNBTHelper.getCompound(stack);
             if (!stackCompound.hasKey("ConfigProfiles") && stackCompound.getTagList("ConfigProfiles", 10).tagCount() < 5) {
                 NBTTagList profileList = new NBTTagList();
                 for (int i = 0; i < 5; ++i) {
-                    profileList.appendTag(new NBTTagCompound());
+                    profileList.appendTag((NBTBase)new NBTTagCompound());
                 }
-                stackCompound.setTag("ConfigProfiles", profileList);
+                stackCompound.setTag("ConfigProfiles", (NBTBase)profileList);
             }
             return stackCompound.getTagList("ConfigProfiles", 10).getCompoundTagAt(profile);
         }

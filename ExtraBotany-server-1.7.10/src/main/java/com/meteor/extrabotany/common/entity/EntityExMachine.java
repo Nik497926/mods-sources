@@ -7,6 +7,7 @@ import alfheim.common.item.AlfheimItems;
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.ModBlocks;
 import com.meteor.extrabotany.common.block.tile.TileGaiaChest;
+import com.meteor.extrabotany.common.entity.EntitySpear;
 import com.meteor.extrabotany.common.entity.gaia.EntityGaiaIII;
 import com.meteor.extrabotany.common.entity.gaia.EntityMagicLandmineII;
 import com.meteor.extrabotany.common.item.ModItems;
@@ -28,8 +29,10 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -50,11 +53,13 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.GL11;
@@ -92,18 +97,18 @@ implements IBotaniaBossWithShader {
     private static final String TAG_PLAYER_COUNT = "playerCount";
     private static final int[][] PYLON_LOCATIONS = new int[][]{{4, 1, 4}, {4, 1, -4}, {-4, 1, 4}, {-4, 1, -4}};
     boolean spawnPixies = false;
-    private final ArrayList<String> playersWhoAttacked = new ArrayList();
+    private ArrayList<String> playersWhoAttacked = new ArrayList();
     private static final List CHEATY_BLOCKS = Arrays.asList("OpenBlocks:beartrap", "ThaumicTinkerer:magnet");
-    private static final boolean isPlayingMusic = false;
-    private static final ModItems instance = new ModItems();
+    private static boolean isPlayingMusic = false;
+    private static ModItems instance = new ModItems();
     boolean anyWithArmor = false;
     boolean spawnLandmines = false;
-    private final int DEFEAT = 0;
+    private int DEFEAT = 0;
     private boolean hasSpawned = false;
     private int spawned_tick = 0;
     private int CD_TP = 0;
     private int CD_SPAWN_L = 0;
-    private final int TYPE_ATACK = 0;
+    private int TYPE_ATACK = 0;
     private ChunkCoordinates COORDNEW = null;
     @SideOnly(value=Side.CLIENT)
     private static Rectangle barRect;
@@ -114,10 +119,10 @@ implements IBotaniaBossWithShader {
         super(world);
         this.setSize(0.6f, 1.8f);
         this.getNavigator().setCanSwim(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, Float.MAX_VALUE));
-        this.tasks.addTask(2, new EntityAILookIdle(this));
-        this.tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 1.0, 48.0f));
+        this.tasks.addTask(0, (EntityAIBase)new EntityAISwimming((EntityLiving)this));
+        this.tasks.addTask(1, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, Float.MAX_VALUE));
+        this.tasks.addTask(2, (EntityAIBase)new EntityAILookIdle((EntityLiving)this));
+        this.tasks.addTask(3, (EntityAIBase)new EntityAIMoveTowardsTarget((EntityCreature)this, 1.0, 48.0f));
         this.isImmuneToFire = true;
         this.experienceValue = 1225;
     }
@@ -131,7 +136,7 @@ implements IBotaniaBossWithShader {
             int meta = world.getBlockMetadata(p, x, z);
             if (y == vazkii.botania.common.block.ModBlocks.pylon && meta == 2) continue;
             if (!world.isRemote) {
-                player.addChatMessage(new ChatComponentTranslation("botaniamisc.needsCatalysts").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+                player.addChatMessage(new ChatComponentTranslation("botaniamisc.needsCatalysts", new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
             }
             return false;
         }
@@ -140,14 +145,14 @@ implements IBotaniaBossWithShader {
 
     private static void teleportToSpawnPlayer(EntityPlayer player, World world) {
         ChunkCoordinates coords = world.getSpawnPoint();
-        if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace((double)coords.posX + 0.5, (double)coords.posY + 0.5, (double)coords.posZ + 0.5, player.posX, player.posY, player.posZ) > 24.0f) {
+        if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace((double)((double)coords.posX + 0.5), (double)((double)coords.posY + 0.5), (double)((double)coords.posZ + 0.5), (double)player.posX, (double)player.posY, (double)player.posZ) > 24.0f) {
             player.rotationPitch = 0.0f;
             player.rotationYaw = 0.0f;
             player.setPositionAndUpdate((double)coords.posX + 0.5, (double)coords.posY + 1.6, (double)coords.posZ + 0.5);
-            while (!world.getCollidingBoundingBoxes(player, player.boundingBox).isEmpty()) {
+            while (!world.getCollidingBoundingBoxes((Entity)player, player.boundingBox).isEmpty()) {
                 player.setPositionAndUpdate(player.posX, player.posY + 1.0, player.posZ);
             }
-            world.playSoundAtEntity(player, "mob.endermen.portal", 1.0f, 1.0f);
+            world.playSoundAtEntity((Entity)player, "mob.endermen.portal", 1.0f, 1.0f);
             for (int i = 0; i < 50; ++i) {
                 Botania.proxy.sparkleFX(world, player.posX + Math.random() * (double)player.width, player.posY - 1.6 + Math.random() * (double)player.height, player.posZ + Math.random() * (double)player.width, 0.25f, 1.0f, 0.25f, 1.0f, 10);
             }
@@ -156,19 +161,19 @@ implements IBotaniaBossWithShader {
 
     protected List<EntityExMachine> getExs(int x, int y, int z) {
         float range = 25.0f;
-        List exs = this.worldObj.getEntitiesWithinAABB(EntityExMachine.class, AxisAlignedBB.getBoundingBox((double)x + 0.5 - (double)range, (double)y + 0.5 - 7.0, (double)z + 0.5 - (double)range, (double)x + 0.5 + (double)range, (double)y + 0.5 + 7.0, (double)z + 0.5 + (double)range));
+        List exs = this.worldObj.getEntitiesWithinAABB(EntityExMachine.class, AxisAlignedBB.getBoundingBox((double)((double)x + 0.5 - (double)range), (double)((double)y + 0.5 - 7.0), (double)((double)z + 0.5 - (double)range), (double)((double)x + 0.5 + (double)range), (double)((double)y + 0.5 + 7.0), (double)((double)z + 0.5 + (double)range)));
         return exs;
     }
 
     protected List<EntityGaiaIII> getGaia(int x, int y, int z) {
         float range = 25.0f;
-        List exs = this.worldObj.getEntitiesWithinAABB(EntityGaiaIII.class, AxisAlignedBB.getBoundingBox((double)x + 0.5 - (double)range, (double)y + 0.5 - 7.0, (double)z + 0.5 - (double)range, (double)x + 0.5 + (double)range, (double)y + 0.5 + 7.0, (double)z + 0.5 + (double)range));
+        List exs = this.worldObj.getEntitiesWithinAABB(EntityGaiaIII.class, AxisAlignedBB.getBoundingBox((double)((double)x + 0.5 - (double)range), (double)((double)y + 0.5 - 7.0), (double)((double)z + 0.5 - (double)range), (double)((double)x + 0.5 + (double)range), (double)((double)y + 0.5 + 7.0), (double)((double)z + 0.5 + (double)range)));
         return exs;
     }
 
     protected List<EntityDoppleganger> getDopple(int x, int y, int z) {
         float range = 25.0f;
-        List exs = this.worldObj.getEntitiesWithinAABB(EntityDoppleganger.class, AxisAlignedBB.getBoundingBox((double)x + 0.5 - (double)range, (double)y + 0.5 - 7.0, (double)z + 0.5 - (double)range, (double)x + 0.5 + (double)range, (double)y + 0.5 + 7.0, (double)z + 0.5 + (double)range));
+        List exs = this.worldObj.getEntitiesWithinAABB(EntityDoppleganger.class, AxisAlignedBB.getBoundingBox((double)((double)x + 0.5 - (double)range), (double)((double)y + 0.5 - 7.0), (double)((double)z + 0.5 - (double)range), (double)((double)x + 0.5 + (double)range), (double)((double)y + 0.5 + 7.0), (double)((double)z + 0.5 + (double)range)));
         return exs;
     }
 
@@ -189,17 +194,17 @@ implements IBotaniaBossWithShader {
                 EntityExMachine entity = new EntityExMachine(world);
                 List<EntityExMachine> exs = entity.getExs(xs, ys, zs);
                 if (!exs.isEmpty()) {
-                    player.addChatMessage(new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73\u0442\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0448\u044c \u0432\u044b\u0437\u0432\u0430\u0442\u044c \u043d\u0430 \u0431\u043e\u0439 \u0431\u043e\u043b\u044c\u0448\u0435 \u00a7dExMachine\u00a73, \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u043e\u0431\u0435\u0434\u0438\u0448\u044c \u043c\u0435\u043d\u044f"));
+                    player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73\u0442\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0448\u044c \u0432\u044b\u0437\u0432\u0430\u0442\u044c \u043d\u0430 \u0431\u043e\u0439 \u0431\u043e\u043b\u044c\u0448\u0435 \u00a7dExMachine\u00a73, \u043f\u043e\u043a\u0430 \u043d\u0435 \u043f\u043e\u0431\u0435\u0434\u0438\u0448\u044c \u043c\u0435\u043d\u044f", new Object[0]));
                     return false;
                 }
                 List<EntityGaiaIII> gaia = entity.getGaia(xs, ys, zs);
                 if (!gaia.isEmpty()) {
-                    player.addChatMessage(new ChatComponentTranslation("\u00a76\u0421\u0442\u0440\u0430\u0436 \u0413\u0430\u0439\u0438 III\u00a7f: \u00a73\u043d\u0438\u043a\u0442\u043e \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u043f\u0440\u0438\u0434\u0435\u0442, \u0434\u0430\u0436\u0435 \u043d\u0435 \u043f\u044b\u0442\u0430\u0439\u0441\u044f"));
+                    player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a76\u0421\u0442\u0440\u0430\u0436 \u0413\u0430\u0439\u0438 III\u00a7f: \u00a73\u043d\u0438\u043a\u0442\u043e \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u043f\u0440\u0438\u0434\u0435\u0442, \u0434\u0430\u0436\u0435 \u043d\u0435 \u043f\u044b\u0442\u0430\u0439\u0441\u044f", new Object[0]));
                     return false;
                 }
                 List<EntityDoppleganger> dopple = entity.getDopple(xs, ys, zs);
                 if (!dopple.isEmpty()) {
-                    player.addChatMessage(new ChatComponentTranslation("\u00a76\u0421\u0442\u0440\u0430\u0436 \u0413\u0430\u0439\u0438\u00a7f: \u00a73\u043d\u0438\u043a\u0442\u043e \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u043f\u0440\u0438\u0434\u0435\u0442, \u0434\u0430\u0436\u0435 \u043d\u0435 \u043f\u044b\u0442\u0430\u0439\u0441\u044f"));
+                    player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a76\u0421\u0442\u0440\u0430\u0436 \u0413\u0430\u0439\u0438\u00a7f: \u00a73\u043d\u0438\u043a\u0442\u043e \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435 \u043f\u0440\u0438\u0434\u0435\u0442, \u0434\u0430\u0436\u0435 \u043d\u0435 \u043f\u044b\u0442\u0430\u0439\u0441\u044f", new Object[0]));
                     return false;
                 }
                 entity.setPosition((double)xs + 0.5, ys + 3, (double)zs + 0.5);
@@ -214,7 +219,7 @@ implements IBotaniaBossWithShader {
                 Boolean isAnyManaArmor = false;
                 while (var24.hasNext()) {
                     EntityPlayer var26 = (EntityPlayer)var24.next();
-                    if (!EntityGaiaIII.isTruePlayer(var26)) continue;
+                    if (!EntityGaiaIII.isTruePlayer((Entity)var26)) continue;
                     ++playerCount;
                     entity.changeListAtacker(var26);
                     int manaArmor = 0;
@@ -228,7 +233,7 @@ implements IBotaniaBossWithShader {
                         continue;
                     }
                     if (!world.isRemote) {
-                        var26.addChatMessage(new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73You can't defend yourself, how do you think you can fight me?"));
+                        var26.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a76ExMachine\u00a7f: \u00a73You can't defend yourself, how do you think you can fight me?", new Object[0]));
                     }
                     EntityExMachine.teleportToSpawnPlayer(var26, world);
                 }
@@ -236,9 +241,9 @@ implements IBotaniaBossWithShader {
                     return false;
                 }
                 entity.setPlayerCount(playerCount);
-                entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue(2400.0f * (float)playerCount);
-                world.playSoundAtEntity(entity, "mob.enderdragon.growl", 10.0f, 0.1f);
-                world.spawnEntityInWorld(entity);
+                entity.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue((double)(2400.0f * (float)playerCount));
+                world.playSoundAtEntity((Entity)entity, "mob.enderdragon.growl", 10.0f, 0.1f);
+                world.spawnEntityInWorld((Entity)entity);
                 --item.stackSize;
                 if (item.stackSize == 0) {
                     item = null;
@@ -252,7 +257,7 @@ implements IBotaniaBossWithShader {
 
     public void changeListAtacker(EntityPlayer pl) {
         this.playersWhoAttacked.add(pl.getCommandSenderName());
-        this.dataWatcher.updateObject(31, this.playersWhoAttacked.size());
+        this.dataWatcher.updateObject(31, (Object)this.playersWhoAttacked.size());
     }
 
     public int getListAtacker() {
@@ -279,15 +284,15 @@ implements IBotaniaBossWithShader {
     }
 
     public void setTPDelay(int delay) {
-        this.dataWatcher.updateObject(22, delay);
+        this.dataWatcher.updateObject(22, (Object)delay);
     }
 
     protected void damageEntity(DamageSource par1DamageSource, float par2) {
         super.damageEntity(par1DamageSource, par2);
         Entity attacker = par1DamageSource.getEntity();
         if (attacker != null) {
-            Vector3 thisVector = Vector3.fromEntityCenter(this);
-            Vector3 playerVector = Vector3.fromEntityCenter(attacker);
+            Vector3 thisVector = Vector3.fromEntityCenter((Entity)this);
+            Vector3 playerVector = Vector3.fromEntityCenter((Entity)attacker);
             Vector3 motionVector = thisVector.copy().sub(playerVector).copy().normalize().multiply(0.75);
             if (this.getHealth() > 0.0f) {
                 this.motionX = -motionVector.x;
@@ -307,30 +312,33 @@ implements IBotaniaBossWithShader {
             if (var1 == null || !(var1.getItem() instanceof ItemOGArmor)) continue;
             ++arm;
         }
-        return arm == 4;
+        if (arm == 4) {
+            return true;
+        }
+        return false;
     }
 
     public List getPlayersAround() {
         ChunkCoordinates source = this.getSource();
         float range = 15.0f;
-        List players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)source.posX + 0.5 - (double)range, (double)source.posY + 0.5 - (double)range, (double)source.posZ + 0.5 - (double)range, (double)source.posX + 0.5 + (double)range, (double)source.posY + 0.5 + (double)range, (double)source.posZ + 0.5 + (double)range));
+        List players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)((double)source.posX + 0.5 - (double)range), (double)((double)source.posY + 0.5 - (double)range), (double)((double)source.posZ + 0.5 - (double)range), (double)((double)source.posX + 0.5 + (double)range), (double)((double)source.posY + 0.5 + (double)range), (double)((double)source.posZ + 0.5 + (double)range)));
         return players;
     }
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(20, 0);
-        this.dataWatcher.addObject(21, 0);
-        this.dataWatcher.addObject(22, 0);
-        this.dataWatcher.addObject(23, 0);
-        this.dataWatcher.addObject(24, 0);
-        this.dataWatcher.addObject(25, 0);
-        this.dataWatcher.addObject(26, 0);
-        this.dataWatcher.addObject(27, 0);
-        this.dataWatcher.addObject(28, 0);
-        this.dataWatcher.addObject(29, 0);
-        this.dataWatcher.addObject(30, 0);
-        this.dataWatcher.addObject(31, 0);
+        this.dataWatcher.addObject(20, (Object)0);
+        this.dataWatcher.addObject(21, (Object)0);
+        this.dataWatcher.addObject(22, (Object)0);
+        this.dataWatcher.addObject(23, (Object)0);
+        this.dataWatcher.addObject(24, (Object)0);
+        this.dataWatcher.addObject(25, (Object)0);
+        this.dataWatcher.addObject(26, (Object)0);
+        this.dataWatcher.addObject(27, (Object)0);
+        this.dataWatcher.addObject(28, (Object)0);
+        this.dataWatcher.addObject(29, (Object)0);
+        this.dataWatcher.addObject(30, (Object)0);
+        this.dataWatcher.addObject(31, (Object)0);
     }
 
     protected boolean isAIEnabled() {
@@ -338,13 +346,13 @@ implements IBotaniaBossWithShader {
     }
 
     public void setMobSpawnTicks(int ticks) {
-        this.dataWatcher.updateObject(26, ticks);
+        this.dataWatcher.updateObject(26, (Object)ticks);
     }
 
     public void setSource(int x, int y, int z) {
-        this.dataWatcher.updateObject(23, x);
-        this.dataWatcher.updateObject(24, y);
-        this.dataWatcher.updateObject(25, z);
+        this.dataWatcher.updateObject(23, (Object)x);
+        this.dataWatcher.updateObject(24, (Object)y);
+        this.dataWatcher.updateObject(25, (Object)z);
     }
 
     public boolean isHardMode() {
@@ -356,7 +364,7 @@ implements IBotaniaBossWithShader {
     }
 
     public void setInvulTime(int time) {
-        this.dataWatcher.updateObject(20, time);
+        this.dataWatcher.updateObject(20, (Object)time);
     }
 
     @SideOnly(value=Side.CLIENT)
@@ -370,12 +378,12 @@ implements IBotaniaBossWithShader {
             this.shaderCallback = new ShaderCallback(){
 
                 public void call(int shader) {
-                    int grainIntensityUniform = ARBShaderObjects.glGetUniformLocationARB(shader, "grainIntensity");
-                    int hpFractUniform = ARBShaderObjects.glGetUniformLocationARB(shader, "hpFract");
+                    int grainIntensityUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"grainIntensity");
+                    int hpFractUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"hpFract");
                     float time = EntityExMachine.this.getInvulTime();
                     float grainIntensity = 20.0f;
-                    ARBShaderObjects.glUniform1fARB(grainIntensityUniform, grainIntensity);
-                    ARBShaderObjects.glUniform1fARB(hpFractUniform, EntityExMachine.this.getHealth() / EntityExMachine.this.getMaxHealth());
+                    ARBShaderObjects.glUniform1fARB((int)grainIntensityUniform, (float)grainIntensity);
+                    ARBShaderObjects.glUniform1fARB((int)hpFractUniform, (float)(EntityExMachine.this.getHealth() / EntityExMachine.this.getMaxHealth()));
                 }
             };
         }
@@ -416,7 +424,7 @@ implements IBotaniaBossWithShader {
         ItemStack stack = new ItemStack(Items.skull, 1, 3);
         mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
         RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(32826);
+        GL11.glEnable((int)32826);
         RenderItem.getInstance().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack, px, py);
         RenderHelper.disableStandardItemLighting();
         boolean unicode = mc.fontRenderer.getUnicodeFlag();
@@ -441,11 +449,11 @@ implements IBotaniaBossWithShader {
     }
 
     public void setPlayerCount(int count) {
-        this.dataWatcher.updateObject(28, count);
+        this.dataWatcher.updateObject(28, (Object)count);
     }
 
     public void setAggroed(boolean aggored) {
-        this.dataWatcher.updateObject(21, (byte)(aggored ? 1 : 0));
+        this.dataWatcher.updateObject(21, (Object)((byte)(aggored ? 1 : 0)));
     }
 
     public boolean isAggored() {
@@ -464,11 +472,11 @@ implements IBotaniaBossWithShader {
     }
 
     public void setHardMode(boolean hardMode) {
-        this.dataWatcher.updateObject(27, (byte)(hardMode ? 1 : 0));
+        this.dataWatcher.updateObject(27, (Object)((byte)(hardMode ? 1 : 0)));
     }
 
     public void setStage(int stage) {
-        this.dataWatcher.updateObject(29, stage);
+        this.dataWatcher.updateObject(29, (Object)stage);
     }
 
     public int getStage() {
@@ -498,11 +506,11 @@ implements IBotaniaBossWithShader {
     public void onDeath(DamageSource source) {
         super.onDeath(source);
         Entity entity = source.getSourceOfDamage();
-        if (entity instanceof EntityPlayer && !entity.worldObj.isRemote) {
+        if (entity instanceof EntityPlayer && !((EntityPlayer)entity).worldObj.isRemote) {
             ItemAwakeOGArmor.addStat((EntityPlayer)entity, 1);
         }
         this.loot(this.worldObj, this.worldObj.rand, this.getSource().posX, this.getSource().posY + 1, this.getSource().posZ);
-        this.worldObj.playSoundAtEntity(this, "random.explode", 20.0f, (1.0f + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2f) * 0.7f);
+        this.worldObj.playSoundAtEntity((Entity)this, "random.explode", 20.0f, (1.0f + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2f) * 0.7f);
         this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 1.0, 0.0, 0.0);
     }
 
@@ -526,7 +534,7 @@ implements IBotaniaBossWithShader {
     }
 
     public List<EntityPlayer> getNearPlayer(World world, int xs, int ys, int zs, int RANGE) {
-        List players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xs - RANGE, ys - RANGE / 2, zs - RANGE, xs + RANGE + 1, ys + RANGE / 2 + 1, zs + RANGE + 1));
+        List players = world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(xs - RANGE), (double)(ys - RANGE / 2), (double)(zs - RANGE), (double)(xs + RANGE + 1), (double)(ys + RANGE / 2 + 1), (double)(zs + RANGE + 1)));
         return players;
     }
 
@@ -572,18 +580,18 @@ implements IBotaniaBossWithShader {
                 double rnd = Math.random();
                 if (rnd < 0.33) {
                     st = new ItemStack(AlfheimItems.INSTANCE.getPriestRingHeimdall());
-                    ItemNBTHelper.setString(st, "soulbind", pl.getCommandSenderName());
+                    ItemNBTHelper.setString((ItemStack)st, (String)"soulbind", (String)pl.getCommandSenderName());
                     this.putItemInChest(st, chest);
                     continue;
                 }
                 if (rnd < 0.66) {
                     st = new ItemStack(AlfheimItems.INSTANCE.getPriestRingSif());
-                    ItemNBTHelper.setString(st, "soulbind", pl.getCommandSenderName());
+                    ItemNBTHelper.setString((ItemStack)st, (String)"soulbind", (String)pl.getCommandSenderName());
                     this.putItemInChest(st, chest);
                     continue;
                 }
                 st = new ItemStack(AlfheimItems.INSTANCE.getPriestRingNjord());
-                ItemNBTHelper.setString(st, "soulbind", pl.getCommandSenderName());
+                ItemNBTHelper.setString((ItemStack)st, (String)"soulbind", (String)pl.getCommandSenderName());
                 this.putItemInChest(st, chest);
             }
         }
@@ -622,7 +630,7 @@ implements IBotaniaBossWithShader {
 
     public static boolean isCheatyBlock(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y, z);
-        String name = Block.blockRegistry.getNameForObject(block);
+        String name = Block.blockRegistry.getNameForObject((Object)block);
         return CHEATY_BLOCKS.contains(name);
     }
 
@@ -674,13 +682,13 @@ implements IBotaniaBossWithShader {
             this.motionY = 0.0;
             this.motionZ = 0.0;
             this.setPositionAndUpdate((double)this.getSource().posX + 0.5, this.getSource().posY + 2, (double)this.getSource().posZ + 0.5);
-            Vector3 var43 = Vector3.fromEntityCenter(this).subtract(new Vector3(0.0, 0.2, 0.0));
+            Vector3 var43 = Vector3.fromEntityCenter((Entity)this).subtract(new Vector3(0.0, 0.2, 0.0));
             for (int i2 = 0; i2 < PYLON_LOCATIONS.length; ++i2) {
                 int[] PYLON_L = PYLON_LOCATIONS[i2];
                 int xc = PYLON_L[0];
                 int yc = PYLON_L[1];
                 int zc = PYLON_L[2];
-                Vector3 vec = new Vector3(this.getSource().posX + xc, this.getSource().posY + yc, this.getSource().posZ + zc);
+                Vector3 vec = new Vector3((double)(this.getSource().posX + xc), (double)(this.getSource().posY + yc), (double)(this.getSource().posZ + zc));
                 double landmine = this.ticksExisted;
                 float rad = 0.75f + (float)Math.random() * 0.05f;
                 double xp = vec.x + 0.5 + Math.cos(landmine /= 5.0) * (double)rad;
@@ -732,10 +740,10 @@ implements IBotaniaBossWithShader {
         if (this.getInvulTime() >= 2147483547) {
             for (i = 0; i < pls.size(); ++i) {
                 if (this.worldObj.isRemote) continue;
-                ((EntityPlayer)pls.get(i)).addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("ExMachina.text.finishTime")));
+                ((EntityPlayer)pls.get(i)).addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"ExMachina.text.finishTime")));
             }
-            EntityItem _a = new EntityItem(this.worldObj, this.getSource().posX, this.getSource().posY + 1, this.getSource().posZ, new ItemStack(ModItems.elfirium));
-            this.worldObj.spawnEntityInWorld(_a);
+            EntityItem _a = new EntityItem(this.worldObj, (double)this.getSource().posX, (double)(this.getSource().posY + 1), (double)this.getSource().posZ, new ItemStack(ModItems.elfirium));
+            this.worldObj.spawnEntityInWorld((Entity)_a);
             this.setDead();
         }
     }
@@ -796,10 +804,10 @@ implements IBotaniaBossWithShader {
         }
         for (int i = 0; i < pls.size(); ++i) {
             EntitySpear weapon = new EntitySpear(this.worldObj, (EntityLivingBase)pls.get(i));
-            weapon.setPosition(((Entity)pls.get(i)).posX, ((Entity)pls.get(i)).posY + 12.0 + (double)Math.min(2 * i * this.rand.nextInt(55), 20), ((Entity)pls.get(i)).posZ);
+            weapon.setPosition(((Entity)pls.get((int)i)).posX, ((Entity)pls.get((int)i)).posY + 12.0 + (double)Math.min(2 * i * this.rand.nextInt(55), 20), ((Entity)pls.get((int)i)).posZ);
             weapon.setDelay((int)((float)(i * this.rand.nextInt(55)) * 1.2f));
-            this.worldObj.spawnEntityInWorld(weapon);
-            this.worldObj.playSoundAtEntity(weapon, "botania:babylonSpawn", 1.0f, 1.0f + this.worldObj.rand.nextFloat() * 3.0f);
+            this.worldObj.spawnEntityInWorld((Entity)weapon);
+            this.worldObj.playSoundAtEntity((Entity)weapon, "botania:babylonSpawn", 1.0f, 1.0f + this.worldObj.rand.nextFloat() * 3.0f);
         }
         this.CD_SPAWN_L = 20;
     }
@@ -807,7 +815,7 @@ implements IBotaniaBossWithShader {
     private void secondAtack() {
         List pls = this.getPlayersAround();
         for (int i = 0; i < pls.size(); ++i) {
-            this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, ((EntityPlayer)pls.get(i)).posX, ((EntityPlayer)pls.get(i)).posY + 1.0, ((EntityPlayer)pls.get(i)).posZ));
+            this.worldObj.addWeatherEffect((Entity)new EntityLightningBolt(this.worldObj, ((EntityPlayer)pls.get((int)i)).posX, ((EntityPlayer)pls.get((int)i)).posY + 1.0, ((EntityPlayer)pls.get((int)i)).posZ));
         }
     }
 
@@ -819,17 +827,17 @@ implements IBotaniaBossWithShader {
         int yc = this.worldObj.getTopSolidOrLiquidBlock(xc, zc);
         land.setPosition((double)xc + 0.5, yc, (double)zc + 0.5);
         land.summoner2 = this;
-        this.worldObj.spawnEntityInWorld(land);
+        this.worldObj.spawnEntityInWorld((Entity)land);
         this.spawnMissile();
     }
 
     void spawnMissile() {
         if (!this.worldObj.isRemote) {
-            EntityMagicMissile missile = new EntityMagicMissile(this, true);
+            EntityMagicMissile missile = new EntityMagicMissile((EntityLivingBase)this, true);
             missile.setPosition(this.posX + (Math.random() - 0.05), this.posY + 2.4 + (Math.random() - 0.05), this.posZ + (Math.random() - 0.05));
             if (missile.getTarget()) {
-                this.worldObj.playSoundAtEntity(this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
-                this.worldObj.spawnEntityInWorld(missile);
+                this.worldObj.playSoundAtEntity((Entity)this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
+                this.worldObj.spawnEntityInWorld((Entity)missile);
             }
         }
     }
@@ -869,8 +877,8 @@ implements IBotaniaBossWithShader {
         this.posY = par3;
         this.posZ = par5;
         boolean flag = false;
-        int i = MathHelper.floor_double(this.posX);
-        if (this.worldObj.blockExists(i, j = MathHelper.floor_double(this.posY), k = MathHelper.floor_double(this.posZ))) {
+        int i = MathHelper.floor_double((double)this.posX);
+        if (this.worldObj.blockExists(i, j = MathHelper.floor_double((double)this.posY), k = MathHelper.floor_double((double)this.posZ))) {
             boolean short1 = false;
             while (!short1 && j > 0) {
                 Block block = this.worldObj.getBlock(i, j - 1, k);
@@ -883,11 +891,11 @@ implements IBotaniaBossWithShader {
             }
             if (short1) {
                 this.setPosition(this.posX, this.posY, this.posZ);
-                if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox)) {
+                if (this.worldObj.getCollidingBoundingBoxes((Entity)this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox)) {
                     flag = true;
                 }
                 ChunkCoordinates var31 = this.getSource();
-                if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace(this.posX, this.posY, this.posZ, var31.posX, var31.posY, var31.posZ) > 12.0f) {
+                if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace((double)this.posX, (double)this.posY, (double)this.posZ, (double)var31.posX, (double)var31.posY, (double)var31.posZ) > 12.0f) {
                     flag = false;
                 }
             }
@@ -905,7 +913,7 @@ implements IBotaniaBossWithShader {
             double d7 = d3 + (this.posX - d3) * d6 + (this.rand.nextDouble() - 0.5) * (double)this.width * 2.0;
             double d8 = d4 + (this.posY - d4) * d6 + this.rand.nextDouble() * (double)this.height;
             double d9 = d5 + (this.posZ - d5) * d6 + (this.rand.nextDouble() - 0.5) * (double)this.width * 2.0;
-            this.worldObj.spawnParticle("portal", d7, d8, d9, f, f1, f2);
+            this.worldObj.spawnParticle("portal", d7, d8, d9, (double)f, (double)f1, (double)f2);
         }
         this.worldObj.playSoundEffect(d3, d4, d5, "mob.endermen.portal", 1.0f, 1.0f);
         this.playSound("mob.endermen.portal", 1.0f, 1.0f);
@@ -919,14 +927,14 @@ implements IBotaniaBossWithShader {
         }
 
         public boolean matches(World world, int x, int y, int z) {
-            return world.getBlock(x, y, z).isBeaconBase(world, x, y, z, x - this.relPos.posX, y - this.relPos.posY, z - this.relPos.posZ);
+            return world.getBlock(x, y, z).isBeaconBase((IBlockAccess)world, x, y, z, x - this.relPos.posX, y - this.relPos.posY, z - this.relPos.posZ);
         }
     }
 
     public static class BeaconBeamComponent
     extends MultiblockComponent {
         public BeaconBeamComponent(ChunkCoordinates relPos) {
-            super(relPos, Blocks.beacon, 0);
+            super(relPos, (Block)Blocks.beacon, 0);
         }
 
         public boolean matches(World world, int x, int y, int z) {

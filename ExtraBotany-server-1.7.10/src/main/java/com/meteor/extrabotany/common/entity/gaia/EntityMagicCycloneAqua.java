@@ -41,7 +41,7 @@ implements IMinion {
         EntityMagicCycloneAqua i = new EntityMagicCycloneAqua(world);
         EntityMagicCycloneAqua.setAngel(angelX, angelZ);
         i.setPosition(x, y, z);
-        world.spawnEntityInWorld(i);
+        world.spawnEntityInWorld((Entity)i);
         return true;
     }
 
@@ -77,13 +77,13 @@ implements IMinion {
             if (players == 80) break;
         }
         if (!this.worldObj.isRemote) {
-            List<EntityPlayer> var7 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.posX - (double)range, this.posY - (double)range, this.posZ - (double)range, this.posX + (double)range, this.posY + (double)range, this.posZ + (double)range));
+            List<EntityPlayer> var7 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)range), (double)(this.posY - (double)range), (double)(this.posZ - (double)range), (double)(this.posX + (double)range), (double)(this.posY + (double)range), (double)(this.posZ + (double)range)));
             for (EntityPlayer player : var7) {
                 if (this.ticksExisted % 10 == 0) {
                     player.attackEntityFrom(DamageSource.magic, 1.5f);
                 }
                 player.attackEntityFrom(ItemRelic.damageSource(), 1.5f);
-                EntityHandler.knockBack(player, this, 10.0f, 8.0f);
+                EntityHandler.knockBack(player, (Entity)this, 10.0f, 8.0f);
                 if (var7.size() <= 0) continue;
                 SoundHelper.playSoundAtEntity(this.worldObj, Sound.ATTACK_FROST, this, 0.8f + (float)Math.random() * 0.2f);
             }

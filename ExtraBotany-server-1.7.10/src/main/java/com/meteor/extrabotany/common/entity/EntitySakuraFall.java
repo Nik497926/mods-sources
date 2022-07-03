@@ -45,12 +45,12 @@ extends EntityThrowable {
         } else {
             EntityPlayer player = (EntityPlayer)thrower;
             if (!this.worldObj.isRemote) {
-                AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.lastTickPosX, this.lastTickPosY, this.lastTickPosZ).expand(2.0, 2.0, 2.0);
+                AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)this.posX, (double)this.posY, (double)this.posZ, (double)this.lastTickPosX, (double)this.lastTickPosY, (double)this.lastTickPosZ).expand(2.0, 2.0, 2.0);
                 List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
                 for (EntityLivingBase living : entities) {
                     if (living == thrower || living.hurtTime != 0) continue;
                     if (player != null) {
-                        living.attackEntityFrom(DamageSource.causePlayerDamage(player), 14.0f);
+                        living.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)player), 14.0f);
                     } else {
                         living.attackEntityFrom(DamageSource.magic, 14.0f);
                     }

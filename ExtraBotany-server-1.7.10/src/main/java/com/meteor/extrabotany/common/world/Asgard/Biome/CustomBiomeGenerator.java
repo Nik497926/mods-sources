@@ -17,7 +17,7 @@ import ru.justagod.cutter.invoke.Invoke;
 
 public class CustomBiomeGenerator
 implements IChunkProvider {
-    private final World worldObj;
+    private World worldObj;
     private double[] noiseField;
 
     public CustomBiomeGenerator(World par1World) {

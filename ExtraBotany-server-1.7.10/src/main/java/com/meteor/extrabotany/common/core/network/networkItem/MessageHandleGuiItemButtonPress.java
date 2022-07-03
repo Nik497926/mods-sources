@@ -19,8 +19,8 @@ public class MessageHandleGuiItemButtonPress
 extends MessageXYZ<MessageHandleGuiItemButtonPress> {
     private int id;
     private EnumMap<Side, FMLEmbeddedChannel> channel;
-    private final LinkedList<Class<? extends AbstractPacket>> packets = new LinkedList();
-    private final Boolean isPostInit = false;
+    private LinkedList<Class<? extends AbstractPacket>> packets = new LinkedList();
+    private Boolean isPostInit = false;
 
     public MessageHandleGuiItemButtonPress() {
     }
@@ -28,16 +28,6 @@ extends MessageXYZ<MessageHandleGuiItemButtonPress> {
     public MessageHandleGuiItemButtonPress(ItemStack te, int id, EntityPlayer player) {
         super(te, player);
         this.id = id;
-    }
-
-    @Override
-    public void handleClientSide(MessageHandleGuiItemButtonPress var1, EntityPlayer var2) {
-
-    }
-
-    @Override
-    public void handleServerSide(MessageHandleGuiItemButtonPress var1, EntityPlayer var2) {
-
     }
 
     @Override
@@ -50,6 +40,28 @@ extends MessageXYZ<MessageHandleGuiItemButtonPress> {
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(this.id);
+    }
+
+    @Override
+    public void handleClientSide(MessageHandleGuiItemButtonPress message, EntityPlayer player) {
+    }
+
+    @Override
+    public void handleServerSide(MessageHandleGuiItemButtonPress message, EntityPlayer player) {
+        ItemStack it = player.inventory.getStackInSlot(player.inventory.currentItem);
+        ItemStack arm = player.inventory.armorInventory[1];
+        if (arm != null && arm.getItem() instanceof ItemAwakeOGArmor) {
+//            if (message.id < 1000) {
+//                ItemAwakeOGArmor.onGuiButtonPress((int)message.id, (EntityPlayer)player);
+//            } else {
+//                ItemAwakeOGArmor.onUseSkill((int)(message.id - 1000), (EntityPlayer)player);
+//            }
+            System.out.println("Пиши фатоше, это баг #1 из Extra Botany");
+        } else if (arm != null && arm.getItem() instanceof ItemKillerArmor) {
+            ((ItemKillerArmor)arm.getItem()).guiButtonPress(message.id, player);
+        } else {
+            System.out.println("No one to process the package");
+        }
     }
 }
 

@@ -3,7 +3,6 @@
  */
 package com.meteor.extrabotany.common.item.relic.legendary.armor;
 
-import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

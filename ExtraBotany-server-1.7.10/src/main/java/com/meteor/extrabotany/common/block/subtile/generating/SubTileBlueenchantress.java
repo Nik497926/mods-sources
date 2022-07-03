@@ -12,7 +12,7 @@ import vazkii.botania.api.subtile.SubTileGenerating;
 
 public class SubTileBlueenchantress
 extends SubTileGenerating {
-    private final int cd = 0;
+    private int cd = 0;
 
     private boolean infiniteIst(Block bl, World w, int x, int y, int z) {
         if (w.getBlock(x + 1, y, z) == Blocks.water && w.getBlock(x + 1, y, z - 1) == Blocks.water && w.getBlock(x, y, z - 1) == Blocks.water) {

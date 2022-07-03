@@ -18,9 +18,9 @@ import vazkii.botania.common.Botania;
 public class EntityGaiaQuickened
 extends Entity
 implements IMinion {
-    private static final String TAG_ATK = "atk";
-    private static final String TAG_EVIL = "evil";
-    private static final int range = 8;
+    private static String TAG_ATK = "atk";
+    private static String TAG_EVIL = "evil";
+    private static int range = 8;
     EntityLivingBase thrower;
 
     public EntityGaiaQuickened(EntityLivingBase thrower, boolean evil, float dam) {
@@ -48,14 +48,14 @@ implements IMinion {
             Botania.proxy.wispFX(this.worldObj, this.posX - (double)range + Math.random() * (double)range * 2.0 * (double)(1 + area / 30), this.posY - (double)range + Math.random() * (double)range * 2.0 * (double)(1 + area / 30), this.posZ - (double)range + Math.random() * (double)range * 2.0 * (double)(1 + area / 30), 1.8f, 1.4f, 0.6f, 0.4f, -0.015f, 2.0f);
         }
         if (!this.worldObj.isRemote) {
-            AxisAlignedBB var6 = AxisAlignedBB.getBoundingBox(this.posX - (double)range, this.posY - (double)range, this.posZ - (double)range, this.posX + (double)range, this.posY + (double)range, this.posZ + (double)range);
+            AxisAlignedBB var6 = AxisAlignedBB.getBoundingBox((double)(this.posX - (double)range), (double)(this.posY - (double)range), (double)(this.posZ - (double)range), (double)(this.posX + (double)range), (double)(this.posY + (double)range), (double)(this.posZ + (double)range));
             List<EntityLiving> livings = this.worldObj.getEntitiesWithinAABB(EntityLiving.class, var6);
             if (this.ticksExisted % 5 == 0) {
                 for (EntityLiving var7 : livings) {
-                    var7.attackEntityFrom(this.thrower == null ? DamageSource.generic : DamageSource.causeMobDamage(this.thrower), this.getATK());
-                    var7.motionX *= 0.35f;
-                    var7.motionY *= 0.35f;
-                    var7.motionZ *= 0.35f;
+                    var7.attackEntityFrom(this.thrower == null ? DamageSource.generic : DamageSource.causeMobDamage((EntityLivingBase)this.thrower), this.getATK());
+                    var7.motionX *= (double)0.35f;
+                    var7.motionY *= (double)0.35f;
+                    var7.motionZ *= (double)0.35f;
                 }
             }
         }
@@ -66,7 +66,7 @@ implements IMinion {
     }
 
     public void setEvil(boolean evil) {
-        this.dataWatcher.updateObject(25, (byte)(evil ? 1 : 0));
+        this.dataWatcher.updateObject(25, (Object)((byte)(evil ? 1 : 0)));
     }
 
     public float getATK() {
@@ -74,12 +74,12 @@ implements IMinion {
     }
 
     public void setATK(float f) {
-        this.dataWatcher.updateObject(26, Float.valueOf(f));
+        this.dataWatcher.updateObject(26, (Object)Float.valueOf(f));
     }
 
     protected void entityInit() {
-        this.dataWatcher.addObject(25, 0);
-        this.dataWatcher.addObject(26, Float.valueOf(0.0f));
+        this.dataWatcher.addObject(25, (Object)0);
+        this.dataWatcher.addObject(26, (Object)Float.valueOf(0.0f));
     }
 
     protected void readEntityFromNBT(NBTTagCompound cmp) {

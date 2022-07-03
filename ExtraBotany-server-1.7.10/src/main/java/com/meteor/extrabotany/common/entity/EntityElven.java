@@ -64,9 +64,9 @@ extends EntityTameable {
         this.experienceValue = 3000;
         this.setTamed(false);
         this.getNavigator().setAvoidsWater(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, Float.MAX_VALUE));
-        this.tasks.addTask(2, new EntityAIFollowOwner(this, 1.0, 10.0f, 2.0f));
+        this.tasks.addTask(0, (EntityAIBase)new EntityAISwimming((EntityLiving)this));
+        this.tasks.addTask(1, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, Float.MAX_VALUE));
+        this.tasks.addTask(2, (EntityAIBase)new EntityAIFollowOwner((EntityTameable)this, 1.0, 10.0f, 2.0f));
     }
 
     public static boolean spawn(EntityPlayer player, double x, double y, double z) {
@@ -82,31 +82,31 @@ extends EntityTameable {
         e.setRGBS(2.3f, 2.3f, 1.0f, 3.0f);
         e.setTamed(true);
         e.setOwnerName(player.getUniqueID().toString());
-        player.worldObj.setEntityState(e, (byte)7);
+        player.worldObj.setEntityState((Entity)e, (byte)7);
         e.setMana(0);
         e.setMaxMana(0);
         e.setDelay(0);
         e.setPosition(x, y, z);
-        player.worldObj.spawnEntityInWorld(e);
+        player.worldObj.spawnEntityInWorld((Entity)e);
         return true;
     }
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(18, 0);
-        this.dataWatcher.addObject(19, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(20, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(21, 0);
-        this.dataWatcher.addObject(22, 0);
-        this.dataWatcher.addObject(23, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(24, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(25, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(26, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(27, Float.valueOf(0.0f));
-        this.dataWatcher.addObject(28, 0);
-        this.dataWatcher.addObject(29, 0);
-        this.dataWatcher.addObject(30, 0);
-        this.dataWatcher.addObject(31, 0);
+        this.dataWatcher.addObject(18, (Object)0);
+        this.dataWatcher.addObject(19, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(20, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(21, (Object)0);
+        this.dataWatcher.addObject(22, (Object)0);
+        this.dataWatcher.addObject(23, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(24, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(25, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(26, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(27, (Object)Float.valueOf(0.0f));
+        this.dataWatcher.addObject(28, (Object)0);
+        this.dataWatcher.addObject(29, (Object)0);
+        this.dataWatcher.addObject(30, (Object)0);
+        this.dataWatcher.addObject(31, (Object)0);
     }
 
     public int getAffinity() {
@@ -170,54 +170,54 @@ extends EntityTameable {
     }
 
     public void setAffinity(int affinity) {
-        this.dataWatcher.updateObject(18, affinity);
+        this.dataWatcher.updateObject(18, (Object)affinity);
     }
 
     public void setATK(float atk) {
-        this.dataWatcher.updateObject(19, Float.valueOf(atk));
+        this.dataWatcher.updateObject(19, (Object)Float.valueOf(atk));
     }
 
     public void setASPD(float aspd) {
-        this.dataWatcher.updateObject(20, Float.valueOf(aspd));
+        this.dataWatcher.updateObject(20, (Object)Float.valueOf(aspd));
     }
 
     public void setSitting(boolean b) {
-        this.dataWatcher.updateObject(21, (byte)(b ? 1 : 0));
+        this.dataWatcher.updateObject(21, (Object)((byte)(b ? 1 : 0)));
     }
 
     public void setLevel(int level) {
-        this.dataWatcher.updateObject(22, level);
+        this.dataWatcher.updateObject(22, (Object)level);
     }
 
     public void setRGBS(float r, float g, float b, float s) {
-        this.dataWatcher.updateObject(23, Float.valueOf(r));
-        this.dataWatcher.updateObject(24, Float.valueOf(g));
-        this.dataWatcher.updateObject(25, Float.valueOf(b));
-        this.dataWatcher.updateObject(26, Float.valueOf(s));
+        this.dataWatcher.updateObject(23, (Object)Float.valueOf(r));
+        this.dataWatcher.updateObject(24, (Object)Float.valueOf(g));
+        this.dataWatcher.updateObject(25, (Object)Float.valueOf(b));
+        this.dataWatcher.updateObject(26, (Object)Float.valueOf(s));
     }
 
     public void setOwnerName(String string) {
-        this.dataWatcher.updateObject(17, string);
+        this.dataWatcher.updateObject(17, (Object)string);
     }
 
     public void setRange(float range) {
-        this.dataWatcher.updateObject(27, Float.valueOf(range));
+        this.dataWatcher.updateObject(27, (Object)Float.valueOf(range));
     }
 
     public void setEXP(int exp) {
-        this.dataWatcher.updateObject(28, exp);
+        this.dataWatcher.updateObject(28, (Object)exp);
     }
 
     public void setDelay(int delay) {
-        this.dataWatcher.updateObject(29, delay);
+        this.dataWatcher.updateObject(29, (Object)delay);
     }
 
     public void setMana(int mana) {
-        this.dataWatcher.updateObject(30, mana);
+        this.dataWatcher.updateObject(30, (Object)mana);
     }
 
     public void setMaxMana(int maxmana) {
-        this.dataWatcher.updateObject(31, maxmana);
+        this.dataWatcher.updateObject(31, (Object)maxmana);
     }
 
     public void writeEntityToNBT(NBTTagCompound nbt) {
@@ -307,20 +307,20 @@ extends EntityTameable {
         var10000 = this.getASPD();
         var10001 = this.eh;
         float ASPD = var10000 + ElvenHandler.getExtraRange();
-        List<EntityXPOrb> xps = this.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, AxisAlignedBB.getBoundingBox(this.posX - (double)RANGE, this.posY - (double)RANGE, this.posZ - (double)RANGE, this.posX + (double)RANGE + 1.0, this.posY + (double)RANGE + 1.0, this.posZ + (double)RANGE + 1.0));
+        List<EntityXPOrb> xps = this.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)RANGE), (double)(this.posY - (double)RANGE), (double)(this.posZ - (double)RANGE), (double)(this.posX + (double)RANGE + 1.0), (double)(this.posY + (double)RANGE + 1.0), (double)(this.posZ + (double)RANGE + 1.0)));
         for (EntityXPOrb mobs : xps) {
             if (this.getLevel() < 100) {
                 this.setEXP(this.getEXP() + mobs.xpValue);
             }
             mobs.setDead();
         }
-        this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.posX - (double)RANGE, this.posY - (double)RANGE, this.posZ - (double)RANGE, this.posX + (double)RANGE + 1.0, this.posY + (double)RANGE + 1.0, this.posZ + (double)RANGE + 1.0));
+        this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)RANGE), (double)(this.posY - (double)RANGE), (double)(this.posZ - (double)RANGE), (double)(this.posX + (double)RANGE + 1.0), (double)(this.posY + (double)RANGE + 1.0), (double)(this.posZ + (double)RANGE + 1.0)));
         Botania.proxy.sparkleFX(this.worldObj, this.posX, this.posY, this.posZ, this.getR(), this.getG(), this.getB(), this.getSize(), 6);
         Botania.proxy.sparkleFX(this.worldObj, this.posX, this.posY, this.posZ, this.getR(), this.getG(), this.getB(), this.getSize() / 10.0f, 2);
         if (this.ticksExisted % 3600 == 0 && Math.random() > 0.7 && this.getAffinity() < 30) {
             this.setAffinity(this.getAffinity() + 1);
         }
-        List var10 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(this.posX - (double)this.getRange(), this.posY - (double)this.getRange(), this.posZ - (double)this.getRange(), this.posX + (double)this.getRange() + 1.0, this.posY + (double)this.getRange() + 1.0, this.posZ + (double)this.getRange() + 1.0));
+        List var10 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)this.getRange()), (double)(this.posY - (double)this.getRange()), (double)(this.posZ - (double)this.getRange()), (double)(this.posX + (double)this.getRange() + 1.0), (double)(this.posY + (double)this.getRange() + 1.0), (double)(this.posZ + (double)this.getRange() + 1.0)));
         int s = var10.size();
         if (this.getDelay() > 0) {
             this.setDelay(this.getDelay() - 1);
@@ -329,12 +329,12 @@ extends EntityTameable {
             do {
                 this.setDelay((int)(ASPD + 10.0f));
                 for (int i = 0; i < s + 1; ++i) {
-                    EntityMagicMissileII missile = new EntityMagicMissileII(this, false);
+                    EntityMagicMissileII missile = new EntityMagicMissileII((EntityLivingBase)this, false);
                     missile.setPosition(this.posX + (Math.random() - 0.05), this.posY + (double)0.68f + (Math.random() - 0.05), this.posZ + (Math.random() - 0.05));
                     missile.setATK(ATK);
                     if (!missile.getTarget()) continue;
-                    this.worldObj.playSoundAtEntity(this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
-                    this.worldObj.spawnEntityInWorld(missile);
+                    this.worldObj.playSoundAtEntity((Entity)this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
+                    this.worldObj.spawnEntityInWorld((Entity)missile);
                 }
             } while (s > 0 && this.getDelay() == 0 && ATK > 0.0f && ASPD > 0.0f);
         }

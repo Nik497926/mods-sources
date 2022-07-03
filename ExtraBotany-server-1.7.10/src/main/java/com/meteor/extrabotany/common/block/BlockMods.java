@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockMods
 extends Block {
-    private final String name;
+    private String name;
     private boolean isBeaconBase;
 
     public BlockMods(Material material, String name) {
@@ -19,7 +19,7 @@ extends Block {
         this.setBlockTextureName("ExtraBotania:" + name);
         this.setBlockName(name);
         this.setHardness(2.0f);
-        GameRegistry.registerBlock(this, name);
+        GameRegistry.registerBlock((Block)this, (String)name);
     }
 
     public String getName() {

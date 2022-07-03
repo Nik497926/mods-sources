@@ -60,7 +60,7 @@ IVisDiscountGear {
     }
 
     public void addAncientWill(ItemStack itemStack, int i) {
-        ItemNBTHelper.setBoolean(itemStack, "AncientWill" + i, true);
+        ItemNBTHelper.setBoolean((ItemStack)itemStack, (String)("AncientWill" + i), (boolean)true);
     }
 
     public boolean hasAncientWill(ItemStack itemStack, int i) {
@@ -68,7 +68,7 @@ IVisDiscountGear {
     }
 
     public static boolean hasAncientWill_(ItemStack stack, int will) {
-        return ItemNBTHelper.getBoolean(stack, "AncientWill" + will, false);
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)("AncientWill" + will), (boolean)false);
     }
 
     public boolean shouldGiveProficiency(ItemStack itemStack, int i, EntityPlayer entityPlayer) {
@@ -85,23 +85,23 @@ IVisDiscountGear {
     public void updateBurst(IManaBurst burst, ItemStack stack) {
         Entity i$1;
         EntityThrowable entity = (EntityThrowable)burst;
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
-        String attacker = ItemNBTHelper.getString(burst.getSourceLens(), "attackerUsername", "");
-        int homeID = ItemNBTHelper.getInt(stack, "homeID", -1);
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
+        String attacker = ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)"attackerUsername", (String)"");
+        int homeID = ItemNBTHelper.getInt((ItemStack)stack, (String)"homeID", (int)-1);
         if (homeID == -1) {
-            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
+            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
             List<EntityLivingBase> i$ = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entities);
             for (EntityLivingBase cost : i$) {
                 if (cost instanceof EntityPlayer || !(cost instanceof IMob) || cost.hurtTime != 0) continue;
                 homeID = cost.getEntityId();
-                ItemNBTHelper.setInt(stack, "homeID", homeID);
+                ItemNBTHelper.setInt((ItemStack)stack, (String)"homeID", (int)homeID);
                 break;
             }
         }
         List entities1 = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
         if (homeID != -1 && (i$1 = entity.worldObj.getEntityByID(homeID)) != null) {
-            Vector3 living1 = Vector3.fromEntityCenter(i$1);
-            Vector3 cost1 = Vector3.fromEntityCenter(entity);
+            Vector3 living1 = Vector3.fromEntityCenter((Entity)i$1);
+            Vector3 cost1 = Vector3.fromEntityCenter((Entity)entity);
             Vector3 mana = living1.sub(cost1);
             Vector3 damage = new Vector3(entity.motionX, entity.motionY, entity.motionZ);
             mana.normalize().multiply(damage.mag());
@@ -115,7 +115,7 @@ IVisDiscountGear {
     }
 
     public float getDiscount(ItemStack itemStack, int i, EntityPlayer entityPlayer) {
-        return ItemNBTHelper.getInt(itemStack, "level", 1) > 2 ? 5.0f : 0.0f;
+        return ItemNBTHelper.getInt((ItemStack)itemStack, (String)"level", (int)1) > 2 ? 5.0f : 0.0f;
     }
 
     public static void clearEffect(EntityPlayer player) {
@@ -127,7 +127,7 @@ IVisDiscountGear {
         } else {
             for (PotionEffect potion : potions) {
                 int id = potion.getPotionID();
-                boolean badEffect = (Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], new String[]{"isBadEffect", "isBadEffect"});
+                boolean badEffect = (Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], (String[])new String[]{"isBadEffect", "isBadEffect"});
                 if (!badEffect) continue;
                 player.removePotionEffect(id);
                 removed = true;

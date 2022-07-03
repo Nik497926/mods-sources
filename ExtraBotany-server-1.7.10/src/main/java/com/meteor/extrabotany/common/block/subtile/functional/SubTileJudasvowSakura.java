@@ -19,7 +19,7 @@ public class SubTileJudasvowSakura
 extends SubTileFunctional {
     private static final int RANGE = 5;
     private static final int DELAY = 20;
-    private final int cd = 0;
+    private int cd = 0;
     private String owner = "";
 
     public LexiconEntry getEntry() {
@@ -30,7 +30,7 @@ extends SubTileFunctional {
         if (!(entity instanceof EntityPlayer)) {
             return;
         }
-        this.owner = entity.getCommandSenderName();
+        this.owner = ((EntityPlayer)entity).getCommandSenderName();
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
 

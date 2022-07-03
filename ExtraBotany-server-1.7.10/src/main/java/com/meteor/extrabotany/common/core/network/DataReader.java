@@ -30,7 +30,7 @@ public class DataReader {
                 this.ID = this.dataStream.readByte();
             }
             catch (IOException var4) {
-                LogHelper.error("ExtraBotaniaDataReader (getID): " + var4);
+                LogHelper.error("ExtraBotaniaDataReader (getID): " + var4.toString(), new Object[0]);
                 var4.printStackTrace();
             }
         }
@@ -42,7 +42,7 @@ public class DataReader {
             value = this.dataStream.readInt();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getInt): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getInt): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -54,7 +54,7 @@ public class DataReader {
             value = this.dataStream.readFloat();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getFloat): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getFloat): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -66,7 +66,7 @@ public class DataReader {
             value = this.dataStream.readDouble();
         }
         catch (IOException var4) {
-            LogHelper.error("ExtraBotaniaDataReader (getDouble): " + var4);
+            LogHelper.error("ExtraBotaniaDataReader (getDouble): " + var4.toString(), new Object[0]);
             var4.printStackTrace();
         }
         return value;
@@ -78,7 +78,7 @@ public class DataReader {
             value = this.dataStream.readBoolean();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getBoolean): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getBoolean): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -90,7 +90,7 @@ public class DataReader {
             value = this.dataStream.readUTF();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getString): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getString): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -102,7 +102,7 @@ public class DataReader {
             value = this.dataStream.readByte();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getByte): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getByte): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -114,7 +114,7 @@ public class DataReader {
             value = this.dataStream.readShort();
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getShort): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getShort): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return value;
@@ -126,7 +126,7 @@ public class DataReader {
             value = this.dataStream.readLong();
         }
         catch (IOException var4) {
-            LogHelper.error("ExtraBotaniaDataReader (getLong): " + var4);
+            LogHelper.error("ExtraBotaniaDataReader (getLong): " + var4.toString(), new Object[0]);
             var4.printStackTrace();
         }
         return value;
@@ -138,11 +138,11 @@ public class DataReader {
             int e = this.dataStream.readInt();
             byte[] bytes = new byte[e];
             this.dataStream.read(bytes);
-            ByteBuf buf = Unpooled.copiedBuffer(bytes);
-            data = ByteBufUtils.readTag(buf);
+            ByteBuf buf = Unpooled.copiedBuffer((byte[])bytes);
+            data = ByteBufUtils.readTag((ByteBuf)buf);
         }
         catch (IOException var5) {
-            LogHelper.error("ExtraBotaniaDataReader (getNBTTagCompound): " + var5);
+            LogHelper.error("ExtraBotaniaDataReader (getNBTTagCompound): " + var5.toString(), new Object[0]);
             var5.printStackTrace();
         }
         return data;
@@ -155,7 +155,7 @@ public class DataReader {
             this.dataStream.read(remaining);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getRemainingBytes): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getRemainingBytes): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
         }
         return remaining;
@@ -166,7 +166,7 @@ public class DataReader {
         if (compound == null) {
             return null;
         }
-        ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
+        ItemStack stack = ItemStack.loadItemStackFromNBT((NBTTagCompound)compound);
         return stack;
     }
 
@@ -179,7 +179,7 @@ public class DataReader {
             return e;
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataReader (getIntArray): " + var3);
+            LogHelper.error("ExtraBotaniaDataReader (getIntArray): " + var3.toString(), new Object[0]);
             var3.printStackTrace();
             return new int[0];
         }

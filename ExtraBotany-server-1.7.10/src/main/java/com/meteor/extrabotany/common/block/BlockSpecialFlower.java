@@ -9,9 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.ITileEntityProvider;
@@ -61,7 +58,7 @@ IWandHUD {
         this.setHardness(0.1f);
         this.setStepSound(soundTypeGrass);
         this.setTickRandomly(false);
-        this.setCreativeTab(BotaniaCreativeTab.INSTANCE);
+        this.setCreativeTab((CreativeTabs)BotaniaCreativeTab.INSTANCE);
         this.setBlockBounds(0.3f, 0.0f, 0.3f, 0.8f, 1.0f, 0.8f);
     }
 
@@ -70,7 +67,7 @@ IWandHUD {
         if (currentLight == -1) {
             currentLight = 0;
         }
-        return LightHelper.getPackedColor(world.getBlockMetadata(x, y, z), currentLight);
+        return LightHelper.getPackedColor((int)world.getBlockMetadata(x, y, z), (int)currentLight);
     }
 
     public boolean hasComparatorInputOverride() {
@@ -98,15 +95,22 @@ IWandHUD {
     }
 
     public Block setBlockName(String par1Str) {
-        GameRegistry.registerBlock(this, ItemBlockSpecialFlower.class, par1Str);
+        GameRegistry.registerBlock((Block)this, ItemBlockSpecialFlower.class, (String)par1Str);
         return super.setBlockName(par1Str);
     }
 
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (String s : BotaniaAPI.subtilesForCreativeMenu) {
-            par3List.add(ItemBlockSpecialFlower.ofType(s));
-            if (!BotaniaAPI.miniFlowers.containsKey(s)) continue;
-            par3List.add(ItemBlockSpecialFlower.ofType(BotaniaAPI.miniFlowers.get(s)));
+            par3List.add(ItemBlockSpecialFlower.ofType((String)s));
+            if (!BotaniaAPI.miniFlowers.containsKey((Object)s)) continue;
+            par3List.add(ItemBlockSpecialFlower.ofType((String)((String)BotaniaAPI.miniFlowers.get((Object)s))));
+        }
+    }
+
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
+        for (String s : BotaniaAPI.getAllSubTiles()) {
+            if (s.isEmpty()) continue;
+            BotaniaAPI.getSignatureForName((String)s).registerIcons(par1IconRegister);
         }
     }
 
@@ -119,8 +123,8 @@ IWandHUD {
     }
 
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-        String name = ((TileSpecialFlower)world.getTileEntity(x, y, z)).subTileName;
-        return ItemBlockSpecialFlower.ofType(name);
+        String name = ((TileSpecialFlower)world.getTileEntity((int)x, (int)y, (int)z)).subTileName;
+        return ItemBlockSpecialFlower.ofType((String)name);
     }
 
     protected boolean canPlaceBlockOn(Block block) {
@@ -139,7 +143,7 @@ IWandHUD {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null) {
             String name = ((TileSpecialFlower)tile).subTileName;
-            list.add(ItemBlockSpecialFlower.ofType(name));
+            list.add(ItemBlockSpecialFlower.ofType((String)name));
             ((TileSpecialFlower)tile).getDrops(list);
         }
         return list;
@@ -148,7 +152,7 @@ IWandHUD {
     public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6) {
         super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
         TileEntity tileentity = par1World.getTileEntity(par2, par3, par4);
-        return tileentity != null && tileentity.receiveClientEvent(par5, par6);
+        return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
     }
 
     public TileEntity createNewTileEntity(World world, int meta) {
@@ -186,7 +190,6 @@ IWandHUD {
         return ((TileSpecialFlower)world.getTileEntity(x, y, z)).onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     }
 
-    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
         ((TileSpecialFlower)world.getTileEntity(x, y, z)).renderHUD(mc, res);
     }

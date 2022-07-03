@@ -19,8 +19,8 @@ public class ItemMermaidDagger
 extends ItemSword {
     public ItemMermaidDagger(Item.ToolMaterial p_i45356_1_, String name) {
         super(p_i45356_1_);
-        this.setUnlocalizedName(name).setCreativeTab(ExtraBotany.tabExtraBotany).setMaxStackSize(1).setTextureName("ExtraBotania:" + name);
-        GameRegistry.registerItem(this, name);
+        this.setUnlocalizedName(name).setCreativeTab((CreativeTabs)ExtraBotany.tabExtraBotany).setMaxStackSize(1).setTextureName("ExtraBotania:" + name);
+        GameRegistry.registerItem((Item)this, (String)name);
     }
 
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {

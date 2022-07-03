@@ -21,8 +21,8 @@ import vazkii.botania.common.block.BlockSpecialFlower;
 public class SubTileNumeronbalsam
 extends SubTileGenerating {
     private int cd = 0;
-    private final int DELAY = 100;
-    private final int RANGE = 3;
+    private int DELAY = 100;
+    private int RANGE = 3;
 
     public int getColor() {
         return 16406359;
@@ -42,7 +42,7 @@ extends SubTileGenerating {
             return;
         }
         this.cd = 0;
-        List ent = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(this.supertile.xCoord - this.RANGE, this.supertile.yCoord - this.RANGE, this.supertile.zCoord - this.RANGE, this.supertile.xCoord + this.RANGE + 1, this.supertile.yCoord + this.RANGE + 1, this.supertile.zCoord + this.RANGE + 1));
+        List ent = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)(this.supertile.xCoord - this.RANGE), (double)(this.supertile.yCoord - this.RANGE), (double)(this.supertile.zCoord - this.RANGE), (double)(this.supertile.xCoord + this.RANGE + 1), (double)(this.supertile.yCoord + this.RANGE + 1), (double)(this.supertile.zCoord + this.RANGE + 1)));
         if (ent.size() == 0) {
             return;
         }
@@ -58,7 +58,7 @@ extends SubTileGenerating {
         if (!(inItem.getItem() instanceof ItemBlock)) {
             return;
         }
-        Block inItemBlock = Block.getBlockFromItem(inItem.getItem());
+        Block inItemBlock = Block.getBlockFromItem((Item)inItem.getItem());
         if (!(inItemBlock instanceof BlockSpecialFlower) && !(inItemBlock instanceof BlockFloatingSpecialFlower)) {
             return;
         }
@@ -70,7 +70,7 @@ extends SubTileGenerating {
         --inItem.stackSize;
         if (inItem.stackSize > 0) {
             EntityItem outItemEntity = new EntityItem(this.supertile.getWorldObj(), posIn[0], posIn[1], posIn[2], inItem);
-            this.supertile.getWorldObj().spawnEntityInWorld(outItemEntity);
+            this.supertile.getWorldObj().spawnEntityInWorld((Entity)outItemEntity);
         }
         this.mana = this.getMaxMana() - this.mana < 1000 ? this.getMaxMana() : (this.mana += 1000);
     }

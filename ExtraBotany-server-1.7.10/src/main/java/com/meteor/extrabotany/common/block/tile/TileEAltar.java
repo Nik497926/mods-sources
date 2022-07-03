@@ -35,7 +35,7 @@ implements ISidedInventory {
     private ItemStack[] chestContents = new ItemStack[72];
     private int playersUsing;
     private TileEntity $tile = null;
-    private String recipe = "";
+    private String recipe = new String();
     private int needEfir = 0;
     private int tick = 0;
     private int[] withConnect = new int[0];
@@ -93,7 +93,7 @@ implements ISidedInventory {
             item.stackSize = this.getInventoryStackLimit();
         }
         this.markDirty();
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public String getInventoryName() {
@@ -109,7 +109,7 @@ implements ISidedInventory {
     }
 
     public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && p_70300_1_.getDistanceSq((double) this.xCoord + 0.5, (double) this.yCoord + 0.5, (double) this.zCoord + 0.5) <= 64.0;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : p_70300_1_.getDistanceSq((double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5) <= 64.0;
     }
 
     public void openInventory() {
@@ -139,7 +139,7 @@ implements ISidedInventory {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xFF;
             if (j < 0 || j >= this.chestContents.length) continue;
-            this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+            this.chestContents[j] = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbttagcompound1);
         }
         if (nbt.hasKey("link")) {
             NBTTagCompound _n = nbt.getCompoundTag("link");
@@ -148,7 +148,7 @@ implements ISidedInventory {
             int zc = _n.getInteger("z");
             this.withConnect = new int[]{xc, yc, zc};
         }
-        this.recipe = nbt.hasKey("recipe") ? nbt.getString("recipe") : "";
+        this.recipe = nbt.hasKey("recipe") ? nbt.getString("recipe") : new String();
         this.needEfir = nbt.hasKey("needEfir") ? nbt.getInteger("needEfir") : 0;
     }
 
@@ -160,15 +160,15 @@ implements ISidedInventory {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setByte("Slot", (byte)i);
             this.chestContents[i].writeToNBT(nbttagcompound1);
-            nbttaglist.appendTag(nbttagcompound1);
+            nbttaglist.appendTag((NBTBase)nbttagcompound1);
         }
-        nbt.setTag("Items", nbttaglist);
+        nbt.setTag("Items", (NBTBase)nbttaglist);
         if (this.$tile != null) {
             NBTTagCompound _n = new NBTTagCompound();
             _n.setInteger("x", this.$tile.xCoord);
             _n.setInteger("y", this.$tile.yCoord);
             _n.setInteger("z", this.$tile.zCoord);
-            nbt.setTag("link", _n);
+            nbt.setTag("link", (NBTBase)_n);
         }
         if (!this.recipe.isEmpty()) {
             nbt.setString("recipe", this.recipe);
@@ -248,7 +248,7 @@ implements ISidedInventory {
         }
         if (this.$tile != null && !((te = this.worldObj.getTileEntity(this.$tile.xCoord, this.$tile.yCoord, this.$tile.zCoord)) instanceof TileBlockPoolEfir)) {
             this.$tile = null;
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
         }
         if (this.getStackInSlot(4) == null && this.$tile != null && this.$tile instanceof TileBlockPoolEfir && !this.recipe.isEmpty()) {
             if (this.needEfir > 0 && ((TileBlockPoolEfir)this.$tile).getEfir() > 5) {
@@ -261,25 +261,25 @@ implements ISidedInventory {
                 this.needEfir -= 5;
                 SimpleNetworkWrapper packhand = PacketHandler.INSTANCE;
                 PacketFXEssentiaSource essentiaSource = new PacketFXEssentiaSource(this.xCoord, this.yCoord, this.zCoord, (byte)(this.xCoord - this.$tile.xCoord), (byte)(this.yCoord - this.$tile.yCoord), (byte)(this.zCoord - this.$tile.zCoord), Aspect.LIFE.getColor());
-                packhand.sendToAllAround(essentiaSource, new NetworkRegistry.TargetPoint(this.getWorldObj().provider.dimensionId, this.xCoord, (double)this.yCoord + 0.5, this.zCoord, 32.0));
+                packhand.sendToAllAround((IMessage)essentiaSource, new NetworkRegistry.TargetPoint(this.getWorldObj().provider.dimensionId, (double)this.xCoord, (double)this.yCoord + 0.5, (double)this.zCoord, 32.0));
             } else if (this.needEfir <= 0) {
                 ItemStack out = ModEAltarRecipe.instance.getOutput(this.recipe);
                 NBTTagList ench = null;
                 for (int i = 0; i < 4; ++i) {
                     NBTTagList _n;
-                    if (this.getStackInSlot(i) != null && this.getStackInSlot(i).getItem() instanceof ItemAwakeOGArmor && (_n = ItemNBTHelper.getList(this.getStackInSlot(i), "ench", 10, true)) != null) {
+                    if (this.getStackInSlot(i) != null && this.getStackInSlot(i).getItem() instanceof ItemAwakeOGArmor && (_n = ItemNBTHelper.getList((ItemStack)this.getStackInSlot(i), (String)"ench", (int)10, (boolean)true)) != null) {
                         ench = _n;
                     }
                     this.setInventorySlotContents(i, null);
                 }
                 if (ench != null) {
-                    ItemNBTHelper.setList(out, "ench", ench);
+                    ItemNBTHelper.setList((ItemStack)out, (String)"ench", ench);
                 }
                 this.setInventorySlotContents(4, out);
-                this.recipe = "";
+                this.recipe = new String();
             }
         }
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public int getEfir() {
@@ -290,7 +290,7 @@ implements ISidedInventory {
         if (te != null && te instanceof TileBlockPoolEfir) {
             this.$tile = te;
         }
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public String getRecipe() {

@@ -3,13 +3,12 @@
  */
 package com.meteor.extrabotany.common.block;
 
+import com.meteor.extrabotany.client.render.block.RenderElfPool;
+import com.meteor.extrabotany.common.block.BlockModContainer;
 import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -60,12 +59,12 @@ ICraftAchievement {
 
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister) {
-        manaIcon = IconHelper.forName(par1IconRegister, "manaWater");
+        manaIcon = IconHelper.forName((IIconRegister)par1IconRegister, (String)"manaWater");
     }
 
     @Override
     public Block setBlockName(String par1Str) {
-        GameRegistry.registerBlock(this, ItemBlockPool.class, par1Str);
+        GameRegistry.registerBlock((Block)this, ItemBlockPool.class, (String)par1Str);
         return super.setBlockName(par1Str);
     }
 
@@ -87,7 +86,7 @@ ICraftAchievement {
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
         if (!this.lastFragile) {
-            drops.add(new ItemStack(this, 1, metadata));
+            drops.add(new ItemStack((Block)this, 1, metadata));
         }
         return drops;
     }
@@ -123,6 +122,10 @@ ICraftAchievement {
         return ModBlocks.livingrock.getIcon(par1, 0);
     }
 
+    public int getRenderType() {
+        return RenderElfPool.ID;
+    }
+
     public boolean hasComparatorInputOverride() {
         return true;
     }
@@ -141,9 +144,8 @@ ICraftAchievement {
         return true;
     }
 
-    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
-
+        ((TileElfPool)world.getTileEntity(x, y, z)).renderHUD(mc, res);
     }
 
     public LexiconEntry getEntry(World world, int i, int i1, int i2, EntityPlayer entityPlayer, ItemStack itemStack) {

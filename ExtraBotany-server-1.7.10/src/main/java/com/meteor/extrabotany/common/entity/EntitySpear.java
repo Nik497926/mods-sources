@@ -33,7 +33,7 @@ extends EntityThrowable {
 
     protected void entityInit() {
         this.setSize(0.0f, 0.0f);
-        this.dataWatcher.addObject(20, 0);
+        this.dataWatcher.addObject(20, (Object)0);
     }
 
     public void onUpdate() {
@@ -45,17 +45,17 @@ extends EntityThrowable {
         } else {
             EntityPlayer player = (EntityPlayer)thrower;
             if (!this.worldObj.isRemote) {
-                AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.lastTickPosX, this.lastTickPosY, this.lastTickPosZ).expand(2.0, 2.0, 2.0);
+                AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)this.posX, (double)this.posY, (double)this.posZ, (double)this.lastTickPosX, (double)this.lastTickPosY, (double)this.lastTickPosZ).expand(2.0, 2.0, 2.0);
                 List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
                 for (EntityLivingBase living : entities) {
                     if (living == thrower || living.hurtTime != 0) continue;
                     if (player != null) {
-                        living.attackEntityFrom(DamageSource.causePlayerDamage(player), 12.0f);
+                        living.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)player), 12.0f);
                         living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 40, 8));
                     } else {
                         living.attackEntityFrom(DamageSource.generic, 12.0f);
                     }
-                    this.onImpact(new MovingObjectPosition(living));
+                    this.onImpact(new MovingObjectPosition((Entity)living));
                     return;
                 }
             }
@@ -69,7 +69,7 @@ extends EntityThrowable {
     protected void onImpact(MovingObjectPosition pos) {
         EntityLivingBase thrower = this.getThrower();
         if (pos.entityHit == null || pos.entityHit != thrower) {
-            WorldHandler.createMagicExplosion(this, this.posX, this.posY, this.posZ, 2.0f, false);
+            WorldHandler.createMagicExplosion((Entity)this, this.posX, this.posY, this.posZ, 2.0f, false);
             this.setDead();
         }
     }
@@ -79,7 +79,7 @@ extends EntityThrowable {
     }
 
     public void setDelay(int i) {
-        this.dataWatcher.updateObject(20, i);
+        this.dataWatcher.updateObject(20, (Object)i);
     }
 
     public void writeEntityToNBT(NBTTagCompound cmp) {

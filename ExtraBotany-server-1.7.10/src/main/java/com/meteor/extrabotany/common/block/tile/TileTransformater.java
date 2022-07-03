@@ -3,16 +3,22 @@
  */
 package com.meteor.extrabotany.common.block.tile;
 
+import com.meteor.extrabotany.common.block.tile.TileBlockPoolEfir;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.Color;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -40,13 +46,13 @@ IInventory,
 ISparkAttachable {
     private int stageCenter = 0;
     private int tick = 0;
-    private final NBTTagCompound nbtall = new NBTTagCompound();
+    private NBTTagCompound nbtall = new NBTTagCompound();
     private ItemStack[] chestContents = new ItemStack[72];
     private int playersUsing;
     private int manaRequired = 0;
     private int mana = 0;
     private int efir = 0;
-    private final int serverTick = 0;
+    private int serverTick = 0;
     private int[] withConnect = new int[0];
 
     public int getEfir() {
@@ -55,7 +61,7 @@ ISparkAttachable {
 
     public void linkPool(TileEntity tile) {
         this.withConnect = new int[]{tile.xCoord, tile.yCoord, tile.zCoord};
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public boolean hasLink() {
@@ -67,7 +73,7 @@ ISparkAttachable {
         if (this.chestContents[0] != null) {
             NBTTagCompound _item = new NBTTagCompound();
             this.chestContents[0].writeToNBT(_item);
-            nbt.setTag("Item", _item);
+            nbt.setTag("Item", (NBTBase)_item);
         }
         nbt.setInteger("mana", this.mana);
         nbt.setInteger("needMana", this.manaRequired);
@@ -77,7 +83,7 @@ ISparkAttachable {
             _n.setInteger("x", this.withConnect[0]);
             _n.setInteger("y", this.withConnect[1]);
             _n.setInteger("z", this.withConnect[2]);
-            nbt.setTag("link", _n);
+            nbt.setTag("link", (NBTBase)_n);
         }
     }
 
@@ -85,7 +91,7 @@ ISparkAttachable {
         super.readFromNBT(nbt);
         this.chestContents = new ItemStack[this.getSizeInventory()];
         if (nbt.hasKey("Item")) {
-            this.chestContents[0] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
+            this.chestContents[0] = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbt.getCompoundTag("Item"));
         }
         if (nbt.hasKey("mana")) {
             this.mana = nbt.getInteger("mana");
@@ -129,7 +135,7 @@ ISparkAttachable {
                 this.tick = 0;
             }
             if (this.getStackInSlot(0) != null) {
-                Vector3 vec = Vector3.fromTileEntityCenter(this);
+                Vector3 vec = Vector3.fromTileEntityCenter((TileEntity)this);
                 Vector3 endVec = null;
                 if (this.stageCenter == 0) {
                     endVec = Math.random() >= 0.5 ? vec.copy().add(0.5, 0.0, 0.0) : vec.copy().add(-0.5, 0.0, -0.5);
@@ -144,7 +150,7 @@ ISparkAttachable {
         }
         if (this.withConnect.length == 3 && !((te = this.worldObj.getTileEntity(this.withConnect[0], this.withConnect[1], this.withConnect[2])) instanceof TileBlockPoolEfir)) {
             this.withConnect = new int[0];
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
         }
         if (this.getStackInSlot(0) != null) {
             if (Math.floor(this.mana / 10000) > 0.0) {
@@ -162,9 +168,9 @@ ISparkAttachable {
             this.efir -= 5;
             SimpleNetworkWrapper packhand = PacketHandler.INSTANCE;
             PacketFXEssentiaSource essentiaSource = new PacketFXEssentiaSource(te.xCoord, te.yCoord, te.zCoord, (byte)(te.xCoord - this.xCoord), (byte)(te.yCoord - this.yCoord), (byte)(te.zCoord - this.zCoord), Aspect.LIFE.getColor());
-            packhand.sendToAllAround(essentiaSource, new NetworkRegistry.TargetPoint(this.getWorldObj().provider.dimensionId, te.xCoord, (double)te.yCoord + 1.0, te.zCoord, 32.0));
+            packhand.sendToAllAround((IMessage)essentiaSource, new NetworkRegistry.TargetPoint(this.getWorldObj().provider.dimensionId, (double)te.xCoord, (double)te.yCoord + 1.0, (double)te.zCoord, 32.0));
         }
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public void onStart(ItemStack stack) {
@@ -235,7 +241,7 @@ ISparkAttachable {
             item.stackSize = this.getInventoryStackLimit();
         }
         this.markDirty();
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public String getInventoryName() {
@@ -251,7 +257,7 @@ ISparkAttachable {
     }
 
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && entityPlayer.getDistanceSq((double) this.xCoord + 0.5, (double) this.yCoord + 0.5, (double) this.zCoord + 0.5) <= 64.0;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityPlayer.getDistanceSq((double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5) <= 64.0;
     }
 
     public void openInventory() {
@@ -285,7 +291,7 @@ ISparkAttachable {
     }
 
     public ISparkEntity getAttachedSpark() {
-        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord + 1, this.zCoord, this.xCoord + 1, this.yCoord + 2, this.zCoord + 1));
+        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)(this.yCoord + 1), (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 2), (double)(this.zCoord + 1)));
         if (sparks.size() == 1) {
             Entity e = (Entity)sparks.get(0);
             return (ISparkEntity)e;
@@ -318,6 +324,26 @@ ISparkAttachable {
             return new ChunkCoordinates(this.withConnect[0], this.withConnect[1], this.withConnect[2]);
         }
         return new ChunkCoordinates(0, -1, 0);
+    }
+
+    public void renderHUD(Minecraft minecraft, ScaledResolution res, World world, int i, int i1, int i2) {
+        String s0;
+        int x = res.getScaledWidth() / 2;
+        int y = res.getScaledHeight() / 2 - 8;
+        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+        GL11.glDisable((int)2929);
+        if (this.getStackInSlot(0) != null) {
+            RenderHelper.renderProgressPie((int)(x - 8), (int)(y - 5), (float)((float)this.mana / 10000.0f), (ItemStack)this.getStackInSlot(0));
+            s0 = Integer.toString(this.mana);
+            minecraft.fontRenderer.drawString(s0 + "\u00a7r", x - 27 - s0.length() * 5, y, new Color(52735).getRGB());
+            minecraft.fontRenderer.drawString(Integer.toString(this.manaRequired) + "\u00a7r", x + 27, y, new Color(52735).getRGB());
+        }
+        HUDHandler.renderManaBar((int)(x - 50), (int)(y + 15), (int)0xFF3333, (float)0.75f, (int)this.efir, (int)1000000);
+        s0 = Integer.toString(this.efir);
+        minecraft.fontRenderer.drawString(s0 + "\u00a7r", x - 27 - s0.length() * 5, y + 27, new Color(16747677).getRGB());
+        minecraft.fontRenderer.drawString("1000000\u00a7r", x + 27, y + 27, new Color(16747677).getRGB());
+        minecraft.fontRenderer.drawString("\u042d\u0444\u0438\u0440\u00a7r", x - "\u042d\u0444\u0438\u0440".length() * 5 / 2, y + 27, new Color(16747677).getRGB());
+        GL11.glEnable((int)2929);
     }
 }
 

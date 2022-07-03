@@ -3,10 +3,12 @@
  */
 package com.meteor.extrabotany.common.block;
 
+import com.meteor.extrabotany.common.block.BlockModContainer;
 import com.meteor.extrabotany.common.block.tile.TileRelicPlate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -34,7 +36,7 @@ implements ILexiconable {
         this.setResistance(10.0f);
         this.setStepSound(Block.soundTypeMetal);
         this.setBlockName("relicplate");
-        BotaniaAPI.blacklistBlockFromMagnet(this, Short.MAX_VALUE);
+        BotaniaAPI.blacklistBlockFromMagnet((Block)this, (int)Short.MAX_VALUE);
     }
 
     public boolean onBlockActivated(World worldObj, int x, int y, int z, EntityPlayer player, int s, float xs, float ys, float zs) {
@@ -43,7 +45,7 @@ implements ILexiconable {
             if (player == null || !player.capabilities.isCreativeMode) {
                 --stack.stackSize;
                 if (stack.stackSize == 0 && player != null) {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                 }
             }
             ItemStack target = stack.copy();
@@ -54,7 +56,7 @@ implements ILexiconable {
             item.motionY = 0.0;
             item.motionX = 0.0;
             if (!worldObj.isRemote) {
-                worldObj.spawnEntityInWorld(item);
+                worldObj.spawnEntityInWorld((Entity)item);
             }
             return true;
         }
@@ -71,6 +73,15 @@ implements ILexiconable {
 
     public boolean getBlocksMovement(IBlockAccess p_149655_1_, int p_149655_2_, int p_149655_3_, int p_149655_4_) {
         return false;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
+        this.icons = new IIcon[3];
+        for (int i = 0; i < this.icons.length; ++i) {
+            this.icons[i] = IconHelper.forBlock((IIconRegister)par1IconRegister, (Block)this, (int)i);
+        }
+        overlay = IconHelper.forBlock((IIconRegister)par1IconRegister, (Block)this, (String)"overlay");
     }
 
     public IIcon getIcon(int par1, int par2) {

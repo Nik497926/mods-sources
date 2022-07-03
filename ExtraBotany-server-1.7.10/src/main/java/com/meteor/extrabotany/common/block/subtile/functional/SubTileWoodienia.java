@@ -38,15 +38,15 @@ extends SubTileFunctional {
             return;
         }
         this.cd = 0;
-        List sheep = this.supertile.getWorldObj().getEntitiesWithinAABB(EntitySheep.class, AxisAlignedBB.getBoundingBox(this.supertile.xCoord - 5, this.supertile.yCoord - 5, this.supertile.zCoord - 5, this.supertile.xCoord + 5 + 1, this.supertile.yCoord + 5 + 1, this.supertile.zCoord + 5 + 1));
+        List sheep = this.supertile.getWorldObj().getEntitiesWithinAABB(EntitySheep.class, AxisAlignedBB.getBoundingBox((double)(this.supertile.xCoord - 5), (double)(this.supertile.yCoord - 5), (double)(this.supertile.zCoord - 5), (double)(this.supertile.xCoord + 5 + 1), (double)(this.supertile.yCoord + 5 + 1), (double)(this.supertile.zCoord + 5 + 1)));
         if (sheep.size() == 0) {
             return;
         }
         int rand = 0 + (int)(Math.random() * (double)(sheep.size() - 1));
         EntitySheep ent = (EntitySheep)sheep.get(rand);
-        Vector3 vec = Vector3.fromTileEntityCenter(this.supertile);
+        Vector3 vec = Vector3.fromTileEntityCenter((TileEntity)this.supertile);
         int[] pos = new int[]{(int)ent.posX - this.supertile.xCoord, (int)ent.posY - this.supertile.yCoord, (int)ent.posZ - this.supertile.zCoord};
-        Vector3 endVec = vec.copy().add(pos[0], pos[1], pos[2]);
+        Vector3 endVec = vec.copy().add((double)pos[0], (double)pos[1], (double)pos[2]);
         if (!this.supertile.getWorldObj().isRemote) {
             Botania.proxy.lightningFX(this.supertile.getWorldObj(), vec, endVec, 2.0f, 38027, 58583);
         }

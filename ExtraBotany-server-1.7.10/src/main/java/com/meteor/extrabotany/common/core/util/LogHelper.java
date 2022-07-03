@@ -8,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LogHelper {
-    private static final Logger logger = LogManager.getLogger("ArsMagica2");
+    private static Logger logger = LogManager.getLogger((String)"ArsMagica2");
 
     public static void log(Level level, String format, Object ... data) {
         logger.log(level, String.format(format, data));

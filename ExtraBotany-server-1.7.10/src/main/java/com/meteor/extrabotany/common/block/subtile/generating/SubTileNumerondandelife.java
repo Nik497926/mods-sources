@@ -17,8 +17,8 @@ extends SubTileGenerating {
     private static int isEnable = 0;
     private static final String TAG_ISENABLE = "enable";
     private static final int DELAY = 8000;
-    private static final ArrayList<String> coords = new ArrayList();
-    private static final ArrayList<Long> timer = new ArrayList();
+    private static ArrayList<String> coords = new ArrayList();
+    private static ArrayList<Long> timer = new ArrayList();
     public static DamageSource magic = new DamageSource("magic").setDamageBypassesArmor().setMagicDamage();
 
     public int getColor() {

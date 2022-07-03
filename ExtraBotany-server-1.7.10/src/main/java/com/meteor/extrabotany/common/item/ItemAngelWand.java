@@ -34,31 +34,31 @@ implements IManaUsingItem {
 
     public void onUpdate(ItemStack stack, World world, Entity par3Entity, int p_77663_4_, boolean p_77663_5_) {
         if (par3Entity instanceof EntityPlayer) {
-            int ticksTillExpire = ItemNBTHelper.getInt(stack, TAG_TICKS_TILL_EXPIRE, 0);
+            int ticksTillExpire = ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_TICKS_TILL_EXPIRE, (int)0);
             if (ticksTillExpire == 0) {
-                ItemNBTHelper.setInt(stack, TAG_TARGET, -1);
-                ItemNBTHelper.setDouble(stack, TAG_DIST, -1.0);
+                ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_TARGET, (int)-1);
+                ItemNBTHelper.setDouble((ItemStack)stack, (String)TAG_DIST, (double)-1.0);
             }
-            ItemNBTHelper.setInt(stack, TAG_TICKS_TILL_EXPIRE, --ticksTillExpire);
+            ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_TICKS_TILL_EXPIRE, (int)(--ticksTillExpire));
         }
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         Vector3 playerVector;
         super.onItemRightClick(stack, world, player);
-        int targetID = ItemNBTHelper.getInt(stack, TAG_TARGET, -1);
-        double length = ItemNBTHelper.getDouble(stack, TAG_DIST, -1.0);
+        int targetID = ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_TARGET, (int)-1);
+        double length = ItemNBTHelper.getDouble((ItemStack)stack, (String)TAG_DIST, (double)-1.0);
         Object item = null;
         if (targetID != -1 && player.worldObj.getEntityByID(targetID) != null) {
             Entity targetEntity = player.worldObj.getEntityByID(targetID);
             boolean sourceVector = false;
-            playerVector = Vector3.fromEntityCenter(player);
+            playerVector = Vector3.fromEntityCenter((Entity)player);
             List motion = new ArrayList();
-            for (int distance = 1; motion.size() == 0 && distance < 45; ++distance) {
-                playerVector.add(new Vector3(player.getLookVec()).multiply(distance));
+            for (int distance = 1; ((List)motion).size() == 0 && distance < 45; ++distance) {
+                playerVector.add(new Vector3(player.getLookVec()).multiply((double)distance));
                 playerVector.y += 0.5;
-                motion = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, AxisAlignedBB.getBoundingBox(playerVector.x - 1.5, playerVector.y - 1.5, playerVector.z - 1.5, playerVector.x + 1.5, playerVector.y + 1.5, playerVector.z + 1.5));
-                if (!motion.contains(targetEntity)) continue;
+                motion = player.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)player, AxisAlignedBB.getBoundingBox((double)(playerVector.x - 1.5), (double)(playerVector.y - 1.5), (double)(playerVector.z - 1.5), (double)(playerVector.x + 1.5), (double)(playerVector.y + 1.5), (double)(playerVector.z + 1.5)));
+                if (!((List)motion).contains(targetEntity)) continue;
                 sourceVector = true;
             }
             if (sourceVector) {
@@ -66,15 +66,15 @@ implements IManaUsingItem {
             }
         }
         if (item == null) {
-            Vector3 var13 = Vector3.fromEntityCenter(player);
+            Vector3 var13 = Vector3.fromEntityCenter((Entity)player);
             List var15 = new ArrayList();
-            for (int var16 = 1; var15.size() == 0 && var16 < 45; ++var16) {
-                var13.add(new Vector3(player.getLookVec()).multiply(var16));
+            for (int var16 = 1; ((List)var15).size() == 0 && var16 < 45; ++var16) {
+                var13.add(new Vector3(player.getLookVec()).multiply((double)var16));
                 var13.y += 0.5;
-                var15 = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, AxisAlignedBB.getBoundingBox(var13.x - 1.5, var13.y - 1.5, var13.z - 1.5, var13.x + 1.5, var13.y + 1.5, var13.z + 1.5));
+                var15 = player.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)player, AxisAlignedBB.getBoundingBox((double)(var13.x - 1.5), (double)(var13.y - 1.5), (double)(var13.z - 1.5), (double)(var13.x + 1.5), (double)(var13.y + 1.5), (double)(var13.z + 1.5)));
             }
-            if (var15.size() > 0) {
-                item = var15.get(0);
+            if (((List)var15).size() > 0) {
+                item = (Entity)((List)var15).get(0);
                 length = 5.5;
                 if (item instanceof EntityItem) {
                     length = 2.0;
@@ -85,22 +85,22 @@ implements IManaUsingItem {
             if (BotaniaAPI.isEntityBlacklistedFromGravityRod(item.getClass())) {
                 return stack;
             }
-            if (ManaItemHandler.requestManaExactForTool(stack, player, 1, true)) {
+            if (ManaItemHandler.requestManaExactForTool((ItemStack)stack, (EntityPlayer)player, (int)1, (boolean)true)) {
                 if (item instanceof EntityLivingBase) {
                     EntityLivingBase var14 = (EntityLivingBase)item;
                     Vector3 var17 = new Vector3(var14.posX + 0.5, var14.posY + 0.5, var14.posZ + 0.5);
-                    playerVector = Vector3.fromEntityCenter(player);
+                    playerVector = Vector3.fromEntityCenter((Entity)player);
                     Vector3 var18 = var17.copy().sub(playerVector).copy().normalize();
                     player.motionX = var18.x * (double)1.4f;
                     player.motionY = var18.y + 0.05;
                     player.motionZ = var18.z * (double)1.4f;
                 }
-                ItemNBTHelper.setInt(stack, TAG_TARGET, (int) ((Entity) item).getEntityId());
-                ItemNBTHelper.setDouble(stack, TAG_DIST, length);
+                ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_TARGET, (int)((Entity) item).getEntityId());
+                ItemNBTHelper.setDouble((ItemStack)stack, (String)TAG_DIST, (double)length);
             }
         }
         if (item != null) {
-            ItemNBTHelper.setInt(stack, TAG_TICKS_TILL_EXPIRE, 5);
+            ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_TICKS_TILL_EXPIRE, (int)5);
         }
         return stack;
     }

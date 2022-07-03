@@ -91,7 +91,7 @@ implements ISparkAttachable {
 
     EntityItem[] getItemNearElf(List a) {
         EntityItem[] elf = new EntityItem[4];
-        for (int i = 0; i < Math.min(127, a.size()); i = (byte)(i + 1)) {
+        for (int i = 0; i < Math.min(127, a.size()); i = (int)((byte)(i + 1))) {
             EntityItem b = (EntityItem)a.get(i);
             if (b.age <= 25 || b.isDead) continue;
             ItemStack c = ((EntityItem)a.get(i)).getEntityItem();
@@ -115,7 +115,7 @@ implements ISparkAttachable {
 
     EntityItem[] getItemNearArm(List a) {
         EntityItem[] elf = new EntityItem[4];
-        for (int i = 0; i < Math.min(127, a.size()); i = (byte)(i + 1)) {
+        for (int i = 0; i < Math.min(127, a.size()); i = (int)((byte)(i + 1))) {
             EntityItem b = (EntityItem)a.get(i);
             if (b.age <= 25 || b.isDead) continue;
             ItemStack c = ((EntityItem)a.get(i)).getEntityItem();
@@ -123,7 +123,7 @@ implements ISparkAttachable {
                 elf[0] = b;
                 continue;
             }
-            if (c != null && c.getItem() instanceof ItemBlock && Block.getBlockFromItem(c.getItem()) instanceof BlockElfirium) {
+            if (c != null && c.getItem() instanceof ItemBlock && Block.getBlockFromItem((Item)c.getItem()) instanceof BlockElfirium) {
                 elf[1] = b;
                 continue;
             }
@@ -139,7 +139,7 @@ implements ISparkAttachable {
 
     EntityItem[] getItemNearPick(List a) {
         EntityItem[] elf = new EntityItem[4];
-        for (int i = 0; i < Math.min(127, a.size()); i = (byte)(i + 1)) {
+        for (int i = 0; i < Math.min(127, a.size()); i = (int)((byte)(i + 1))) {
             EntityItem b = (EntityItem)a.get(i);
             if (b.age <= 25 || b.isDead) continue;
             ItemStack c = ((EntityItem)a.get(i)).getEntityItem();
@@ -147,7 +147,7 @@ implements ISparkAttachable {
                 elf[0] = b;
                 continue;
             }
-            if (c != null && c.getItem() instanceof ItemBlock && Block.getBlockFromItem(c.getItem()) instanceof BlockElfirium) {
+            if (c != null && c.getItem() instanceof ItemBlock && Block.getBlockFromItem((Item)c.getItem()) instanceof BlockElfirium) {
                 elf[1] = b;
                 continue;
             }
@@ -190,7 +190,7 @@ implements ISparkAttachable {
         this.work = true;
         this.safe = new ItemStack[]{elfB, fragB, essenB, soulB};
         this.type = type == 1 ? (byte) (elfB.getItem() instanceof ItemTerrasteelHelm ? 1 : (elfB.getItem() instanceof ItemTerrasteelChest ? 2 : (elfB.getItem() instanceof ItemTerrasteelLegs ? 3 : 4))) : type;
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public void updateEntity() {
@@ -220,20 +220,20 @@ implements ISparkAttachable {
                                 return;
                             }
                             if (this.work) {
-                                for (int i = 0; i < 4; i = (byte)(i + 1)) {
+                                for (int i = 0; i < 4; i = (int)((byte)(i + 1))) {
                                     this.safe[i] = null;
                                 }
                                 this.work = false;
-                                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
                             }
                             return;
                         }
                         if (this.safe[0] == null && this.work) {
                             this.work = false;
-                            for (int i = 0; i < 4; i = (byte)(i + 1)) {
+                            for (int i = 0; i < 4; i = (int)((byte)(i + 1))) {
                                 this.safe[i] = null;
                             }
-                            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
                         }
                         break block27;
                     }
@@ -241,49 +241,49 @@ implements ISparkAttachable {
                     if (this.mana >= MAX_MANA) break block29;
                     ISparkEntity spark = this.getAttachedSpark();
                     if (spark != null) {
-                        List<ISparkEntity> sparkEntities = SparkHelper.getSparksAround(this.worldObj, (double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5);
+                        List<ISparkEntity> sparkEntities = SparkHelper.getSparksAround((World)this.worldObj, (double)((double)this.xCoord + 0.5), (double)((double)this.yCoord + 0.5), (double)((double)this.zCoord + 0.5));
                         for (ISparkEntity otherSpark : sparkEntities) {
                             if (spark == otherSpark || otherSpark.getAttachedTile() == null || !(otherSpark.getAttachedTile() instanceof IManaPool)) continue;
                             otherSpark.registerTransfer(spark);
                         }
                     }
-                    VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                    VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
                     break block27;
                 }
                 if (this.mana < MAX_MANA) break block27;
                 EntityItem it = null;
                 if (this.type == 0) {
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, new ItemStack(ModItems.elfirium));
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, new ItemStack(ModItems.elfirium));
                 } else if (this.type == 1) {
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeoghelm));
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeoghelm));
                 } else if (this.type == 2) {
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeogchest));
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeogchest));
                 } else if (this.type == 3) {
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeoglegs));
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeoglegs));
                 } else if (this.type == 4) {
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeogboots));
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, new ItemStack(ModItems.awakeogboots));
                 } else if (this.type == 5) {
                     ItemStack st = new ItemStack(ModItems.awakepick);
                     ItemNBTHelper.setInteger(st, TAG_MANA, ItemNBTHelper.getInteger(this.safe[0], TAG_MANA, 0));
-                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, this.yCoord + 1, (double)this.zCoord + 0.5, st);
+                    it = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)(this.yCoord + 1), (double)this.zCoord + 0.5, st);
                 }
-                for (int i = 0; i < 4; i = (byte)(i + 1)) {
+                for (int i = 0; i < 4; i = (int)((byte)(i + 1))) {
                     this.safe[i] = null;
                 }
                 if (it != null) {
-                    this.worldObj.spawnEntityInWorld(it);
+                    this.worldObj.spawnEntityInWorld((Entity)it);
                 }
                 MAX_MANA = 0;
                 this.mana = 0;
                 this.work = false;
-                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
                 break block27;
             }
             if (this.work) {
                 this.doParticles();
                 ISparkEntity spark = this.getAttachedSpark();
                 if (spark != null) {
-                    List<ISparkEntity> sparkEntities = SparkHelper.getSparksAround(this.worldObj, (double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5);
+                    List<ISparkEntity> sparkEntities = SparkHelper.getSparksAround((World)this.worldObj, (double)((double)this.xCoord + 0.5), (double)((double)this.yCoord + 0.5), (double)((double)this.zCoord + 0.5));
                     for (ISparkEntity otherSpark : sparkEntities) {
                         if (spark == otherSpark || otherSpark.getAttachedTile() == null || !(otherSpark.getAttachedTile() instanceof IManaPool)) continue;
                         otherSpark.registerTransfer(spark);
@@ -327,7 +327,7 @@ implements ISparkAttachable {
     }
 
     List getItems() {
-        return this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord, this.zCoord, this.xCoord + 1, this.yCoord + 1, this.zCoord + 1));
+        return this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 1), (double)(this.zCoord + 1)));
     }
 
     boolean hasValidPlatform() {
@@ -354,13 +354,13 @@ implements ISparkAttachable {
         cmp.setBoolean("work", this.work);
         cmp.setInteger("MAX_MANA", MAX_MANA);
         NBTTagList n = new NBTTagList();
-        for (int i = 0; i < 4; i = (byte)(i + 1)) {
+        for (int i = 0; i < 4; i = (int)((byte)(i + 1))) {
             if (this.safe[i] == null) continue;
             NBTTagCompound nb = new NBTTagCompound();
             this.safe[i].writeToNBT(nb);
-            n.appendTag(nb);
+            n.appendTag((NBTBase)nb);
         }
-        cmp.setTag("safe", n);
+        cmp.setTag("safe", (NBTBase)n);
         cmp.setByte("type", this.type);
     }
 
@@ -369,8 +369,8 @@ implements ISparkAttachable {
         this.work = cmp.getBoolean("work");
         MAX_MANA = cmp.getInteger("MAX_MANA");
         NBTTagList n = cmp.getTagList("safe", 10);
-        for (int i = 0; i < Math.min(4, n.tagCount()); i = (byte)(i + 1)) {
-            this.safe[i] = ItemStack.loadItemStackFromNBT(n.getCompoundTagAt(i));
+        for (int i = 0; i < Math.min(4, n.tagCount()); i = (int)((byte)(i + 1))) {
+            this.safe[i] = ItemStack.loadItemStackFromNBT((NBTTagCompound)n.getCompoundTagAt(i));
         }
         this.type = cmp.getByte("type");
     }
@@ -396,7 +396,7 @@ implements ISparkAttachable {
     }
 
     public ISparkEntity getAttachedSpark() {
-        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord + 1, this.zCoord, this.xCoord + 1, this.yCoord + 2, this.zCoord + 1));
+        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)(this.yCoord + 1), (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 2), (double)(this.zCoord + 1)));
         if (sparks.size() == 1) {
             Entity e = (Entity)sparks.get(0);
             return (ISparkEntity)e;

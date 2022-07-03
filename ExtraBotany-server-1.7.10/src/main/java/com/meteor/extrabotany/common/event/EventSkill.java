@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.event;
 
+import com.meteor.extrabotany.client.gui.Inventarium.LibSkillID;
 import com.meteor.extrabotany.common.block.ModBlocks;
 import com.meteor.extrabotany.common.block.subtile.functional.SubTileIcebirdium;
 import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGArmor;
@@ -11,6 +12,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityItem;
@@ -19,6 +21,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -62,7 +65,7 @@ public class EventSkill {
                 event.setCanceled(true);
             }
             if (!event.isCanceled() && EventSkill.fullArm8lvl(pl) && EventSkill.isActiveSkill(8, pl) && Math.random() <= 0.03 && event.source.getSourceOfDamage() instanceof EntityPlayer) {
-                event.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(pl), event.ammount);
+                event.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)pl), event.ammount);
                 event.setCanceled(true);
             }
         }
@@ -126,34 +129,38 @@ public class EventSkill {
         if (pl != null && !event.isCanceled() && EventSkill.fullArm8lvl(pl) && EventSkill.isActiveSkill(18, pl) && Math.random() <= 0.15 && pl.inventory.getCurrentItem() != null && !EventSkill.isSkillTouch(pl.inventory.getCurrentItem())) {
             int[] ids;
             Block _bl = event.block;
-            if (event.block != null && Item.getItemFromBlock(_bl) != null && (ids = OreDictionary.getOreIDs(new ItemStack(Item.getItemFromBlock(_bl)))).length > 0 && (OreDictionary.getOreName(ids[0]).contains("ore") || OreDictionary.getOreName(ids[0]).contains("Ore")) && (_bl.getUnlocalizedName().contains("ore") || _bl.getUnlocalizedName().contains("Ore"))) {
-                EntityItem _it = new EntityItem(pl.worldObj, pl.posX, pl.posY, pl.posZ, new ItemStack(Item.getItemFromBlock(_bl), 1, event.blockMetadata));
-                pl.worldObj.spawnEntityInWorld(_it);
+            if (event.block != null && Item.getItemFromBlock((Block)_bl) != null && (ids = OreDictionary.getOreIDs((ItemStack)new ItemStack(Item.getItemFromBlock((Block)_bl)))).length > 0 && (OreDictionary.getOreName((int)ids[0]).contains("ore") || OreDictionary.getOreName((int)ids[0]).contains("Ore")) && (_bl.getUnlocalizedName().contains("ore") || _bl.getUnlocalizedName().contains("Ore"))) {
+                EntityItem _it = new EntityItem(pl.worldObj, pl.posX, pl.posY, pl.posZ, new ItemStack(Item.getItemFromBlock((Block)_bl), 1, event.blockMetadata));
+                pl.worldObj.spawnEntityInWorld((Entity)_it);
             }
         }
     }
 
     public static void installCD(EntityPlayer pl, int id_skill) {
         ItemStack st = pl.inventory.armorInventory[1];
-        NBTTagList list = ItemNBTHelper.getList(st, "activeSkill", 10, false);
+        NBTTagList list = ItemNBTHelper.getList((ItemStack)st, (String)"activeSkill", (int)10, (boolean)false);
         NBTTagList _list = new NBTTagList();
         for (int i = 0; i < list.tagCount(); ++i) {
             NBTTagCompound _n = list.getCompoundTagAt(i);
             if (_n.hasKey("id") && _n.getInteger("id") == id_skill) {
                 _n.setLong("cd", System.currentTimeMillis());
-                _list.appendTag(_n);
+                _list.appendTag((NBTBase)_n);
                 continue;
             }
-            _list.appendTag(_n);
+            _list.appendTag((NBTBase)_n);
         }
     }
 
     public static boolean checkCD(EntityPlayer pl, int id_skill) {
         ItemStack st = pl.inventory.armorInventory[1];
-        NBTTagList list = ItemNBTHelper.getList(st, "activeSkill", 10, false);
+        NBTTagList list = ItemNBTHelper.getList((ItemStack)st, (String)"activeSkill", (int)10, (boolean)false);
         for (int i = 0; i < list.tagCount(); ++i) {
             NBTTagCompound _n = list.getCompoundTagAt(i);
             if (!_n.hasKey("id") || _n.getInteger("id") != id_skill) continue;
+            if (_n.hasKey("cd")) {
+                Long cd = _n.getLong("cd");
+                return System.currentTimeMillis() >= (long)(LibSkillID.hasCD[id_skill] * 1000) + cd;
+            }
             return true;
         }
         return false;
@@ -165,7 +172,7 @@ public class EventSkill {
 
     public static boolean isActiveSkill(int id_skill, EntityPlayer pl) {
         ItemStack st = pl.inventory.armorInventory[1];
-        NBTTagList list = ItemNBTHelper.getList(st, "activeSkill", 10, false);
+        NBTTagList list = ItemNBTHelper.getList((ItemStack)st, (String)"activeSkill", (int)10, (boolean)false);
         for (int i = 0; i < list.tagCount(); ++i) {
             NBTTagCompound _n = list.getCompoundTagAt(i);
             if (!_n.hasKey("id") || _n.getInteger("id") != id_skill || !_n.hasKey("active") || !_n.getBoolean("active")) continue;
@@ -213,7 +220,7 @@ public class EventSkill {
     }
 
     public static boolean is8lvl(ItemStack stack, EntityPlayer pl) {
-        if (stack != null && stack.getItem() instanceof ItemAwakeOGArmor && ItemAwakeOGArmor.isRightPlayer(pl, stack) && ItemNBTHelper.getInt(stack, "level", 0) >= 8) {
+        if (stack != null && stack.getItem() instanceof ItemAwakeOGArmor && ItemAwakeOGArmor.isRightPlayer(pl, stack) && ItemNBTHelper.getInt((ItemStack)stack, (String)"level", (int)0) >= 8) {
             return true;
         }
         return stack != null && stack.getItem() instanceof ItemKillerArmor && ItemKillerArmor.isRightPlayer(pl, stack);
@@ -223,7 +230,7 @@ public class EventSkill {
         if (stack == null) {
             return false;
         }
-        if (ItemNBTHelper.getInt(stack, "level", 0) < 7) {
+        if (ItemNBTHelper.getInt((ItemStack)stack, (String)"level", (int)0) < 7) {
             return false;
         }
         return ItemAwakeOGArmor.isRightPlayer(pl, stack);
@@ -233,7 +240,7 @@ public class EventSkill {
         if (stack == null) {
             return false;
         }
-        return ItemNBTHelper.getInt(stack, "level", 0) >= 7;
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)"level", (int)0) >= 7;
     }
 }
 

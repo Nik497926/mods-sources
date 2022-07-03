@@ -42,7 +42,7 @@ implements IMinion {
         EntityMagicCycloneChaos i = new EntityMagicCycloneChaos(world);
         EntityMagicCycloneChaos.setAngel(angelX, angelZ);
         i.setPosition(x, y, z);
-        world.spawnEntityInWorld(i);
+        world.spawnEntityInWorld((Entity)i);
         return true;
     }
 
@@ -80,9 +80,9 @@ implements IMinion {
             if (players == 80) break;
         }
         if (!this.worldObj.isRemote) {
-            List<EntityPlayer> var9 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.posX - (double)range, this.posY - (double)range, this.posZ - (double)range, this.posX + (double)range, this.posY + (double)range, this.posZ + (double)range));
+            List<EntityPlayer> var9 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)range), (double)(this.posY - (double)range), (double)(this.posZ - (double)range), (double)(this.posX + (double)range), (double)(this.posY + (double)range), (double)(this.posZ + (double)range)));
             for (EntityPlayer player : var9) {
-                EntityHandler.knockBack(player, this, 10.0f, 8.0f);
+                EntityHandler.knockBack(player, (Entity)this, 10.0f, 8.0f);
                 if (this.ticksExisted % 15 == 0) {
                     player.attackEntityFrom(DamageSource.magic, 7.0f);
                 } else if (this.ticksExisted % 24 == 0) {

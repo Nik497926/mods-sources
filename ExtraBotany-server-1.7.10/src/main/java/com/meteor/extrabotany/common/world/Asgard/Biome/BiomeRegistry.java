@@ -21,8 +21,8 @@ public class BiomeRegistry {
     }
 
     public static void registerBiome() {
-        BiomeDictionary.registerBiomeType(biomeAsgard, BiomeDictionary.Type.MAGICAL);
-        BiomeManager.addSpawnBiome(biomeAsgard);
+        BiomeDictionary.registerBiomeType((BiomeGenBase)biomeAsgard, (BiomeDictionary.Type[])new BiomeDictionary.Type[]{BiomeDictionary.Type.MAGICAL});
+        BiomeManager.addSpawnBiome((BiomeGenBase)biomeAsgard);
     }
 }
 

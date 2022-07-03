@@ -36,13 +36,13 @@ extends EntityAITarget {
         super(entity, shouldCheckSight, nearbyOnly);
         this.targetClass = clazz;
         this.targetChance = chance;
-        this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(entity);
+        this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter((Entity)entity);
         this.setMutexBits(1);
         this.targetEntitySelector = new IEntitySelector(){
             private static final String __OBFID = "CL_00001621";
 
             public boolean isEntityApplicable(Entity entity1) {
-                return entity1 instanceof EntityLivingBase && ((p_i1665_6_ == null || p_i1665_6_.isEntityApplicable(entity1)) && CustomAIAttackableTarger.this.isSuitableTarget((EntityLivingBase) entity1, false));
+                return !(entity1 instanceof EntityLivingBase) ? false : (p_i1665_6_ != null && !p_i1665_6_.isEntityApplicable(entity1) ? false : CustomAIAttackableTarger.this.isSuitableTarget((EntityLivingBase)entity1, false));
             }
         };
     }
@@ -51,7 +51,7 @@ extends EntityAITarget {
         if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
             return false;
         }
-        List b = this.taskOwner.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.taskOwner.posX - 4.0, this.taskOwner.posY - 4.0, this.taskOwner.posZ - 4.0, this.taskOwner.posX + 4.0 + 1.0, this.taskOwner.posY + 4.0 + 1.0, this.taskOwner.posZ + 4.0 + 1.0));
+        List b = this.taskOwner.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.taskOwner.posX - 4.0), (double)(this.taskOwner.posY - 4.0), (double)(this.taskOwner.posZ - 4.0), (double)(this.taskOwner.posX + 4.0 + 1.0), (double)(this.taskOwner.posY + 4.0 + 1.0), (double)(this.taskOwner.posZ + 4.0 + 1.0)));
         if (b.size() == 0) {
             return false;
         }

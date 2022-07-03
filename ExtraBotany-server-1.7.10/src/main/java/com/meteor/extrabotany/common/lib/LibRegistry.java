@@ -9,7 +9,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 
 public class LibRegistry {
-    private static final List<IDataHandler> fuelHandlers = Lists.newArrayList();
+    private static List<IDataHandler> fuelHandlers = Lists.newArrayList();
 
     public static void registerFuelHandler(IDataHandler handler) {
         fuelHandlers.add(handler);

@@ -228,7 +228,7 @@ implements IInventory {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xFF;
             if (j < 0 || j >= this.chestContents.length) continue;
-            this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+            this.chestContents[j] = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbttagcompound1);
         }
     }
 
@@ -250,9 +250,9 @@ implements IInventory {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setByte("Slot", (byte)i);
             this.chestContents[i].writeToNBT(nbttagcompound1);
-            nbttaglist.appendTag(nbttagcompound1);
+            nbttaglist.appendTag((NBTBase)nbttagcompound1);
         }
-        nbt.setTag("Items", nbttaglist);
+        nbt.setTag("Items", (NBTBase)nbttaglist);
         if (this.hasCustomInventoryName()) {
             nbt.setString("CustomName", this.customName);
         }
@@ -263,7 +263,7 @@ implements IInventory {
     }
 
     public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && p_70300_1_.getDistanceSq((double) this.xCoord + 0.5, (double) this.yCoord + 0.5, (double) this.zCoord + 0.5) <= 64.0;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : p_70300_1_.getDistanceSq((double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5) <= 64.0;
     }
 
     public void updateContainingBlockInfo() {
@@ -285,10 +285,10 @@ implements IInventory {
         if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0) {
             this.numPlayersUsing = 0;
             f = 5.0f;
-            List<EntityPlayer> d2 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((float)this.xCoord - f, (float)this.yCoord - f, (float)this.zCoord - f, (float)(this.xCoord + 1) + f, (float)(this.yCoord + 1) + f, (float)(this.zCoord + 1) + f));
+            List<EntityPlayer> d2 = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)((float)this.xCoord - f), (double)((float)this.yCoord - f), (double)((float)this.zCoord - f), (double)((float)(this.xCoord + 1) + f), (double)((float)(this.yCoord + 1) + f), (double)((float)(this.zCoord + 1) + f)));
             for (EntityPlayer f1 : d2) {
                 IInventory f2;
-                if (!(f1.openContainer instanceof ContainerChest) || (f2 = ((ContainerChest)f1.openContainer).getLowerChestInventory()) != this && (!(f2 instanceof InventoryLargeChest) || !((InventoryLargeChest)f2).isPartOfLargeChest(this))) continue;
+                if (!(f1.openContainer instanceof ContainerChest) || (f2 = ((ContainerChest)f1.openContainer).getLowerChestInventory()) != this && (!(f2 instanceof InventoryLargeChest) || !((InventoryLargeChest)f2).isPartOfLargeChest((IInventory)this))) continue;
                 ++this.numPlayersUsing;
             }
         }

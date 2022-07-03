@@ -39,59 +39,59 @@ public class ModEAltarRecipe {
 
     public void initLexicon() {
         for (Map.Entry<String, ItemStack[]> entry : this.input.entrySet()) {
-            BLexiconEntry var0 = new BLexiconEntry(entry.getKey(), LexiconModData.categoryEAltar);
-            var0.setLexiconPages(new PageEAltar(this.getOutput(entry.getKey()).getDisplayName(), this.getOutput(entry.getKey()), this.getInput(entry.getKey()), this.getEfir(entry.getKey())));
-            var0.setIcon(this.getOutput(entry.getKey()));
+            BLexiconEntry lexiconEntry = new BLexiconEntry(entry.getKey(), LexiconModData.categoryEAltar);
+            lexiconEntry.setLexiconPages(new LexiconPage[]{new PageEAltar(this.getOutput(entry.getKey()).getDisplayName(), this.getOutput(entry.getKey()), this.getInput(entry.getKey()), this.getEfir(entry.getKey()))});
+            lexiconEntry.setIcon(this.getOutput(entry.getKey()));
         }
     }
 
     private void addArmRecipe(int i) {
-        Item $in = i == 0 ? ModItems.awakeogboots : (i == 1 ? ModItems.awakeoglegs : (i == 2 ? ModItems.awakeogchest : ModItems.awakeoghelm));
-        ItemStack in = new ItemStack($in);
-        ItemNBTHelper.setInteger(in, "level", 7);
-        ItemStack out = new ItemStack($in);
+        Item item = i == 0 ? ModItems.awakeogboots : (i == 1 ? ModItems.awakeoglegs : (i == 2 ? ModItems.awakeogchest : ModItems.awakeoghelm));
+        ItemStack itemStack = new ItemStack(item);
+        ItemNBTHelper.setInteger(itemStack, "level", 7);
+        ItemStack out = new ItemStack(item);
         ItemNBTHelper.setInteger(out, "level", 8);
         String s = "elfarm8" + i;
-        this.addRecipe(s, new ItemStack[]{in, new ItemStack(ModBlocks.blockelfirium), new ItemStack(ModItems.material, 1, 2), new ItemStack(ModItems.material, 1, 9)}, out, 4000);
+        this.addRecipe(s, new ItemStack[]{itemStack, new ItemStack(ModBlocks.blockelfirium), new ItemStack(ModItems.material, 1, 2), new ItemStack(ModItems.material, 1, 9)}, out, 4000);
     }
 
     public boolean isRecipe(String s) {
         return this.input.containsKey(s);
     }
 
-    private boolean equalItemStack(ItemStack[] a, ItemStack[] b) {
-        ItemStack[] _b;
-        if (a.length != b.length) {
+    private boolean equalItemStack(ItemStack[] stacks, ItemStack[] itemStacks) {
+        ItemStack[] st1;
+        if (stacks.length != itemStacks.length) {
             return false;
         }
-        ItemStack[] _a = this.clearArray(a.clone());
-        if (_a.length != (_b = this.clearArray(b.clone())).length) {
+        ItemStack[] st = this.clearArray((ItemStack[])stacks.clone());
+        if (st.length != (st1 = this.clearArray((ItemStack[])itemStacks.clone())).length) {
             return false;
         }
-        int falseitem = _a.length;
-        for (int i = 0; i < _a.length; ++i) {
-            for (int j = 0; j < _a.length; ++j) {
-                if (_a[i].getItem() instanceof ItemAwakeOGBoots && _b[j].getItem() instanceof ItemAwakeOGBoots) {
-                    if (ItemNBTHelper.getInteger(_b[j], "level", 0) != 7) continue;
+        int falseitem = st.length;
+        for (ItemStack itemStack : st) {
+            for (int j = 0; j < st.length; ++j) {
+                if (itemStack.getItem() instanceof ItemAwakeOGBoots && st1[j].getItem() instanceof ItemAwakeOGBoots) {
+                    if (ItemNBTHelper.getInteger(st1[j], "level", 0) != 7) continue;
                     --falseitem;
                     continue;
                 }
-                if (_a[i].getItem() instanceof ItemAwakeOGLegs && _b[j].getItem() instanceof ItemAwakeOGLegs) {
-                    if (ItemNBTHelper.getInteger(_b[j], "level", 0) != 7) continue;
+                if (itemStack.getItem() instanceof ItemAwakeOGLegs && st1[j].getItem() instanceof ItemAwakeOGLegs) {
+                    if (ItemNBTHelper.getInteger(st1[j], "level", 0) != 7) continue;
                     --falseitem;
                     continue;
                 }
-                if (_a[i].getItem() instanceof ItemAwakeOGChest && _b[j].getItem() instanceof ItemAwakeOGChest) {
-                    if (ItemNBTHelper.getInteger(_b[j], "level", 0) != 7) continue;
+                if (itemStack.getItem() instanceof ItemAwakeOGChest && st1[j].getItem() instanceof ItemAwakeOGChest) {
+                    if (ItemNBTHelper.getInteger(st1[j], "level", 0) != 7) continue;
                     --falseitem;
                     continue;
                 }
-                if (_a[i].getItem() instanceof ItemAwakeOGHelm && _b[j].getItem() instanceof ItemAwakeOGHelm) {
-                    if (ItemNBTHelper.getInteger(_b[j], "level", 0) != 7) continue;
+                if (itemStack.getItem() instanceof ItemAwakeOGHelm && st1[j].getItem() instanceof ItemAwakeOGHelm) {
+                    if (ItemNBTHelper.getInteger(st1[j], "level", 0) != 7) continue;
                     --falseitem;
                     continue;
                 }
-                if (!ItemStack.areItemStacksEqual(_a[i], _b[j])) continue;
+                if (!ItemStack.areItemStacksEqual((ItemStack)itemStack, (ItemStack)st1[j])) continue;
                 --falseitem;
             }
         }
@@ -152,44 +152,44 @@ public class ModEAltarRecipe {
         return new ItemStack[0];
     }
 
-    private ItemStack[] clearArray(ItemStack[] a) {
-        ArrayList<ItemStack> _a = new ArrayList<ItemStack>();
-        for (int i = 0; i < a.length; ++i) {
-            if (a[i] == null) continue;
-            _a.add(a[i]);
+    private ItemStack[] clearArray(ItemStack[] itemStacks) {
+        ArrayList<ItemStack> stack = new ArrayList<ItemStack>();
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack == null) continue;
+            stack.add(itemStack);
         }
-        _a = this.sort(_a);
-        ItemStack[] $a = new ItemStack[_a.size()];
-        for (int i = 0; i < _a.size(); ++i) {
-            $a[i] = _a.get(i);
+        stack = this.sort(stack);
+        ItemStack[] st1 = new ItemStack[stack.size()];
+        for (int j = 0; j < stack.size(); ++j) {
+            st1[j] = stack.get(j);
         }
-        return $a;
+        return st1;
     }
 
-    private ArrayList<ItemStack> sort(ArrayList<ItemStack> in) {
-        Object[] out = new Double[in.size()];
-        HashMap<Double, NBTTagCompound> __nbt = new HashMap<Double, NBTTagCompound>();
-        for (int i = 0; i < in.size(); ++i) {
-            ItemStack _in = in.get(i);
-            int id = Item.itemRegistry.getIDForObject(_in.getItem());
-            int meta = _in.getItemDamage();
-            Double __d = Double.parseDouble(id + "." + meta);
-            out[i] = __d;
-            __nbt.put(__d, _in.getTagCompound());
+    private ArrayList<ItemStack> sort(ArrayList<ItemStack> stacks) {
+        Object[] out = new Double[stacks.size()];
+        HashMap<Double, NBTTagCompound> nbt = new HashMap<Double, NBTTagCompound>();
+        for (int i = 0; i < stacks.size(); ++i) {
+            ItemStack itemStack = stacks.get(i);
+            int id = Item.itemRegistry.getIDForObject((Object)itemStack.getItem());
+            int meta = itemStack.getItemDamage();
+            double aDouble = Double.parseDouble(id + "." + meta);
+            out[i] = aDouble;
+            nbt.put((Double)out[i], itemStack.getTagCompound());
         }
         Arrays.sort(out);
-        ArrayList<ItemStack> __out = new ArrayList<ItemStack>();
-        for (int i = 0; i < out.length; ++i) {
-            String[] a = String.valueOf(out[i]).split("[.]");
-            int id = Integer.parseInt(a[0]);
-            int meta = Integer.parseInt(a[1]);
-            ItemStack st = new ItemStack((Item)Item.itemRegistry.getObjectById(id), 1, meta);
-            if (__nbt.get(out[i]) != null) {
-                vazkii.botania.common.core.helper.ItemNBTHelper.injectNBT(st, __nbt.get(out[i]));
+        ArrayList<ItemStack> stackOut = new ArrayList<ItemStack>();
+        for (Object aDouble : out) {
+            String[] a = String.valueOf(aDouble).split("[.]");
+            int id2 = Integer.parseInt(a[0]);
+            int meta2 = Integer.parseInt(a[1]);
+            ItemStack st = new ItemStack((Item)Item.itemRegistry.getObjectById(id2), 1, meta2);
+            if (nbt.get(aDouble) != null) {
+                vazkii.botania.common.core.helper.ItemNBTHelper.injectNBT((ItemStack)st, (NBTTagCompound)((NBTTagCompound)nbt.get(aDouble)));
             }
-            __out.add(st);
+            stackOut.add(st);
         }
-        return __out;
+        return stackOut;
     }
 
     private void addRecipe(String id_recipe, ItemStack[] in, ItemStack out, int efir) {

@@ -33,13 +33,12 @@ extends SubTileFunctional {
             return;
         }
         if (this.mana >= 10000) {
-            List items = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)this.supertile.xCoord + 0.5 - 2.0, (double)this.supertile.yCoord + 0.5 - 2.0, (double)this.supertile.zCoord + 0.5 - 2.0, (double)this.supertile.xCoord + 0.5 + 2.0, (double)this.supertile.yCoord + 0.5 + 2.0, (double)this.supertile.zCoord + 0.5 + 2.0));
-            for (Object it1 : items) {
-                EntityItem it = (EntityItem) it1;
+            List<EntityItem> items = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)((double)this.supertile.xCoord + 0.5 - 2.0), (double)((double)this.supertile.yCoord + 0.5 - 2.0), (double)((double)this.supertile.zCoord + 0.5 - 2.0), (double)((double)this.supertile.xCoord + 0.5 + 2.0), (double)((double)this.supertile.yCoord + 0.5 + 2.0), (double)((double)this.supertile.zCoord + 0.5 + 2.0)));
+            for (EntityItem it : items) {
                 if (it.isDead || it.age <= 25 || !(it.getEntityItem().getItem() instanceof IRelic)) continue;
-                NBTTagCompound nbt = ItemNBTHelper.getNBT(it.getEntityItem());
+                NBTTagCompound nbt = ItemNBTHelper.getNBT((ItemStack)it.getEntityItem());
                 nbt.removeTag("soulbind");
-                ItemNBTHelper.injectNBT(it.getEntityItem(), nbt);
+                ItemNBTHelper.injectNBT((ItemStack)it.getEntityItem(), (NBTTagCompound)nbt);
                 this.mana = 0;
                 this.cd = 200;
                 return;

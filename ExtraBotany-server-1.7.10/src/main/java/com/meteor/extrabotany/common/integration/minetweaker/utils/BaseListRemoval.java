@@ -28,10 +28,10 @@ extends BaseListModification {
                         this.successful.add(recipe);
                         continue;
                     }
-                    LogHelper.error(String.format("Error removing %s Recipe for %s", this.name, this.getRecipeInfo(recipe)));
+                    LogHelper.error(String.format("Error removing %s Recipe for %s", this.name, this.getRecipeInfo(recipe)), new Object[0]);
                     continue;
                 }
-                LogHelper.error(String.format("Error removing %s Recipe: null object", this.name));
+                LogHelper.error(String.format("Error removing %s Recipe: null object", this.name), new Object[0]);
             }
         }
     }
@@ -41,10 +41,10 @@ extends BaseListModification {
             for (Object recipe : this.successful) {
                 if (recipe != null) {
                     if (this.list.add(recipe)) continue;
-                    LogHelper.error(String.format("Error restoring %s Recipe for %s", this.name, this.getRecipeInfo(recipe)));
+                    LogHelper.error(String.format("Error restoring %s Recipe for %s", this.name, this.getRecipeInfo(recipe)), new Object[0]);
                     continue;
                 }
-                LogHelper.error(String.format("Error restoring %s Recipe: null object", this.name));
+                LogHelper.error(String.format("Error restoring %s Recipe: null object", this.name), new Object[0]);
             }
         }
     }

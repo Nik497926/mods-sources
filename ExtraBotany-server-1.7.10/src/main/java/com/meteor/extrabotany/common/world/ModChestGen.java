@@ -11,25 +11,25 @@ import net.minecraftforge.common.ChestGenHooks;
 public class ModChestGen {
     public static void init() {
         WeightedRandomChestContent key = new WeightedRandomChestContent(new ItemStack(ModItems.key), 1, 4, 1);
-        ChestGenHooks.addItem("strongholdLibrary", key);
+        ChestGenHooks.addItem((String)"strongholdLibrary", (WeightedRandomChestContent)key);
         ModChestGen.addAll(new ItemStack(ModItems.boxs), 1, 1, 1, false);
         ModChestGen.addAll(new ItemStack(ModItems.dungeonbox), 1, 2, 1, false);
     }
 
     public static void addAll(ItemStack itemstack, int min, int max, int stacksize, boolean lib) {
         WeightedRandomChestContent rand = new WeightedRandomChestContent(itemstack, min, max, stacksize);
-        ChestGenHooks.addItem("bonusChest", rand);
-        ChestGenHooks.addItem("dungeonChest", rand);
-        ChestGenHooks.addItem("mineshaftCorridor", rand);
-        ChestGenHooks.addItem("pyramidDesertyChest", rand);
-        ChestGenHooks.addItem("pyramidJungleChest", rand);
-        ChestGenHooks.addItem("pyramidJungleDispenser", rand);
-        ChestGenHooks.addItem("strongholdCorridor", rand);
-        ChestGenHooks.addItem("strongholdCorridor", rand);
-        ChestGenHooks.addItem("strongholdCrossing", rand);
-        ChestGenHooks.addItem("villageBlacksmith", rand);
+        ChestGenHooks.addItem((String)"bonusChest", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"dungeonChest", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"mineshaftCorridor", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"pyramidDesertyChest", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"pyramidJungleChest", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"pyramidJungleDispenser", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"strongholdCorridor", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"strongholdCorridor", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"strongholdCrossing", (WeightedRandomChestContent)rand);
+        ChestGenHooks.addItem((String)"villageBlacksmith", (WeightedRandomChestContent)rand);
         if (lib) {
-            ChestGenHooks.addItem("strongholdLibrary", rand);
+            ChestGenHooks.addItem((String)"strongholdLibrary", (WeightedRandomChestContent)rand);
         }
     }
 }

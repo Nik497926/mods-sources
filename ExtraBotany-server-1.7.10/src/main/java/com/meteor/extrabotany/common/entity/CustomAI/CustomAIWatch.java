@@ -13,12 +13,12 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class CustomAIWatch
 extends EntityAIBase {
-    private final EntityLiving theWatcher;
+    private EntityLiving theWatcher;
     protected Entity closestEntity;
-    private final float maxDistanceForPlayer;
+    private float maxDistanceForPlayer;
     private int lookTime;
-    private final float field_75331_e;
-    private final Class watchedClass;
+    private float field_75331_e;
+    private Class watchedClass;
     private static final String __OBFID = "CL_00001592";
 
     public CustomAIWatch(EntityLiving entity, Class clazz, float distance) {
@@ -41,7 +41,7 @@ extends EntityAIBase {
         if (this.theWatcher.getRNG().nextFloat() >= this.field_75331_e) {
             return false;
         }
-        List b = this.theWatcher.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.theWatcher.posX - (double)this.maxDistanceForPlayer, this.theWatcher.posY - (double)this.maxDistanceForPlayer, this.theWatcher.posZ - (double)this.maxDistanceForPlayer, this.theWatcher.posX + (double)this.maxDistanceForPlayer + 1.0, this.theWatcher.posY + (double)this.maxDistanceForPlayer + 1.0, this.theWatcher.posZ + (double)this.maxDistanceForPlayer + 1.0));
+        List b = this.theWatcher.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.theWatcher.posX - (double)this.maxDistanceForPlayer), (double)(this.theWatcher.posY - (double)this.maxDistanceForPlayer), (double)(this.theWatcher.posZ - (double)this.maxDistanceForPlayer), (double)(this.theWatcher.posX + (double)this.maxDistanceForPlayer + 1.0), (double)(this.theWatcher.posY + (double)this.maxDistanceForPlayer + 1.0), (double)(this.theWatcher.posZ + (double)this.maxDistanceForPlayer + 1.0)));
         if (b.size() == 0) {
             return false;
         }
@@ -58,7 +58,7 @@ extends EntityAIBase {
     }
 
     public boolean continueExecuting() {
-        return this.closestEntity.isEntityAlive() && (!(this.theWatcher.getDistanceSqToEntity(this.closestEntity) > (double) (this.maxDistanceForPlayer * this.maxDistanceForPlayer)) && this.lookTime > 0);
+        return !this.closestEntity.isEntityAlive() ? false : (this.theWatcher.getDistanceSqToEntity(this.closestEntity) > (double)(this.maxDistanceForPlayer * this.maxDistanceForPlayer) ? false : this.lookTime > 0);
     }
 
     public void startExecuting() {

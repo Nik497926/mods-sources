@@ -22,7 +22,7 @@ public class DataWriter {
             this.data.writeInt(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -32,7 +32,7 @@ public class DataWriter {
             this.data.writeBoolean(value);
         }
         catch (IOException var3) {
-            LogHelper.error(var3.getMessage());
+            LogHelper.error(var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -42,7 +42,7 @@ public class DataWriter {
             this.data.writeByte(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -52,7 +52,7 @@ public class DataWriter {
             this.data.writeUTF(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -62,7 +62,7 @@ public class DataWriter {
             this.data.writeShort(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -72,7 +72,7 @@ public class DataWriter {
             this.data.writeDouble(value);
         }
         catch (IOException var4) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -82,7 +82,7 @@ public class DataWriter {
             this.data.writeFloat(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -92,7 +92,7 @@ public class DataWriter {
             this.data.writeLong(value);
         }
         catch (IOException var4) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -102,7 +102,7 @@ public class DataWriter {
             this.data.write(value);
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -115,7 +115,7 @@ public class DataWriter {
             }
         }
         catch (IOException var3) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var3.getMessage(), new Object[0]);
         }
         return this;
     }
@@ -123,13 +123,13 @@ public class DataWriter {
     public DataWriter add(NBTTagCompound compound) {
         try {
             ByteBuf ex = Unpooled.buffer();
-            ByteBufUtils.writeTag(ex, compound);
+            ByteBufUtils.writeTag((ByteBuf)ex, (NBTTagCompound)compound);
             byte[] arr = ex.array();
             this.data.writeInt(arr.length);
             this.data.write(arr);
         }
         catch (IOException var4) {
-            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage());
+            LogHelper.error("ExtraBotaniaDataWriter: " + var4.getMessage(), new Object[0]);
         }
         return this;
     }

@@ -54,7 +54,7 @@ public class ItemConfigField {
     }
 
     public String getLocalizedName() {
-        return StatCollector.translateToLocal("button.de." + this.name + ".name");
+        return StatCollector.translateToLocal((String)("button.de." + this.name + ".name"));
     }
 
     public ItemConfigField readFromItem(ItemStack stack, Object defaultExpected) {
@@ -68,26 +68,26 @@ public class ItemConfigField {
     }
 
     public String getFormattedValue() {
-        if (this.datatype == 2 && !StringUtils.isNullOrEmpty(this.modifier) && this.modifier.equals("AOE")) {
+        if (this.datatype == 2 && !StringUtils.isNullOrEmpty((String)this.modifier) && this.modifier.equals("AOE")) {
             int i = (Integer)this.value;
-            return (i *= 2) + 1 + "x" + (i + 1);
+            return String.valueOf((i *= 2) + 1 + "x" + (i + 1));
         }
         if (this.datatype == 6) {
-            return (Boolean)this.value != false ? StatCollector.translateToLocal("gui.de.on.txt") : StatCollector.translateToLocal("gui.de.off.txt");
+            return (Boolean)this.value != false ? StatCollector.translateToLocal((String)"gui.de.on.txt") : StatCollector.translateToLocal((String)"gui.de.off.txt");
         }
-        if (this.datatype == 4 && !StringUtils.isNullOrEmpty(this.modifier) && this.modifier.equals("PERCENT")) {
+        if (this.datatype == 4 && !StringUtils.isNullOrEmpty((String)this.modifier) && this.modifier.equals("PERCENT")) {
             return Math.round((double)((Float)this.value).floatValue() * 100.0) + "%";
         }
-        if (this.datatype == 4 && !StringUtils.isNullOrEmpty(this.modifier) && this.modifier.equals("PLUSPERCENT")) {
+        if (this.datatype == 4 && !StringUtils.isNullOrEmpty((String)this.modifier) && this.modifier.equals("PLUSPERCENT")) {
             return "+" + Math.round((double)((Float)this.value).floatValue() * 100.0) + "%";
         }
         return String.valueOf(this.value);
     }
 
     public String getMaxFormattedValue() {
-        if (this.datatype == 2 && !StringUtils.isNullOrEmpty(this.modifier) && this.modifier.equals("AOE")) {
+        if (this.datatype == 2 && !StringUtils.isNullOrEmpty((String)this.modifier) && this.modifier.equals("AOE")) {
             int i = (Integer)this.max;
-            return (i *= 2) + 1 + "x" + (i + 1);
+            return String.valueOf((i *= 2) + 1 + "x" + (i + 1));
         }
         return String.valueOf(this.max);
     }

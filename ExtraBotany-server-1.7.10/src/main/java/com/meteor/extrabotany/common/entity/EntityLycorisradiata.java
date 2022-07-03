@@ -35,7 +35,7 @@ extends EntityCreature {
         if (this.worldObj.isDaytime() && !this.worldObj.isRemote && (lycoris = this.getBrightness(1.0f)) > 0.5f && this.rand.nextFloat() * 30.0f < (lycoris - 0.4f) * 2.0f) {
             this.setFire(8);
         }
-        if ((lycoris1 = this.worldObj.getEntitiesWithinAABB(EntityLycorisradiata.class, AxisAlignedBB.getBoundingBox(this.posX - 40.0, this.posY - 40.0, this.posZ - 40.0, this.posX + 40.0, this.posY + 40.0, this.posZ + 40.0))).size() > 1) {
+        if ((lycoris1 = this.worldObj.getEntitiesWithinAABB(EntityLycorisradiata.class, AxisAlignedBB.getBoundingBox((double)(this.posX - 40.0), (double)(this.posY - 40.0), (double)(this.posZ - 40.0), (double)(this.posX + 40.0), (double)(this.posY + 40.0), (double)(this.posZ + 40.0)))).size() > 1) {
             this.setDead();
         }
     }

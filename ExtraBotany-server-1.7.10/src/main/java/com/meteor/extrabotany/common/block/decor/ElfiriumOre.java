@@ -19,7 +19,7 @@ extends Block {
         this.setResistance(10.0f);
         this.setHarvestLevel("pickaxe", 3);
         this.setBlockTextureName("extrabotania:elfiriumOre");
-        GameRegistry.registerBlock(this, "ElfiriumOre");
+        GameRegistry.registerBlock((Block)this, (String)"ElfiriumOre");
     }
 
     public Item getItemDropped(int par1, Random par2Random, int fortune) {

@@ -33,7 +33,7 @@ IManaTooltipDisplay {
     private static final String TAG_MODE = "mode";
     private static final int DELAY = 30;
     private static final int RANGE = 7;
-    private final int cd = 0;
+    private int cd = 0;
 
     public ItemEternalSlience(String name) {
         super(name);
@@ -54,7 +54,7 @@ IManaTooltipDisplay {
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
         if (!player.worldObj.isRemote && count <= this.getMaxItemUseDuration(stack) - 30 && player.isSneaking()) {
             this.setMode(stack, !ItemEternalSlience.isMode(stack));
-            player.addChatMessage(new ChatComponentTranslation("botaniamisc.eternalslience" + ItemEternalSlience.isMode(stack)).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+            player.addChatMessage(new ChatComponentTranslation("botaniamisc.eternalslience" + ItemEternalSlience.isMode(stack), new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
             player.stopUsingItem();
         }
     }
@@ -74,11 +74,11 @@ IManaTooltipDisplay {
     }
 
     public static boolean isMode(ItemStack stack) {
-        return ItemNBTHelper.getBoolean(stack, TAG_MODE, false);
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)TAG_MODE, (boolean)false);
     }
 
     public void setMode(ItemStack stack, boolean b) {
-        ItemNBTHelper.setBoolean(stack, TAG_MODE, b);
+        ItemNBTHelper.setBoolean((ItemStack)stack, (String)TAG_MODE, (boolean)b);
     }
 
     public float getManaFractionForDisplay(ItemStack stack) {
@@ -86,7 +86,7 @@ IManaTooltipDisplay {
     }
 
     public static void setMana(ItemStack stack, int mana) {
-        ItemNBTHelper.setInt(stack, TAG_MANA, mana);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_MANA, (int)mana);
     }
 
     public void addMana(ItemStack stack, int mana) {
@@ -110,7 +110,7 @@ IManaTooltipDisplay {
     }
 
     public int getMana(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_MANA, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_MANA, (int)0);
     }
 
     public int getMaxMana(ItemStack stack) {
@@ -134,29 +134,29 @@ IManaTooltipDisplay {
     }
 
     public static void addBindInfo(List list, ItemStack stack, EntityPlayer player) {
-        ItemEternalSlience.addStringToTooltip(EnumChatFormatting.BLUE + StatCollector.translateToLocal("botaniamisc.eternalmode" + ItemEternalSlience.isMode(stack)), list);
+        ItemEternalSlience.addStringToTooltip(EnumChatFormatting.BLUE + StatCollector.translateToLocal((String)("botaniamisc.eternalmode" + ItemEternalSlience.isMode(stack))), list);
         if (GuiScreen.isShiftKeyDown()) {
-            String bind = ItemEternalSlience.getSoulbindUsernameS(stack);
+            String bind = ItemEternalSlience.getSoulbindUsernameS((ItemStack)stack);
             if (bind.isEmpty()) {
-                ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.relicUnbound"), list);
+                ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.relicUnbound"), list);
             } else {
-                ItemEternalSlience.addStringToTooltip(String.format(StatCollector.translateToLocal("botaniamisc.relicSoulbound"), bind), list);
-                if (!ItemEternalSlience.isRightPlayer(player, stack)) {
-                    ItemEternalSlience.addStringToTooltip(String.format(StatCollector.translateToLocal("botaniamisc.notYourSagittarius"), bind), list);
+                ItemEternalSlience.addStringToTooltip(String.format(StatCollector.translateToLocal((String)"botaniamisc.relicSoulbound"), bind), list);
+                if (!ItemEternalSlience.isRightPlayer((EntityPlayer)player, (ItemStack)stack)) {
+                    ItemEternalSlience.addStringToTooltip(String.format(StatCollector.translateToLocal((String)"botaniamisc.notYourSagittarius"), bind), list);
                 }
             }
             if (stack.getItem() == ModItems.aesirRing) {
-                ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.dropIkea"), list);
+                ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.dropIkea"), list);
             }
             if (stack.getItem() == ModItems.dice) {
                 ItemEternalSlience.addStringToTooltip("", list);
                 String name = stack.getUnlocalizedName() + ".poem";
                 for (int i = 0; i < 4; ++i) {
-                    ItemEternalSlience.addStringToTooltip(EnumChatFormatting.ITALIC + StatCollector.translateToLocal(name + i), list);
+                    ItemEternalSlience.addStringToTooltip(EnumChatFormatting.ITALIC + StatCollector.translateToLocal((String)(name + i)), list);
                 }
             }
         } else {
-            ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.shiftinfo"), list);
+            ItemEternalSlience.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.shiftinfo"), list);
         }
     }
 

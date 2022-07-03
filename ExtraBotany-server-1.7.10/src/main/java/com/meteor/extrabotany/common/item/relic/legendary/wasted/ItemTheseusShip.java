@@ -37,8 +37,6 @@ import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.entity.EntityManaBurst;
 import vazkii.botania.common.item.relic.ItemRelic;
 
-import javax.swing.text.html.ObjectView;
-
 public class ItemTheseusShip
 extends ItemRelicAdv
 implements ILensEffect,
@@ -75,13 +73,14 @@ IManaUsingItem {
                     int cost = ItemTheseusShip.getMode(stack) == 3 ? 0 : ItemTheseusShip.getMode(stack) + 1;
                     ItemTheseusShip.setMode(stack, cost);
                     ItemTheseusShip.setDelay(stack, 20);
-                    player.addChatMessage(new ChatComponentTranslation("botaniamisc.theseussetMode" + ItemTheseusShip.getMode(stack)).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+                    player.addChatMessage(new ChatComponentTranslation("botaniamisc.theseussetMode" + ItemTheseusShip.getMode(stack), new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
                     player.stopUsingItem();
                 }
-            } else if (count % 3 == 0 && !player.isSneaking() && count <= this.getMaxItemUseDuration(stack) - 10 && ItemRelic.isRightPlayer(player, stack)) {
-                int cost = m == 3 ? 1 : (m == 2 ? 2 : (cost = m == 1 ? 5 : 2));
-                if (ManaItemHandler.requestManaExact(stack, player, cost, true)) {
-                    player.worldObj.spawnEntityInWorld(this.getBurst(player, stack));
+            } else if (count % 3 == 0 && !player.isSneaking() && count <= this.getMaxItemUseDuration(stack) - 10 && ItemRelic.isRightPlayer((EntityPlayer)player, (ItemStack)stack)) {
+                int cost = 0;
+                int n = m == 3 ? 1 : (m == 2 ? 2 : (cost = m == 1 ? 5 : 2));
+                if (ManaItemHandler.requestManaExact((ItemStack)stack, (EntityPlayer)player, (int)cost, (boolean)true)) {
+                    player.worldObj.spawnEntityInWorld((Entity)this.getBurst(player, stack));
                 }
             }
         }
@@ -99,7 +98,7 @@ IManaUsingItem {
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, TAG_ATTACKER_USERNAME, player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)TAG_ATTACKER_USERNAME, (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
@@ -120,16 +119,15 @@ IManaUsingItem {
     }
 
     public void updateBurst(IManaBurst burst, ItemStack stack) {
-        List livings;
         EntityThrowable entity = (EntityThrowable)burst;
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
-        AxisAlignedBB axisbig = AxisAlignedBB.getBoundingBox(entity.posX - (double)0.2f, entity.posY - (double)0.2f, entity.posZ - (double)0.2f, entity.lastTickPosX + (double)0.2f, entity.lastTickPosY + (double)0.2f, entity.lastTickPosZ + (double)0.2f).expand(1.0, 1.0, 1.0);
-        String attacker = ItemNBTHelper.getString(burst.getSourceLens(), TAG_ATTACKER_USERNAME, "");
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
+        AxisAlignedBB axisbig = AxisAlignedBB.getBoundingBox((double)(entity.posX - (double)0.2f), (double)(entity.posY - (double)0.2f), (double)(entity.posZ - (double)0.2f), (double)(entity.lastTickPosX + (double)0.2f), (double)(entity.lastTickPosY + (double)0.2f), (double)(entity.lastTickPosZ + (double)0.2f)).expand(1.0, 1.0, 1.0);
+        String attacker = ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)TAG_ATTACKER_USERNAME, (String)"");
         if (entity.ticksExisted > 3) {
             entity.setDead();
         }
         if (ItemTheseusShip.getMode(stack) == 0) {
-            livings = entity.worldObj.getEntitiesWithinAABB(IMob.class, axis);
+            List<Object> livings = entity.worldObj.getEntitiesWithinAABB(IMob.class, axis);
             for (Object l : livings) {
                 EntityLiving s = (EntityLiving)l;
                 if (s.hurtTime != 0) continue;
@@ -140,15 +138,14 @@ IManaUsingItem {
                 float damage = 3.0f;
                 if (burst.isFake() || entity.worldObj.isRemote) continue;
                 EntityPlayer player = s.worldObj.getPlayerEntityByName(attacker);
-                s.attackEntityFrom(player == null ? DamageSource.magic : DamageSource.causePlayerDamage(player), damage);
+                s.attackEntityFrom(player == null ? DamageSource.magic : DamageSource.causePlayerDamage((EntityPlayer)player), damage);
                 entity.setDead();
                 break;
             }
         }
         if (ItemTheseusShip.getMode(stack) == 1) {
-            livings = entity.worldObj.getEntitiesWithinAABB(EntityItem.class, axisbig);
-            for (Object l : livings) {
-                EntityItem l1 = (EntityItem)l;
+            List<EntityItem> livings = entity.worldObj.getEntitiesWithinAABB(EntityItem.class, axisbig);
+            for (EntityItem l1 : livings) {
                 ItemStack s1;
                 if (l1.age <= 59 || (s1 = l1.getEntityItem()).getItemDamage() <= 0 || burst.isFake() || entity.worldObj.isRemote) continue;
                 s1.setItemDamage(Math.max(0, s1.getItemDamage() - 1));
@@ -157,17 +154,15 @@ IManaUsingItem {
             }
         }
         if (ItemTheseusShip.getMode(stack) == 2) {
-            livings = entity.worldObj.getEntitiesWithinAABB(EntityLiving.class, axis);
-            for (Object l : livings) {
-                EntityLiving l2 = (EntityLiving)l;
+            List<EntityLiving> livings = entity.worldObj.getEntitiesWithinAABB(EntityLiving.class, axis);
+            for (EntityLiving l2 : livings) {
                 if (l2 instanceof IMob) continue;
                 l2.heal(3.0f);
             }
         }
         if (ItemTheseusShip.getMode(stack) == 3) {
-            livings = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
-            for (Object l : livings) {
-                EntityLivingBase l3 = (EntityLivingBase) l;
+            List<EntityLivingBase> livings = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
+            for (EntityLivingBase l3 : livings) {
                 if (l3 instanceof IMob || l3 == entity.getThrower()) continue;
                 l3.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 1, 50));
                 l3.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 1, 50));
@@ -178,19 +173,19 @@ IManaUsingItem {
     }
 
     public static int getMode(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_MODE, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_MODE, (int)0);
     }
 
     public static void setMode(ItemStack stack, int i) {
-        ItemNBTHelper.setInt(stack, TAG_MODE, i);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_MODE, (int)i);
     }
 
     public static int getDelay(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_DELAY, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_DELAY, (int)0);
     }
 
     public static void setDelay(ItemStack stack, int i) {
-        ItemNBTHelper.setInt(stack, TAG_DELAY, i);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_DELAY, (int)i);
     }
 
     public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_) {
@@ -198,19 +193,19 @@ IManaUsingItem {
     }
 
     public static void addBindInfo(List list, ItemStack stack, EntityPlayer player) {
-        ItemTheseusShip.addStringToTooltip(EnumChatFormatting.BLUE + StatCollector.translateToLocal("botaniamisc.theseusmode" + ItemTheseusShip.getMode(stack) + ".desc"), list);
+        ItemTheseusShip.addStringToTooltip(EnumChatFormatting.BLUE + StatCollector.translateToLocal((String)("botaniamisc.theseusmode" + ItemTheseusShip.getMode(stack) + ".desc")), list);
         if (GuiScreen.isShiftKeyDown()) {
-            String bind = ItemTheseusShip.getSoulbindUsernameS(stack);
+            String bind = ItemTheseusShip.getSoulbindUsernameS((ItemStack)stack);
             if (bind.isEmpty()) {
-                ItemTheseusShip.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.relicUnbound"), list);
+                ItemTheseusShip.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.relicUnbound"), list);
             } else {
-                ItemTheseusShip.addStringToTooltip(String.format(StatCollector.translateToLocal("botaniamisc.relicSoulbound"), bind), list);
-                if (!ItemTheseusShip.isRightPlayer(player, stack)) {
-                    ItemTheseusShip.addStringToTooltip(String.format(StatCollector.translateToLocal("botaniamisc.notYourSagittarius"), bind), list);
+                ItemTheseusShip.addStringToTooltip(String.format(StatCollector.translateToLocal((String)"botaniamisc.relicSoulbound"), bind), list);
+                if (!ItemTheseusShip.isRightPlayer((EntityPlayer)player, (ItemStack)stack)) {
+                    ItemTheseusShip.addStringToTooltip(String.format(StatCollector.translateToLocal((String)"botaniamisc.notYourSagittarius"), bind), list);
                 }
             }
         } else {
-            ItemTheseusShip.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.shiftinfo"), list);
+            ItemTheseusShip.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.shiftinfo"), list);
         }
     }
 

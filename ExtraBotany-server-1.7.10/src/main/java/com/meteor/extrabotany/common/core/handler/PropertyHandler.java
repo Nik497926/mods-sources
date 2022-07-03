@@ -34,24 +34,24 @@ implements IExtendedEntityProperties {
 
     public static void addShieldAmount(float shield, EntityPlayer p) {
         PropertyHandler.setPlayer(p);
-        player.getDataWatcher().updateObject(30, (int)Math.min(PropertyHandler.getShieldAmount(player) + shield, PropertyHandler.getMaxShieldAmount(player)));
+        player.getDataWatcher().updateObject(30, (Object)((int)Math.min(PropertyHandler.getShieldAmount(player) + shield, PropertyHandler.getMaxShieldAmount(player))));
     }
 
     public static float getMaxShieldAmount(EntityPlayer p) {
         PropertyHandler.setPlayer(p);
-        player.getDataWatcher().updateObject(29, (int)(player.getMaxHealth() + (float)ConfigHandler.extraShieldAmount));
+        player.getDataWatcher().updateObject(29, (Object)((int)(player.getMaxHealth() + (float)ConfigHandler.extraShieldAmount)));
         return 0.0f;
     }
 
     public PropertyHandler(EntityPlayer player) {
-        player.getDataWatcher().addObject(29, 0);
-        player.getDataWatcher().addObject(30, 0);
+        player.getDataWatcher().addObject(29, (Object)0);
+        player.getDataWatcher().addObject(30, (Object)0);
         currentShield = 0.0f;
         maxShield = 20.0f;
     }
 
     public static final void register(EntityPlayer player) {
-        player.registerExtendedProperties(EXT_PROP_NAME, new PropertyHandler(player));
+        player.registerExtendedProperties(EXT_PROP_NAME, (IExtendedEntityProperties)new PropertyHandler(player));
     }
 
     public static final PropertyHandler get(EntityPlayer player) {

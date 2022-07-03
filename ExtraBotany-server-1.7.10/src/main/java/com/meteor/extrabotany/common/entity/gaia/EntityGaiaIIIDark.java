@@ -73,7 +73,7 @@ import vazkii.botania.common.lib.LibObfuscation;
 
 public class EntityGaiaIIIDark
 extends EntityGaiaIII {
-    private static final ModItems instance = new ModItems();
+    private static ModItems instance = new ModItems();
     public static final int SPAWN_TICKS = 200;
     private static final float RANGE = 12.0f;
     private static final float MAX_HP = 12.0f;
@@ -111,8 +111,8 @@ extends EntityGaiaIII {
         super(par1World);
         this.setSize(0.6f, 1.8f);
         this.getNavigator().setCanSwim(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, Float.MAX_VALUE));
+        this.tasks.addTask(0, (EntityAIBase)new EntityAISwimming((EntityLiving)this));
+        this.tasks.addTask(1, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, Float.MAX_VALUE));
         this.isImmuneToFire = true;
         this.experienceValue = 1625;
     }
@@ -128,15 +128,15 @@ extends EntityGaiaIII {
         e.setHealth(1.0f);
         e.setSource(par4, par5, par6);
         e.setMobSpawnTicks(900);
-        String b = "Made by Vazkii";
+        String b = "Obvilion.ru";
         ItemStack s2 = new ItemStack(ModItems.oghelm);
-        ItemRelic.bindToUsernameS(b, s2);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s2);
         ItemStack s3 = new ItemStack(ModItems.ogchest);
-        ItemRelic.bindToUsernameS(b, s3);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s3);
         ItemStack s4 = new ItemStack(ModItems.oglegs);
-        ItemRelic.bindToUsernameS(b, s4);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s4);
         ItemStack s5 = new ItemStack(ModItems.ogboots);
-        ItemRelic.bindToUsernameS(b, s5);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s5);
         e.setCurrentItemOrArmor(1, s2);
         e.setCurrentItemOrArmor(2, s3);
         e.setCurrentItemOrArmor(3, s4);
@@ -150,13 +150,13 @@ extends EntityGaiaIII {
         List<EntityPlayer> players = e.getPlayersAround();
         int playerCount = 0;
         for (EntityPlayer p : players) {
-            if (!EntityGaiaIIIDark.isTruePlayer(p)) continue;
+            if (!EntityGaiaIIIDark.isTruePlayer((Entity)p)) continue;
             ++playerCount;
         }
         e.setPlayerCount(playerCount);
-        e.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue(2880.0f * (float)playerCount);
-        par3World.playSoundAtEntity(e, "mob.enderdragon.growl", 10.0f, 0.1f);
-        par3World.spawnEntityInWorld(e);
+        e.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue((double)(2880.0f * (float)playerCount));
+        par3World.playSoundAtEntity((Entity)e, "mob.enderdragon.growl", 10.0f, 0.1f);
+        par3World.spawnEntityInWorld((Entity)e);
         return true;
     }
 
@@ -193,8 +193,8 @@ extends EntityGaiaIII {
         super.damageEntity(par1DamageSource, par2);
         Entity attacker = par1DamageSource.getEntity();
         if (attacker != null) {
-            Vector3 thisVector = Vector3.fromEntityCenter(this);
-            Vector3 playerVector = Vector3.fromEntityCenter(attacker);
+            Vector3 thisVector = Vector3.fromEntityCenter((Entity)this);
+            Vector3 playerVector = Vector3.fromEntityCenter((Entity)attacker);
             Vector3 motionVector = thisVector.copy().sub(playerVector).copy().normalize().multiply(0.75);
             if (this.getHealth() > 0.0f) {
                 this.motionX = -motionVector.x;
@@ -210,7 +210,7 @@ extends EntityGaiaIII {
     @Override
     public void onDeath(DamageSource p_70645_1_) {
         super.onDeath(p_70645_1_);
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((float)this.getSource().posX - 12.0f, (float)this.getSource().posY - 12.0f, (float)this.getSource().posZ - 12.0f, (float)this.getSource().posX + 12.0f, (float)this.getSource().posY + 12.0f, (float)this.getSource().posZ + 12.0f).expand(1.0, 1.0, 1.0);
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)((float)this.getSource().posX - 12.0f), (double)((float)this.getSource().posY - 12.0f), (double)((float)this.getSource().posZ - 12.0f), (double)((float)this.getSource().posX + 12.0f), (double)((float)this.getSource().posY + 12.0f), (double)((float)this.getSource().posZ + 12.0f)).expand(1.0, 1.0, 1.0);
         List<IMinion> ms = this.worldObj.getEntitiesWithinAABB(IMinion.class, axis);
         for (IMinion m : ms) {
             if (!m.canDestroy()) continue;
@@ -218,15 +218,15 @@ extends EntityGaiaIII {
         }
         EntityLivingBase entitylivingbase = this.func_94060_bK();
         if (entitylivingbase instanceof EntityPlayer) {
-            ((EntityPlayer)entitylivingbase).addStat(ModAchievement.Gaia_gaia3DarkKill, 1);
+            ((EntityPlayer)entitylivingbase).addStat((StatBase)ModAchievement.Gaia_gaia3DarkKill, 1);
             if (!this.anyWithArmor) {
-                ((EntityPlayer)entitylivingbase).addStat(ModAchievement.Gaia_gaia3DarkNoArmor, 1);
+                ((EntityPlayer)entitylivingbase).addStat((StatBase)ModAchievement.Gaia_gaia3DarkNoArmor, 1);
             }
         }
         for (int pl = 0; pl < this.playersWhoAttacked.size(); ++pl) {
             this.generate(this.worldObj, this.worldObj.rand, this.getSource().posX, this.getSource().posY + 1 + pl, this.getSource().posZ, pl);
         }
-        this.worldObj.playSoundAtEntity(this, "random.explode", 20.0f, (1.0f + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2f) * 0.7f);
+        this.worldObj.playSoundAtEntity((Entity)this, "random.explode", 20.0f, (1.0f + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2f) * 0.7f);
         this.worldObj.spawnParticle("hugeexplosion", this.posX, this.posY, this.posZ, 1.0, 0.0, 0.0);
     }
 
@@ -256,9 +256,9 @@ extends EntityGaiaIII {
         }
         if (!this.worldObj.isRemote) {
             int radius = 1;
-            int posXInt = MathHelper.floor_double(this.posX);
-            int posYInt = MathHelper.floor_double(this.posY);
-            int posZInt = MathHelper.floor_double(this.posZ);
+            int posXInt = MathHelper.floor_double((double)this.posX);
+            int posYInt = MathHelper.floor_double((double)this.posY);
+            int posZInt = MathHelper.floor_double((double)this.posZ);
             for (int i = -radius; i < radius + 1; ++i) {
                 for (int j = -radius; j < radius + 1; ++j) {
                     for (int k = -radius; k < radius + 1; ++k) {
@@ -270,9 +270,9 @@ extends EntityGaiaIII {
                         ArrayList<ItemStack> items = block.getDrops(this.worldObj, xp, yp, zp, 0, 0);
                         for (ItemStack stack : items) {
                             if (ConfigHandler.blockBreakParticles) {
-                                this.worldObj.playAuxSFX(2001, xp, yp, zp, Block.getIdFromBlock(block) + (this.worldObj.getBlockMetadata(xp, yp, zp) << 12));
+                                this.worldObj.playAuxSFX(2001, xp, yp, zp, Block.getIdFromBlock((Block)block) + (this.worldObj.getBlockMetadata(xp, yp, zp) << 12));
                             }
-                            this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, (double)xp + 0.5, (double)yp + 0.5, (double)zp + 0.5, stack));
+                            this.worldObj.spawnEntityInWorld((Entity)new EntityItem(this.worldObj, (double)xp + 0.5, (double)yp + 0.5, (double)zp + 0.5, stack));
                         }
                         this.worldObj.setBlockToAir(xp, yp, zp);
                     }
@@ -311,14 +311,14 @@ extends EntityGaiaIII {
                 ArrayList<PotionEffect> remove = new ArrayList<PotionEffect>();
                 Collection<PotionEffect> active = player.getActivePotionEffects();
                 for (PotionEffect effect : active) {
-                    if (effect.getDuration() >= 200 || !effect.getIsAmbient() || ((Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[effect.getPotionID()], LibObfuscation.IS_BAD_EFFECT)).booleanValue()) continue;
+                    if (effect.getDuration() >= 200 || !effect.getIsAmbient() || ((Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[effect.getPotionID()], (String[])LibObfuscation.IS_BAD_EFFECT)).booleanValue()) continue;
                     remove.add(effect);
                 }
                 active.removeAll(remove);
                 boolean bl2 = player.capabilities.isFlying = player.capabilities.isFlying && player.capabilities.isCreativeMode;
-                if (!(vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace(player.posX, player.posY, player.posZ, (double)source.posX + 0.5, (double)source.posY + 0.5, (double)source.posZ + 0.5) >= range)) continue;
+                if (!(vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace((double)player.posX, (double)player.posY, (double)player.posZ, (double)((double)source.posX + 0.5), (double)((double)source.posY + 0.5), (double)((double)source.posZ + 0.5)) >= range)) continue;
                 Vector3 sourceVector = new Vector3((double)source.posX + 0.5, (double)source.posY + 0.5, (double)source.posZ + 0.5);
-                Vector3 playerVector = Vector3.fromEntityCenter(player);
+                Vector3 playerVector = Vector3.fromEntityCenter((Entity)player);
                 Vector3 motion = sourceVector.copy().sub(playerVector).copy().normalize();
                 player.motionX = motion.x;
                 player.motionY = 0.2;
@@ -332,13 +332,13 @@ extends EntityGaiaIII {
         int mobTicks = this.getMobSpawnTicks();
         boolean bl3 = spawnMissiles = hard && this.ticksExisted % 15 < 4;
         if (invul > 10) {
-            Vector3 pos = Vector3.fromEntityCenter(this).subtract(new Vector3(0.0, 0.2, 0.0));
+            Vector3 pos = Vector3.fromEntityCenter((Entity)this).subtract(new Vector3(0.0, 0.2, 0.0));
             for (int i = 0; i < PYLON_LOCATIONS.length; ++i) {
                 int[] arr = PYLON_LOCATIONS[i];
                 int x = arr[0];
                 int y = arr[1];
                 int z = arr[2];
-                Vector3 pylonPos = new Vector3(source.posX + x, source.posY + y, source.posZ + z);
+                Vector3 pylonPos = new Vector3((double)(source.posX + x), (double)(source.posY + y), (double)(source.posZ + z));
                 double worldTime = this.ticksExisted;
                 float rad = 0.75f + (float)Math.random() * 0.05f;
                 double xp = pylonPos.x + 0.5 + Math.cos(worldTime /= 5.0) * (double)rad;
@@ -418,28 +418,28 @@ extends EntityGaiaIII {
                                     ss3.setItemDamage(20);
                                     ss4.setItemDamage(20);
                                     ss5.setItemDamage(20);
-                                    entity.setCurrentItemOrArmor(0, new ItemStack(Items.bow));
-                                    entity.setCurrentItemOrArmor(1, ss2);
-                                    entity.setCurrentItemOrArmor(2, ss3);
-                                    entity.setCurrentItemOrArmor(3, ss4);
-                                    entity.setCurrentItemOrArmor(4, ss5);
-                                    entity.setEquipmentDropChance(0, -1.0f);
-                                    entity.setEquipmentDropChance(1, -1.0f);
-                                    entity.setEquipmentDropChance(2, -1.0f);
-                                    entity.setEquipmentDropChance(3, -1.0f);
-                                    entity.setEquipmentDropChance(4, -1.0f);
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(0, new ItemStack((Item)Items.bow));
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(1, ss2);
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(2, ss3);
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(3, ss4);
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(4, ss5);
+                                    ((EntitySkeleton)entity).setEquipmentDropChance(0, -1.0f);
+                                    ((EntitySkeleton)entity).setEquipmentDropChance(1, -1.0f);
+                                    ((EntitySkeleton)entity).setEquipmentDropChance(2, -1.0f);
+                                    ((EntitySkeleton)entity).setEquipmentDropChance(3, -1.0f);
+                                    ((EntitySkeleton)entity).setEquipmentDropChance(4, -1.0f);
                                     if (this.worldObj.rand.nextInt(4) != 0) break;
                                     ((EntitySkeleton)entity).setSkeletonType(1);
-                                    entity.setCurrentItemOrArmor(0, ss1);
+                                    ((EntitySkeleton)entity).setCurrentItemOrArmor(0, ss1);
                                     break;
                                 }
                                 case 3: {
                                     if (players.isEmpty()) break;
                                     for (int j = 0; j < 1 + this.worldObj.rand.nextInt(hard ? 8 : 5); ++j) {
                                         EntityPixie pixie = new EntityPixie(this.worldObj);
-                                        pixie.setProps((EntityLivingBase)players.get(this.rand.nextInt(players.size())), this, 1, 8.0f);
+                                        pixie.setProps((EntityLivingBase)players.get(this.rand.nextInt(players.size())), (EntityLivingBase)this, 1, 8.0f);
                                         pixie.setPosition(this.posX + (double)(this.width / 2.0f), this.posY + 2.0, this.posZ + (double)(this.width / 2.0f));
-                                        this.worldObj.spawnEntityInWorld(pixie);
+                                        this.worldObj.spawnEntityInWorld((Entity)pixie);
                                     }
                                     break;
                                 }
@@ -447,7 +447,7 @@ extends EntityGaiaIII {
                             if (entity == null) continue;
                             range = 6.0f;
                             entity.setPosition(this.posX + 0.5 + Math.random() * (double)range - (double)(range / 2.0f), this.posY - 1.0, this.posZ + 0.5 + Math.random() * (double)range - (double)(range / 2.0f));
-                            this.worldObj.spawnEntityInWorld(entity);
+                            this.worldObj.spawnEntityInWorld((Entity)entity);
                         }
                     }
                     if (hard && this.ticksExisted % 3 < 2) {
@@ -475,9 +475,9 @@ extends EntityGaiaIII {
                         for (int pl = 0; pl < playerCount; ++pl) {
                             for (int i = 0; i < (this.spawnPixies ? this.worldObj.rand.nextInt(hard ? 6 : 3) : 1); ++i) {
                                 EntityPixie pixie = new EntityPixie(this.worldObj);
-                                pixie.setProps((EntityLivingBase)players.get(this.rand.nextInt(players.size())), this, 1, 8.0f);
+                                pixie.setProps((EntityLivingBase)players.get(this.rand.nextInt(players.size())), (EntityLivingBase)this, 1, 8.0f);
                                 pixie.setPosition(this.posX + (double)(this.width / 2.0f), this.posY + 2.0, this.posZ + (double)(this.width / 2.0f));
-                                this.worldObj.spawnEntityInWorld(pixie);
+                                this.worldObj.spawnEntityInWorld((Entity)pixie);
                             }
                         }
                     }
@@ -490,9 +490,9 @@ extends EntityGaiaIII {
             }
         } else {
             range = 3.0f;
-            players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.posX - (double)range, this.posY - (double)range, this.posZ - (double)range, this.posX + (double)range, this.posY + (double)range, this.posZ + (double)range));
+            players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.posX - (double)range), (double)(this.posY - (double)range), (double)(this.posZ - (double)range), (double)(this.posX + (double)range), (double)(this.posY + (double)range), (double)(this.posZ + (double)range)));
             if (!players.isEmpty()) {
-                this.damageEntity(DamageSource.causePlayerDamage(players.get(0)), 0.0f);
+                this.damageEntity(DamageSource.causePlayerDamage((EntityPlayer)((EntityPlayer)players.get(0))), 0.0f);
             }
         }
         Botania.proxy.sparkleFX(this.worldObj, this.posX, this.posY, this.posZ, 2.11f, 0.29f, 0.29f, 2.0f + (float)this.hurtTime * 3.0f * (this.getHealth() / this.getMaxHealth()) * (float)Math.max(0, this.worldObj.rand.nextInt(4) - 2), 6);
@@ -500,9 +500,9 @@ extends EntityGaiaIII {
             this.spawnCyclone();
         }
         if (this.onGround && this.ticksExisted % 140 == 0 && Math.random() > 0.75) {
-            EntityGaiaQuickened g = new EntityGaiaQuickened(this, true, 11.0f);
+            EntityGaiaQuickened g = new EntityGaiaQuickened((EntityLivingBase)this, true, 11.0f);
             g.setPosition(this.posX, this.posY, this.posZ);
-            this.worldObj.spawnEntityInWorld(g);
+            this.worldObj.spawnEntityInWorld((Entity)g);
         }
         this.cleanFluid();
     }
@@ -534,11 +534,11 @@ extends EntityGaiaIII {
     @Override
     void spawnMissile() {
         if (!this.worldObj.isRemote) {
-            EntityMagicMissileII missile = new EntityMagicMissileII(this, true);
+            EntityMagicMissileII missile = new EntityMagicMissileII((EntityLivingBase)this, true);
             missile.setPosition(this.posX + (Math.random() - 0.05), this.posY + 2.4 + (Math.random() - 0.05), this.posZ + (Math.random() - 0.05));
             if (missile.getTarget()) {
-                this.worldObj.playSoundAtEntity(this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
-                this.worldObj.spawnEntityInWorld(missile);
+                this.worldObj.playSoundAtEntity((Entity)this, "botania:missile", 0.6f, 0.8f + (float)Math.random() * 0.2f);
+                this.worldObj.spawnEntityInWorld((Entity)missile);
             }
         }
     }
@@ -553,7 +553,7 @@ extends EntityGaiaIII {
 
     public static boolean isCheatyBlock(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y, z);
-        String name = Block.blockRegistry.getNameForObject(block);
+        String name = Block.blockRegistry.getNameForObject((Object)block);
         return CHEATY_BLOCKS.contains(name);
     }
 
@@ -577,8 +577,8 @@ extends EntityGaiaIII {
         this.posY = par3;
         this.posZ = par5;
         boolean flag = false;
-        int i = MathHelper.floor_double(this.posX);
-        if (this.worldObj.blockExists(i, j = MathHelper.floor_double(this.posY), k = MathHelper.floor_double(this.posZ))) {
+        int i = MathHelper.floor_double((double)this.posX);
+        if (this.worldObj.blockExists(i, j = MathHelper.floor_double((double)this.posY), k = MathHelper.floor_double((double)this.posZ))) {
             boolean flag1 = false;
             while (!flag1 && j > 0) {
                 Block block = this.worldObj.getBlock(i, j - 1, k);
@@ -591,11 +591,11 @@ extends EntityGaiaIII {
             }
             if (flag1) {
                 this.setPosition(this.posX, this.posY, this.posZ);
-                if (this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox)) {
+                if (this.worldObj.getCollidingBoundingBoxes((Entity)this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox)) {
                     flag = true;
                 }
                 ChunkCoordinates source = this.getSource();
-                if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace(this.posX, this.posY, this.posZ, source.posX, source.posY, source.posZ) > 12.0f) {
+                if (vazkii.botania.common.core.helper.MathHelper.pointDistanceSpace((double)this.posX, (double)this.posY, (double)this.posZ, (double)source.posX, (double)source.posY, (double)source.posZ) > 12.0f) {
                     flag = false;
                 }
             }
@@ -613,9 +613,9 @@ extends EntityGaiaIII {
             double d7 = d3 + (this.posX - d3) * d6 + (this.rand.nextDouble() - 0.5) * (double)this.width * 2.0;
             double d8 = d4 + (this.posY - d4) * d6 + this.rand.nextDouble() * (double)this.height;
             double d9 = d5 + (this.posZ - d5) * d6 + (this.rand.nextDouble() - 0.5) * (double)this.width * 2.0;
-            this.worldObj.spawnParticle("portal", d7, d8, d9, f, f1, f2);
+            this.worldObj.spawnParticle("portal", d7, d8, d9, (double)f, (double)f1, (double)f2);
         }
-        if (!this.worldObj.isRemote && (livings = this.worldObj.getEntitiesWithinAABB(EntityGaiaIIIPhantom.class, AxisAlignedBB.getBoundingBox(this.posX - 12.0 - 24.0, this.posY - 12.0 - 24.0, this.posZ - 12.0 - 24.0, this.posX + 12.0 + 25.0, this.posY + 12.0 + 25.0, this.posZ + 12.0 + 25.0))).size() <= 1) {
+        if (!this.worldObj.isRemote && (livings = this.worldObj.getEntitiesWithinAABB(EntityGaiaIIIPhantom.class, AxisAlignedBB.getBoundingBox((double)(this.posX - 12.0 - 24.0), (double)(this.posY - 12.0 - 24.0), (double)(this.posZ - 12.0 - 24.0), (double)(this.posX + 12.0 + 25.0), (double)(this.posY + 12.0 + 25.0), (double)(this.posZ + 12.0 + 25.0)))).size() <= 1) {
             EntityGaiaIIIPhantom.spawn(this.worldObj, this.posX, this.posY, this.posZ, this.summoner);
         }
         this.worldObj.playSoundEffect(d3, d4, d5, "mob.endermen.portal", 1.0f, 1.0f);
@@ -685,10 +685,10 @@ extends EntityGaiaIII {
             this.addItemToChest(world, rand, cx, cy, cz, new ItemStack(ModItems.recordB));
         }
         if (Math.random() < 0.57) {
-            int i = Item.getIdFromItem(Items.record_13);
-            int j = Item.getIdFromItem(Items.record_wait);
+            int i = Item.getIdFromItem((Item)Items.record_13);
+            int j = Item.getIdFromItem((Item)Items.record_wait);
             int k = i + rand.nextInt(j - i + 1);
-            this.addItemToChest(world, rand, cx, cy, cz, new ItemStack(Item.getItemById(k)));
+            this.addItemToChest(world, rand, cx, cy, cz, new ItemStack(Item.getItemById((int)k)));
         }
         if (Math.random() < 0.41) {
             this.addItemToChest(world, rand, cx, cy, cz, new ItemStack(ModItems.heliacalclaymore));
@@ -755,7 +755,7 @@ extends EntityGaiaIII {
         ItemStack stack = new ItemStack(Items.skull, 1, 3);
         mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
         RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(32826);
+        GL11.glEnable((int)32826);
         RenderItem.getInstance().renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, stack, px, py);
         RenderHelper.disableStandardItemLighting();
         boolean unicode = mc.fontRenderer.getUnicodeFlag();
@@ -778,12 +778,12 @@ extends EntityGaiaIII {
             this.shaderCallback = new ShaderCallback(){
 
                 public void call(int shader) {
-                    int grainIntensityUniform = ARBShaderObjects.glGetUniformLocationARB(shader, "grainIntensity");
-                    int hpFractUniform = ARBShaderObjects.glGetUniformLocationARB(shader, "hpFract");
+                    int grainIntensityUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"grainIntensity");
+                    int hpFractUniform = ARBShaderObjects.glGetUniformLocationARB((int)shader, (CharSequence)"hpFract");
                     float time = EntityGaiaIIIDark.this.getInvulTime();
                     float grainIntensity = time > 20.0f ? 1.0f : Math.max(EntityGaiaIIIDark.this.isHardMode() ? 0.5f : 0.0f, time / 20.0f);
-                    ARBShaderObjects.glUniform1fARB(grainIntensityUniform, grainIntensity);
-                    ARBShaderObjects.glUniform1fARB(hpFractUniform, EntityGaiaIIIDark.this.getHealth() / EntityGaiaIIIDark.this.getMaxHealth());
+                    ARBShaderObjects.glUniform1fARB((int)grainIntensityUniform, (float)grainIntensity);
+                    ARBShaderObjects.glUniform1fARB((int)hpFractUniform, (float)(EntityGaiaIIIDark.this.getHealth() / EntityGaiaIIIDark.this.getMaxHealth()));
                 }
             };
         }

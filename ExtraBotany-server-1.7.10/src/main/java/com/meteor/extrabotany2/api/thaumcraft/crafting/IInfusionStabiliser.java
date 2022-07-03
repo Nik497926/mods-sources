@@ -6,6 +6,6 @@ package com.meteor.extrabotany2.api.thaumcraft.crafting;
 import net.minecraft.world.World;
 
 public interface IInfusionStabiliser {
-    boolean canStabaliseInfusion(World var1, int var2, int var3, int var4);
+    public boolean canStabaliseInfusion(World var1, int var2, int var3, int var4);
 }
 

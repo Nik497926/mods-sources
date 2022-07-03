@@ -5,6 +5,7 @@ package com.meteor.extrabotany.common.item;
 
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.ModBlocks;
+import com.meteor.extrabotany.common.item.ItemAdvanceSpark;
 import com.meteor.extrabotany.common.item.ItemAngelWand;
 import com.meteor.extrabotany.common.item.ItemDungeonBox;
 import com.meteor.extrabotany.common.item.ItemElfTablet;
@@ -20,13 +21,18 @@ import com.meteor.extrabotany.common.item.ItemTeleportPearl;
 import com.meteor.extrabotany.common.item.ItemTest;
 import com.meteor.extrabotany.common.item.basic.InfoItem;
 import com.meteor.extrabotany.common.item.basic.ItemBox;
+import com.meteor.extrabotany.common.item.basic.ItemDustOvergrowth;
 import com.meteor.extrabotany.common.item.basic.ItemEfirFragment;
 import com.meteor.extrabotany.common.item.basic.ItemFragmentEfirium;
 import com.meteor.extrabotany.common.item.basic.ItemManaThaum;
 import com.meteor.extrabotany.common.item.basic.ItemMaterial;
+import com.meteor.extrabotany.common.item.basic.ItemModuleExtraAspects;
 import com.meteor.extrabotany.common.item.basic.ItemRecordA;
 import com.meteor.extrabotany.common.item.basic.ItemRecordB;
 import com.meteor.extrabotany.common.item.basic.ItemRecordC;
+import com.meteor.extrabotany.common.item.basic.ItemRecordD;
+import com.meteor.extrabotany.common.item.basic.ItemRecordE;
+import com.meteor.extrabotany.common.item.basic.ItemToolOvergrowth;
 import com.meteor.extrabotany.common.item.basic.awakeArmController;
 import com.meteor.extrabotany.common.item.basic.castsoulsteel;
 import com.meteor.extrabotany.common.item.basic.elfirium;
@@ -61,6 +67,7 @@ import com.meteor.extrabotany.common.item.relic.legendary.killerTool.ItemKillerP
 import com.meteor.extrabotany.common.item.relic.legendary.killerTool.ItemKillerShovel;
 import com.meteor.extrabotany.common.item.relic.legendary.killerTool.ItemKillerSword;
 import com.meteor.extrabotany.common.item.system.ItemBasicSkill;
+import com.meteor.extrabotany.common.item.system.ItemModulePool;
 import com.meteor.extrabotany.common.item.weapon.ItemHeliacalClaymore;
 import com.meteor.extrabotany.common.item.weapon.ItemMermaidDagger;
 import com.meteor.extrabotany.common.item.weapon.ItemScissorBladePurple;
@@ -96,6 +103,8 @@ public class ModItems {
     public static Item recordB;
     public static Item recordA;
     public static Item recordC;
+    public static Item recordD;
+    public static Item recordE;
     public static Item key;
     public static Item reader;
     public static Item SGBee;
@@ -132,6 +141,10 @@ public class ModItems {
     public static Item elfTablet;
     public static Item manaThaum;
     public static Item info;
+    public static Item advanceSpark;
+    public static Item dust;
+    public static Item itemModulePool;
+    public static Item moduleExtraAspects;
     public static final String[] SKILLS;
 
     public static void init() {
@@ -156,6 +169,8 @@ public class ModItems {
         recordA = new ItemRecordA("A", "recordA");
         recordB = new ItemRecordB("B", "recordB");
         recordC = new ItemRecordC("C", "recordC");
+        recordD = new ItemRecordD("D", "recordD");
+        recordE = new ItemRecordE("E", "recordE");
         itemtest = new ItemTest("test");
         dungeonbox = new ItemDungeonBox("dungeonbox");
         boxs = new ItemBox("box");
@@ -197,25 +212,30 @@ public class ModItems {
             manaThaum = new ItemManaThaum("manaThaum");
         }
         info = new InfoItem();
-        OreDictionary.registerOre("dog", new ItemStack(dog, 1, 0));
-        OreDictionary.registerOre("dog", new ItemStack(dog, 1, 1));
-        OreDictionary.registerOre("dog", new ItemStack(dog, 1, 2));
-        OreDictionary.registerOre("dog", new ItemStack(dog, 1, 3));
-        OreDictionary.registerOre("ShardPrismatic", new ItemStack(material, 1, 0));
-        OreDictionary.registerOre("CardBlank", new ItemStack(material, 1, 1));
-        OreDictionary.registerOre("EssenceGaia", new ItemStack(material, 1, 2));
-        OreDictionary.registerOre("LycorisRed", new ItemStack(material, 1, 3));
-        OreDictionary.registerOre("LycorisGreen", new ItemStack(material, 1, 4));
-        OreDictionary.registerOre("LycorisPurple", new ItemStack(material, 1, 5));
-        OreDictionary.registerOre("QuartzGaia", new ItemStack(material, 1, 6));
-        OreDictionary.registerOre("QuartzElementium", new ItemStack(material, 1, 7));
-        OreDictionary.registerOre("StringGold", new ItemStack(material, 1, 8));
-        OreDictionary.registerOre("FragmentResonance", new ItemStack(material, 1, 9));
-        OreDictionary.registerOre("HeartRebel", new ItemStack(material, 1, 10));
-        OreDictionary.registerOre("SteelSoul", new ItemStack(material, 1, 11));
-        OreDictionary.registerOre("oreEfirium", new ItemStack(ModBlocks.elfOre));
+        advanceSpark = new ItemAdvanceSpark();
+        dust = new ItemDustOvergrowth();
+        itemModulePool = new ItemModulePool();
+        moduleExtraAspects = new ItemModuleExtraAspects();
+        new ItemToolOvergrowth();
+        OreDictionary.registerOre((String)"dog", (ItemStack)new ItemStack(dog, 1, 0));
+        OreDictionary.registerOre((String)"dog", (ItemStack)new ItemStack(dog, 1, 1));
+        OreDictionary.registerOre((String)"dog", (ItemStack)new ItemStack(dog, 1, 2));
+        OreDictionary.registerOre((String)"dog", (ItemStack)new ItemStack(dog, 1, 3));
+        OreDictionary.registerOre((String)"ShardPrismatic", (ItemStack)new ItemStack(material, 1, 0));
+        OreDictionary.registerOre((String)"CardBlank", (ItemStack)new ItemStack(material, 1, 1));
+        OreDictionary.registerOre((String)"EssenceGaia", (ItemStack)new ItemStack(material, 1, 2));
+        OreDictionary.registerOre((String)"LycorisRed", (ItemStack)new ItemStack(material, 1, 3));
+        OreDictionary.registerOre((String)"LycorisGreen", (ItemStack)new ItemStack(material, 1, 4));
+        OreDictionary.registerOre((String)"LycorisPurple", (ItemStack)new ItemStack(material, 1, 5));
+        OreDictionary.registerOre((String)"QuartzGaia", (ItemStack)new ItemStack(material, 1, 6));
+        OreDictionary.registerOre((String)"QuartzElementium", (ItemStack)new ItemStack(material, 1, 7));
+        OreDictionary.registerOre((String)"StringGold", (ItemStack)new ItemStack(material, 1, 8));
+        OreDictionary.registerOre((String)"FragmentResonance", (ItemStack)new ItemStack(material, 1, 9));
+        OreDictionary.registerOre((String)"HeartRebel", (ItemStack)new ItemStack(material, 1, 10));
+        OreDictionary.registerOre((String)"SteelSoul", (ItemStack)new ItemStack(material, 1, 11));
+        OreDictionary.registerOre((String)"oreEfirium", (ItemStack)new ItemStack(ModBlocks.elfOre));
         for (int i = 0; i < 16; ++i) {
-            OreDictionary.registerOre(SKILLS[i], new ItemStack(skill, 1, i));
+            OreDictionary.registerOre((String)SKILLS[i], (ItemStack)new ItemStack(skill, 1, i));
         }
     }
 

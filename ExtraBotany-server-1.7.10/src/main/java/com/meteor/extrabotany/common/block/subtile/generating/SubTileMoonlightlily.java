@@ -42,10 +42,10 @@ extends SubTileNightshade {
                     if (x == 0 && y == 0 && z == 0) continue;
                     World world = this.supertile.getWorldObj();
                     Block bl = world.getBlock((xc = this.supertile.xCoord) + x, (yc = this.supertile.yCoord) + y, (zc = this.supertile.zCoord) + z);
-                    if (!bl.isAir(world, x, y, z) && bl instanceof BlockSpecialFlower) {
+                    if (!bl.isAir((IBlockAccess)world, x, y, z) && bl instanceof BlockSpecialFlower) {
                         tempIsWorking = false;
                     }
-                    if (bl.isAir(world, x, y, z) || !(bl instanceof BlockFloatingSpecialFlower)) continue;
+                    if (bl.isAir((IBlockAccess)world, x, y, z) || !(bl instanceof BlockFloatingSpecialFlower)) continue;
                     tempIsWorking = false;
                 }
             }

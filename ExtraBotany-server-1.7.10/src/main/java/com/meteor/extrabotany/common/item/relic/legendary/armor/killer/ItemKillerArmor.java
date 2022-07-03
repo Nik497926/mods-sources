@@ -22,14 +22,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatBase;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
 import vazkii.botania.api.item.IRelic;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 
-public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
+public class ItemKillerArmor
+extends ItemOGArmor
+implements ISpecialArmor {
     private static final String TAG_SOULBIND = "soulbind";
     Achievement achievement;
     static ItemStack[] armorset;
@@ -46,18 +50,21 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
     }
 
     private static Boolean getArmorSeven(ItemStack stack, int lvl) {
-        int var1 = ItemNBTHelper.getInt(stack, "level", 1);
-        return var1 >= lvl;
+        int var1 = ItemNBTHelper.getInt((ItemStack)stack, (String)"level", (int)1);
+        if (var1 >= lvl) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Multimap getItemAttributeModifiers() {
         HashMultimap multimap = HashMultimap.create();
         UUID uuid = new UUID(this.getUnlocalizedName().hashCode(), 0L);
-        multimap.put(SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier " + this.type, 0.25, 0));
-        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 0.25, 1));
-        multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 30.0, 0));
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 5.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier " + this.type, 0.25, 0));
+        multimap.put((Object)SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier" + this.type, 0.25, 1));
+        multimap.put((Object)SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier" + this.type, 30.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier" + this.type, 5.0, 0));
         return multimap;
     }
 
@@ -88,7 +95,7 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
             if (k == null || !(k.getItem() instanceof ItemKillerArmor)) continue;
             ++i;
         }
-        return " \u00a7f(" + i + "/4)";
+        return " \u00a7f(" + Integer.toString(i) + "/4)";
     }
 
     public static boolean hasFullArmor(EntityPlayer pl) {
@@ -129,7 +136,7 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
     public static void updateRelic(ItemStack stack, EntityPlayer player) {
         String soulbind;
         if (stack != null && stack.getItem() instanceof IRelic && (soulbind = ItemKillerArmor.getSoulbindUsernameS(stack)).isEmpty()) {
-            player.addStat(((IRelic)stack.getItem()).getBindAchievement(), 1);
+            player.addStat((StatBase)((IRelic)stack.getItem()).getBindAchievement(), 1);
             ItemKillerArmor.bindToPlayer(player, stack);
             String string = ItemKillerArmor.getSoulbindUsernameS(stack);
         }
@@ -141,20 +148,20 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
 
     @Override
     public String getArmorSetName() {
-        return StatCollector.translateToLocal("botania.armorset.killer.name");
+        return StatCollector.translateToLocal((String)"botania.armorset.killer.name");
     }
 
     @Override
     public void addArmorSetDescription(ItemStack stack, List list) {
-        this.addStringToTooltip(StatCollector.translateToLocal("botania.armorset.killer.desc0"), list);
+        this.addStringToTooltip(StatCollector.translateToLocal((String)"botania.armorset.killer.desc0"), list);
     }
 
     public static void bindToUsernameS(String s, ItemStack itemStack) {
-        ItemNBTHelper.setString(itemStack, "soulbinds", s);
+        ItemNBTHelper.setString((ItemStack)itemStack, (String)"soulbinds", (String)s);
     }
 
     public static String getSoulbindUsernameS(ItemStack stack) {
-        return ItemNBTHelper.getString(stack, "soulbinds", "");
+        return ItemNBTHelper.getString((ItemStack)stack, (String)"soulbinds", (String)"");
     }
 
     @Override
@@ -170,52 +177,57 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
             case 3: {
                 ItemStack st = pl.inventory.armorInventory[3 - id];
                 if (st == null || !(st.getItem() instanceof ItemKillerArmor)) break;
-                boolean potion = ItemNBTHelper.getBoolean(st, "potion", true);
-                ItemNBTHelper.setBoolean(st, "potion", (!potion ? 1 : 0) != 0);
+                boolean potion = ItemNBTHelper.getBoolean((ItemStack)st, (String)"potion", (boolean)true);
+                ItemNBTHelper.setBoolean((ItemStack)st, (String)"potion", (!potion ? 1 : 0) != 0);
                 break;
             }
             case 4: 
             case 5: {
                 ItemStack st = pl.inventory.armorInventory[2];
                 if (st == null || !(st.getItem() instanceof ItemKillerChest)) break;
-                int idCircle = ItemNBTHelper.getInt(st, "render", 1);
-                idCircle = id == 4 ? idCircle < 2 ? 15 : (byte)(idCircle - 1) : idCircle == 15 ? 1 : (byte)(idCircle + 1);
-                ItemNBTHelper.setInt(st, "render", idCircle);
+                int idCircle = ItemNBTHelper.getInt((ItemStack)st, (String)"render", (int)1);
+                idCircle = id == 4 ? (byte)(idCircle < 2 ? 15 : (byte)(idCircle - 1)) : (byte)(idCircle == 15 ? 1 : (byte)(idCircle + 1));
+                ItemNBTHelper.setInt((ItemStack)st, (String)"render", (int)idCircle);
                 break;
             }
             case 6: {
-                ItemNBTHelper.setBoolean(pl.inventory.armorInventory[3], "sMana", (!ItemNBTHelper.getBoolean(pl.inventory.armorInventory[3], "sMana", false) ? 1 : 0) != 0);
-                if (!ItemNBTHelper.getBoolean(pl.inventory.armorInventory[3], "sVis", false)) break;
-                ItemNBTHelper.setBoolean(pl.inventory.armorInventory[3], "sVis", false);
+                ItemNBTHelper.setBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sMana", (!ItemNBTHelper.getBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sMana", (boolean)false) ? 1 : 0) != 0);
+                if (!ItemNBTHelper.getBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sVis", (boolean)false)) break;
+                ItemNBTHelper.setBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sVis", (boolean)false);
                 break;
             }
             case 7: {
-                ItemNBTHelper.setBoolean(pl.inventory.armorInventory[3], "sVis", (!ItemNBTHelper.getBoolean(pl.inventory.armorInventory[3], "sVis", false) ? 1 : 0) != 0);
-                if (!ItemNBTHelper.getBoolean(pl.inventory.armorInventory[3], "sMana", false)) break;
-                ItemNBTHelper.setBoolean(pl.inventory.armorInventory[3], "sMana", false);
+                ItemNBTHelper.setBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sVis", (!ItemNBTHelper.getBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sVis", (boolean)false) ? 1 : 0) != 0);
+                if (!ItemNBTHelper.getBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sMana", (boolean)false)) break;
+                ItemNBTHelper.setBoolean((ItemStack)pl.inventory.armorInventory[3], (String)"sMana", (boolean)false);
                 break;
             }
             case 8: {
                 if (!(pl instanceof EntityPlayerMP) || pl.worldObj.provider.dimensionId == 150) break;
-                pl.timeUntilPortal = 10;
+                ((EntityPlayerMP)pl).timeUntilPortal = 10;
                 MinecraftServer mServer = FMLCommonHandler.instance().getMinecraftServerInstance();
-                ((EntityPlayerMP)pl).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)pl, 150, new TeleportAsgard(mServer.worldServerForDimension(150)));
+                ((EntityPlayerMP)pl).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)pl, 150, (Teleporter)new TeleportAsgard(mServer.worldServerForDimension(150)));
                 break;
             }
             default: {
-
+//                if (id >= 50 && id < 1000) {
+//                    ItemAwakeOGArmor.onGuiButtonPress((int)(id - 100), (EntityPlayer)pl);
+//                    break;
+//                }
+//                ItemAwakeOGArmor.onUseSkill((int)(id - 1000), (EntityPlayer)pl);
+                System.out.println("Пиши фатоше, #1");
             }
         }
     }
 
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         super.onArmorTick(world, player, stack);
-        NBTTagCompound n = ItemNBTHelper.getNBT(stack);
+        NBTTagCompound n = ItemNBTHelper.getNBT((ItemStack)stack);
         if (!world.isRemote && n.hasKey("lastDMG")) {
             Long cd = n.getLong("lastDMG");
             if (System.currentTimeMillis() >= cd + 180000L) {
                 n.removeTag("lastDMG");
-                ItemNBTHelper.injectNBT(stack, n);
+                ItemNBTHelper.injectNBT((ItemStack)stack, (NBTTagCompound)n);
             }
         }
         if (this.fullTrueArmor(player) && stack != null && stack.getItem() instanceof ItemKillerHelm) {
@@ -224,7 +236,7 @@ public class ItemKillerArmor extends ItemOGArmor implements ISpecialArmor {
     }
 
     static {
-        material = EnumHelper.addArmorMaterial("EXTRAELFIRIUM", -1, new int[]{6, 11, 9, 6}, 24);
+        material = EnumHelper.addArmorMaterial((String)"EXTRAELFIRIUM", (int)-1, (int[])new int[]{6, 11, 9, 6}, (int)24);
     }
 }
 

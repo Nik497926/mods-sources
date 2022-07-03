@@ -12,7 +12,7 @@ public class SubTileNecrofluer
 extends SubTileFunctional {
     private static final int RANGE = 3;
     private static final int DELAY = 600;
-    private final int cd = 0;
+    private int cd = 0;
     private static final String[] asp = new String[]{"vacuos", "lux", "tempestas", "motus", "gelum", "vitreus", "victus", "venenum", "potentia", "permutatio", "metallum", "mortuus", "volatus", "tenebrae", "spiritus", "sano", "iter", "alienis", "praecantatio", "auram", "vitium", "limus", "herba", "arbor", "bestia", "corpus", "exanimis", "cognitio", "sensus", "humanus", "messis", "perfodio", "instrumentum", "meto", "telum", "tutamen", "fames", "lucrum", "fabrico", "pannus", "machina", "vinculum"};
 
     public int getColor() {

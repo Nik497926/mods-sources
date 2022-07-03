@@ -3,8 +3,6 @@
  */
 package com.meteor.extrabotany.common.item.relic.legendary.armor;
 
-import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
-
 public class ItemOGChest
 extends ItemOGArmor {
     public ItemOGChest() {

@@ -16,10 +16,11 @@ extends ItemBlockWithMetadataAndName {
         super(par2Block);
     }
 
+    @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
         if (par1ItemStack.getItemDamage() == 1) {
             for (int i = 0; i < 2; ++i) {
-                par3List.add(StatCollector.translateToLocal("botaniamisc.creativePool" + i));
+                par3List.add(StatCollector.translateToLocal((String)("botaniamisc.creativePool" + i)));
             }
         }
     }

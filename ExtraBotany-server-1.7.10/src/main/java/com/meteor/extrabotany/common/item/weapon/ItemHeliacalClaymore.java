@@ -18,7 +18,7 @@ import vazkii.botania.common.core.helper.ItemNBTHelper;
 
 public class ItemHeliacalClaymore
 extends ItemSword {
-    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial("B_HELIACAL", 3, -1, 6.2f, 4.0f, 20);
+    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial((String)"B_HELIACAL", (int)3, (int)-1, (float)6.2f, (float)4.0f, (int)20);
     public static String TAG_COOLDOWN = "cooldown";
 
     public ItemHeliacalClaymore() {
@@ -26,7 +26,7 @@ extends ItemSword {
         this.setUnlocalizedName("coronaclaymore");
         this.setTextureName("ExtraBotania:coronaclaymore");
         this.setCreativeTab(ExtraBotany.tabExtraBotany);
-        GameRegistry.registerItem(this, "coronaclaymore");
+        GameRegistry.registerItem((Item)this, (String)"coronaclaymore");
     }
 
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {
@@ -34,9 +34,9 @@ extends ItemSword {
             EntityGaiaQuickened g = new EntityGaiaQuickened(player, false, 2.0f + toolMaterial.getDamageVsEntity());
             g.setPosition(target.posX, target.posY, target.posZ);
             this.setCooldown(stack, 200);
-            player.worldObj.spawnEntityInWorld(g);
+            player.worldObj.spawnEntityInWorld((Entity)g);
         }
-        return target.attackEntityFrom(DamageSource.causeMobDamage(player), toolMaterial.getDamageVsEntity());
+        return target.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)player), toolMaterial.getDamageVsEntity());
     }
 
     public void onUpdate(ItemStack stack, World par2World, Entity par3Entity, int par4, boolean par5) {
@@ -46,11 +46,11 @@ extends ItemSword {
     }
 
     public int getCooldown(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_COOLDOWN, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_COOLDOWN, (int)0);
     }
 
     public void setCooldown(ItemStack stack, int i) {
-        ItemNBTHelper.setInt(stack, TAG_COOLDOWN, i);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_COOLDOWN, (int)i);
     }
 }
 

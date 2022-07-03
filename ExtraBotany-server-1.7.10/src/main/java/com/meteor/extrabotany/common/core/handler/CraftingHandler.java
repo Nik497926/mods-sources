@@ -27,20 +27,20 @@ public class CraftingHandler {
             if (itemstack == null || itemstack.getItem() != item) continue;
             remover.remove();
             ++countCrafting;
-            FMLLog.log(Level.INFO, "Removed crafting recipes of " + StatCollector.translateToLocal(itemstack.getUnlocalizedName() + ".name") + ".");
+            FMLLog.log((Level)Level.INFO, (String)("Removed crafting recipes of " + StatCollector.translateToLocal((String)(itemstack.getUnlocalizedName() + ".name")) + "."), (Object[])new Object[0]);
         }
     }
 
     public static void RemoveFurnace(ItemStack itemstack) {
         Map recipe = FurnaceRecipes.smelting().getSmeltingList();
-        Iterator entries = recipe.entrySet().iterator();
+        Iterator<Map.Entry> entries = recipe.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
+            Map.Entry entry = entries.next();
             ItemStack result = (ItemStack)entry.getValue();
-            if (!ItemStack.areItemStacksEqual(result, itemstack)) continue;
+            if (!ItemStack.areItemStacksEqual((ItemStack)result, (ItemStack)itemstack)) continue;
             entries.remove();
             ++countFurnace;
-            FMLLog.log(Level.INFO, "Removed furnace recipes of " + StatCollector.translateToLocal(itemstack.getUnlocalizedName() + ".name") + ".");
+            FMLLog.log((Level)Level.INFO, (String)("Removed furnace recipes of " + StatCollector.translateToLocal((String)(itemstack.getUnlocalizedName() + ".name")) + "."), (Object[])new Object[0]);
         }
     }
 }

@@ -16,7 +16,7 @@ extends EntityAIBase {
     private double xPosition;
     private double yPosition;
     private double zPosition;
-    private final double speed;
+    private double speed;
     World worldObj;
     public int courseChangeCooldown;
     public double waypointX;
@@ -36,7 +36,7 @@ extends EntityAIBase {
     public boolean shouldExecute() {
         boolean isTame;
         boolean bl = isTame = this.living instanceof EntityTameable && ((EntityTameable)this.living).isTamed();
-        return !isTame && this.living.worldObj.getClosestPlayerToEntity(this.living, this.fleeDistance) != null || (this.living.getAge() < 100 && this.living.getRNG().nextInt(this.living.worldObj.provider.isDaytime() ? 300 : 100) == 0 && (!(this.living instanceof EntityTameable) || !((EntityTameable) this.living).isSitting()));
+        return !isTame && this.living.worldObj.getClosestPlayerToEntity((Entity)this.living, this.fleeDistance) != null ? true : (this.living.getAge() >= 100 ? false : this.living.getRNG().nextInt(this.living.worldObj.provider.isDaytime() ? 300 : 100) == 0 && (!(this.living instanceof EntityTameable) || !((EntityTameable)this.living).isSitting()));
     }
 
     public boolean continueExecuting() {
@@ -59,7 +59,7 @@ extends EntityAIBase {
         }
         if (this.courseChangeCooldown-- <= 0) {
             this.courseChangeCooldown += this.worldObj.rand.nextInt(2) + 2;
-            if (this.isCourseTraversable(this.waypointX, this.waypointY, this.waypointZ, d3 = MathHelper.sqrt_double(d3))) {
+            if (this.isCourseTraversable(this.waypointX, this.waypointY, this.waypointZ, d3 = (double)MathHelper.sqrt_double((double)d3))) {
                 this.living.motionX += d0 / d3 * 0.1;
                 this.living.motionY += d1 / d3 * 0.1;
                 this.living.motionZ += d2 / d3 * 0.1;
@@ -80,7 +80,7 @@ extends EntityAIBase {
         int i = 1;
         while ((double)i < par7) {
             axisalignedbb.offset(d4, d5, d6);
-            if (!this.living.worldObj.getCollidingBoundingBoxes(this.living, axisalignedbb).isEmpty()) {
+            if (!this.living.worldObj.getCollidingBoundingBoxes((Entity)this.living, axisalignedbb).isEmpty()) {
                 return false;
             }
             ++i;

@@ -32,7 +32,8 @@ extends Teleporter {
             ChunkCoordinates coords = this.worldServerInstance.getSpawnPoint();
             entity.rotationPitch = 0.0f;
             entity.rotationYaw = 0.0f;
-            ((EntityPlayer)entity).setPositionAndUpdate((double)coords.posX + 0.5, (double)coords.posY + 1.6, (double)coords.posZ + 0.5);
+            ChunkCoordinates ch = this.worldServerInstance.getSpawnPoint();
+            ((EntityPlayer)entity).setPositionAndUpdate((double)ch.posX + 0.5, (double)ch.posY + 1.6, (double)ch.posZ + 0.5);
         }
         entity.setLocationAndAngles(339.0, 6.0, 773.0, entity.rotationYaw, 0.0f);
         entity.motionZ = 0.0;

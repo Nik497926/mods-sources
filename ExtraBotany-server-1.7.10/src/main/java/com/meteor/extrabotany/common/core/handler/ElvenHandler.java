@@ -60,7 +60,7 @@ implements IExtendedEntityProperties {
         properties.setDouble(TAG_LASTPOS_X, lastPosX);
         properties.setDouble(TAG_LASTPOS_Y, lastPosY);
         properties.setDouble(TAG_LASTPOS_Z, lastPosZ);
-        compound.setTag(TAG_ELVEN_ABILITY, properties);
+        compound.setTag(TAG_ELVEN_ABILITY, (NBTBase)properties);
     }
 
     public void loadNBTData(NBTTagCompound compound) {

@@ -35,7 +35,7 @@ extends TileEntity {
         if (this.saveItem != null) {
             NBTTagCompound _n = new NBTTagCompound();
             this.saveItem.writeToNBT(_n);
-            cmp.setTag("save", _n);
+            cmp.setTag("save", (NBTBase)_n);
         }
     }
 
@@ -43,7 +43,7 @@ extends TileEntity {
         super.readFromNBT(cmp);
         if (cmp.hasKey("save")) {
             NBTTagCompound _n = cmp.getCompoundTag("save");
-            this.saveItem = ItemStack.loadItemStackFromNBT(_n);
+            this.saveItem = ItemStack.loadItemStackFromNBT((NBTTagCompound)_n);
         } else {
             this.saveItem = null;
         }
@@ -66,9 +66,9 @@ extends TileEntity {
                     ((IManaItem)this.saveItem.getItem()).addMana(this.saveItem, manaVal);
                     this.receiveMana(-manaVal, te);
                     if (manaVal > 0 && this.worldObj.isRemote && ConfigHandler.chargingAnimationEnabled && this.worldObj.rand.nextInt(20) == 0) {
-                        Vector3 itemVec = Vector3.fromTileEntity(te).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
-                        Vector3 tileVec = Vector3.fromTileEntity(te).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
-                        LightningHandler.spawnLightningBolt(this.worldObj, this.isOutput(te) ? tileVec : itemVec, this.isOutput(te) ? itemVec : tileVec, 80.0f, this.worldObj.rand.nextLong(), 1140881820, 1140901631);
+                        Vector3 itemVec = Vector3.fromTileEntity((TileEntity)te).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
+                        Vector3 tileVec = Vector3.fromTileEntity((TileEntity)te).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
+                        LightningHandler.spawnLightningBolt((World)this.worldObj, (Vector3)(this.isOutput(te) ? tileVec : itemVec), (Vector3)(this.isOutput(te) ? itemVec : tileVec), (float)80.0f, (long)this.worldObj.rand.nextLong(), (int)1140881820, (int)1140901631);
                     }
                     return;
                 }
@@ -76,37 +76,37 @@ extends TileEntity {
                 ((IManaItem)this.saveItem.getItem()).addMana(this.saveItem, -manaVal);
                 this.receiveMana(manaVal, te);
                 if (manaVal > 0 && this.worldObj.isRemote && ConfigHandler.chargingAnimationEnabled && this.worldObj.rand.nextInt(20) == 0) {
-                    Vector3 itemVec = Vector3.fromTileEntity(te).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
-                    Vector3 tileVec = Vector3.fromTileEntity(te).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
-                    LightningHandler.spawnLightningBolt(this.worldObj, this.isOutput(te) ? tileVec : itemVec, this.isOutput(te) ? itemVec : tileVec, 80.0f, this.worldObj.rand.nextLong(), 1140881820, 1140901631);
+                    Vector3 itemVec = Vector3.fromTileEntity((TileEntity)te).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
+                    Vector3 tileVec = Vector3.fromTileEntity((TileEntity)te).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
+                    LightningHandler.spawnLightningBolt((World)this.worldObj, (Vector3)(this.isOutput(te) ? tileVec : itemVec), (Vector3)(this.isOutput(te) ? itemVec : tileVec), (float)80.0f, (long)this.worldObj.rand.nextLong(), (int)1140881820, (int)1140901631);
                 }
                 return;
             }
         } else if (this.saveItem != null && this.saveItem.getItem() instanceof ItemBlackHoleTalisman) {
             ItemStack copySaveItem = this.saveItem.copy();
-            Block block = ItemBlackHoleTalisman.getBlock(copySaveItem);
-            int count = ItemBlackHoleTalisman.getBlockCount(copySaveItem);
+            Block block = ItemBlackHoleTalisman.getBlock((ItemStack)copySaveItem);
+            int count = ItemBlackHoleTalisman.getBlockCount((ItemStack)copySaveItem);
             if (this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord) instanceof IInventory && block != null && block != Blocks.air && count > 0) {
-                int meta = ItemBlackHoleTalisman.getBlockMeta(copySaveItem);
+                int meta = ItemBlackHoleTalisman.getBlockMeta((ItemStack)copySaveItem);
                 IInventory inv = (IInventory)this.worldObj.getTileEntity(this.xCoord, this.yCoord - 1, this.zCoord);
                 for (int i = 0; i < inv.getSizeInventory(); ++i) {
                     ItemStack out = new ItemStack(block, 1, meta);
                     if (inv.getStackInSlot(i) != null || !inv.isItemValidForSlot(i, out)) continue;
                     if (count >= 64) {
                         out.stackSize = 64;
-                        ItemBlackHoleTalisman.remove(copySaveItem, 64);
+                        ItemBlackHoleTalisman.remove((ItemStack)copySaveItem, (int)64);
                         inv.setInventorySlotContents(i, out);
                         count -= 64;
                         continue;
                     }
                     out.stackSize = count;
-                    ItemBlackHoleTalisman.remove(copySaveItem, count);
+                    ItemBlackHoleTalisman.remove((ItemStack)copySaveItem, (int)count);
                     inv.setInventorySlotContents(i, out);
                     count = 0;
                     break;
                 }
                 this.saveItem = copySaveItem;
-                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
             }
         }
     }
@@ -120,7 +120,7 @@ extends TileEntity {
 
     private int getIncomMana(TilePool te) {
         IManaItem it = (IManaItem)this.saveItem.getItem();
-        if (!it.canExportManaToPool(this.saveItem, te)) {
+        if (!it.canExportManaToPool(this.saveItem, (TileEntity)te)) {
             return 0;
         }
         int minMana = Math.min(it.getMana(this.saveItem), 2000);
@@ -132,7 +132,7 @@ extends TileEntity {
 
     private int getIncomMana(TileElfPool te) {
         IManaItem it = (IManaItem)this.saveItem.getItem();
-        if (!it.canExportManaToPool(this.saveItem, te)) {
+        if (!it.canExportManaToPool(this.saveItem, (TileEntity)te)) {
             return 0;
         }
         int minMana = Math.min(it.getMana(this.saveItem), 3000);

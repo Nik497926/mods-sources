@@ -45,7 +45,7 @@ implements IExtendedEntityProperties {
 
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound tags = new NBTTagCompound();
-        compound.setTag(SHIELD, tags);
+        compound.setTag(SHIELD, (NBTBase)tags);
         compound.setFloat(SHIELD_CURRENT, this.currentShield);
         compound.setFloat(SHIELD_MAX, this.maxShield);
     }

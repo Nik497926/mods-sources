@@ -4,12 +4,21 @@
 package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.common.block.BlockAuraControler;
+import com.meteor.extrabotany.common.block.BlockAutoPlate;
+import com.meteor.extrabotany.common.block.BlockAutoPool;
+import com.meteor.extrabotany.common.block.BlockAutoTrade;
 import com.meteor.extrabotany.common.block.BlockBoost;
+import com.meteor.extrabotany.common.block.BlockDaisy;
 import com.meteor.extrabotany.common.block.BlockEAltar;
 import com.meteor.extrabotany.common.block.BlockElfPool;
 import com.meteor.extrabotany.common.block.BlockElfUpdater;
+import com.meteor.extrabotany.common.block.BlockExPylon;
+import com.meteor.extrabotany.common.block.BlockExtraAspects;
+import com.meteor.extrabotany.common.block.BlockFlower;
 import com.meteor.extrabotany.common.block.BlockGaiaChest;
+import com.meteor.extrabotany.common.block.BlockGenDust;
 import com.meteor.extrabotany.common.block.BlockMods;
+import com.meteor.extrabotany.common.block.BlockPearl;
 import com.meteor.extrabotany.common.block.BlockPoolEfir;
 import com.meteor.extrabotany.common.block.BlockRelicPlate;
 import com.meteor.extrabotany.common.block.BlockSpawner;
@@ -17,10 +26,12 @@ import com.meteor.extrabotany.common.block.BlockSpecial;
 import com.meteor.extrabotany.common.block.BlockSummon;
 import com.meteor.extrabotany.common.block.BlockTradeMana;
 import com.meteor.extrabotany.common.block.BlockTransformater;
+import com.meteor.extrabotany.common.block.ExtraSpreader;
 import com.meteor.extrabotany.common.block.decor.BlockCompressTerra;
 import com.meteor.extrabotany.common.block.decor.BlockElfirium;
 import com.meteor.extrabotany.common.block.decor.BlockElvenQuartzSlab;
 import com.meteor.extrabotany.common.block.decor.BlockElvenQuartzStairs;
+import com.meteor.extrabotany.common.block.decor.BlockExtraStabilizer;
 import com.meteor.extrabotany.common.block.decor.BlockGaiaQuartzSlab;
 import com.meteor.extrabotany.common.block.decor.BlockGaiaQuartzStairs;
 import com.meteor.extrabotany.common.block.decor.BlockSoulSteel;
@@ -103,8 +114,19 @@ public class ModBlocks {
     public static Block elfOre;
     public static Block extraSpreader;
     public static Block summonOdin;
+    public static Block flowerBlock;
+    public static Block genDust;
+    public static Block blockPearl;
+    public static Block blockAutoPlate;
+    public static Block blockAutoPool;
+    public static Block blockAutoTrade;
+    public static Block blockDaisy;
+    public static Block blockExtraStab;
+    public static Block extraAspects;
+    public static Block blockExPylon;
 
     public static void init() {
+        System.out.println("extra init");
         auracontroler = new BlockAuraControler();
         elfpool = new BlockElfPool();
         manatrade = new BlockTradeMana(Material.iron);
@@ -132,6 +154,18 @@ public class ModBlocks {
         boost = new BlockBoost();
         elfOre = new ElfiriumOre("elfiriumOre");
         summonOdin = new BlockSpawner();
+        blockPearl = new BlockPearl();
+        System.out.println("extra spreader");
+        extraSpreader = new ExtraSpreader();
+        genDust = new BlockGenDust();
+        flowerBlock = new BlockFlower();
+        blockAutoPlate = new BlockAutoPlate();
+        blockAutoPool = new BlockAutoPool();
+        blockAutoTrade = new BlockAutoTrade();
+        blockDaisy = new BlockDaisy();
+        blockExtraStab = new BlockExtraStabilizer();
+        extraAspects = new BlockExtraAspects();
+        blockExPylon = new BlockExPylon();
         ((BlockModSlab)gaiaquartzslab).register();
         ((BlockModSlab)gaiaquartzslabfull).register();
         ((BlockModSlab)elvenquartzslab).register();
@@ -179,11 +213,11 @@ public class ModBlocks {
     }
 
     private static void registerTile(Class clazz, String key) {
-        GameRegistry.registerTileEntity(clazz, "extrabotania:" + key);
+        GameRegistry.registerTileEntity((Class)clazz, (String)("extrabotania:" + key));
     }
 
     private static void registerSubTile(String key, Class clazz) {
-        BotaniaAPI.registerSubTile(key, clazz);
+        BotaniaAPI.registerSubTile((String)key, (Class)clazz);
     }
 
     static {

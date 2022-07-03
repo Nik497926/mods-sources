@@ -16,11 +16,11 @@ public class DataUtills {
     public void writeObjectToBytes(ByteBuf bytes, int dataType, Object object) {
         switch (dataType) {
             case 0: {
-                bytes.writeByte(((Byte)object).byteValue());
+                bytes.writeByte((int)((Byte)object).byteValue());
                 break;
             }
             case 1: {
-                bytes.writeShort(((Short)object).shortValue());
+                bytes.writeShort((int)((Short)object).shortValue());
                 break;
             }
             case 2: {
@@ -40,11 +40,11 @@ public class DataUtills {
                 break;
             }
             case 7: {
-                bytes.writeChar(((Character)object).charValue());
+                bytes.writeChar((int)((Character)object).charValue());
                 break;
             }
             case 8: {
-                ByteBufUtils.writeUTF8String(bytes, (String) object);
+                ByteBufUtils.writeUTF8String((ByteBuf)bytes, (String)((String)object));
                 break;
             }
             case 6: {
@@ -82,7 +82,7 @@ public class DataUtills {
                 return Character.valueOf(bytes.readChar());
             }
             case 8: {
-                return ByteBufUtils.readUTF8String(bytes);
+                return ByteBufUtils.readUTF8String((ByteBuf)bytes);
             }
             case 6: {
                 return bytes.readBoolean();

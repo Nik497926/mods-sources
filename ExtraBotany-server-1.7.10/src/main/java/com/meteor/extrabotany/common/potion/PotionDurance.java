@@ -16,8 +16,8 @@ public class PotionDurance
 extends PotionMods {
     public PotionDurance() {
         super(ConfigHandler.idPotionD, "durance", false, 10249382, 3);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
     }
 
     @SubscribeEvent

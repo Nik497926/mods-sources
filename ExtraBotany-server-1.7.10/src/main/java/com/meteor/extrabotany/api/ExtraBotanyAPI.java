@@ -25,8 +25,8 @@ public class ExtraBotanyAPI {
     public static ModBlocks ModBlocks = new ModBlocks();
     public static Set diplopbambooBlacklist = new LinkedHashSet();
     public static Set artifaconiaWhitelist = new LinkedHashSet();
-    public static List<RecipeInfernoidisy> infernoidisyRecipes = new ArrayList();
-    public static List<RecipeStonesia> stonesiaRecipes = new ArrayList();
+    public static List infernoidisyRecipes = new ArrayList();
+    public static List stonesiaRecipes = new ArrayList();
     public static Set sweetTier1 = new LinkedHashSet();
     public static Set sweetTier2 = new LinkedHashSet();
     public static Set sweetTier3 = new LinkedHashSet();

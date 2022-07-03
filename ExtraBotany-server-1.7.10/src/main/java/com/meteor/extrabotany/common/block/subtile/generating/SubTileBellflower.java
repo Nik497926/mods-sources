@@ -39,7 +39,7 @@ extends SubTileGenerating {
         int z = this.supertile.zCoord;
         if (this.timer >= 40) {
             this.timer = 0;
-            List<EntityItem> items = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(x - 4, y - 4, z - 4, x + 4 + 1, y + 4, z + 4 + 1));
+            List<EntityItem> items = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)(x - 4), (double)(y - 4), (double)(z - 4), (double)(x + 4 + 1), (double)(y + 4), (double)(z + 4 + 1)));
             int finishMana = 0;
             EntityItem item = null;
             Boolean needFound = false;
@@ -49,7 +49,7 @@ extends SubTileGenerating {
                 needFound = true;
             }
             if (item != null && this.mana != this.getMaxMana()) {
-                NBTTagCompound var0 = ItemNBTHelper.getNBT(item.getEntityItem());
+                NBTTagCompound var0 = ItemNBTHelper.getNBT((ItemStack)item.getEntityItem());
                 NBTTagList var1 = var0.getTagList("Aspects", 10);
                 NBTTagCompound var2 = var1.getCompoundTagAt(0);
                 String s = var2.getString("key");

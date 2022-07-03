@@ -27,13 +27,13 @@ extends CommandBase {
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length <= 0) {
-            throw new WrongUsageException("commands.ExtraBotany.addShieldAmount.desc");
+            throw new WrongUsageException("commands.ExtraBotany.addShieldAmount.desc", new Object[0]);
         }
-        EntityPlayerMP player = args.length > 1 ? CommandAddShieldAmount.getPlayer(sender, args[0]) : CommandAddShieldAmount.getCommandSenderAsPlayer(sender);
+        EntityPlayerMP player = args.length > 1 ? CommandAddShieldAmount.getPlayer((ICommandSender)sender, (String)args[0]) : CommandAddShieldAmount.getCommandSenderAsPlayer((ICommandSender)sender);
         String s = args[1];
-        int i = CommandAddShieldAmount.parseInt(sender, s);
-        PropertyHandler.addShieldAmount(i, player);
-        sender.addChatMessage(new ChatComponentTranslation("commands.ExtraBotany.addShieldAmount.success", player.getDisplayName(), Float.valueOf(PropertyHandler.getShieldAmount(player))));
+        int i = CommandAddShieldAmount.parseInt((ICommandSender)sender, (String)s);
+        PropertyHandler.addShieldAmount(i, (EntityPlayer)player);
+        sender.addChatMessage((IChatComponent)new ChatComponentTranslation("commands.ExtraBotany.addShieldAmount.success", new Object[]{player.getDisplayName(), Float.valueOf(PropertyHandler.getShieldAmount((EntityPlayer)player))}));
     }
 
     public String getCommandUsage(ICommandSender p_71518_1_) {
@@ -43,7 +43,7 @@ extends CommandBase {
     public List addTabCompletionOptions(ICommandSender sender, String[] args) {
         if (args.length == 1) {
             String[] names = MinecraftServer.getServer().getAllUsernames();
-            return CommandBase.getListOfStringsMatchingLastWord(args, names);
+            return CommandBase.getListOfStringsMatchingLastWord((String[])args, (String[])names);
         }
         return null;
     }

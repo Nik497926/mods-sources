@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.block.plugin;
 
+import com.gamerforea.eventhelper.util.ConvertUtils;
 import com.meteor.extrabotany.common.block.plugin.IInjection;
 import com.meteor.extrabotany.common.block.plugin.InjectionUtils;
 import java.util.UUID;
@@ -52,6 +53,17 @@ public class EssentialsAdapter {
         injection.deposit(player, count);
     }
 
+    public static boolean isModer(EntityPlayer player) {
+        try {
+            EssentialsAdapter.checkInject();
+            return injection.isModer(player);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static boolean checkInject() throws InstantiationException, IllegalAccessException {
         EssentialsAdapter.autoInject();
         return inject;
@@ -73,7 +85,7 @@ public class EssentialsAdapter {
                 if (plugin instanceof Fe) {
                     API api = new API((Fe)plugin);
                     Account acc = api.getAccount(name);
-                    acc.deposit(count);
+                    acc.deposit((double)count);
                     return;
                 }
                 System.out.println("Error plugins!");
@@ -87,17 +99,23 @@ public class EssentialsAdapter {
                 Plugin plugin = Bukkit.getPluginManager().getPlugin("Fe");
                 if (plugin instanceof Fe) {
                     API api = new API((Fe)plugin);
-                    Player p = Bukkit.getPlayer(player);
+                    Player p = Bukkit.getPlayer((UUID)player);
                     if (p == null) {
                         throw new IllegalArgumentException("Not found account");
                     }
                     Account acc = api.getAccount(p.getName());
-                    acc.deposit(count);
+                    acc.deposit((double)count);
                     return;
                 }
                 System.out.println("Error plugins!");
             }
             System.out.println("Not work plugin");
+        }
+
+        @Override
+        public boolean isModer(EntityPlayer player) throws Exception {
+            Player p = ConvertUtils.toBukkitEntity((EntityPlayer)player);
+            return p.hasPermission("cp.ban");
         }
     }
 }

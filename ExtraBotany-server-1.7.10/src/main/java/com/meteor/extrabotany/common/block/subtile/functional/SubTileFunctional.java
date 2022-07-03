@@ -4,11 +4,15 @@
 package com.meteor.extrabotany.common.block.subtile.functional;
 
 import java.awt.Color;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import vazkii.botania.api.BotaniaAPI;
@@ -41,13 +45,14 @@ extends SubTileEntity {
     public void onUpdate() {
         super.onUpdate();
         this.linkPool();
+        int manaInPool;
+        int manaMissing;
         if (this.linkedPool != null && this.isValidBinding()) {
             IManaPool pool = (IManaPool)this.linkedPool;
-            int manaInPool = pool.getCurrentMana();
-            int manaMissing = this.getMaxMana() - this.mana;
+            manaInPool = pool.getCurrentMana();
+            manaMissing = this.getMaxMana() - this.mana;
             int manaToRemove = Math.min(manaMissing, manaInPool);
             pool.recieveMana(-manaToRemove);
-
             this.addMana(manaToRemove);
         }
         if (this.acceptsRedstone()) {
@@ -113,7 +118,7 @@ extends SubTileEntity {
             return false;
         }
         this.knownMana = this.mana;
-        player.worldObj.playSoundAtEntity(player, "botania:ding", 0.1f, 1.0f);
+        player.worldObj.playSoundAtEntity((Entity)player, "botania:ding", 0.1f, 1.0f);
         return super.onWanded(player, wand);
     }
 
@@ -173,6 +178,12 @@ extends SubTileEntity {
 
     public boolean isValidBinding() {
         return this.linkedPool != null && !this.linkedPool.isInvalid() && this.supertile.getWorldObj().getTileEntity(this.linkedPool.xCoord, this.linkedPool.yCoord, this.linkedPool.zCoord) == this.linkedPool;
+    }
+
+    public void renderHUD(Minecraft mc, ScaledResolution res) {
+        String name = StatCollector.translateToLocal((String)("tile.botania:flower." + this.getUnlocalizedName() + ".name"));
+        int color = this.getColor();
+        BotaniaAPI.internalHandler.drawComplexManaHUD(color, this.knownMana, this.getMaxMana(), name, res, BotaniaAPI.internalHandler.getBindDisplayForFlowerType((SubTileEntity)this), this.isValidBinding());
     }
 }
 

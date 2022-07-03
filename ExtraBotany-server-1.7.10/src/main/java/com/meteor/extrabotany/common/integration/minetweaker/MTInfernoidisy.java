@@ -32,29 +32,30 @@ public class MTInfernoidisy {
             Object input = InputHelper.toObject(blockInput);
             if (input != null && (!(input instanceof ItemStack) || InputHelper.isABlock((ItemStack)input))) {
                 if (input instanceof ItemStack) {
-                    input = Block.getBlockFromItem(((ItemStack)input).getItem());
+                    input = Block.getBlockFromItem((Item)((ItemStack)input).getItem());
                 }
                 ItemStack output = InputHelper.toStack(blockOutput);
-                RecipeInfernoidisy recipe = new RecipeInfernoidisy(input, Block.getBlockFromItem(output.getItem()), output.getItemDamage());
-                MineTweakerAPI.apply(new Add(recipe));
+                RecipeInfernoidisy recipe = new RecipeInfernoidisy(input, Block.getBlockFromItem((Item)output.getItem()), output.getItemDamage());
+                MineTweakerAPI.apply((IUndoableAction)new Add(recipe));
             } else {
-                LogHelper.error(String.format("Input must be a block or an oredict entry."));
+                LogHelper.error(String.format("Input must be a block or an oredict entry.", new Object[0]), new Object[0]);
             }
         } else {
-            LogHelper.error(String.format("Required parameters missing for %s Recipe.", name));
+            LogHelper.error(String.format("Required parameters missing for %s Recipe.", name), new Object[0]);
         }
     }
 
     @ZenMethod
     public static void removeRecipe(IIngredient output) {
         LinkedList<RecipeInfernoidisy> recipes = new LinkedList<RecipeInfernoidisy>();
-        for (RecipeInfernoidisy recipe : ExtraBotanyAPI.infernoidisyRecipes) {
+        for (Object recipe1 : ExtraBotanyAPI.infernoidisyRecipes) {
+            RecipeInfernoidisy recipe = (RecipeInfernoidisy) recipe1;
             IItemStack out = InputHelper.toIItemStack(new ItemStack(recipe.getOutput(), 1, recipe.getOutputMeta()));
             if (!StackHelper.matches(output, out)) continue;
             recipes.add(recipe);
         }
         if (!recipes.isEmpty()) {
-            MineTweakerAPI.apply(new Remove(recipes));
+            MineTweakerAPI.apply((IUndoableAction)new Remove(recipes));
         }
     }
 

@@ -28,7 +28,7 @@ extends ItemMods {
     }
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
-        ItemManaReader.addStringToTooltip(StatCollector.translateToLocal("botaniamisc.usecount").replaceAll("%s%", String.valueOf(this.getCount(stack))), list);
+        ItemManaReader.addStringToTooltip(StatCollector.translateToLocal((String)"botaniamisc.usecount").replaceAll("%s%", String.valueOf(this.getCount(stack))), list);
     }
 
     static void addStringToTooltip(String s, List tooltip) {
@@ -36,10 +36,10 @@ extends ItemMods {
     }
 
     private void writeCoord(ItemStack stack, int x, int y, int z, int DIM) {
-        ItemNBTHelper.setInt(stack, "x", x);
-        ItemNBTHelper.setInt(stack, "y", y);
-        ItemNBTHelper.setInt(stack, "z", z);
-        ItemNBTHelper.setInt(stack, "DIM", DIM);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)"x", (int)x);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)"y", (int)y);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)"z", (int)z);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)"DIM", (int)DIM);
     }
 
     public static boolean getSeeTransformater(ItemStack stack) {
@@ -49,7 +49,7 @@ extends ItemMods {
         if (!(stack.getItem() instanceof ItemManaReader)) {
             return false;
         }
-        return ItemNBTHelper.getBoolean(stack, "transf", false);
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)"transf", (boolean)false);
     }
 
     public static boolean getSeeSomething(ItemStack stack) {
@@ -63,14 +63,14 @@ extends ItemMods {
         if (!(stack.getItem() instanceof ItemManaReader)) {
             return false;
         }
-        return ItemNBTHelper.getBoolean(stack, "altar", false);
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)"altar", (boolean)false);
     }
 
     public static ChunkCoordinates getBoundTile(ItemStack stack, World world) {
-        if (world.provider.dimensionId == ItemNBTHelper.getInt(stack, "DIM", -999999)) {
-            int x = ItemNBTHelper.getInt(stack, "x", 0);
-            int y = ItemNBTHelper.getInt(stack, "y", -1);
-            int z = ItemNBTHelper.getInt(stack, "z", 0);
+        if (world.provider.dimensionId == ItemNBTHelper.getInt((ItemStack)stack, (String)"DIM", (int)-999999)) {
+            int x = ItemNBTHelper.getInt((ItemStack)stack, (String)"x", (int)0);
+            int y = ItemNBTHelper.getInt((ItemStack)stack, (String)"y", (int)-1);
+            int z = ItemNBTHelper.getInt((ItemStack)stack, (String)"z", (int)0);
             return new ChunkCoordinates(x, y, z);
         }
         return new ChunkCoordinates(0, -1, 0);
@@ -79,19 +79,19 @@ extends ItemMods {
     public void thousandUse(EntityPlayer player, int count) {
         if (count == 1000) {
             player.inventory.addItemStackToInventory(new ItemStack(ModItems.material, 1, 4 + player.worldObj.rand.nextInt(3)));
-            player.addStat(ModAchievement.thousandUse, 1);
+            player.addStat((StatBase)ModAchievement.thousandUse, 1);
             if (!player.worldObj.isRemote) {
-                player.addChatMessage(new ChatComponentTranslation("botaniamisc.thousandUse").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+                player.addChatMessage(new ChatComponentTranslation("botaniamisc.thousandUse", new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
             }
         }
     }
 
     public int getCount(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, COUNT, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)COUNT, (int)0);
     }
 
     public void setCount(ItemStack stack, int i) {
-        ItemNBTHelper.setInt(stack, COUNT, i);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)COUNT, (int)i);
     }
 }
 

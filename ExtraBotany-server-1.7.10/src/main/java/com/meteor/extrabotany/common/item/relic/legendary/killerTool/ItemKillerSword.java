@@ -10,6 +10,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.awt.Color;
 import java.util.List;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -36,14 +38,13 @@ import vazkii.botania.api.mana.ILensEffect;
 import vazkii.botania.api.mana.IManaUsingItem;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.entity.EntityManaBurst;
-import vazkii.botania.common.item.relic.ItemRelic;
 
 public class ItemKillerSword
 extends ItemSword
 implements IRelic,
 ILensEffect,
 IManaUsingItem {
-    public static Item.ToolMaterial material = EnumHelper.addToolMaterial("KILLERTOOL", 6, -1, 9.0f, 26.0f, 45);
+    public static Item.ToolMaterial material = EnumHelper.addToolMaterial((String)"KILLERTOOL", (int)6, (int)-1, (float)9.0f, (float)26.0f, (int)45);
     IIcon[] icons;
     String name = "killerSword";
     public static int c_tick = 0;
@@ -52,14 +53,14 @@ IManaUsingItem {
 
     public ItemKillerSword() {
         super(material);
-        this.setUnlocalizedName(this.name).setCreativeTab(ExtraBotany.tabExtraBotany).setMaxStackSize(1);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
-        GameRegistry.registerItem(this, this.name);
+        this.setUnlocalizedName(this.name).setCreativeTab((CreativeTabs)ExtraBotany.tabExtraBotany).setMaxStackSize(1);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
+        GameRegistry.registerItem((Item)this, (String)this.name);
     }
 
     public IIcon getIcon(ItemStack stack, int pass) {
-        int type = ItemNBTHelper.getInt(stack, "type", 0);
+        int type = ItemNBTHelper.getInt((ItemStack)stack, (String)"type", (int)0);
         switch (type) {
             case 0: {
                 this.itemIcon = this.icons[0];
@@ -77,11 +78,11 @@ IManaUsingItem {
     }
 
     public void bindToUsername(String s, ItemStack itemStack) {
-        ItemNBTHelper.setString(itemStack, "soulbinds", s);
+        ItemNBTHelper.setString((ItemStack)itemStack, (String)"soulbinds", (String)s);
     }
 
     public String getSoulbindUsername(ItemStack itemStack) {
-        return ItemNBTHelper.getString(itemStack, "soulbinds", "");
+        return ItemNBTHelper.getString((ItemStack)itemStack, (String)"soulbinds", (String)"");
     }
 
     public void setBindAchievement(Achievement achievement) {
@@ -97,7 +98,7 @@ IManaUsingItem {
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean isShift) {
         ItemKillerSword.addBindInfo(list, stack, player);
-        list.add(StatCollector.translateToLocal("killerSword.misc0"));
+        list.add(StatCollector.translateToLocal((String)"killerSword.misc0"));
     }
 
     public static void addBindInfo(List list, ItemStack stack, EntityPlayer player) {
@@ -105,7 +106,7 @@ IManaUsingItem {
     }
 
     public static String getSoulbindUsernameS(ItemStack stack) {
-        return ItemNBTHelper.getString(stack, "soulbinds", "");
+        return ItemNBTHelper.getString((ItemStack)stack, (String)"soulbinds", (String)"");
     }
 
     static void addStringToTooltips(String s, List tooltip) {
@@ -123,7 +124,7 @@ IManaUsingItem {
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, "attackerUsername", player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)"attackerUsername", (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
@@ -137,11 +138,11 @@ IManaUsingItem {
 
     public void updateBurst(IManaBurst burst, ItemStack stack) {
         EntityThrowable entity = (EntityThrowable)burst;
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
         List<EntityLivingBase> entities = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
-        String attacker = ItemNBTHelper.getString(burst.getSourceLens(), "attackerUsername", "");
+        String attacker = ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)"attackerUsername", (String)"");
         for (EntityLivingBase living : entities) {
-            if (living instanceof EntityPlayer && (living.getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living.hurtTime != 0) continue;
+            if (living instanceof EntityPlayer && (((EntityPlayer)living).getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living.hurtTime != 0) continue;
             int cost = 0;
             int mana = burst.getMana();
             if (mana < cost) continue;
@@ -158,9 +159,9 @@ IManaUsingItem {
     }
 
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        if (!this.ignoreLeftClick && ItemRelic.isRightPlayer(player, stack) && entity instanceof EntityLivingBase && ((EntityLivingBase)entity).hurtTime == 0 && !entity.isDead && ItemNBTHelper.getInt(stack, "type", 0) == 1) {
+        if (!this.ignoreLeftClick && ItemKillerAxe.canUse(player, stack) && entity instanceof EntityLivingBase && ((EntityLivingBase)entity).hurtTime == 0 && !((EntityLivingBase)entity).isDead && ItemNBTHelper.getInt((ItemStack)stack, (String)"type", (int)0) == 1) {
             int range = 5;
-            List<Entity> entities = player.worldObj.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox(entity.posX - (double)range, entity.posY - (double)range, entity.posZ - (double)range, entity.posX + (double)range, entity.posY + (double)range, entity.posZ + (double)range));
+            List<Entity> entities = player.worldObj.getEntitiesWithinAABB(entity.getClass(), AxisAlignedBB.getBoundingBox((double)(entity.posX - (double)range), (double)(entity.posY - (double)range), (double)(entity.posZ - (double)range), (double)(entity.posX + (double)range), (double)(entity.posY + (double)range), (double)(entity.posZ + (double)range)));
             this.ignoreLeftClick = true;
             for (Entity entity_ : entities) {
                 Invoke.server(() -> {});
@@ -173,23 +174,23 @@ IManaUsingItem {
     @SubscribeEvent(priority=EventPriority.HIGHEST)
     public void EventKiller(LivingHurtEvent event) {
         ItemStack s;
-        if (event.source.getSourceOfDamage() instanceof EntityPlayer && (s = ((EntityPlayer)event.source.getSourceOfDamage()).inventory.getCurrentItem()) != null && s.getItem() == this && !event.source.getSourceOfDamage().getCommandSenderName().equals(this.getSoulbindUsername(s))) {
+        if (event.source.getSourceOfDamage() instanceof EntityPlayer && (s = ((EntityPlayer)event.source.getSourceOfDamage()).inventory.getCurrentItem()) != null && s.getItem() == this && !((EntityPlayer)event.source.getSourceOfDamage()).getCommandSenderName().equals(this.getSoulbindUsername(s))) {
             event.setCanceled(true);
         }
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         if (!world.isRemote && player.isSneaking()) {
-            int type = ItemNBTHelper.getInt(stack, "type", 0);
+            int type = ItemNBTHelper.getInt((ItemStack)stack, (String)"type", (int)0);
             if (type == 0) {
-                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod1")));
-                ItemNBTHelper.setInt(stack, "type", 1);
+                player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod1")));
+                ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)1);
             } else if (type == 1) {
-                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod2")));
-                ItemNBTHelper.setInt(stack, "type", 2);
+                player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod2")));
+                ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)2);
             } else {
-                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod0")));
-                ItemNBTHelper.setInt(stack, "type", 0);
+                player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod0")));
+                ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)0);
             }
         }
         return super.onItemRightClick(stack, world, player);

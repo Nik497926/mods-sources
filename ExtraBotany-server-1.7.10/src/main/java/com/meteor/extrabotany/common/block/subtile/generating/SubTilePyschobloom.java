@@ -27,7 +27,7 @@ extends SubTileGenerating {
 
     public void onUpdate() {
         super.onUpdate();
-        List livings = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.supertile.xCoord - 4, this.supertile.yCoord - 4, this.supertile.zCoord - 4, this.supertile.xCoord + 4 + 1, this.supertile.yCoord + 4 + 1, this.supertile.zCoord + 4 + 1));
+        List livings = this.supertile.getWorldObj().getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox((double)(this.supertile.xCoord - 4), (double)(this.supertile.yCoord - 4), (double)(this.supertile.zCoord - 4), (double)(this.supertile.xCoord + 4 + 1), (double)(this.supertile.yCoord + 4 + 1), (double)(this.supertile.zCoord + 4 + 1)));
         if (this.linkedCollector != null && livings.size() > 0 && this.ticksExisted % 20 == 0) {
             this.mana += Math.min(livings.size() / ConfigHandler.efficiencyPyschobloom + this.supertile.getWorldObj().rand.nextInt(3), ConfigHandler.pyschobloomMax);
         }

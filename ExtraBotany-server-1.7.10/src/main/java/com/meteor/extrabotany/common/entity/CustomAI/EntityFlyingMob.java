@@ -25,9 +25,9 @@ extends EntityMob {
         if (this.isInWater()) {
             this.moveFlying(par1, par2, 0.02f);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.8f;
-            this.motionY *= 0.8f;
-            this.motionZ *= 0.8f;
+            this.motionX *= (double)0.8f;
+            this.motionY *= (double)0.8f;
+            this.motionZ *= (double)0.8f;
         } else if (this.handleLavaMovement()) {
             this.moveFlying(par1, par2, 0.02f);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -38,7 +38,7 @@ extends EntityMob {
             float d0 = 0.91f;
             if (this.onGround) {
                 d0 = 0.54600006f;
-                Block f3 = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                Block f3 = this.worldObj.getBlock(MathHelper.floor_double((double)this.posX), MathHelper.floor_double((double)this.boundingBox.minY) - 1, MathHelper.floor_double((double)this.posZ));
                 if (f3 != Blocks.air) {
                     d0 = f3.slipperiness * 0.91f;
                 }
@@ -48,20 +48,20 @@ extends EntityMob {
             d0 = 0.91f;
             if (this.onGround) {
                 d0 = 0.54600006f;
-                Block d1 = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.boundingBox.minY) - 1, MathHelper.floor_double(this.posZ));
+                Block d1 = this.worldObj.getBlock(MathHelper.floor_double((double)this.posX), MathHelper.floor_double((double)this.boundingBox.minY) - 1, MathHelper.floor_double((double)this.posZ));
                 if (d1 != Blocks.air) {
                     d0 = d1.slipperiness * 0.91f;
                 }
             }
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= d0;
-            this.motionY *= d0;
-            this.motionZ *= d0;
+            this.motionX *= (double)d0;
+            this.motionY *= (double)d0;
+            this.motionZ *= (double)d0;
         }
         this.prevLimbSwingAmount = this.limbSwingAmount;
         double d01 = this.posX - this.prevPosX;
         double d11 = this.posZ - this.prevPosZ;
-        float f4 = MathHelper.sqrt_double(d01 * d01 + d11 * d11) * 4.0f;
+        float f4 = MathHelper.sqrt_double((double)(d01 * d01 + d11 * d11)) * 4.0f;
         if (f4 > 1.0f) {
             f4 = 1.0f;
         }

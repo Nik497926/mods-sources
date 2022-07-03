@@ -84,7 +84,7 @@ extends CreativeTabs {
         this.addItem(ModItems.recordC);
         for (int i = 0; i < ItemAwakePick.LEVELS.length; ++i) {
             ItemStack v0 = new ItemStack(ModItems.awakepick);
-            ItemNBTHelper.setInt(v0, "mana", ItemAwakePick.LEVELS[i]);
+            ItemNBTHelper.setInt((ItemStack)v0, (String)"mana", (int)ItemAwakePick.LEVELS[i]);
             this.addStack(v0);
         }
         this.addItem(ModItems.itemtest);
@@ -104,26 +104,26 @@ extends CreativeTabs {
         this.addItem(ModItems.awakeoglegs);
         this.addItem(ModItems.awakeogboots);
         ItemStack v0 = new ItemStack(ModItems.awakeoghelm);
-        ItemNBTHelper.setInt(v0, "level", 8);
+        ItemNBTHelper.setInt((ItemStack)v0, (String)"level", (int)8);
         this.addStack(v0);
         v0 = new ItemStack(ModItems.awakeogchest);
-        ItemNBTHelper.setInt(v0, "level", 8);
+        ItemNBTHelper.setInt((ItemStack)v0, (String)"level", (int)8);
         this.addStack(v0);
         v0 = new ItemStack(ModItems.awakeoglegs);
-        ItemNBTHelper.setInt(v0, "level", 8);
+        ItemNBTHelper.setInt((ItemStack)v0, (String)"level", (int)8);
         this.addStack(v0);
         v0 = new ItemStack(ModItems.awakeogboots);
-        ItemNBTHelper.setInt(v0, "level", 8);
+        ItemNBTHelper.setInt((ItemStack)v0, (String)"level", (int)8);
         this.addStack(v0);
     }
 
     private void addItem(Item item) {
-        item.getSubItems(item, this, this.list);
+        item.getSubItems(item, (CreativeTabs)this, this.list);
     }
 
     private void addBlock(Block block) {
         ItemStack stack = new ItemStack(block);
-        block.getSubBlocks(stack.getItem(), this, this.list);
+        block.getSubBlocks(stack.getItem(), (CreativeTabs)this, this.list);
     }
 
     private void addStack(ItemStack stack) {

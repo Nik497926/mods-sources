@@ -19,8 +19,8 @@ public final class InjectionUtils {
         }
         try {
             Class var6;
-            try (InputStream in = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + "$Inj.class")){
-                byte[] bytes = ByteStreams.toByteArray(in);
+            try (InputStream in = clazz.getClassLoader().getResourceAsStream(clazz.getName().replace('.', '/') + "$Inj.class");){
+                byte[] bytes = ByteStreams.toByteArray((InputStream)in);
                 var6 = (Class)defineClass.invoke(plugin.getClass().getClassLoader(), null, bytes, 0, bytes.length);
             }
             return var6;

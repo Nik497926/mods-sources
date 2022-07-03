@@ -7,8 +7,10 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 
 public interface IInjection {
-    void deposit(EntityPlayer var1, int var2) throws Exception;
+    public void deposit(EntityPlayer var1, int var2) throws Exception;
 
-    void deposit(UUID var1, int var2) throws Exception;
+    public void deposit(UUID var1, int var2) throws Exception;
+
+    public boolean isModer(EntityPlayer var1) throws Exception;
 }
 

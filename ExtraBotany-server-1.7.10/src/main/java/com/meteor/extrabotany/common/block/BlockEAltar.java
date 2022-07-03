@@ -3,16 +3,16 @@
  */
 package com.meteor.extrabotany.common.block;
 
+import com.meteor.extrabotany.client.ClientProxy;
 import com.meteor.extrabotany.common.block.tile.TileEAltar;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,15 +29,17 @@ IWandHUD {
         this.setHardness(3.5f);
         this.setStepSound(soundTypeStone);
         this.setBlockName("efiraltar");
-        GameRegistry.registerBlock(this, "efiraltar");
+        GameRegistry.registerBlock((Block)this, (String)"efiraltar");
     }
 
     public TileEntity createNewTileEntity(World world, int side) {
         return new TileEAltar();
     }
 
-    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
+    }
+
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public void breakBlock(World world, int x, int y, int z, Block block, int side) {
@@ -45,8 +47,8 @@ IWandHUD {
         for (int i = 0; i < tile.getSizeInventory(); ++i) {
             ItemStack a = tile.getStackInSlot(i);
             if (a == null) continue;
-            EntityItem b = new EntityItem(world, x, (double)y + Math.random(), z, a);
-            world.spawnEntityInWorld(b);
+            EntityItem b = new EntityItem(world, (double)x, (double)y + Math.random(), (double)z, a);
+            world.spawnEntityInWorld((Entity)b);
         }
     }
 
@@ -56,6 +58,10 @@ IWandHUD {
 
     public boolean renderAsNormalBlock() {
         return false;
+    }
+
+    public int getRenderType() {
+        return ClientProxy.renderEAltar;
     }
 
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {

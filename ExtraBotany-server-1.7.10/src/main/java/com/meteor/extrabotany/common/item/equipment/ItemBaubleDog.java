@@ -37,6 +37,13 @@ IFlowerComponent {
         this.setMaxStackSize(1);
     }
 
+    public void registerIcons(IIconRegister par1IconRegister) {
+        this.icons = new IIcon[4];
+        for (int i = 0; i < 4; ++i) {
+            this.icons[i] = IconHelper.forItem((IIconRegister)par1IconRegister, (Item)this, (int)i);
+        }
+    }
+
     public void getSubItems(Item item, CreativeTabs tab, List list) {
         for (int i = 0; i < 4; ++i) {
             list.add(new ItemStack(item, 1, i));
@@ -53,11 +60,11 @@ IFlowerComponent {
 
     public void onPlayerBaubleRender(ItemStack stack, RenderPlayerEvent event, IBaubleRender.RenderType type) {
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
-        IBaubleRender.Helper.translateToHeadLevel(event.entityPlayer);
+        IBaubleRender.Helper.translateToHeadLevel((EntityPlayer)event.entityPlayer);
         if (type == IBaubleRender.RenderType.HEAD) {
             this.faceTranslate();
             this.scale(0.5f);
-            GL11.glTranslatef(0.3f, 0.7f, 0.5f);
+            GL11.glTranslatef((float)0.3f, (float)0.7f, (float)0.5f);
             this.renderIcon(stack.getItemDamage());
         }
     }
@@ -67,18 +74,18 @@ IFlowerComponent {
     }
 
     public void faceTranslate() {
-        GL11.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-        GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-        GL11.glTranslatef(-0.4f, 0.1f, -0.25f);
+        GL11.glRotatef((float)90.0f, (float)0.0f, (float)1.0f, (float)0.0f);
+        GL11.glRotatef((float)180.0f, (float)1.0f, (float)0.0f, (float)0.0f);
+        GL11.glTranslatef((float)-0.4f, (float)0.1f, (float)-0.25f);
     }
 
     public void chestTranslate() {
-        GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-        GL11.glTranslatef(-0.5f, -0.7f, 0.15f);
+        GL11.glRotatef((float)180.0f, (float)1.0f, (float)0.0f, (float)0.0f);
+        GL11.glTranslatef((float)-0.5f, (float)-0.7f, (float)0.15f);
     }
 
     public void scale(float f) {
-        GL11.glScalef(f, f, f);
+        GL11.glScalef((float)f, (float)f, (float)f);
     }
 
     public void renderIcon(int i) {
@@ -87,7 +94,7 @@ IFlowerComponent {
         float f1 = icon.getMaxU();
         float f2 = icon.getMinV();
         float f3 = icon.getMaxV();
-        ItemRenderer.renderItemIn2D(Tessellator.instance, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.25f);
+        ItemRenderer.renderItemIn2D((Tessellator)Tessellator.instance, (float)f1, (float)f2, (float)f, (float)f3, (int)icon.getIconWidth(), (int)icon.getIconHeight(), (float)0.25f);
     }
 
     public boolean canFit(ItemStack arg0, IInventory arg1) {

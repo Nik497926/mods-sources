@@ -113,7 +113,7 @@ public class ModRecipe {
         manareader = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.gaiatablet), "AAA", "ABA", "AAA", Character.valueOf('A'), "QuartzGaia", Character.valueOf('B'), ModItems.manaTablet);
         gaiatablet = BotaniaAPI.getLatestAddedRecipe();
-        GameRegistry.addShapelessRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.manapotato), new ItemStack(Items.potato), new ItemStack(Items.redstone), new ItemStack(ModItems.manaResource, 1, 17));
+        GameRegistry.addShapelessRecipe((ItemStack)new ItemStack(com.meteor.extrabotany.common.item.ModItems.manapotato), (Object[])new Object[]{new ItemStack(Items.potato), new ItemStack(Items.redstone), new ItemStack(ModItems.manaResource, 1, 17)});
         manapotato = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.angelwand), " AB", " CA", "AD ", Character.valueOf('A'), "dreamwoodTwig", Character.valueOf('B'), "elvenDragonstone", Character.valueOf('C'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.teleportpearl), Character.valueOf('D'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.manapotato));
         angelwand = BotaniaAPI.getLatestAddedRecipe();
@@ -123,7 +123,7 @@ public class ModRecipe {
         bladepurple = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.gaiawise), "A A", "BCB", "BBB", Character.valueOf('A'), "gaiaIngot", Character.valueOf('B'), "nuggetTerrasteel", Character.valueOf('C'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 10));
         gaiawise = BotaniaAPI.getLatestAddedRecipe();
-        GameRegistry.addShapedRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.teleportpearl, 16), "AAA", "ABA", "AAA", Character.valueOf('A'), new ItemStack(ModItems.manaBottle), Character.valueOf('B'), Items.ender_pearl);
+        GameRegistry.addShapedRecipe((ItemStack)new ItemStack(com.meteor.extrabotany.common.item.ModItems.teleportpearl, 16), (Object[])new Object[]{"AAA", "ABA", "AAA", Character.valueOf('A'), new ItemStack(ModItems.manaBottle), Character.valueOf('B'), Items.ender_pearl});
         teleportpearl = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 8, 8), "AAA", "ABA", "AAA", Character.valueOf('A'), "manaString", Character.valueOf('B'), new ItemStack(Items.gold_ingot));
         goldString = BotaniaAPI.getLatestAddedRecipe();
@@ -165,7 +165,7 @@ public class ModRecipe {
         dagger = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.maxwelldemon), "ABA", "ACA", "AAA", Character.valueOf('A'), "ingotManasteel", Character.valueOf('B'), "SteelSoul", Character.valueOf('C'), "bEnderAirBottle");
         maxwell = BotaniaAPI.getLatestAddedRecipe();
-        BotaniaAPI.registerElvenTradeRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.emptysoulsteel), new ItemStack(com.meteor.extrabotany.common.item.ModItems.castsoulsteel));
+        BotaniaAPI.registerElvenTradeRecipe((ItemStack)new ItemStack(com.meteor.extrabotany.common.item.ModItems.emptysoulsteel), (Object[])new Object[]{new ItemStack(com.meteor.extrabotany.common.item.ModItems.castsoulsteel)});
         emptysoulsteel = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 11), "A", "B", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.emptysoulsteel), Character.valueOf('B'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 10));
         soulsteel = BotaniaAPI.getLatestAddedRecipe();
@@ -173,9 +173,9 @@ public class ModRecipe {
         elfirium = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.blockelfirium), "AAA", "AAA", "AAA", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.elfirium));
         blockelfirium = BotaniaAPI.getLatestAddedRecipe();
-        ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.auracontroler), "ABA", "C C", "ABA", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.elfirium), Character.valueOf('B'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.awakearmcontrol), Character.valueOf('C'), new ItemStack(Item.getItemFromBlock(Blocks.glass)));
+        ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.auracontroler), "ABA", "C C", "ABA", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.elfirium), Character.valueOf('B'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.awakearmcontrol), Character.valueOf('C'), new ItemStack(Item.getItemFromBlock((Block)Blocks.glass)));
         auracontroler = BotaniaAPI.getLatestAddedRecipe();
-        ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.elfpool), " A ", "ABA", " A ", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 11), Character.valueOf('B'), new ItemStack(Item.getItemFromBlock(ModBlocks.pool)));
+        ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.elfpool), " A ", "ABA", " A ", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 11), Character.valueOf('B'), new ItemStack(Item.getItemFromBlock((Block)ModBlocks.pool)));
         elfpool = BotaniaAPI.getLatestAddedRecipe();
         ModRecipe.addOreDictRecipe(new ItemStack(com.meteor.extrabotany.common.block.ModBlocks.awakeelfupdater), "ABA", "BCB", "ABA", Character.valueOf('A'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.elfirium), Character.valueOf('B'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 9), Character.valueOf('C'), new ItemStack(com.meteor.extrabotany.common.item.ModItems.awakearmcontrol));
         elfupdater = BotaniaAPI.getLatestAddedRecipe();
@@ -194,8 +194,8 @@ public class ModRecipe {
     }
 
     private static void remove() {
-        FMLLog.log(Level.INFO, "Removed %d crafting recipes in ALL", CraftingHandler.countCrafting);
-        FMLLog.log(Level.INFO, "Removed %d furnace recipes in ALL", CraftingHandler.countFurnace);
+        FMLLog.log((Level)Level.INFO, (String)"Removed %d crafting recipes in ALL", (Object[])new Object[]{CraftingHandler.countCrafting});
+        FMLLog.log((Level)Level.INFO, (String)"Removed %d furnace recipes in ALL", (Object[])new Object[]{CraftingHandler.countFurnace});
     }
 
     private static void addOreDictRecipe(ItemStack output, Object ... recipe) {

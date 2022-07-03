@@ -3,9 +3,14 @@
  */
 package com.meteor.extrabotany.common.block.tile;
 
+import com.meteor.extrabotany.common.block.tile.TileEAltar;
+import com.meteor.extrabotany.common.block.tile.TileTransformater;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -21,7 +26,7 @@ extends TileEntity {
     private int tickClient = 0;
     private int efir = 0;
     private int stability = 100;
-    private final ArrayList<TileEntity> connected = new ArrayList();
+    private ArrayList<TileEntity> connected = new ArrayList();
     private int[][] withConnect = new int[0][];
 
     public Packet getDescriptionPacket() {
@@ -56,7 +61,7 @@ extends TileEntity {
             }
         }
         this.stability = this.getStability();
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
     }
 
     public void readFromNBT(NBTTagCompound nbt) {
@@ -103,12 +108,12 @@ extends TileEntity {
         for (int i = 0; i < this.connected.size(); ++i) {
             if (this.connected.get(i) == null) continue;
             NBTTagCompound _n = new NBTTagCompound();
-            _n.setInteger("x", this.connected.get(i).xCoord);
-            _n.setInteger("y", this.connected.get(i).yCoord);
-            _n.setInteger("z", this.connected.get(i).zCoord);
-            connect.appendTag(_n);
+            _n.setInteger("x", this.connected.get((int)i).xCoord);
+            _n.setInteger("y", this.connected.get((int)i).yCoord);
+            _n.setInteger("z", this.connected.get((int)i).zCoord);
+            connect.appendTag((NBTBase)_n);
         }
-        nbt.setTag("link", connect);
+        nbt.setTag("link", (NBTBase)connect);
     }
 
     public int getStability(TileEntity tile) {
@@ -157,6 +162,9 @@ extends TileEntity {
             return true;
         }
         return false;
+    }
+
+    public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
     }
 }
 

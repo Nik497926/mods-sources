@@ -16,7 +16,7 @@ implements IMessage,
 IMessageHandler<REQ, REQ> {
     public REQ onMessage(REQ message, MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
-            this.handleServerSide(message, ctx.getServerHandler().playerEntity);
+            this.handleServerSide(message, (EntityPlayer)ctx.getServerHandler().playerEntity);
         } else {
             this.handleClientSide(message, ExtraBotany.proxy.getClientPlayer());
         }

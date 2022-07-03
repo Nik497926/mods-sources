@@ -38,11 +38,11 @@ IManaTooltipDisplay {
     }
 
     public static void setMana(ItemStack stack, int mana) {
-        ItemNBTHelper.setInt(stack, TAG_MANA, mana);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_MANA, (int)mana);
     }
 
     public int getMana(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_MANA, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_MANA, (int)0);
     }
 
     public int getMaxMana(ItemStack stack) {
@@ -54,7 +54,7 @@ IManaTooltipDisplay {
     }
 
     public boolean canReceiveManaFromPool(ItemStack stack, TileEntity pool) {
-        return !ItemNBTHelper.getBoolean(stack, TAG_ONE_USE, false);
+        return !ItemNBTHelper.getBoolean((ItemStack)stack, (String)TAG_ONE_USE, (boolean)false);
     }
 
     public boolean canReceiveManaFromItem(ItemStack stack, ItemStack otherStack) {

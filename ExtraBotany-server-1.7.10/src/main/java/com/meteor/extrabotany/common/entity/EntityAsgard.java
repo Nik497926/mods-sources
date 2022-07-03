@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.entity;
 
+import com.meteor.extrabotany.common.block.plugin.EssentialsAdapter;
 import com.meteor.extrabotany.common.entity.EntityExMachine;
 import com.meteor.extrabotany.common.entity.gaia.EntityGaiaIII;
 import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
@@ -51,14 +52,14 @@ implements IBossDisplayData {
         this.isImmuneToFire = true;
         this.getNavigator().setAvoidsWater(true);
         this.getNavigator().setCanSwim(true);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, 1.0, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1.0, 48.0f));
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0f));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+        this.tasks.addTask(1, (EntityAIBase)new EntityAISwimming((EntityLiving)this));
+        this.tasks.addTask(2, (EntityAIBase)new EntityAIAttackOnCollide((EntityCreature)this, 1.0, true));
+        this.tasks.addTask(4, (EntityAIBase)new EntityAIMoveTowardsTarget((EntityCreature)this, 1.0, 48.0f));
+        this.tasks.addTask(5, (EntityAIBase)new EntityAIWander((EntityCreature)this, 1.0));
+        this.tasks.addTask(6, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, 6.0f));
+        this.tasks.addTask(7, (EntityAIBase)new EntityAILookIdle((EntityLiving)this));
+        this.targetTasks.addTask(1, (EntityAIBase)new EntityAIHurtByTarget((EntityCreature)this, false));
+        this.targetTasks.addTask(1, (EntityAIBase)new EntityAINearestAttackableTarget((EntityCreature)this, EntityPlayer.class, 0, true));
         this.experienceValue = 1225;
         this.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth).setBaseValue(240.0);
         super.setHealth(240.0f);
@@ -66,9 +67,9 @@ implements IBossDisplayData {
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, 0);
-        this.dataWatcher.addObject(17, 0);
-        this.dataWatcher.addObject(20, new Integer(0));
+        this.dataWatcher.addObject(16, (Object)0);
+        this.dataWatcher.addObject(17, (Object)0);
+        this.dataWatcher.addObject(20, (Object)new Integer(0));
     }
 
     protected void applyEntityAttributes() {
@@ -88,7 +89,7 @@ implements IBossDisplayData {
     }
 
     public String getCommandSenderName() {
-        return StatCollector.translateToLocal("entity.ExtraBotania.asgard.name");
+        return StatCollector.translateToLocal((String)"entity.ExtraBotania.asgard.name");
     }
 
     public void setRevengeTarget(EntityLivingBase entity) {
@@ -102,7 +103,7 @@ implements IBossDisplayData {
     }
 
     public void setInvulTime(int par1) {
-        this.dataWatcher.updateObject(20, par1);
+        this.dataWatcher.updateObject(20, (Object)par1);
     }
 
     public void init() {
@@ -169,8 +170,8 @@ implements IBossDisplayData {
             height = 0.2;
             force = 6;
         }
-        this.worldObj.setEntityState(this, (byte)4);
-        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(6 + this.rand.nextInt(force)));
+        this.worldObj.setEntityState((Entity)this, (byte)4);
+        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)this), (float)(6 + this.rand.nextInt(force)));
         if (flag) {
             par1Entity.motionY += 0.5 + height;
         }
@@ -224,26 +225,28 @@ implements IBossDisplayData {
     protected boolean interact(EntityPlayer pl) {
         ItemStack st;
         if (pl != null && !pl.isDead && !pl.worldObj.isRemote && (st = pl.inventory.getCurrentItem()) != null && st.getItemDamage() == 11 && st.stackSize >= 4 && pl instanceof EntityPlayerMP && pl.worldObj.provider.dimensionId != 150) {
-            for (int i = 0; i <= 3; ++i) {
-                boolean b = false;
-                if (pl.inventory.armorInventory[i] == null) {
-                    b = true;
-                } else if (!(pl.inventory.armorInventory[i].getItem() instanceof ItemOGArmor)) {
-                    b = true;
+            if (!EssentialsAdapter.isModer(pl)) {
+                for (int i = 0; i <= 3; ++i) {
+                    boolean b = false;
+                    if (pl.inventory.armorInventory[i] == null) {
+                        b = true;
+                    } else if (!(pl.inventory.armorInventory[i].getItem() instanceof ItemOGArmor)) {
+                        b = true;
+                    }
+                    if (!b) continue;
+                    pl.addChatComponentMessage((IChatComponent)new ChatComponentText("\u00a7e\u0410\u0441\u0433\u0430\u0440\u0434\u0435\u0446> \u00a7c\u042f \u043d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0443\u0441\u0442\u0438\u0442\u044c \u0442\u0435\u0431\u044f \u0432 \u0410\u0441\u0433\u0430\u0440\u0434 \u0432 \u044d\u0442\u043e\u0439 \u0431\u0440\u043e\u043d\u0435."));
+                    return true;
                 }
-                if (!b) continue;
-                pl.addChatComponentMessage(new ChatComponentText("\u00a7e\u0410\u0441\u0433\u0430\u0440\u0434\u0435\u0446> \u00a7c\u042f \u043d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0443\u0441\u0442\u0438\u0442\u044c \u0442\u0435\u0431\u044f \u0432 \u0410\u0441\u0433\u0430\u0440\u0434 \u0432 \u044d\u0442\u043e\u0439 \u0431\u0440\u043e\u043d\u0435."));
-                return true;
             }
             st.stackSize -= 4;
             if (st.stackSize <= 0) {
                 st = null;
             }
             pl.inventory.setInventorySlotContents(pl.inventory.currentItem, st);
-            pl.addChatComponentMessage(new ChatComponentText("\u00a7f[\u00a76Asgard\u00a7f]: \u041f\u043b\u0430\u0442\u0430 \u043f\u0440\u0438\u043d\u044f\u0442\u0430. \u041d\u043e \u043d\u0435 \u043d\u0430\u0434\u0435\u0439\u0441\u044f, \u0447\u0442\u043e \u0432 \u0441\u043b\u0435\u0434. \u0440\u0430\u0437 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u0441\u044f \u0442\u0430\u043a\u0436\u0435..."));
-            pl.timeUntilPortal = 10;
+            pl.addChatComponentMessage((IChatComponent)new ChatComponentText("\u00a7f[\u00a76Asgard\u00a7f]: \u041f\u043b\u0430\u0442\u0430 \u043f\u0440\u0438\u043d\u044f\u0442\u0430. \u041d\u043e \u043d\u0435 \u043d\u0430\u0434\u0435\u0439\u0441\u044f, \u0447\u0442\u043e \u0432 \u0441\u043b\u0435\u0434. \u0440\u0430\u0437 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u0441\u044f \u0442\u0430\u043a\u0436\u0435..."));
+            ((EntityPlayerMP)pl).timeUntilPortal = 10;
             MinecraftServer mServer = FMLCommonHandler.instance().getMinecraftServerInstance();
-            ((EntityPlayerMP)pl).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)pl, 150, new TeleportAsgard(mServer.worldServerForDimension(150)));
+            ((EntityPlayerMP)pl).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)pl, 150, (Teleporter)new TeleportAsgard(mServer.worldServerForDimension(150)));
         }
         return super.interact(pl);
     }

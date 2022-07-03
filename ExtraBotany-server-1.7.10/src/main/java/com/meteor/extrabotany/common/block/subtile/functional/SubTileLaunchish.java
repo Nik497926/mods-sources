@@ -16,13 +16,13 @@ public class SubTileLaunchish
 extends SubTileFunctional {
     private static final int RANGE = 0;
     private String owner;
-    private final int cd = 0;
+    private int cd = 0;
 
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
         if (!(entity instanceof EntityPlayer)) {
             return;
         }
-        this.owner = entity.getCommandSenderName();
+        this.owner = ((EntityPlayer)entity).getCommandSenderName();
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
 

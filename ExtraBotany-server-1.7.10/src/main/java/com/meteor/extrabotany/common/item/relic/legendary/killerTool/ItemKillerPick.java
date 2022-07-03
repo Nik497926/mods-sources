@@ -6,13 +6,9 @@ package com.meteor.extrabotany.common.item.relic.legendary.killerTool;
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.entity.gaia.EntityGaiaIII;
 import com.meteor.extrabotany.common.item.equipment.CoreTool;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.killer.ItemKillerArmor;
-import com.meteor.extrabotany.common.item.relic.legendary.killerTool.ItemKillerAxe;
-import com.meteor.extrabotany.common.item.relic.legendary.killerTool.ItemKillerSword;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.awt.Color;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,13 +40,13 @@ IManaUsingItem {
 
     public ItemKillerPick() {
         super(ItemKillerAxe.material);
-        this.setUnlocalizedName(this.name).setCreativeTab(ExtraBotany.tabExtraBotany).setMaxStackSize(1);
+        this.setUnlocalizedName(this.name).setCreativeTab((CreativeTabs)ExtraBotany.tabExtraBotany).setMaxStackSize(1);
         this.setHarvestLevel("pickaxe", 50);
-        GameRegistry.registerItem(this, this.name);
+        GameRegistry.registerItem((Item)this, (String)this.name);
     }
 
     public IIcon getIcon(ItemStack stack, int pass) {
-        int type = ItemNBTHelper.getInt(stack, "type", 0);
+        int type = ItemNBTHelper.getInt((ItemStack)stack, (String)"type", (int)0);
         switch (type) {
             case 0: {
                 this.itemIcon = this.icons[0];
@@ -82,17 +78,17 @@ IManaUsingItem {
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, "attackerUsername", player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)"attackerUsername", (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
 
     public void bindToUsername(String s, ItemStack itemStack) {
-        ItemNBTHelper.setString(itemStack, "soulbinds", s);
+        ItemNBTHelper.setString((ItemStack)itemStack, (String)"soulbinds", (String)s);
     }
 
     public String getSoulbindUsername(ItemStack itemStack) {
-        return ItemNBTHelper.getString(itemStack, "soulbinds", "");
+        return ItemNBTHelper.getString((ItemStack)itemStack, (String)"soulbinds", (String)"");
     }
 
     public void setBindAchievement(Achievement achievement) {
@@ -113,22 +109,22 @@ IManaUsingItem {
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (EntityGaiaIII.isTruePlayer(player) && ItemKillerArmor.isRightPlayer(player, stack) && player.isSneaking()) {
-            int type = ItemNBTHelper.getInt(stack, "type", 0);
+        if (!world.isRemote && EntityGaiaIII.isTruePlayer((Entity)player) && ItemKillerAxe.canUse(player, stack) && player.isSneaking()) {
+            int type = ItemNBTHelper.getInt((ItemStack)stack, (String)"type", (int)0);
             switch (type) {
                 case 0: {
-                    ItemNBTHelper.setInt(stack, "type", 1);
-                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod1")));
+                    ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)1);
+                    player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod1")));
                     break;
                 }
                 case 1: {
-                    ItemNBTHelper.setInt(stack, "type", 2);
-                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod2")));
+                    ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)2);
+                    player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod2")));
                     break;
                 }
                 default: {
-                    ItemNBTHelper.setInt(stack, "type", 0);
-                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("misc.killerTool.mod0")));
+                    ItemNBTHelper.setInt((ItemStack)stack, (String)"type", (int)0);
+                    player.addChatComponentMessage((IChatComponent)new ChatComponentText(StatCollector.translateToLocal((String)"misc.killerTool.mod0")));
                 }
             }
         }

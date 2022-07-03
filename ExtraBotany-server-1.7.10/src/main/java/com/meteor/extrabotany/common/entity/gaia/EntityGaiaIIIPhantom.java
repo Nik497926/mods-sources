@@ -45,16 +45,16 @@ implements IMinion {
         super(world);
         this.setSize(0.6f, 1.8f);
         this.getNavigator().setCanSwim(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityPlayer.class, Float.MAX_VALUE));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0, false));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0));
-        this.tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0, false));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0f));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+        this.tasks.addTask(0, (EntityAIBase)new EntityAISwimming((EntityLiving)this));
+        this.tasks.addTask(1, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, Float.MAX_VALUE));
+        this.tasks.addTask(2, (EntityAIBase)new EntityAIAttackOnCollide((EntityCreature)this, EntityPlayer.class, 1.0, false));
+        this.tasks.addTask(5, (EntityAIBase)new EntityAIMoveTowardsRestriction((EntityCreature)this, 1.0));
+        this.tasks.addTask(6, (EntityAIBase)new EntityAIMoveThroughVillage((EntityCreature)this, 1.0, false));
+        this.tasks.addTask(7, (EntityAIBase)new EntityAIWander((EntityCreature)this, 1.0));
+        this.tasks.addTask(8, (EntityAIBase)new EntityAIWatchClosest((EntityLiving)this, EntityPlayer.class, 8.0f));
+        this.tasks.addTask(8, (EntityAIBase)new EntityAILookIdle((EntityLiving)this));
+        this.targetTasks.addTask(1, (EntityAIBase)new EntityAIHurtByTarget((EntityCreature)this, true));
+        this.targetTasks.addTask(2, (EntityAIBase)new EntityAINearestAttackableTarget((EntityCreature)this, EntityPlayer.class, 0, true));
         this.isImmuneToFire = true;
         this.experienceValue = 0;
     }
@@ -69,15 +69,15 @@ implements IMinion {
         e.setPosition(posX + 0.5, posY + 3.0, posZ + 0.5);
         e.setInvulTime(100);
         e.setHealth(1.0f);
-        String b = "Made by Vazkii";
+        String b = "Obvilion.ru project";
         ItemStack s2 = new ItemStack(ModItems.oghelm);
-        ItemRelic.bindToUsernameS(b, s2);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s2);
         ItemStack s3 = new ItemStack(ModItems.ogchest);
-        ItemRelic.bindToUsernameS(b, s3);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s3);
         ItemStack s4 = new ItemStack(ModItems.oglegs);
-        ItemRelic.bindToUsernameS(b, s4);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s4);
         ItemStack s5 = new ItemStack(ModItems.ogboots);
-        ItemRelic.bindToUsernameS(b, s5);
+        ItemRelic.bindToUsernameS((String)b, (ItemStack)s5);
         e.setCurrentItemOrArmor(1, s2);
         e.setCurrentItemOrArmor(2, s3);
         e.setCurrentItemOrArmor(3, s4);
@@ -87,8 +87,8 @@ implements IMinion {
         e.setEquipmentDropChance(2, -1.0f);
         e.setEquipmentDropChance(3, -1.0f);
         e.setEquipmentDropChance(4, -1.0f);
-        par3World.playSoundAtEntity(e, "mob.enderdragon.growl", 10.0f, 0.1f);
-        par3World.spawnEntityInWorld(e);
+        par3World.playSoundAtEntity((Entity)e, "mob.enderdragon.growl", 10.0f, 0.1f);
+        par3World.spawnEntityInWorld((Entity)e);
         return true;
     }
 
@@ -98,7 +98,7 @@ implements IMinion {
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(20, 0);
+        this.dataWatcher.addObject(20, (Object)0);
     }
 
     public int getInvulTime() {
@@ -106,7 +106,7 @@ implements IMinion {
     }
 
     public void setInvulTime(int time) {
-        this.dataWatcher.updateObject(20, time);
+        this.dataWatcher.updateObject(20, (Object)time);
     }
 
     public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
@@ -131,7 +131,7 @@ implements IMinion {
         super.onDeath(p_70645_1_);
         EntityLivingBase entitylivingbase = this.func_94060_bK();
         if (entitylivingbase instanceof EntityPlayer) {
-            entitylivingbase.attackEntityFrom(DamageSource.causeMobDamage(this.summoner), 6.0f);
+            entitylivingbase.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)this.summoner), 6.0f);
         }
     }
 
@@ -140,7 +140,7 @@ implements IMinion {
     }
 
     public boolean attackEntityAsMob(Entity entity) {
-        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), 6.0f);
+        return entity.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)this), 6.0f);
     }
 
     public void onLivingUpdate() {
@@ -160,7 +160,7 @@ implements IMinion {
                 this.setInvulTime(invul - 1);
             }
         }
-        if ((players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(this.posX + 0.5 - (double)(range = 11), this.posY + 0.5 - (double)range, this.posZ + 0.5 - (double)range, this.posX + 0.5 + (double)range, this.posY + 0.5 + (double)range, this.posZ + 0.5 + (double)range))).isEmpty() && !this.worldObj.playerEntities.isEmpty()) {
+        if ((players = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)(this.posX + 0.5 - (double)(range = 11)), (double)(this.posY + 0.5 - (double)range), (double)(this.posZ + 0.5 - (double)range), (double)(this.posX + 0.5 + (double)range), (double)(this.posY + 0.5 + (double)range), (double)(this.posZ + 0.5 + (double)range)))).isEmpty() && !this.worldObj.playerEntities.isEmpty()) {
             this.setDead();
         }
         boolean bl = peaceful = this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL;

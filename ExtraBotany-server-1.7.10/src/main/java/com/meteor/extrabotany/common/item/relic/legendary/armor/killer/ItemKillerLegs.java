@@ -28,7 +28,7 @@ implements IVisDiscountGear {
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         NBTTagCompound nbt;
         super.onArmorTick(world, player, stack);
-        if (ItemNBTHelper.getBoolean(stack, "potion", true) && !(nbt = ItemNBTHelper.getNBT(stack)).hasKey("lastDMG")) {
+        if (ItemNBTHelper.getBoolean((ItemStack)stack, (String)"potion", (boolean)true) && !(nbt = ItemNBTHelper.getNBT((ItemStack)stack)).hasKey("lastDMG")) {
             player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 40, 1, true));
         }
         if (!CoreArmor.getAnother(player, (byte)2, (byte)0) && !world.isRemote) {

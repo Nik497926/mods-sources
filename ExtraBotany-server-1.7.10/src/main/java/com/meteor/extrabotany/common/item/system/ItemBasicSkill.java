@@ -24,6 +24,14 @@ implements IFlowerComponent {
         this.setUnlocalizedName("skill");
     }
 
+    @Override
+    public void registerIcons(IIconRegister par1IconRegister) {
+        this.icons = new IIcon[16];
+        for (int i = 0; i < this.icons.length; ++i) {
+            this.icons[i] = IconHelper.forItem((IIconRegister)par1IconRegister, (Item)this, (int)i);
+        }
+    }
+
     public IIcon getIconFromDamage(int par1) {
         return this.icons[Math.min(this.icons.length - 1, par1)];
     }

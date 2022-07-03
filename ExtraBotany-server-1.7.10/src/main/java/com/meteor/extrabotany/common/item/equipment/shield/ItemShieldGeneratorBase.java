@@ -65,17 +65,17 @@ extends ItemBauble {
         super(name);
         this.setMaxStackSize(1);
         this.setHasSubtypes(true);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
     }
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b) {
         if (GuiScreen.isShiftKeyDown()) {
-            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal("botania.shieldgenerator.info0").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getMaxShield(stack))), list);
-            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal("botania.shieldgenerator.info1").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getCurrentShield(stack))), list);
-            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal("botania.shieldgenerator.info2").replace("%A%", String.valueOf(this.getGenerateSpeed() * 20.0f)), list);
-            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal("botania.shieldgenerator.info3").replace("%A%", String.valueOf(this.getCD() / 20)), list);
-            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal("botania.shieldgenerator.info4").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getCD(stack) / 20)), list);
+            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal((String)"botania.shieldgenerator.info0").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getMaxShield(stack))), list);
+            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal((String)"botania.shieldgenerator.info1").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getCurrentShield(stack))), list);
+            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal((String)"botania.shieldgenerator.info2").replace("%A%", String.valueOf(this.getGenerateSpeed() * 20.0f)), list);
+            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal((String)"botania.shieldgenerator.info3").replace("%A%", String.valueOf(this.getCD() / 20)), list);
+            ItemShieldGeneratorBase.addStringToTooltip(StatCollector.translateToLocal((String)"botania.shieldgenerator.info4").replace("%A%", String.valueOf(ItemShieldGeneratorBase.getCD(stack) / 20)), list);
         }
     }
 
@@ -88,14 +88,14 @@ extends ItemBauble {
             EntityPlayer player = (EntityPlayer)entity;
             if (ItemShieldGeneratorBase.getCD(stack) > 0) {
                 ItemShieldGeneratorBase.setCD(stack, ItemShieldGeneratorBase.getCD(stack) - 1);
-            } else if (ManaItemHandler.requestManaExact(stack, player, Math.max(1, (int)((float)this.getManaCost() * this.getGenerateSpeed() * 20.0f)), true)) {
+            } else if (ManaItemHandler.requestManaExact((ItemStack)stack, (EntityPlayer)player, (int)Math.max(1, (int)((float)this.getManaCost() * this.getGenerateSpeed() * 20.0f)), (boolean)true)) {
                 ItemShieldGeneratorBase.recoverShield(player, this.getGenerateSpeed());
             }
         }
     }
 
     public static ItemStack getShieldGenerator(EntityPlayer player) {
-        InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+        InventoryBaubles baubles = PlayerHandler.getPlayerBaubles((EntityPlayer)player);
         ItemStack stack1 = baubles.func_70301_a(1);
         ItemStack stack2 = baubles.func_70301_a(2);
         return ItemShieldGeneratorBase.isShieldGenerator(stack1) ? stack1 : (ItemShieldGeneratorBase.isShieldGenerator(stack2) ? stack2 : null);
@@ -118,27 +118,27 @@ extends ItemBauble {
     }
 
     public static float getMaxShield(ItemStack stack) {
-        return ItemNBTHelper.getFloat(stack, TAG_MAXSHIELD, 0.0f);
+        return ItemNBTHelper.getFloat((ItemStack)stack, (String)TAG_MAXSHIELD, (float)0.0f);
     }
 
     public static void setMaxShield(ItemStack stack, float i) {
-        ItemNBTHelper.setFloat(stack, TAG_MAXSHIELD, i);
+        ItemNBTHelper.setFloat((ItemStack)stack, (String)TAG_MAXSHIELD, (float)i);
     }
 
     public static float getCurrentShield(ItemStack stack) {
-        return ItemNBTHelper.getFloat(stack, TAG_CURRENTSHIELD, 0.0f);
+        return ItemNBTHelper.getFloat((ItemStack)stack, (String)TAG_CURRENTSHIELD, (float)0.0f);
     }
 
     public static void setCurrentShield(ItemStack stack, float i) {
-        ItemNBTHelper.setFloat(stack, TAG_CURRENTSHIELD, i);
+        ItemNBTHelper.setFloat((ItemStack)stack, (String)TAG_CURRENTSHIELD, (float)i);
     }
 
     public static int getCD(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_CD, 0);
+        return ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_CD, (int)0);
     }
 
     public static void setCD(ItemStack stack, int i) {
-        ItemNBTHelper.setInt(stack, TAG_CD, i);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_CD, (int)i);
     }
 
     public BaubleType getBaubleType(ItemStack arg0) {

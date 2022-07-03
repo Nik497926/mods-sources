@@ -64,32 +64,32 @@ public class ModAchievement {
     public static Achievement thousandUse;
 
     public static void init() {
-        O_blank = new AchievementMod("blankcard", 1, 0, new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 1), null);
+        O_blank = new AchievementMod("blankcard", 1, 0, new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 1), (Achievement)null);
         thousandUse = new AchievementMod("manareader", -2, -2, new ItemStack(com.meteor.extrabotany.common.item.ModItems.reader), O_blank);
-        F_annoy = new AchievementMod("annoyobloom", 0, 1, ItemBlockSpecialFlower.ofType("annoyobloom"), O_blank);
-        F_artifa = new AchievementMod("artifaconia", 2, 1, ItemBlockSpecialFlower.ofType("artifaconia"), O_blank);
-        F_diplop = new AchievementMod("diplopbamboo", 0, 2, ItemBlockSpecialFlower.ofType("diplopbamboo"), O_blank);
-        F_ice = new AchievementMod("icebirdium", 2, 2, ItemBlockSpecialFlower.ofType("icebirdium"), O_blank);
-        F_launch = new AchievementMod("launchish", 0, 3, ItemBlockSpecialFlower.ofType("launchish"), O_blank);
-        F_necro = new AchievementMod("necrofleur", 2, 3, ItemBlockSpecialFlower.ofType("necrofleur"), O_blank);
-        F_numeb = new AchievementMod("numeronbalsam", 0, 4, ItemBlockSpecialFlower.ofType("numeronbalsam"), O_blank);
-        F_numed = new AchievementMod("numerondandelife", 2, 4, ItemBlockSpecialFlower.ofType("numerondandelife"), O_blank);
-        F_void = new AchievementMod("voiduim", 0, 5, ItemBlockSpecialFlower.ofType("voiduim"), O_blank);
-        F_vola = new AchievementMod("volatilily", 2, 5, ItemBlockSpecialFlower.ofType("volatilily"), O_blank);
-        F_woo = new AchievementMod("woodienia", 0, 6, ItemBlockSpecialFlower.ofType("woodienia"), O_blank);
-        F_blue = new AchievementMod("blueenchantress", 2, 6, ItemBlockSpecialFlower.ofType("blueenchantress"), O_blank);
-        F_candy = new AchievementMod("candyflower", 0, 7, ItemBlockSpecialFlower.ofType("candyflower"), O_blank);
-        F_gemini = new AchievementMod("geminiorchid", 2, 7, ItemBlockSpecialFlower.ofType("geminiorchid"), O_blank);
-        F_moon = new AchievementMod("moonlightlily", 0, 8, ItemBlockSpecialFlower.ofType("moonlightlily"), O_blank);
-        F_omni = new AchievementMod("omniviolet", 2, 8, ItemBlockSpecialFlower.ofType("omniviolet"), O_blank);
-        F_pyscho = new AchievementMod("pyschobloom", 0, 9, ItemBlockSpecialFlower.ofType("pyschobloom"), O_blank);
-        F_stone = new AchievementMod("stonesia", 2, 9, ItemBlockSpecialFlower.ofType("stonesia"), O_blank);
-        F_sun = new AchievementMod("sunshinelily", 0, 10, ItemBlockSpecialFlower.ofType("sunshinelily"), O_blank);
-        F_infer = new AchievementMod("infernoidisy", 2, 10, ItemBlockSpecialFlower.ofType("infernoidisy"), O_blank);
-        F_judas = new AchievementMod("judasvow", 0, 11, ItemBlockSpecialFlower.ofType("judasvow"), O_blank);
-        F_mana = new AchievementMod("manalinkuim", 2, 11, ItemBlockSpecialFlower.ofType("manalinkuim"), O_blank);
-        Gaia_gaia3Kill = new AchievementMod("gaia_kill", -8, 8, ModItems.gaiaHead, null);
-        Gaia_gaia3NoArmor = new AchievementMod("gaia_noarmor", -6, 8, com.meteor.extrabotany.common.item.ModItems.dungeonbox, null);
+        F_annoy = new AchievementMod("annoyobloom", 0, 1, ItemBlockSpecialFlower.ofType((String)"annoyobloom"), O_blank);
+        F_artifa = new AchievementMod("artifaconia", 2, 1, ItemBlockSpecialFlower.ofType((String)"artifaconia"), O_blank);
+        F_diplop = new AchievementMod("diplopbamboo", 0, 2, ItemBlockSpecialFlower.ofType((String)"diplopbamboo"), O_blank);
+        F_ice = new AchievementMod("icebirdium", 2, 2, ItemBlockSpecialFlower.ofType((String)"icebirdium"), O_blank);
+        F_launch = new AchievementMod("launchish", 0, 3, ItemBlockSpecialFlower.ofType((String)"launchish"), O_blank);
+        F_necro = new AchievementMod("necrofleur", 2, 3, ItemBlockSpecialFlower.ofType((String)"necrofleur"), O_blank);
+        F_numeb = new AchievementMod("numeronbalsam", 0, 4, ItemBlockSpecialFlower.ofType((String)"numeronbalsam"), O_blank);
+        F_numed = new AchievementMod("numerondandelife", 2, 4, ItemBlockSpecialFlower.ofType((String)"numerondandelife"), O_blank);
+        F_void = new AchievementMod("voiduim", 0, 5, ItemBlockSpecialFlower.ofType((String)"voiduim"), O_blank);
+        F_vola = new AchievementMod("volatilily", 2, 5, ItemBlockSpecialFlower.ofType((String)"volatilily"), O_blank);
+        F_woo = new AchievementMod("woodienia", 0, 6, ItemBlockSpecialFlower.ofType((String)"woodienia"), O_blank);
+        F_blue = new AchievementMod("blueenchantress", 2, 6, ItemBlockSpecialFlower.ofType((String)"blueenchantress"), O_blank);
+        F_candy = new AchievementMod("candyflower", 0, 7, ItemBlockSpecialFlower.ofType((String)"candyflower"), O_blank);
+        F_gemini = new AchievementMod("geminiorchid", 2, 7, ItemBlockSpecialFlower.ofType((String)"geminiorchid"), O_blank);
+        F_moon = new AchievementMod("moonlightlily", 0, 8, ItemBlockSpecialFlower.ofType((String)"moonlightlily"), O_blank);
+        F_omni = new AchievementMod("omniviolet", 2, 8, ItemBlockSpecialFlower.ofType((String)"omniviolet"), O_blank);
+        F_pyscho = new AchievementMod("pyschobloom", 0, 9, ItemBlockSpecialFlower.ofType((String)"pyschobloom"), O_blank);
+        F_stone = new AchievementMod("stonesia", 2, 9, ItemBlockSpecialFlower.ofType((String)"stonesia"), O_blank);
+        F_sun = new AchievementMod("sunshinelily", 0, 10, ItemBlockSpecialFlower.ofType((String)"sunshinelily"), O_blank);
+        F_infer = new AchievementMod("infernoidisy", 2, 10, ItemBlockSpecialFlower.ofType((String)"infernoidisy"), O_blank);
+        F_judas = new AchievementMod("judasvow", 0, 11, ItemBlockSpecialFlower.ofType((String)"judasvow"), O_blank);
+        F_mana = new AchievementMod("manalinkuim", 2, 11, ItemBlockSpecialFlower.ofType((String)"manalinkuim"), O_blank);
+        Gaia_gaia3Kill = new AchievementMod("gaia_kill", -8, 8, ModItems.gaiaHead, (Achievement)null);
+        Gaia_gaia3NoArmor = new AchievementMod("gaia_noarmor", -6, 8, com.meteor.extrabotany.common.item.ModItems.dungeonbox, (Achievement)null);
         Gaia_gaia3DarkKill = new AchievementMod("gaia_dark", -8, 10, com.meteor.extrabotany.common.item.ModItems.dog, Gaia_gaia3Kill);
         Gaia_gaia3DarkNoArmor = new AchievementMod("gaia_darknoarmor", -6, 10, com.meteor.extrabotany.common.item.ModItems.boxs, Gaia_gaia3Kill);
         Relic_maxwelldemon = new AchievementMod("maxwelldemon", -9, 14, com.meteor.extrabotany.common.item.ModItems.maxwelldemon, Gaia_gaia3Kill);
@@ -100,8 +100,8 @@ public class ModAchievement {
         Relic_slience = new AchievementMod("eternalslience", -9, 19, com.meteor.extrabotany.common.item.ModItems.eternalslience, Gaia_gaia3Kill);
         int pageIndex = AchievementPage.getAchievementPages().size();
         AchievementPage extrabotanyPage = new AchievementPage("ExtraBotania", (Achievement[]) AchievementMod.achievements.toArray(new Achievement[AchievementMod.achievements.size()]));
-        AchievementPage.registerAchievementPage(extrabotanyPage);
-        FMLCommonHandler.instance().bus().register(new AchievementTriggerer());
+        AchievementPage.registerAchievementPage((AchievementPage)extrabotanyPage);
+        FMLCommonHandler.instance().bus().register((Object)new AchievementTriggerer());
     }
 }
 

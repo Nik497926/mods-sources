@@ -17,12 +17,12 @@ extends EntityAIBase {
     private final IRangedAttackMob rangedAttackEntityHost;
     private EntityLivingBase attackTarget;
     private int rangedAttackTime = -1;
-    private final double entityMoveSpeed;
+    private double entityMoveSpeed;
     private int field_75318_f;
-    private final int field_96561_g;
-    private final int maxRangedAttackTime;
-    private final float field_96562_i;
-    private final float field_82642_h;
+    private int field_96561_g;
+    private int maxRangedAttackTime;
+    private float field_96562_i;
+    private float field_82642_h;
     private static final String __OBFID = "CL_00001609";
     private int field_75445_i;
     private int failedPathFindingPenalty;
@@ -67,7 +67,7 @@ extends EntityAIBase {
 
     public void updateTask() {
         double d0 = this.entityHost.getDistanceSq(this.attackTarget.posX, this.attackTarget.boundingBox.minY, this.attackTarget.posZ);
-        boolean flag = this.entityHost.getEntitySenses().canSee(this.attackTarget);
+        boolean flag = this.entityHost.getEntitySenses().canSee((Entity)this.attackTarget);
         this.field_75318_f = flag ? ++this.field_75318_f : 0;
         if (d0 > (double)this.field_82642_h && --this.field_75445_i <= 0) {
             this.field_75445_i = this.failedPathFindingPenalty + 4 + this.entityHost.getRNG().nextInt(7);
@@ -75,7 +75,7 @@ extends EntityAIBase {
             double d1 = this.attackTarget.posY - this.entityHost.posY;
             double d2 = this.attackTarget.posZ - this.entityHost.posZ;
             double d3 = f * f + d1 * d1 + d2 * d2;
-            if (this.isCourseTraversable(this.attackTarget.posX, this.attackTarget.posY, this.attackTarget.posZ, d3 = MathHelper.sqrt_double(d3))) {
+            if (this.isCourseTraversable(this.attackTarget.posX, this.attackTarget.posY, this.attackTarget.posZ, d3 = (double)MathHelper.sqrt_double((double)d3))) {
                 this.entityHost.motionX += f / d3 * 0.15;
                 this.entityHost.motionY += d1 / d3 * 0.15;
                 this.entityHost.motionZ += d2 / d3 * 0.15;
@@ -84,15 +84,15 @@ extends EntityAIBase {
                 this.failedPathFindingPenalty += 10;
             }
             this.entityHost.renderYawOffset = this.entityHost.rotationYaw = -((float)Math.atan2(this.entityHost.motionX, this.entityHost.motionZ)) * 180.0f / (float)Math.PI;
-            this.entityHost.getNavigator().tryMoveToEntityLiving(this.attackTarget, this.entityMoveSpeed);
+            this.entityHost.getNavigator().tryMoveToEntityLiving((Entity)this.attackTarget, this.entityMoveSpeed);
         }
-        this.entityHost.getLookHelper().setLookPositionWithEntity(this.attackTarget, 30.0f, 30.0f);
+        this.entityHost.getLookHelper().setLookPositionWithEntity((Entity)this.attackTarget, 30.0f, 30.0f);
         if (--this.rangedAttackTime == 0) {
             float var12;
             if (d0 > (double)this.field_82642_h || !flag) {
                 return;
             }
-            float f1 = var12 = MathHelper.sqrt_double(d0) / this.field_96562_i;
+            float f1 = var12 = MathHelper.sqrt_double((double)d0) / this.field_96562_i;
             if (var12 < 0.1f) {
                 f1 = 0.1f;
             }
@@ -100,10 +100,10 @@ extends EntityAIBase {
                 f1 = 1.0f;
             }
             this.rangedAttackEntityHost.attackEntityWithRangedAttack(this.attackTarget, f1);
-            this.rangedAttackTime = MathHelper.floor_float(var12 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
+            this.rangedAttackTime = MathHelper.floor_float((float)(var12 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g));
         } else if (this.rangedAttackTime < 0) {
-            float var12 = MathHelper.sqrt_double(d0) / this.field_96562_i;
-            this.rangedAttackTime = MathHelper.floor_float(var12 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g);
+            float var12 = MathHelper.sqrt_double((double)d0) / this.field_96562_i;
+            this.rangedAttackTime = MathHelper.floor_float((float)(var12 * (float)(this.maxRangedAttackTime - this.field_96561_g) + (float)this.field_96561_g));
         }
     }
 
@@ -115,7 +115,7 @@ extends EntityAIBase {
         int i = 1;
         while ((double)i < par7) {
             axisalignedbb.offset(d4, d5, d6);
-            if (!this.attackTarget.worldObj.getCollidingBoundingBoxes(this.attackTarget, axisalignedbb).isEmpty()) {
+            if (!this.attackTarget.worldObj.getCollidingBoundingBoxes((Entity)this.attackTarget, axisalignedbb).isEmpty()) {
                 return false;
             }
             ++i;

@@ -26,7 +26,7 @@ public class SchematicHelper {
     public Schematic get(String schemname) {
         try {
             InputStream is = this.getClass().getClassLoader().getResourceAsStream("assets/extrabotania/schem/" + schemname);
-            NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(is);
+            NBTTagCompound nbtdata = CompressedStreamTools.readCompressed((InputStream)is);
             byte[] localBlocks = nbtdata.getByteArray("Blocks");
             byte[] localMetadata = nbtdata.getByteArray("Data");
             boolean extra = false;
@@ -94,28 +94,28 @@ public class SchematicHelper {
 
     public static int rotateMeta(int blockId, int meta, int rotation) {
         if (rotation > 0) {
-            if (Block.getIdFromBlock(Blocks.torch) == blockId || Block.getIdFromBlock(Blocks.redstone_torch) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.torch) == blockId || Block.getIdFromBlock((Block)Blocks.redstone_torch) == blockId) {
                 return torchRotations.getMeta((torchRotations.getSide(meta) + rotation) % 4);
             }
-            if (meta < 4 && Block.getBlockById(blockId) instanceof BlockDoor) {
+            if (meta < 4 && Block.getBlockById((int)blockId) instanceof BlockDoor) {
                 return doorRotations.getMeta((doorRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getIdFromBlock(Blocks.wall_sign) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.wall_sign) == blockId) {
                 return signRotations.getMeta((signRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getIdFromBlock(Blocks.ladder) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.ladder) == blockId) {
                 return signRotations.getMeta((signRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getIdFromBlock(Blocks.chest) == blockId || Block.getIdFromBlock(Blocks.ender_chest) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.chest) == blockId || Block.getIdFromBlock((Block)Blocks.ender_chest) == blockId) {
                 return chestRotations.getMeta((chestRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getIdFromBlock(Blocks.furnace) == blockId || Block.getIdFromBlock(Blocks.lit_furnace) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.furnace) == blockId || Block.getIdFromBlock((Block)Blocks.lit_furnace) == blockId) {
                 return signRotations.getMeta((signRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getIdFromBlock(Blocks.pumpkin) == blockId || Block.getIdFromBlock(Blocks.lit_pumpkin) == blockId) {
+            if (Block.getIdFromBlock((Block)Blocks.pumpkin) == blockId || Block.getIdFromBlock((Block)Blocks.lit_pumpkin) == blockId) {
                 return pumpkinRotations.getMeta((pumpkinRotations.getSide(meta) + rotation) % 4);
             }
-            if (Block.getBlockById(blockId) instanceof BlockStairs) {
+            if (Block.getBlockById((int)blockId) instanceof BlockStairs) {
                 return stairsRotations.getMeta((stairsRotations.getSide(meta) + rotation) % 4);
             }
         }

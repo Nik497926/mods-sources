@@ -6,8 +6,7 @@ package com.meteor.extrabotany.common.block;
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.tile.TileTradeMana;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -27,7 +26,7 @@ implements IWandHUD {
         this.setBlockName("manatrade");
         this.setBlockTextureName("ExtraBotania:manatrade");
         this.setHardness(3.0f);
-        GameRegistry.registerBlock(this, "manatrade");
+        GameRegistry.registerBlock((Block)this, (String)"manatrade");
     }
 
     public TileEntity createNewTileEntity(World world, int meta) {
@@ -39,9 +38,13 @@ implements IWandHUD {
         return true;
     }
 
-    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-
+        Invoke.client(() -> {
+            TileEntity te = world.getTileEntity(i, i1, i2);
+            if (te instanceof TileTradeMana) {
+                ((TileTradeMana)te).renderHUD(minecraft, scaledResolution);
+            }
+        });
     }
 }
 

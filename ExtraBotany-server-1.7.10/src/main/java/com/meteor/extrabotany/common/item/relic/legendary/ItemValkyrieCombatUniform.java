@@ -5,14 +5,18 @@ package com.meteor.extrabotany.common.item.relic.legendary;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.meteor.extrabotany.client.model.ModelRelicArmor;
 import com.meteor.extrabotany.common.entity.EntityItemUnbreakable;
 import com.meteor.extrabotany.common.item.equipment.shield.ItemShieldGeneratorBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,10 +25,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
@@ -45,19 +51,25 @@ implements IRelic {
 
     public ItemValkyrieCombatUniform(String name) {
         super(1, name, BotaniaAPI.elementiumArmorMaterial);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
     }
 
     public String getArmorTextureAfterInk(ItemStack stack, int slot) {
         return "extrabotania:textures/models/armor/vcu.png";
     }
 
+    @SideOnly(value=Side.CLIENT)
+    public ModelBiped provideArmorModelForSlot(ItemStack stack, int slot) {
+        this.models[slot] = new ModelRelicArmor(slot);
+        return this.models[slot];
+    }
+
     public Multimap getItemAttributeModifiers() {
         HashMultimap multimap = HashMultimap.create();
         UUID uuid = new UUID(this.getUnlocalizedName().hashCode(), 0L);
-        multimap.put(SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier " + this.type, (double)this.getArmorDisplay(null, new ItemStack(this), this.type) / 20.0, 0));
-        multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(uuid, "Relic modifier" + this.type, 20.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier " + this.type, (double)this.getArmorDisplay(null, new ItemStack((Item)this), this.type) / 20.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), (Object)new AttributeModifier(uuid, "Relic modifier" + this.type, 20.0, 0));
         return multimap;
     }
 
@@ -90,15 +102,15 @@ implements IRelic {
         if (GuiScreen.isShiftKeyDown()) {
             String bind = ItemValkyrieCombatUniform.getSoulbindUsernameS(stack);
             if (bind.isEmpty()) {
-                ItemValkyrieCombatUniform.addStringToTooltips(StatCollector.translateToLocal("botaniamisc.relicUnbound"), list);
+                ItemValkyrieCombatUniform.addStringToTooltips(StatCollector.translateToLocal((String)"botaniamisc.relicUnbound"), list);
             } else {
-                ItemValkyrieCombatUniform.addStringToTooltips(String.format(StatCollector.translateToLocal("botaniamisc.relicSoulbound"), bind), list);
+                ItemValkyrieCombatUniform.addStringToTooltips(String.format(StatCollector.translateToLocal((String)"botaniamisc.relicSoulbound"), bind), list);
                 if (!ItemValkyrieCombatUniform.isRightPlayer(player, stack)) {
-                    ItemValkyrieCombatUniform.addStringToTooltips(String.format(StatCollector.translateToLocal("botaniamisc.notYourSagittarius"), bind), list);
+                    ItemValkyrieCombatUniform.addStringToTooltips(String.format(StatCollector.translateToLocal((String)"botaniamisc.notYourSagittarius"), bind), list);
                 }
             }
         } else {
-            ItemValkyrieCombatUniform.addStringToTooltips(StatCollector.translateToLocal("botaniamisc.shiftinfo"), list);
+            ItemValkyrieCombatUniform.addStringToTooltips(StatCollector.translateToLocal((String)"botaniamisc.shiftinfo"), list);
         }
     }
 
@@ -115,13 +127,13 @@ implements IRelic {
     }
 
     public static String getSoulbindUsernameS(ItemStack stack) {
-        return ItemNBTHelper.getString(stack, TAG_SOULBIND, "");
+        return ItemNBTHelper.getString((ItemStack)stack, (String)TAG_SOULBIND, (String)"");
     }
 
     public static void updateRelic(ItemStack stack, EntityPlayer player) {
         String soulbind;
         if (stack != null && stack.getItem() instanceof IRelic && (soulbind = ItemValkyrieCombatUniform.getSoulbindUsernameS(stack)).isEmpty()) {
-            player.addStat(((IRelic)stack.getItem()).getBindAchievement(), 1);
+            player.addStat((StatBase)((IRelic)stack.getItem()).getBindAchievement(), 1);
             ItemValkyrieCombatUniform.bindToPlayer(player, stack);
             String string = ItemValkyrieCombatUniform.getSoulbindUsernameS(stack);
         }
@@ -132,7 +144,7 @@ implements IRelic {
     }
 
     public static void bindToUsernameS(String username, ItemStack stack) {
-        ItemNBTHelper.setString(stack, TAG_SOULBIND, username);
+        ItemNBTHelper.setString((ItemStack)stack, (String)TAG_SOULBIND, (String)username);
     }
 
     public static boolean isRightPlayer(EntityPlayer player, ItemStack stack) {
@@ -174,7 +186,7 @@ implements IRelic {
         boolean bool = false;
         for (ItemStack stack : player.inventory.armorInventory) {
             if (stack == null || !(stack.getItem() instanceof ItemValkyrieCombatUniform)) continue;
-            bool = ItemRelic.isRightPlayer(player, stack);
+            bool = ItemRelic.isRightPlayer((EntityPlayer)player, (ItemStack)stack);
         }
         return bool;
     }
@@ -183,7 +195,7 @@ implements IRelic {
     public void TickEvent(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         if (ItemValkyrieCombatUniform.hasVCU(player)) {
-            List mobs = player.worldObj.getEntitiesWithinAABB(IMob.class, AxisAlignedBB.getBoundingBox(player.posX - 4.0, player.posY - 4.0, player.posZ - 4.0, player.posX + 5.0, player.posY + 5.0, player.posZ + 5.0));
+            List mobs = player.worldObj.getEntitiesWithinAABB(IMob.class, AxisAlignedBB.getBoundingBox((double)(player.posX - 4.0), (double)(player.posY - 4.0), (double)(player.posZ - 4.0), (double)(player.posX + 5.0), (double)(player.posY + 5.0), (double)(player.posZ + 5.0)));
             if (mobs.isEmpty()) {
                 ++this.count;
                 if (this.count % 30 == 0) {

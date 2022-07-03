@@ -11,7 +11,7 @@ public class ODHelper {
     public static boolean isOreDict(String oredict, ItemStack stack) {
         ItemStack ostack;
         ItemStack cstack;
-        Iterator i$ = OreDictionary.getOres(oredict).iterator();
+        Iterator i$ = OreDictionary.getOres((String)oredict).iterator();
         do {
             if (i$.hasNext()) continue;
             return false;
@@ -24,7 +24,7 @@ public class ODHelper {
         for (int i = 0; i < od.length; ++i) {
             String ood = od[i];
             if (!ood.endsWith(oredict)) continue;
-            for (ItemStack ostack : OreDictionary.getOres(ood)) {
+            for (ItemStack ostack : OreDictionary.getOres((String)ood)) {
                 ItemStack cstack = ostack.copy();
                 if (!stack.isItemEqual(cstack)) continue;
                 return true;
@@ -38,7 +38,7 @@ public class ODHelper {
         for (int i = 0; i < od.length; ++i) {
             String ood = od[i];
             if (!ood.startsWith(oredict)) continue;
-            for (ItemStack ostack : OreDictionary.getOres(ood)) {
+            for (ItemStack ostack : OreDictionary.getOres((String)ood)) {
                 ItemStack cstack = ostack.copy();
                 if (!stack.isItemEqual(cstack)) continue;
                 return true;

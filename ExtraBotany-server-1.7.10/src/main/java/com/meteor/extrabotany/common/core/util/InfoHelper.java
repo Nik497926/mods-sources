@@ -18,9 +18,9 @@ public class InfoHelper {
         int maxEnergy = item.getMaxEnergyStored(stack);
         String eS = "";
         String eM = "";
-        eS = energy < 1000 ? String.valueOf(energy) : (energy < 1000000 ? String.valueOf(energy) : (float) Math.round((float) energy / 1000.0f) / 1000.0f + "m");
-        eM = maxEnergy < 1000 ? String.valueOf(maxEnergy) : (maxEnergy < 1000000 ? (float) Math.round((float) maxEnergy / 100.0f) / 10.0f + "k" : (float) Math.round((float) maxEnergy / 10000.0f) / 100.0f + "m");
-        list.add(StatCollector.translateToLocal("info.de.charge.txt") + ": " + eS + " / " + eM + " RF");
+        eS = energy < 1000 ? String.valueOf(energy) : (energy < 1000000 ? String.valueOf(energy) : String.valueOf((float)Math.round((float)energy / 1000.0f) / 1000.0f) + "m");
+        eM = maxEnergy < 1000 ? String.valueOf(maxEnergy) : (maxEnergy < 1000000 ? String.valueOf((float)Math.round((float)maxEnergy / 100.0f) / 10.0f) + "k" : String.valueOf((float)Math.round((float)maxEnergy / 10000.0f) / 100.0f) + "m");
+        list.add(StatCollector.translateToLocal((String)"info.de.charge.txt") + ": " + eS + " / " + eM + " RF");
     }
 
     public static void addLore(ItemStack stack, List list, boolean addLeadingLine) {
@@ -43,7 +43,7 @@ public class InfoHelper {
 
     public static void addEnergyAndLore(ItemStack stack, List list) {
         if (!InfoHelper.isShiftKeyDown()) {
-            list.add(StatCollector.translateToLocal("info.de.hold.txt") + " " + EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + StatCollector.translateToLocal("info.de.shift.txt") + EnumChatFormatting.RESET + " " + EnumChatFormatting.GRAY + StatCollector.translateToLocal("info.de.forDetails.txt"));
+            list.add(StatCollector.translateToLocal((String)"info.de.hold.txt") + " " + EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + StatCollector.translateToLocal((String)"info.de.shift.txt") + EnumChatFormatting.RESET + " " + EnumChatFormatting.GRAY + StatCollector.translateToLocal((String)"info.de.forDetails.txt"));
         } else {
             InfoHelper.addEnergyInfo(stack, list);
             InfoHelper.addLore(stack, list);
@@ -52,7 +52,7 @@ public class InfoHelper {
 
     public static String[] getLore(ItemStack stack) {
         String unlocalizeLore = stack.getItem().getUnlocalizedName() + ".lore";
-        String rawLore = StatCollector.translateToLocal(unlocalizeLore);
+        String rawLore = StatCollector.translateToLocal((String)unlocalizeLore);
         if (rawLore.contains(unlocalizeLore)) {
             return null;
         }
@@ -63,7 +63,7 @@ public class InfoHelper {
             lineCount = Integer.parseInt(lineCountS);
         }
         catch (NumberFormatException e) {
-            LogHelper.error("Invalid Lore Format! Lore myst start with the number of lines \"3Line 1\\nLine 2\\nLine 3\"");
+            LogHelper.error("Invalid Lore Format! Lore myst start with the number of lines \"3Line 1\\nLine 2\\nLine 3\"", new Object[0]);
         }
         String[] loreLines = new String[lineCount];
         for (int i = 0; i < lineCount; ++i) {
@@ -75,16 +75,16 @@ public class InfoHelper {
     }
 
     public static boolean isShiftKeyDown() {
-        return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
+        return Keyboard.isKeyDown((int)42) || Keyboard.isKeyDown((int)54);
     }
 
     public static boolean isCtrlKeyDown() {
-        return Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+        return Keyboard.isKeyDown((int)29) || Keyboard.isKeyDown((int)157);
     }
 
     public static boolean holdShiftForDetails(List list, boolean inverted) {
         if (InfoHelper.isShiftKeyDown() == inverted) {
-            list.add(StatCollector.translateToLocal("info.de.hold.txt") + " " + EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + StatCollector.translateToLocal("info.de.shift.txt") + EnumChatFormatting.RESET + " " + EnumChatFormatting.GRAY + StatCollector.translateToLocal("info.de.forDetails.txt"));
+            list.add(StatCollector.translateToLocal((String)"info.de.hold.txt") + " " + EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + StatCollector.translateToLocal((String)"info.de.shift.txt") + EnumChatFormatting.RESET + " " + EnumChatFormatting.GRAY + StatCollector.translateToLocal((String)"info.de.forDetails.txt"));
         }
         return InfoHelper.isShiftKeyDown();
     }

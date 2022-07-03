@@ -6,6 +6,6 @@ package com.meteor.extrabotany.api.thaumcraft;
 import net.minecraft.item.ItemStack;
 
 public interface IRunicArmor {
-    int getRunicCharge(ItemStack var1);
+    public int getRunicCharge(ItemStack var1);
 }
 

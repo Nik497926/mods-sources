@@ -19,26 +19,26 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ModEvents {
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(new EventKnowledgeTypeUnlock());
-        FMLCommonHandler.instance().bus().register(new EventKnowledgeTypeUnlock());
-        MinecraftForge.EVENT_BUS.register(new EventPunish());
-        FMLCommonHandler.instance().bus().register(new EventPunish());
-        MinecraftForge.EVENT_BUS.register(new EventHighDamageResistance());
-        FMLCommonHandler.instance().bus().register(new EventHighDamageResistance());
-        MinecraftForge.EVENT_BUS.register(new EventShield());
-        FMLCommonHandler.instance().bus().register(new EventShield());
-        MinecraftForge.EVENT_BUS.register(new EventUnbreakable());
-        FMLCommonHandler.instance().bus().register(new EventUnbreakable());
-        MinecraftForge.EVENT_BUS.register(new EventGaiaIII());
-        FMLCommonHandler.instance().bus().register(new EventGaiaIII());
-        MinecraftForge.EVENT_BUS.register(new EventElven());
-        FMLCommonHandler.instance().bus().register(new EventElven());
-        MinecraftForge.EVENT_BUS.register(new EventAchievement());
-        FMLCommonHandler.instance().bus().register(new EventAchievement());
-        MinecraftForge.EVENT_BUS.register(new EventMobDrop());
-        FMLCommonHandler.instance().bus().register(new EventMobDrop());
-        MinecraftForge.EVENT_BUS.register(new EventSkill());
-        FMLCommonHandler.instance().bus().register(new EventSkill());
+        MinecraftForge.EVENT_BUS.register((Object)new EventKnowledgeTypeUnlock());
+        FMLCommonHandler.instance().bus().register((Object)new EventKnowledgeTypeUnlock());
+        MinecraftForge.EVENT_BUS.register((Object)new EventPunish());
+        FMLCommonHandler.instance().bus().register((Object)new EventPunish());
+        MinecraftForge.EVENT_BUS.register((Object)new EventHighDamageResistance());
+        FMLCommonHandler.instance().bus().register((Object)new EventHighDamageResistance());
+        MinecraftForge.EVENT_BUS.register((Object)new EventShield());
+        FMLCommonHandler.instance().bus().register((Object)new EventShield());
+        MinecraftForge.EVENT_BUS.register((Object)new EventUnbreakable());
+        FMLCommonHandler.instance().bus().register((Object)new EventUnbreakable());
+        MinecraftForge.EVENT_BUS.register((Object)new EventGaiaIII());
+        FMLCommonHandler.instance().bus().register((Object)new EventGaiaIII());
+        MinecraftForge.EVENT_BUS.register((Object)new EventElven());
+        FMLCommonHandler.instance().bus().register((Object)new EventElven());
+        MinecraftForge.EVENT_BUS.register((Object)new EventAchievement());
+        FMLCommonHandler.instance().bus().register((Object)new EventAchievement());
+        MinecraftForge.EVENT_BUS.register((Object)new EventMobDrop());
+        FMLCommonHandler.instance().bus().register((Object)new EventMobDrop());
+        MinecraftForge.EVENT_BUS.register((Object)new EventSkill());
+        FMLCommonHandler.instance().bus().register((Object)new EventSkill());
         CoreArmor.instance.init();
     }
 }

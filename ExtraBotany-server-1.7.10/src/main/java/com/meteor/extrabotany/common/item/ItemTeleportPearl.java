@@ -23,9 +23,9 @@ extends ItemMods {
             return stack;
         }
         --stack.stackSize;
-        world.playSoundAtEntity(player, "random.bow", 0.5f, 0.4f / (Item.itemRand.nextFloat() * 0.4f + 0.8f));
+        world.playSoundAtEntity((Entity)player, "random.bow", 0.5f, 0.4f / (Item.itemRand.nextFloat() * 0.4f + 0.8f));
         if (!world.isRemote) {
-            world.spawnEntityInWorld(new EntityTeleportPearl(world, player));
+            world.spawnEntityInWorld((Entity)new EntityTeleportPearl(world, (EntityLivingBase)player));
         }
         return stack;
     }

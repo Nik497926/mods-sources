@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.item.relic.legendary.armor;
 
+import com.meteor.extrabotany.client.gui.Inventarium.LibSkillID;
 import com.meteor.extrabotany.common.event.EventSkill;
 import com.meteor.extrabotany.common.item.ModItems;
 import com.meteor.extrabotany.common.item.relic.legendary.armor.awake.ItemAwakeOGArmor;
@@ -12,6 +13,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -28,13 +30,13 @@ public class CoreArmor {
     public static final CoreArmor instance = new CoreArmor();
 
     public void init() {
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
     }
 
     public static void chargeWand(EntityPlayer player, ItemStack stack, boolean s) {
         Boolean findedWand = false;
-        int tick = ItemNBTHelper.getInt(stack, "tick", 0);
+        int tick = ItemNBTHelper.getInt((ItemStack)stack, (String)"tick", (int)0);
         if (tick > 0) {
             --tick;
         } else {
@@ -46,24 +48,24 @@ public class CoreArmor {
                 int maxVis = wandCasting.getMaxVis(wand);
                 String[] listAspect = new String[]{"aer", "aqua", "terra", "ignis", "ordo", "perditio"};
                 for (int j = 0; j < listAspect.length; ++j) {
-                    int currentVIS = ItemNBTHelper.getInt(wand, listAspect[j], 0);
+                    int currentVIS = ItemNBTHelper.getInt((ItemStack)wand, (String)listAspect[j], (int)0);
                     if (currentVIS >= maxVis) continue;
                     int nextVIS = currentVIS + CoreArmor.getCountArmor(player, s);
                     findedWand = true;
                     if (nextVIS > maxVis) {
-                        ItemNBTHelper.setInt(wand, listAspect[j], maxVis);
+                        ItemNBTHelper.setInt((ItemStack)wand, (String)listAspect[j], (int)maxVis);
                         continue;
                     }
-                    ItemNBTHelper.setInt(wand, listAspect[j], nextVIS);
+                    ItemNBTHelper.setInt((ItemStack)wand, (String)listAspect[j], (int)nextVIS);
                 }
             }
         }
-        ItemNBTHelper.setInt(stack, "tick", tick);
+        ItemNBTHelper.setInt((ItemStack)stack, (String)"tick", (int)tick);
     }
 
     public static int getCountArmor(EntityPlayer p, boolean s) {
         int r = 0;
-        for (int i = 0; i < 4; i = (byte)(i + 1)) {
+        for (int i = 0; i < 4; i = (int)((byte)(i + 1))) {
             if (p.inventory.armorInventory[i] != null && p.inventory.armorInventory[i].getItem() instanceof ItemKillerArmor) {
                 r = (short)(r + (s ? 50 : 25));
                 continue;
@@ -101,7 +103,7 @@ public class CoreArmor {
 
     public static void generateManaAndVis(EntityPlayer pl, ItemStack stack) {
         boolean sv;
-        NBTTagCompound n = ItemNBTHelper.getNBT(stack);
+        NBTTagCompound n = ItemNBTHelper.getNBT((ItemStack)stack);
         boolean sm = n.hasKey("sMana") && n.getBoolean("sMana");
         boolean bl = sv = n.hasKey("sVis") && n.getBoolean("sVis");
         if (n.hasKey("lastDMG")) {
@@ -109,21 +111,21 @@ public class CoreArmor {
         }
         if (sm && sv) {
             sv = false;
-            ItemNBTHelper.setBoolean(stack, "sVis", false);
+            ItemNBTHelper.setBoolean((ItemStack)stack, (String)"sVis", (boolean)false);
         }
         if (sm) {
-            ManaItemHandler.dispatchManaExact(stack, pl, CoreArmor.getCountArmor(pl, true), true);
+            ManaItemHandler.dispatchManaExact((ItemStack)stack, (EntityPlayer)pl, (int)CoreArmor.getCountArmor(pl, true), (boolean)true);
         } else if (sv) {
             CoreArmor.chargeWand(pl, stack, true);
         } else if (!sm && !sv) {
-            ManaItemHandler.dispatchManaExact(stack, pl, CoreArmor.getCountArmor(pl, false), true);
+            ManaItemHandler.dispatchManaExact((ItemStack)stack, (EntityPlayer)pl, (int)CoreArmor.getCountArmor(pl, false), (boolean)true);
             CoreArmor.chargeWand(pl, stack, false);
         }
     }
 
     public static int getVisDiscount(ItemStack itemStack, EntityPlayer entityPlayer, Aspect aspect) {
-        if (itemStack != null && ItemRelic.isRightPlayer(entityPlayer, itemStack)) {
-            switch (ItemNBTHelper.getInt(itemStack, "level", 1)) {
+        if (itemStack != null && ItemRelic.isRightPlayer((EntityPlayer)entityPlayer, (ItemStack)itemStack)) {
+            switch (ItemNBTHelper.getInt((ItemStack)itemStack, (String)"level", (int)1)) {
                 case 2: {
                     return 5;
                 }
@@ -139,13 +141,13 @@ public class CoreArmor {
     }
 
     public static void checkCD(EntityPlayer pl, ItemStack stack) {
-        NBTTagList skills = ItemNBTHelper.getList(stack, "activeSkill", 10, false);
+        NBTTagList skills = ItemNBTHelper.getList((ItemStack)stack, (String)"activeSkill", (int)10, (boolean)false);
         NBTTagList _skills = new NBTTagList();
         for (int i = 0; i < skills.tagCount(); ++i) {
             NBTTagCompound _n = skills.getCompoundTagAt(i);
             if (!_n.hasKey("id")) continue;
             int id_skill = _n.getInteger("id");
-            if (_n.hasKey("cd") && EventSkill.checkCD(pl, id_skill)) {
+            if (LibSkillID.hasCD[id_skill] != 0 && _n.hasKey("cd") && EventSkill.checkCD(pl, id_skill)) {
                 NBTTagCompound __n = new NBTTagCompound();
                 __n.setInteger("id", id_skill);
                 if (_n.hasKey("active")) {
@@ -153,24 +155,24 @@ public class CoreArmor {
                 } else {
                     __n.setBoolean("active", true);
                 }
-                _skills.appendTag(__n);
+                _skills.appendTag((NBTBase)__n);
                 continue;
             }
-            _skills.appendTag(_n);
+            _skills.appendTag((NBTBase)_n);
         }
         ItemStack _out = stack.copy();
-        ItemNBTHelper.setList(_out, "activeSkill", _skills);
+        ItemNBTHelper.setList((ItemStack)_out, (String)"activeSkill", (NBTTagList)_skills);
         pl.inventory.armorInventory[1] = _out;
     }
 
     public static void awakeLevels(ItemStack st, byte type, EntityPlayer pl) {
         Boolean repair = false;
-        NBTTagCompound nbt = ItemNBTHelper.getNBT(st);
+        NBTTagCompound nbt = ItemNBTHelper.getNBT((ItemStack)st);
         if (st.getItemDamage() > 0 && ItemAwakeOGArmor.requestMana(st, pl)) {
             st.setItemDamage(st.getItemDamage() - 1);
             repair = true;
         }
-        if (ItemNBTHelper.getInt(st, "level", 1) > 1) {
+        if (ItemNBTHelper.getInt((ItemStack)st, (String)"level", (int)1) > 1) {
             PotionEffect effect;
             if (type == 3 && !nbt.hasKey("lastDMG")) {
                 CoreArmor.addPotion(type, pl, (byte)0);
@@ -185,10 +187,10 @@ public class CoreArmor {
                 CoreArmor.addPotion(type, pl, (byte)0);
             }
         }
-        if (ItemNBTHelper.getInt(st, "level", 1) > 3 && !repair.booleanValue() && !nbt.hasKey("lastDMG")) {
-            ManaItemHandler.dispatchManaExact(st, pl, CoreArmor.getMana(st), true);
+        if (ItemNBTHelper.getInt((ItemStack)st, (String)"level", (int)1) > 3 && !repair.booleanValue() && !nbt.hasKey("lastDMG")) {
+            ManaItemHandler.dispatchManaExact((ItemStack)st, (EntityPlayer)pl, (int)CoreArmor.getMana(st), (boolean)true);
         }
-        if (ItemNBTHelper.getInt(st, "level", 1) > 4 && !CoreArmor.getAnother(pl, type, (byte)1) && !nbt.hasKey("lastDMG")) {
+        if (ItemNBTHelper.getInt((ItemStack)st, (String)"level", (int)1) > 4 && !CoreArmor.getAnother(pl, type, (byte)1) && !nbt.hasKey("lastDMG")) {
             CoreArmor.chargeWand(pl, st, false);
         }
     }
@@ -201,13 +203,13 @@ public class CoreArmor {
     }
 
     public static void addPotion(byte type, EntityPlayer pl, byte s) {
-        int amplifier = 0;
-        int ids = 0;
-        int n = type == 0 ? Potion.nightVision.id : (type == 1 ? Potion.resistance.id : (ids = type == 2 ? Potion.regeneration.id : 23));
-        int n2 = type == 0 ? 0 : (type == 1 ? 1 : (amplifier = type == 2 ? 0 : 2));
+        int amplifier = type == 0 ? Potion.nightVision.id : (type == 1 ? Potion.resistance.id : (type == 2 ? Potion.regeneration.id : 23));
+        int ids = type == 0 ? 0 : (type == 1 ? 1 : (amplifier = type == 2 ? 0 : 2));
+
         if (s == 1) {
             ++amplifier;
         }
+
         int duration = type == 0 ? 401 : 40;
         pl.addPotionEffect(new PotionEffect(ids, duration, amplifier, true));
     }
@@ -224,15 +226,15 @@ public class CoreArmor {
             }
             if (ItemKillerArmor.hasFullArmor(pl)) {
                 int needMana = (int)event.ammount * 1000;
-                event.ammount = ManaItemHandler.requestManaExact(new ItemStack(ModItems.gaiatablet), pl, needMana, true) ? 0.0f : (event.ammount *= 0.3f);
+                event.ammount = ManaItemHandler.requestManaExact((ItemStack)new ItemStack(ModItems.gaiatablet), (EntityPlayer)pl, (int)needMana, (boolean)true) ? 0.0f : (event.ammount *= 0.3f);
             }
         }
     }
 
     void installLastDMG(EntityPlayer p, ItemStack s, boolean push) {
-        NBTTagCompound n = ItemNBTHelper.getNBT(s);
+        NBTTagCompound n = ItemNBTHelper.getNBT((ItemStack)s);
         if (!n.hasKey("lastDMG")) {
-            ItemNBTHelper.setLong(s, "lastDMG", System.currentTimeMillis());
+            ItemNBTHelper.setLong((ItemStack)s, (String)"lastDMG", (long)System.currentTimeMillis());
         }
     }
 }

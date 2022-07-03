@@ -19,11 +19,11 @@ extends Block {
         this.setResistance(10.0f);
         this.setHarvestLevel("pickaxe", 3);
         this.setBlockTextureName("ExtraBotania:blocksoulsteel");
-        GameRegistry.registerBlock(this, "blocksoulsteel");
+        GameRegistry.registerBlock((Block)this, (String)"blocksoulsteel");
     }
 
     public Item getItemDropped(int par1, Random par2Random, int par3) {
-        return Item.getItemFromBlock(ModBlocks.blocksoulsteel);
+        return Item.getItemFromBlock((Block)ModBlocks.blocksoulsteel);
     }
 
     public int quantityDropped(Random par1Random) {

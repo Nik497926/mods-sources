@@ -5,13 +5,12 @@ package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.common.block.tile.TileAuraControler;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -37,7 +36,7 @@ IWandable {
         this.setStepSound(soundTypeStone);
         this.setBlockName("auracontroler");
         this.setBlockTextureName("ExtraBotania:auracontroler");
-        GameRegistry.registerBlock(this, "auracontroler");
+        GameRegistry.registerBlock((Block)this, (String)"auracontroler");
     }
 
     public boolean isOpaqueCube() {
@@ -58,7 +57,7 @@ IWandable {
     }
 
     private static boolean func_149953_o(World p_149953_0_, int p_149953_1_, int p_149953_2_, int p_149953_3_) {
-        for (Object entity : p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox(p_149953_1_, p_149953_2_ + 1, p_149953_3_, p_149953_1_ + 1, p_149953_2_ + 2, p_149953_3_ + 1))) {
+        for (Object entity : p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox((double)p_149953_1_, (double)(p_149953_2_ + 1), (double)p_149953_3_, (double)(p_149953_1_ + 1), (double)(p_149953_2_ + 2), (double)(p_149953_3_ + 1)))) {
             EntityOcelot entityocelot = (EntityOcelot)entity;
             if (!entityocelot.isSitting()) continue;
             return true;
@@ -105,7 +104,7 @@ IWandable {
     public void breakBlock(World world, int x, int y, int z, Block block, int f) {
         TileAuraControler te = (TileAuraControler)world.getTileEntity(x, y, z);
         if (te.getStackInSlot(0) != null) {
-            world.spawnEntityInWorld(new EntityItem(world, x, y, z, te.getStackInSlot(0)));
+            world.spawnEntityInWorld((Entity)new EntityItem(world, (double)x, (double)y, (double)z, te.getStackInSlot(0)));
         }
     }
 
@@ -113,9 +112,11 @@ IWandable {
         return new TileAuraControler();
     }
 
-    @SideOnly(Side.CLIENT)
     public void renderHUD(Minecraft minecraft, ScaledResolution scaledResolution, World world, int i, int i1, int i2) {
-
+        TileEntity te = world.getTileEntity(i, i1, i2);
+        if (te instanceof TileAuraControler) {
+            ((TileAuraControler)te).renderHUD(minecraft, scaledResolution);
+        }
     }
 
     public boolean onUsedByWand(EntityPlayer entityPlayer, ItemStack itemStack, World world, int i, int i1, int i2, int i3) {

@@ -24,13 +24,13 @@ extends BlockContainer {
     protected BlockModContainer(Material par2Material) {
         super(par2Material);
         if (this.registerInCreative()) {
-            this.setCreativeTab(BotaniaCreativeTab.INSTANCE);
+            this.setCreativeTab((CreativeTabs)BotaniaCreativeTab.INSTANCE);
         }
     }
 
     public Block setBlockName(String par1Str) {
         if (this.shouldRegisterInNameSet()) {
-            GameRegistry.registerBlock(this, ItemBlockMod.class, par1Str);
+            GameRegistry.registerBlock((Block)this, ItemBlockMod.class, (String)par1Str);
         }
         return super.setBlockName(par1Str);
     }
@@ -46,7 +46,7 @@ extends BlockContainer {
 
     @SideOnly(value=Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IconRegister) {
-        this.blockIcon = IconHelper.forBlock(par1IconRegister, this);
+        this.blockIcon = IconHelper.forBlock((IIconRegister)par1IconRegister, (Block)this);
     }
 
     public boolean registerInCreative() {

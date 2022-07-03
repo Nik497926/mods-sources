@@ -13,7 +13,7 @@ public class EventElven {
     @SubscribeEvent
     public void onEntityConstructing(EntityEvent.EntityConstructing event) {
         if (event.entity instanceof EntityElven && ElvenHandler.get((EntityElven)event.entity) == null && event.entity instanceof EntityElven && event.entity.getExtendedProperties("elven") == null) {
-            event.entity.registerExtendedProperties("elven", new ElvenHandler((EntityElven)event.entity));
+            event.entity.registerExtendedProperties("elven", (IExtendedEntityProperties)new ElvenHandler((EntityElven)event.entity));
         }
     }
 }

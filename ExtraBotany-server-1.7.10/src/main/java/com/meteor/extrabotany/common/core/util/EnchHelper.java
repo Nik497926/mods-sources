@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 public class EnchHelper {
     public static int getEnchLevel(Enchantment e, ItemStack stack) {
-        return EnchantmentHelper.getEnchantmentLevel(e.effectId, stack);
+        return EnchantmentHelper.getEnchantmentLevel((int)e.effectId, (ItemStack)stack);
     }
 
     public static void setEnch(Enchantment e, int l, ItemStack stack) {

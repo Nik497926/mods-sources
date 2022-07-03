@@ -21,11 +21,11 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 
 public class NetworkHandlerAwake {
-    private final EnumMap<Side, FMLEmbeddedChannel> channels;
-    private final SimpleIndexedCodec packetCodec = new SimpleIndexedCodec();
+    private EnumMap<Side, FMLEmbeddedChannel> channels;
+    private SimpleIndexedCodec packetCodec = new SimpleIndexedCodec();
 
     public NetworkHandlerAwake(String channelName) {
-        this.channels = NetworkRegistry.INSTANCE.newChannel(channelName, this.packetCodec);
+        this.channels = NetworkRegistry.INSTANCE.newChannel(channelName, new ChannelHandler[]{this.packetCodec});
     }
 
     public <REQ extends IMessage, REPLY extends IMessage> void registerMessage(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType, int discriminator, Side side) {
@@ -37,7 +37,7 @@ public class NetworkHandlerAwake {
             return handler.newInstance();
         }
         catch (Exception var2) {
-            throw Throwables.propagate(var2);
+            throw Throwables.propagate((Throwable)var2);
         }
     }
 
@@ -67,35 +67,35 @@ public class NetworkHandlerAwake {
     }
 
     public Packet getPacketFrom(IMessage message) {
-        return this.channels.get(Side.SERVER).generatePacketFrom(message);
+        return this.channels.get(Side.SERVER).generatePacketFrom((Object)message);
     }
 
     public void sendToAll(IMessage message) {
         this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-        this.channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.SERVER).writeAndFlush((Object)message).addListener((GenericFutureListener)ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 
     public void sendTo(IMessage message, EntityPlayerMP player) {
         this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-        this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
-        this.channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set((Object)player);
+        this.channels.get(Side.SERVER).writeAndFlush((Object)message).addListener((GenericFutureListener)ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 
     public void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
         this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
         this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-        this.channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.SERVER).writeAndFlush((Object)message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 
     public void sendToDimension(IMessage message, int dimensionId) {
         this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
-        this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
-        this.channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set((Object)dimensionId);
+        this.channels.get(Side.SERVER).writeAndFlush((Object)message).addListener((GenericFutureListener)ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 
     public void sendToServer(IMessage message) {
         this.channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
-        this.channels.get(Side.CLIENT).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        this.channels.get(Side.CLIENT).writeAndFlush((Object)message).addListener((GenericFutureListener)ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
     }
 }
 

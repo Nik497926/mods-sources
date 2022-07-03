@@ -31,11 +31,11 @@ public class ToolHandler {
             d1 += 1.62;
         }
         double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double)f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * ((float)Math.PI / 180) - (float)Math.PI);
-        float f4 = MathHelper.sin(-f2 * ((float)Math.PI / 180) - (float)Math.PI);
-        float f5 = -MathHelper.cos(-f1 * ((float)Math.PI / 180));
-        float f6 = MathHelper.sin(-f1 * ((float)Math.PI / 180));
+        Vec3 vec3 = Vec3.createVectorHelper((double)d0, (double)d1, (double)d2);
+        float f3 = MathHelper.cos((float)(-f2 * ((float)Math.PI / 180) - (float)Math.PI));
+        float f4 = MathHelper.sin((float)(-f2 * ((float)Math.PI / 180) - (float)Math.PI));
+        float f5 = -MathHelper.cos((float)(-f1 * ((float)Math.PI / 180)));
+        float f6 = MathHelper.sin((float)(-f1 * ((float)Math.PI / 180)));
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         double d3 = range;
@@ -56,7 +56,7 @@ public class ToolHandler {
         for (int x = xPos - 6; x < xPos + 6; ++x) {
             for (int y = yPos - 6; y < yPos + 6; ++y) {
                 for (int z = zPos - 6; z < zPos + 6; ++z) {
-                    ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
+                    ((EntityPlayerMP)player).playerNetServerHandler.sendPacket((Packet)new S23PacketBlockChange(x, y, z, world));
                 }
             }
         }
@@ -67,7 +67,7 @@ public class ToolHandler {
         if (stack == null) {
             return 1.0f;
         }
-        float sharpMod = (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 4.0f;
+        float sharpMod = (float)EnchantmentHelper.getEnchantmentLevel((int)Enchantment.sharpness.effectId, (ItemStack)stack) * 4.0f;
         if (stack.getItem() == ModItems.awakepick) {
             dmg = 0.0f;
         } else if (stack.getItem() instanceof ItemSword) {
@@ -78,8 +78,8 @@ public class ToolHandler {
 
     public static float getDamageAgainstEntity(ItemStack stack, Entity entity) {
         float baseAttack = ToolHandler.getBaseAttackDamage(stack);
-        float smiteMod = (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.smite.effectId, stack) * 6.0f;
-        float athropodsMod = (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.baneOfArthropods.effectId, stack) * 6.0f;
+        float smiteMod = (float)EnchantmentHelper.getEnchantmentLevel((int)Enchantment.smite.effectId, (ItemStack)stack) * 6.0f;
+        float athropodsMod = (float)EnchantmentHelper.getEnchantmentLevel((int)Enchantment.baneOfArthropods.effectId, (ItemStack)stack) * 6.0f;
         if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isEntityUndead()) {
             baseAttack += smiteMod;
         }

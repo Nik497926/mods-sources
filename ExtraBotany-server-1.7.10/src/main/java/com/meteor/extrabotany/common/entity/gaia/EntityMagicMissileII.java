@@ -34,7 +34,7 @@ extends EntityMagicMissile {
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(27, Float.valueOf(0.0f));
+        this.dataWatcher.addObject(27, (Object)Float.valueOf(0.0f));
     }
 
     public float getATK() {
@@ -42,7 +42,7 @@ extends EntityMagicMissile {
     }
 
     public void setATK(float atk) {
-        this.dataWatcher.updateObject(27, Float.valueOf(atk));
+        this.dataWatcher.updateObject(27, (Object)Float.valueOf(atk));
     }
 
     public void writeEntityToNBT(NBTTagCompound cmp) {
@@ -64,7 +64,7 @@ extends EntityMagicMissile {
             this.setDead();
         } else {
             boolean evil = this.isEvil();
-            Vector3 thisVec = Vector3.fromEntityCenter(this);
+            Vector3 thisVec = Vector3.fromEntityCenter((Entity)this);
             Vector3 oldPos = new Vector3(lastTickPosX, lastTickPosY, lastTickPosZ);
             Vector3 diff = thisVec.copy().sub(oldPos);
             Vector3 step = diff.copy().normalize().multiply(0.05);
@@ -86,7 +86,7 @@ extends EntityMagicMissile {
                     this.lockY = var21.posY;
                     this.lockZ = var21.posZ;
                 }
-                Vector3 targetVec = evil ? new Vector3(this.lockX, this.lockY, this.lockZ) : Vector3.fromEntityCenter(var21);
+                Vector3 targetVec = evil ? new Vector3(this.lockX, this.lockY, this.lockZ) : Vector3.fromEntityCenter((Entity)var21);
                 Vector3 diffVec = targetVec.copy().sub(thisVec);
                 Vector3 motionVec = diffVec.copy().normalize().multiply(evil ? 0.5 : 0.6);
                 this.motionX = motionVec.x;
@@ -95,12 +95,12 @@ extends EntityMagicMissile {
                     this.motionY = Math.abs(this.motionY);
                 }
                 this.motionZ = motionVec.z;
-                List targetList = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.posX - 0.5, this.posY - 0.5, this.posZ - 0.5, this.posX + 0.5, this.posY + 0.5, this.posZ + 0.5));
+                List targetList = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox((double)(this.posX - 0.5), (double)(this.posY - 0.5), (double)(this.posZ - 0.5), (double)(this.posX + 0.5), (double)(this.posY + 0.5), (double)(this.posZ + 0.5)));
                 if (targetList.contains(var21) && var21 != null) {
                     EntityLivingBase thrower = this.getThrower();
                     if (thrower != null) {
                         EntityPlayer player = thrower instanceof EntityPlayer ? (EntityPlayer)thrower : null;
-                        var21.attackEntityFrom(player == null ? DamageSource.causeMobDamage(thrower) : DamageSource.causePlayerDamage(player), this.getATK());
+                        var21.attackEntityFrom(player == null ? DamageSource.causeMobDamage((EntityLivingBase)thrower) : DamageSource.causePlayerDamage((EntityPlayer)player), this.getATK());
                     } else {
                         var21.attackEntityFrom(DamageSource.generic, this.getATK());
                     }

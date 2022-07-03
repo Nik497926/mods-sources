@@ -26,11 +26,11 @@ public class EventKnowledgeTypeUnlock {
                 if (stack.isItemEqual(new ItemStack(com.meteor.extrabotany.common.item.ModItems.material, 1, 1))) {
                     if (!l.isKnowledgeUnlocked(s, ExtraBotany.extraKnowledge)) {
                         l.unlockKnowledge(s, ExtraBotany.extraKnowledge);
-                        player.addChatMessage(new ChatComponentTranslation("botaniamisc.knowledgeUnlock").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+                        player.addChatMessage(new ChatComponentTranslation("botaniamisc.knowledgeUnlock", new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
                     }
                 } else if (stack.isItemEqual(new ItemStack(com.meteor.extrabotany.common.item.ModItems.dice6)) && !l.isKnowledgeUnlocked(s, ExtraBotany.legendaryKnowledge)) {
                     l.unlockKnowledge(s, ExtraBotany.legendaryKnowledge);
-                    player.addChatMessage(new ChatComponentTranslation("botaniamisc.knowledgeUnlock2").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+                    player.addChatMessage(new ChatComponentTranslation("botaniamisc.knowledgeUnlock2", new Object[0]).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
                 }
             }
         }

@@ -4,20 +4,25 @@
 package com.meteor.extrabotany.common.block.tile;
 
 import com.meteor.extrabotany.common.block.BlockElfPool;
+import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -46,14 +51,14 @@ ISidedInventory {
     public int numPlayersUsing;
     private int playersUsing;
     private String customName;
-    private final int MAX_MANA = 10000;
+    private int MAX_MANA = 10000;
     private int MANA = 0;
     private int proccess = 0;
     private boolean isStoped = false;
-    private final int ticksSinceSync = -1;
+    private int ticksSinceSync = -1;
     public boolean hasItem;
     private NBTTagCompound item = new NBTTagCompound();
-    private final Item[][] boostItem = new Item[][]{{ConfigItems.itemShard, ModItems.vineBall}, {Item.getItemFromBlock(ConfigBlocks.blockCrystal), ConfigItems.itemWispEssence, ConfigItems.itemWispEssence, ModItems.vineBall}};
+    private Item[][] boostItem = new Item[][]{{ConfigItems.itemShard, ModItems.vineBall}, {Item.getItemFromBlock((Block)ConfigBlocks.blockCrystal), ConfigItems.itemWispEssence, ConfigItems.itemWispEssence, ModItems.vineBall}};
 
     public int getSizeInventory() {
         return 1;
@@ -95,7 +100,7 @@ ISidedInventory {
         super.updateEntity();
         if (this.getStackInSlot(0) != null && this.getStackInSlot(0).getItem() instanceof ItemJarNode) {
             if (!this.hasItem) {
-                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
             }
             this.hasItem = true;
             if (!this.isStoped) {
@@ -114,7 +119,7 @@ ISidedInventory {
                     }
                     ++this.proccess;
                     for (TilePedestal pe : ped) {
-                        this.showLight(pe);
+                        this.showLight((TileEntity)pe);
                         Botania.proxy.sparkleFX(this.getWorldObj(), (double)pe.xCoord + Math.random(), (double)pe.yCoord + Math.random(), (double)pe.zCoord + Math.random(), 1.0f, 1.0f, 1.0f, (float)Math.random(), 5);
                     }
                     Botania.proxy.sparkleFX(this.getWorldObj(), (double)this.xCoord + Math.random(), (double)this.yCoord + Math.random(), (double)this.zCoord + Math.random(), 1.0f, 1.0f, 1.0f, (float)Math.random(), 5);
@@ -128,7 +133,7 @@ ISidedInventory {
             }
         } else {
             this.hasItem = false;
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
         }
     }
 
@@ -179,21 +184,23 @@ ISidedInventory {
         int ys = this.yCoord + 1;
         int zs = this.zCoord;
         Block bl0 = this.worldObj.getBlock(xs, ys, zs);
-        if (!bl0.isAir(this.worldObj, xs, ys, zs) && (bl0 instanceof BlockPool || bl0 instanceof BlockElfPool)) {
+        if (!bl0.isAir((IBlockAccess)this.worldObj, xs, ys, zs) && (bl0 instanceof BlockPool || bl0 instanceof BlockElfPool)) {
             TileEntity var0 = this.worldObj.getTileEntity(xs, ys, zs);
             if (var0 instanceof TilePool && this.requestMana((TilePool)var0)) {
                 return true;
             }
-            return var0 instanceof TileElfPool && this.requestMana((TileElfPool) var0);
+            if (var0 instanceof TileElfPool && this.requestMana((TileElfPool)var0)) {
+                return true;
+            }
         }
         return false;
     }
 
     private void showLight(TileEntity te) {
         if (this.proccess % 10 == 0) {
-            Vector3 vec = Vector3.fromTileEntityCenter(te);
+            Vector3 vec = Vector3.fromTileEntityCenter((TileEntity)te);
             int[] pos = new int[]{this.xCoord - te.xCoord, this.yCoord - te.yCoord, this.zCoord - te.zCoord};
-            Vector3 endVec = vec.copy().add(pos[0], pos[1], pos[2]);
+            Vector3 endVec = vec.copy().add((double)pos[0], (double)pos[1], (double)pos[2]);
             Botania.proxy.lightningFX(this.worldObj, vec, endVec, 2.0f, 38027, 58583);
         }
     }
@@ -245,12 +252,12 @@ ISidedInventory {
             if (var0 == null) continue;
             if (isnew) {
                 if (var0.getItem() instanceof ItemWispEssence && dop < 2) {
-                    NBTTagCompound var1 = ItemNBTHelper.getNBT(var0);
+                    NBTTagCompound var1 = ItemNBTHelper.getNBT((ItemStack)var0);
                     NBTTagList var2 = var1.getTagList("Aspects", 10);
                     NBTTagCompound var3 = var2.getCompoundTagAt(0);
                     String s2 = var3.getString("key");
-                    if (s2 != "" && Aspect.getAspect(s2) != null) {
-                        asp.add(Aspect.getAspect(s2));
+                    if (s2 != "" && Aspect.getAspect((String)s2) != null) {
+                        asp.add(Aspect.getAspect((String)s2));
                     }
                     ped.func_70299_a(0, null);
                     ++dop;
@@ -261,21 +268,21 @@ ISidedInventory {
                     ++ball;
                     continue;
                 }
-                if (!(var0.getItem() instanceof ItemBlock) || !(Block.getBlockFromItem(var0.getItem()) instanceof BlockCrystal) || main >= 1) continue;
+                if (!(var0.getItem() instanceof ItemBlock) || !(Block.getBlockFromItem((Item)var0.getItem()) instanceof BlockCrystal) || main >= 1) continue;
                 int meta = var0.getItemDamage();
                 s = meta == 0 ? "aer" : (meta == 1 ? "ignis" : (meta == 2 ? "aqua" : (meta == 3 ? "terra" : (meta == 4 ? "ordo" : "perditio"))));
-                asp.add(Aspect.getAspect(s));
+                asp.add(Aspect.getAspect((String)s));
                 if (meta == 6) {
                     s = "aer";
-                    asp.add(Aspect.getAspect(s));
+                    asp.add(Aspect.getAspect((String)s));
                     s = "ignis";
-                    asp.add(Aspect.getAspect(s));
+                    asp.add(Aspect.getAspect((String)s));
                     s = "aqua";
-                    asp.add(Aspect.getAspect(s));
+                    asp.add(Aspect.getAspect((String)s));
                     s = "terra";
-                    asp.add(Aspect.getAspect(s));
+                    asp.add(Aspect.getAspect((String)s));
                     s = "ordo";
-                    asp.add(Aspect.getAspect(s));
+                    asp.add(Aspect.getAspect((String)s));
                 }
                 ped.func_70299_a(0, null);
                 ++main;
@@ -284,7 +291,7 @@ ISidedInventory {
             if (var0.getItem() instanceof ItemShard && main < 1) {
                 int meta = var0.getItemDamage();
                 s = meta == 0 ? "aer" : (meta == 1 ? "ignis" : (meta == 2 ? "aqua" : (meta == 3 ? "terra" : (meta == 4 ? "ordo" : "perditio"))));
-                asp.add(Aspect.getAspect(s));
+                asp.add(Aspect.getAspect((String)s));
                 ped.func_70299_a(0, null);
                 ++main;
                 continue;
@@ -307,7 +314,9 @@ ISidedInventory {
                 if (is == null || !(is.getItem() instanceof ItemVineBall)) continue;
                 ++ball;
             }
-            return wisp >= 2 && ball >= 1;
+            if (wisp >= 2 && ball >= 1) {
+                return true;
+            }
         } else {
             int shard = 0;
             int ball = 0;
@@ -318,20 +327,23 @@ ISidedInventory {
                 if (is == null || !(is.getItem() instanceof ItemVineBall)) continue;
                 ++ball;
             }
-            return shard >= 1 && ball >= 1;
+            if (shard >= 1 && ball >= 1) {
+                return true;
+            }
         }
+        return false;
     }
 
     private boolean isNewEssence(ArrayList<ItemStack> items) {
         for (ItemStack is : items) {
-            if (is == null || !(is.getItem() instanceof ItemBlock) || !(Block.getBlockFromItem(is.getItem()) instanceof BlockCrystal)) continue;
+            if (is == null || !(is.getItem() instanceof ItemBlock) || !(Block.getBlockFromItem((Item)is.getItem()) instanceof BlockCrystal)) continue;
             return true;
         }
         return false;
     }
 
     private boolean isNewEssence(ItemStack items) {
-        return items != null && items.getItem() instanceof ItemBlock && Block.getBlockFromItem(items.getItem()) instanceof BlockCrystal;
+        return items != null && items.getItem() instanceof ItemBlock && Block.getBlockFromItem((Item)items.getItem()) instanceof BlockCrystal;
     }
 
     public ItemStack getStackInSlotOnClosing(int index) {
@@ -364,7 +376,7 @@ ISidedInventory {
     }
 
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && entityPlayer.getDistanceSq((double) this.xCoord + 0.5, (double) this.yCoord + 0.5, (double) this.zCoord + 0.5) <= 64.0;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityPlayer.getDistanceSq((double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5) <= 64.0;
     }
 
     public void openInventory() {
@@ -384,6 +396,26 @@ ISidedInventory {
 
     public boolean isItemValidForSlot(int i, ItemStack itemStack) {
         return true;
+    }
+
+    public void renderHUD(Minecraft mc, ScaledResolution res) {
+        if (this.getStackInSlot(0) == null) {
+            return;
+        }
+        ArrayList<TilePedestal> ped = this.getPed();
+        ArrayList<ItemStack> items = this.getItemsFromPed(ped);
+        if (items.size() < 2) {
+            return;
+        }
+        boolean isnew = this.isNewEssence(items);
+        if (!this.trueItem(items, isnew)) {
+            return;
+        }
+        int x = res.getScaledWidth() / 2 + 20;
+        int y = res.getScaledHeight() / 2 - 8;
+        RenderHelper.renderProgressPie((int)x, (int)y, (float)((float)this.proccess / 600.0f), (ItemStack)this.getStackInSlot(0));
+        String s = "\u00a7f\u0421\u0442\u0430\u0442\u0443\u0441: " + (this.isStoped ? "\u00a7c\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d" : "\u00a72\u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442");
+        mc.fontRenderer.drawStringWithShadow(s, x - 20 - s.length() / 2, y + 20, 0xFFFFFF);
     }
 
     public int[] getAccessibleSlotsFromSide(int i) {
@@ -419,7 +451,7 @@ ISidedInventory {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xFF;
             if (j < 0 || j >= this.chestContents.length) continue;
-            this.chestContents[j] = v0 = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+            this.chestContents[j] = v0 = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbttagcompound1);
         }
         this.item = nbt;
     }
@@ -441,9 +473,9 @@ ISidedInventory {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setByte("Slot", (byte)i);
             this.chestContents[i].writeToNBT(nbttagcompound1);
-            nbttaglist.appendTag(nbttagcompound1);
+            nbttaglist.appendTag((NBTBase)nbttagcompound1);
         }
-        nbt.setTag("Items", nbttaglist);
+        nbt.setTag("Items", (NBTBase)nbttaglist);
         if (this.hasCustomInventoryName()) {
             nbt.setString("CustomName", this.customName);
         }

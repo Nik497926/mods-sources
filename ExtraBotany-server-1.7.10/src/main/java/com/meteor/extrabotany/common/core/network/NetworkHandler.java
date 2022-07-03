@@ -27,10 +27,10 @@ public class NetworkHandler {
     public void registerChannels(PacketProcessorServer proc) {
         if (!this.registeredChannels) {
             this.registeredChannels = true;
-            Channel.register(proc);
-            FMLCommonHandler.instance().bus().register(proc);
+            Channel.register((Object)proc);
+            FMLCommonHandler.instance().bus().register((Object)proc);
         } else {
-            LogHelper.info("Redundant call to register channels.");
+            LogHelper.info("Redundant call to register channels.", new Object[0]);
         }
     }
 
@@ -40,7 +40,7 @@ public class NetworkHandler {
         for (int packet = 0; packet < data.length; ++packet) {
             pkt_data[packet + 1] = data[packet];
         }
-        FMLProxyPacket var6 = new FMLProxyPacket(Unpooled.copiedBuffer(pkt_data), ChannelLabel);
+        FMLProxyPacket var6 = new FMLProxyPacket(Unpooled.copiedBuffer((byte[])pkt_data), ChannelLabel);
         var6.setTarget(Side.CLIENT);
         Channel.sendTo(var6, player);
     }
@@ -51,7 +51,7 @@ public class NetworkHandler {
         for (int packet = 0; packet < data.length; ++packet) {
             pkt_data[packet + 1] = data[packet];
         }
-        FMLProxyPacket var5 = new FMLProxyPacket(Unpooled.copiedBuffer(pkt_data), ChannelLabel);
+        FMLProxyPacket var5 = new FMLProxyPacket(Unpooled.copiedBuffer((byte[])pkt_data), ChannelLabel);
         var5.setTarget(Side.SERVER);
         Channel.sendToServer(var5);
     }
@@ -66,7 +66,7 @@ public class NetworkHandler {
         for (int packet = 0; packet < data.length; ++packet) {
             pkt_data[packet + 1] = data[packet];
         }
-        FMLProxyPacket var14 = new FMLProxyPacket(Unpooled.copiedBuffer(pkt_data), ChannelLabel);
+        FMLProxyPacket var14 = new FMLProxyPacket(Unpooled.copiedBuffer((byte[])pkt_data), ChannelLabel);
         var14.setTarget(Side.CLIENT);
         Channel.sendToAllAround(var14, new NetworkRegistry.TargetPoint(dimension, ox, oy, oz, radius));
     }

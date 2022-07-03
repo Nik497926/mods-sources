@@ -43,8 +43,8 @@ extends SubTileFunctional {
         for (Object ores : map.keySet()) {
             values.add(new StringRandomItem((Integer)map.get(ores), (String) ores));
         }
-        String ore1 = ((StringRandomItem)WeightedRandom.getRandomItem(this.supertile.getWorldObj().rand, values)).s;
-        ArrayList ores1 = OreDictionary.getOres(ore1);
+        String ore1 = ((StringRandomItem)WeightedRandom.getRandomItem((Random)this.supertile.getWorldObj().rand, values)).s;
+        ArrayList ores1 = OreDictionary.getOres((String)ore1);
         Iterator i$ = ores1.iterator();
         if (i$.hasNext()) {
             ItemStack stack = (ItemStack)i$.next();
@@ -63,7 +63,7 @@ extends SubTileFunctional {
     }
 
     public static int getOreWeight(String ore) {
-        return BotaniaAPI.oreWeights.get(ore);
+        return (Integer)BotaniaAPI.oreWeights.get(ore);
     }
 
     private static class StringRandomItem

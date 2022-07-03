@@ -4,7 +4,6 @@
 package com.meteor.extrabotany.common.item.relic.legendary.armor.killer;
 
 import com.meteor.extrabotany.common.item.relic.legendary.armor.CoreArmor;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.killer.ItemKillerArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,7 +24,7 @@ implements IVisDiscountGear {
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         NBTTagCompound nbt;
         super.onArmorTick(world, player, stack);
-        if (ItemNBTHelper.getBoolean(stack, "potion", true) && !(nbt = ItemNBTHelper.getNBT(stack)).hasKey("lastDMG")) {
+        if (ItemNBTHelper.getBoolean((ItemStack)stack, (String)"potion", (boolean)true) && !(nbt = ItemNBTHelper.getNBT((ItemStack)stack)).hasKey("lastDMG")) {
             player.addPotionEffect(new PotionEffect(23, 40, 0, true));
         }
         if (!CoreArmor.getAnother(player, (byte)3, (byte)0) && !world.isRemote) {

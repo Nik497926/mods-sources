@@ -55,15 +55,15 @@ implements IMessage {
     public void fromBytes(ByteBuf bytes) {
         this.datatype = bytes.readByte();
         this.slot = bytes.readInt();
-        this.name = ByteBufUtils.readUTF8String(bytes);
+        this.name = ByteBufUtils.readUTF8String((ByteBuf)bytes);
         this.value = DataUtills.instance.readObjectFromBytes(bytes, this.datatype);
         this.renameProfile = bytes.readBoolean();
     }
 
     public void toBytes(ByteBuf bytes) {
-        bytes.writeByte(this.datatype);
+        bytes.writeByte((int)this.datatype);
         bytes.writeInt(this.slot);
-        ByteBufUtils.writeUTF8String(bytes, this.name);
+        ByteBufUtils.writeUTF8String((ByteBuf)bytes, (String)this.name);
         DataUtills.instance.writeObjectToBytes(bytes, this.datatype, this.value);
         bytes.writeBoolean(this.renameProfile);
     }

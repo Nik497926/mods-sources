@@ -57,15 +57,14 @@ extends SubTileGenerating {
                 Block block = world.getBlock(coords.posX, coords.posY, coords.posZ);
                 int meta = world.getBlockMetadata(coords.posX, coords.posY, coords.posZ);
                 RecipeStonesia recipe = null;
-                for (Object x1 : ExtraBotanyAPI.stonesiaRecipes) {
-                    RecipeStonesia x = (RecipeStonesia) x1;
-                    if (!x.matches(world, coords.posX, coords.posY, coords.posZ, this, block, meta)) continue;
-                    recipe = x;
+                for (Object x : ExtraBotanyAPI.stonesiaRecipes) {
+                    if (!((RecipeStonesia)x).matches(world, coords.posX, coords.posY, coords.posZ, (SubTileEntity)this, block, meta)) continue;
+                    recipe = (RecipeStonesia)x;
                     break;
                 }
                 if (recipe != null) {
                     Botania.proxy.sparkleFX(this.supertile.getWorldObj(), (double)coords.posX + Math.random(), (double)coords.posY + Math.random(), (double)coords.posZ + Math.random(), 1.0f, 1.0f, 1.0f, (float)Math.random(), 5);
-                    if (recipe.set(world, coords.posX, coords.posY, coords.posZ, this)) {
+                    if (recipe.set(world, coords.posX, coords.posY, coords.posZ, (SubTileEntity)this)) {
                         this.burnTime += recipe.getMana();
                         for (int var14 = 0; var14 < 25; ++var14) {
                             double var15 = (double)coords.posX + Math.random();

@@ -83,7 +83,7 @@ extends BaseUndoable {
     }
 
     protected boolean equals(Object recipe, Object otherRecipe) {
-        return recipe == otherRecipe || recipe.equals(otherRecipe);
+        return recipe == otherRecipe ? true : recipe.equals(otherRecipe);
     }
 }
 

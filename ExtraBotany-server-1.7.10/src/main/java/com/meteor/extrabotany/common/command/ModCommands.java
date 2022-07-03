@@ -12,10 +12,10 @@ import net.minecraft.command.ICommand;
 
 public class ModCommands {
     public ModCommands(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandGetShieldAmount());
-        event.registerServerCommand(new CommandSetShieldAmount());
-        event.registerServerCommand(new CommandAddShieldAmount());
-        event.registerServerCommand(new CommandRenderShield());
+        event.registerServerCommand((ICommand)new CommandGetShieldAmount());
+        event.registerServerCommand((ICommand)new CommandSetShieldAmount());
+        event.registerServerCommand((ICommand)new CommandAddShieldAmount());
+        event.registerServerCommand((ICommand)new CommandRenderShield());
     }
 }
 

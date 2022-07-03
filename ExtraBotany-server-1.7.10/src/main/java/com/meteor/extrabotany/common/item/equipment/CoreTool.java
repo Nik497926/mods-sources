@@ -58,10 +58,10 @@ public class CoreTool {
                 block.onBlockDestroyedByPlayer(world, x, y, z, meta);
             }
             if (!world.isRemote) {
-                ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
+                ((EntityPlayerMP)player).playerNetServerHandler.sendPacket((Packet)new S23PacketBlockChange(x, y, z, world));
             }
             if (breakSound) {
-                world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
+                world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock((Block)block) + (meta << 12));
             }
             return true;
         }
@@ -71,20 +71,20 @@ public class CoreTool {
                 block.onBlockDestroyedByPlayer(world, x, y, z, meta);
                 block.harvestBlock(world, player, x, y, z, meta);
                 player.addExhaustion(-0.025f);
-                if (block.getExpDrop(world, meta, EnchantmentHelper.getFortuneModifier(player)) > 0) {
-                    player.addExperience(block.getExpDrop(world, meta, EnchantmentHelper.getFortuneModifier(player)));
+                if (block.getExpDrop((IBlockAccess)world, meta, EnchantmentHelper.getFortuneModifier((EntityLivingBase)player)) > 0) {
+                    player.addExperience(block.getExpDrop((IBlockAccess)world, meta, EnchantmentHelper.getFortuneModifier((EntityLivingBase)player)));
                 }
             }
             EntityPlayerMP mpPlayer = (EntityPlayerMP)player;
-            mpPlayer.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
+            mpPlayer.playerNetServerHandler.sendPacket((Packet)new S23PacketBlockChange(x, y, z, world));
         } else {
             if (breakSound) {
-                world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
+                world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock((Block)block) + (meta << 12));
             }
             if (block.removedByPlayer(world, player, x, y, z, true)) {
                 block.onBlockDestroyedByPlayer(world, x, y, z, meta);
             }
-            Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
+            Minecraft.getMinecraft().getNetHandler().addToSendQueue((Packet)new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
         }
         return true;
     }
@@ -111,7 +111,7 @@ public class CoreTool {
             return true;
         }
         int dmg = stack.getItemDamage();
-        if (!ManaItemHandler.requestManaExact(new ItemStack(ModItems.manaRing), player, 100, true)) {
+        if (!ManaItemHandler.requestManaExact((ItemStack)new ItemStack(ModItems.manaRing), (EntityPlayer)player, (int)100, (boolean)true)) {
             if (typeTool != -1) {
                 return false;
             }
@@ -119,24 +119,24 @@ public class CoreTool {
         }
         if (dmg >= 2299) {
             if (!player.worldObj.isRemote) {
-                player.addChatMessage(new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a7c\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u043f\u043e\u0432\u0440\u0435\u0436\u0434\u0435\u043d! \u041a\u043e\u043f\u0430\u043d\u0438\u0435 \u043d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e"));
+                player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a7c\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u043f\u043e\u0432\u0440\u0435\u0436\u0434\u0435\u043d! \u041a\u043e\u043f\u0430\u043d\u0438\u0435 \u043d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e", new Object[0]));
             }
             return false;
         }
         TileEntity te = world.getTileEntity(x, y, z);
         if (ItemNBTHelper.getInteger(stack, "thisRad", 0) != 0 && ItemNBTHelper.getInteger(stack, "thisGlub", 0) != 0 && te != null) {
             if (!player.worldObj.isRemote) {
-                player.addChatMessage(new ChatComponentTranslation("\u00a7f[\u00a76Guard ExtraBotania\u00a7f]: \u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d \u0444\u0443\u043d\u043a\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0431\u043b\u043e\u043a! \u041b\u043e\u043c\u0430\u043d\u0438\u0435 \u00a7f\u043f\u043e \u00a7f\u043e\u0431\u043b\u0430\u0441\u0442\u0438 \u00a7f\u043f\u0440\u0435\u0440\u0432\u0430\u043d\u043e, \u00a7f\u0442\u0430\u043a \u00a7f\u043a\u0430\u043a \u00a7f\u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u00a7f\u0438 \u00a7f\u0440\u0430\u0434\u0438\u0443\u0441 \u00a7f\u043d\u0435 \u00a7f\u0440\u0430\u0432\u043d\u044b \u00a7f1"));
+                player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a7f[\u00a76Guard ExtraBotania\u00a7f]: \u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d \u0444\u0443\u043d\u043a\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0431\u043b\u043e\u043a! \u041b\u043e\u043c\u0430\u043d\u0438\u0435 \u00a7f\u043f\u043e \u00a7f\u043e\u0431\u043b\u0430\u0441\u0442\u0438 \u00a7f\u043f\u0440\u0435\u0440\u0432\u0430\u043d\u043e, \u00a7f\u0442\u0430\u043a \u00a7f\u043a\u0430\u043a \u00a7f\u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u00a7f\u0438 \u00a7f\u0440\u0430\u0434\u0438\u0443\u0441 \u00a7f\u043d\u0435 \u00a7f\u0440\u0430\u0432\u043d\u044b \u00a7f1", new Object[0]));
             }
             return false;
         }
         int meta = world.getBlockMetadata(x, y, z);
-        float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
-        if (!ForgeHooks.canHarvestBlock(block, player, meta) || strength <= 0.0f && !player.capabilities.isCreativeMode) {
+        float strength = ForgeHooks.blockStrength((Block)block, (EntityPlayer)player, (World)world, (int)x, (int)y, (int)z);
+        if (!ForgeHooks.canHarvestBlock((Block)block, (EntityPlayer)player, (int)meta) || strength <= 0.0f && !player.capabilities.isCreativeMode) {
             return true;
         }
-        if (!world.isRemote && (event = ForgeHooks.onBlockBreakEvent(world, world.getWorldInfo().getGameType(), (EntityPlayerMP) player, x, y, z)).isCanceled()) {
-            ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
+        if (!world.isRemote && (event = ForgeHooks.onBlockBreakEvent((World)world, (WorldSettings.GameType)world.getWorldInfo().getGameType(), (EntityPlayerMP)((EntityPlayerMP)player), (int)x, (int)y, (int)z)).isCanceled()) {
+            ((EntityPlayerMP)player).playerNetServerHandler.sendPacket((Packet)new S23PacketBlockChange(x, y, z, world));
             return true;
         }
         return CoreTool.CoreBreak(player, blockMap, block, meta, world, x, y, z, breakSound);
@@ -154,8 +154,8 @@ public class CoreTool {
             if (compound.hasKey("Item" + i)) {
                 tag = compound.getCompoundTag("Item" + i);
             }
-            if (tag.hasNoTags() || (stack1 = ItemStack.loadItemStackFromNBT(tag)) == null || !(stack1.getItem() instanceof ItemBlock)) continue;
-            blockMap.put(Block.getBlockFromItem(stack1.getItem()), stack1.getItemDamage());
+            if (tag.hasNoTags() || (stack1 = ItemStack.loadItemStackFromNBT((NBTTagCompound)tag)) == null || !(stack1.getItem() instanceof ItemBlock)) continue;
+            blockMap.put(Block.getBlockFromItem((Item)stack1.getItem()), stack1.getItemDamage());
         }
         return blockMap;
     }
@@ -163,7 +163,7 @@ public class CoreTool {
     public static short hasToolEffectFortune(ItemStack stack) {
         NBTTagList ench = stack.getEnchantmentTagList();
         short fortune = 0;
-        for (int i = 0; i < Math.min(ench.tagCount(), 127); i = (byte)(i + 1)) {
+        for (int i = 0; i < Math.min(ench.tagCount(), 127); i = (int)((byte)(i + 1))) {
             NBTTagCompound en = ench.getCompoundTagAt(i);
             if (!en.hasKey("id") || en.getShort("id") != Enchantment.fortune.effectId || !en.hasKey("lvl")) continue;
             fortune = en.getShort("lvl");
@@ -186,7 +186,7 @@ public class CoreTool {
         }
         TileEntity tile = world.getTileEntity(x, y, z);
         if (!(tile instanceof IManaBlock) && !burst.isFake()) {
-            String attacker = vazkii.botania.common.core.helper.ItemNBTHelper.getString(burst.getSourceLens(), "attackerUsername", "");
+            String attacker = vazkii.botania.common.core.helper.ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)"attackerUsername", (String)"");
             EntityPlayer player = world.getPlayerEntityByName(attacker);
             if (CoreTool.checkMaterial(block, tool) && player != null) {
                 dead = true;

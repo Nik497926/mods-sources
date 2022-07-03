@@ -33,7 +33,7 @@ ISidedInventory {
     public int numPlayersUsing;
     private int playersUsing;
     private IInventory mainInv;
-    private final int needMaterial = 3;
+    private int needMaterial = 3;
 
     public int getSizeInventory() {
         return 4;
@@ -89,7 +89,7 @@ ISidedInventory {
         ItemStack output = this.getStackInSlot(3);
         if (this.checkItem(shema, 0).booleanValue() && this.checkItem(elfirium2, 1).booleanValue() && this.checkItem(input, 2).booleanValue() && this.checkItem(output, 3).booleanValue()) {
             if (input.getItem() instanceof ItemOGArmor) {
-                String bind = ItemNBTHelper.getString(input, "soulbind", "");
+                String bind = ItemNBTHelper.getString((ItemStack)input, (String)"soulbind", (String)"");
                 if (input.getItem() instanceof ItemOGHelm) {
                     output = new ItemStack(ModItems.awakeoghelm);
                 }
@@ -102,11 +102,11 @@ ISidedInventory {
                 if (input.getItem() instanceof ItemOGBoots) {
                     output = new ItemStack(ModItems.awakeogboots);
                 }
-                ItemNBTHelper.setString(output, "soulbind", bind);
+                ItemNBTHelper.setString((ItemStack)output, (String)"soulbind", (String)bind);
             } else if (input.getItem() instanceof ItemTerraPick) {
-                int mana = ItemNBTHelper.getInt(input, "mana", 0);
+                int mana = ItemNBTHelper.getInt((ItemStack)input, (String)"mana", (int)0);
                 output = new ItemStack(ModItems.awakepick);
-                ItemNBTHelper.setInt(output, "mana", mana);
+                ItemNBTHelper.setInt((ItemStack)output, (String)"mana", (int)mana);
             }
             input = null;
             if (shema.stackSize == 1) {
@@ -129,16 +129,28 @@ ISidedInventory {
     public Boolean checkItem(ItemStack item, int ind) {
         switch (ind) {
             case 0: {
-                return item != null && item.getItem() instanceof awakeArmController;
+                if (item != null && item.getItem() instanceof awakeArmController) {
+                    return true;
+                }
+                return false;
             }
             case 1: {
-                return item != null && item.getItem() instanceof elfirium && item.stackSize >= this.needMaterial;
+                if (item != null && item.getItem() instanceof elfirium && item.stackSize >= this.needMaterial) {
+                    return true;
+                }
+                return false;
             }
             case 2: {
-                return item != null && this.checkInput(item).booleanValue();
+                if (item != null && this.checkInput(item).booleanValue()) {
+                    return true;
+                }
+                return false;
             }
             case 3: {
-                return item == null;
+                if (item == null) {
+                    return true;
+                }
+                return false;
             }
         }
         return false;
@@ -146,9 +158,15 @@ ISidedInventory {
 
     private Boolean checkInput(ItemStack item) {
         if (item.getItem() instanceof ItemOGArmor) {
-            return !(item.getItem() instanceof ItemAwakeOGArmor);
+            if (item.getItem() instanceof ItemAwakeOGArmor) {
+                return false;
+            }
+            return true;
         }
-        return item.getItem() instanceof ItemTerraPick;
+        if (item.getItem() instanceof ItemTerraPick) {
+            return true;
+        }
+        return false;
     }
 
     public void setBlockOwner(EntityPlayer player) {
@@ -172,7 +190,7 @@ ISidedInventory {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xFF;
             if (j < 0 || j >= this.chestContents.length) continue;
-            this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+            this.chestContents[j] = ItemStack.loadItemStackFromNBT((NBTTagCompound)nbttagcompound1);
         }
     }
 
@@ -188,9 +206,9 @@ ISidedInventory {
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setByte("Slot", (byte)i);
             this.chestContents[i].writeToNBT(nbttagcompound1);
-            nbttaglist.appendTag(nbttagcompound1);
+            nbttaglist.appendTag((NBTBase)nbttagcompound1);
         }
-        nbt.setTag("Items", nbttaglist);
+        nbt.setTag("Items", (NBTBase)nbttaglist);
         if (this.hasCustomInventoryName()) {
             nbt.setString("CustomName", this.customName);
         }
@@ -205,7 +223,7 @@ ISidedInventory {
     }
 
     public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && entityPlayer.getDistanceSq((double) this.xCoord + 0.5, (double) this.yCoord + 0.5, (double) this.zCoord + 0.5) <= 64.0;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityPlayer.getDistanceSq((double)this.xCoord + 0.5, (double)this.yCoord + 0.5, (double)this.zCoord + 0.5) <= 64.0;
     }
 
     public void updateContainingBlockInfo() {

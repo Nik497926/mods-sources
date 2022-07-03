@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -34,11 +35,11 @@ IMessageHandler<MessageToClientVisual, IMessage> {
     }
 
     public void toBytes(ByteBuf buffer) {
-        ByteBufUtils.writeTag(buffer, this.nbt);
+        ByteBufUtils.writeTag((ByteBuf)buffer, (NBTTagCompound)this.nbt);
     }
 
     public void fromBytes(ByteBuf buffer) {
-        this.nbt = ByteBufUtils.readTag(buffer);
+        this.nbt = ByteBufUtils.readTag((ByteBuf)buffer);
     }
 
     @SideOnly(value=Side.CLIENT)
@@ -56,7 +57,7 @@ IMessageHandler<MessageToClientVisual, IMessage> {
                 if (player == null) {
                     return null;
                 }
-                Vector3 vec = Vector3.fromEntityCenter(player);
+                Vector3 vec = Vector3.fromEntityCenter((Entity)player);
                 double[] pos = new double[]{player1.posX - player.posX, player1.posY - player.posY, player1.posZ - player.posZ};
                 Vector3 endVec = vec.copy().add(pos[0], pos[1], pos[2]);
                 Botania.proxy.lightningFX(world, vec, endVec, 2.0f, 38027, 58583);

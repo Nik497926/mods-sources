@@ -62,7 +62,7 @@ public class InputHelper {
         }
         Object internal = iStack.getInternal();
         if (!(internal instanceof ItemStack)) {
-            LogHelper.error("Not a valid item stack: " + iStack);
+            LogHelper.error("Not a valid item stack: " + iStack, new Object[0]);
         }
         return (ItemStack)internal;
     }
@@ -134,15 +134,15 @@ public class InputHelper {
     }
 
     public static FluidStack toFluid(ILiquidStack iStack) {
-        return iStack == null ? null : FluidRegistry.getFluidStack(iStack.getName(), iStack.getAmount());
+        return iStack == null ? null : FluidRegistry.getFluidStack((String)iStack.getName(), (int)iStack.getAmount());
     }
 
     public static Fluid getFluid(ILiquidStack iStack) {
-        return iStack == null ? null : FluidRegistry.getFluid(iStack.getName());
+        return iStack == null ? null : FluidRegistry.getFluid((String)iStack.getName());
     }
 
     public static FluidStack[] toFluids(IIngredient[] input) {
-        return InputHelper.toFluids(input);
+        return InputHelper.toFluids((IIngredient[])((IItemStack[])input));
     }
 
     public static FluidStack[] toFluids(ILiquidStack[] iStack) {

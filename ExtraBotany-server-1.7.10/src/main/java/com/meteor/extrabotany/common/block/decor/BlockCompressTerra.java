@@ -19,11 +19,11 @@ extends Block {
         this.setResistance(10.0f);
         this.setHarvestLevel("pickaxe", 3);
         this.setBlockTextureName("ExtraBotania:compressTerra");
-        GameRegistry.registerBlock(this, "compressterra");
+        GameRegistry.registerBlock((Block)this, (String)"compressterra");
     }
 
     public Item getItemDropped(int par1, Random par2Random, int par3) {
-        return Item.getItemFromBlock(ModBlocks.compressedTerra);
+        return Item.getItemFromBlock((Block)ModBlocks.compressedTerra);
     }
 
     public int quantityDropped(Random par1Random) {

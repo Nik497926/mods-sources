@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -49,7 +50,7 @@ extends BlockContainer {
         this.setBlockTextureName("ExtraBotania:gaiachest");
         this.setBlockName("gaiachest");
         this.setHardness(3.0f);
-        GameRegistry.registerBlock(this, "gaiachest");
+        GameRegistry.registerBlock((Block)this, (String)"gaiachest");
     }
 
     public boolean isOpaqueCube() {
@@ -105,7 +106,7 @@ extends BlockContainer {
         Block block2 = world.getBlock(x - 1, y, z);
         Block block3 = world.getBlock(x + 1, y, z);
         int b0 = 0;
-        int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0f / 360.0f) + 0.5) & 3;
+        int l = MathHelper.floor_double((double)((double)(p_149689_5_.rotationYaw * 4.0f / 360.0f) + 0.5)) & 3;
         if (l == 0) {
             b0 = 2;
         }
@@ -238,7 +239,7 @@ extends BlockContainer {
                         j1 = itemstack.stackSize;
                     }
                     itemstack.stackSize -= j1;
-                    EntityItem entityitem = new EntityItem(world, (float)x + f, (float)y + f1, (float)z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                    EntityItem entityitem = new EntityItem(world, (double)((float)x + f), (double)((float)y + f1), (double)((float)z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
                     float f3 = 0.05f;
                     entityitem.motionX = (float)this.field_149955_b.nextGaussian() * f3;
                     entityitem.motionY = (float)this.field_149955_b.nextGaussian() * f3 + 0.2f;
@@ -246,7 +247,7 @@ extends BlockContainer {
                     if (itemstack.hasTagCompound()) {
                         entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
                     }
-                    world.spawnEntityInWorld(entityitem);
+                    world.spawnEntityInWorld((Entity)entityitem);
                 }
             }
             world.func_147453_f(x, y, z, block);
@@ -305,8 +306,8 @@ extends BlockContainer {
         if (!this.canProvidePower()) {
             return 0;
         }
-        int i1 = ((TileGaiaChest)p_149709_1_.getTileEntity(p_149709_2_, p_149709_3_, p_149709_4_)).numPlayersUsing;
-        return MathHelper.clamp_int(i1, 0, 15);
+        int i1 = ((TileGaiaChest)p_149709_1_.getTileEntity((int)p_149709_2_, (int)p_149709_3_, (int)p_149709_4_)).numPlayersUsing;
+        return MathHelper.clamp_int((int)i1, (int)0, (int)15);
     }
 
     public int isProvidingStrongPower(IBlockAccess p_149748_1_, int p_149748_2_, int p_149748_3_, int p_149748_4_, int p_149748_5_) {
@@ -314,7 +315,7 @@ extends BlockContainer {
     }
 
     private static boolean func_149953_o(World p_149953_0_, int p_149953_1_, int p_149953_2_, int p_149953_3_) {
-        for (Object entity : p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox(p_149953_1_, p_149953_2_ + 1, p_149953_3_, p_149953_1_ + 1, p_149953_2_ + 2, p_149953_3_ + 1))) {
+        for (Object entity : p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox((double)p_149953_1_, (double)(p_149953_2_ + 1), (double)p_149953_3_, (double)(p_149953_1_ + 1), (double)(p_149953_2_ + 2), (double)(p_149953_3_ + 1)))) {
             EntityOcelot entityocelot = (EntityOcelot)entity;
             if (!entityocelot.isSitting()) continue;
             return true;
@@ -327,7 +328,7 @@ extends BlockContainer {
     }
 
     public int getComparatorInputOverride(World world, int x, int y, int z, int f) {
-        return Container.calcRedstoneFromInventory(this.getInv(world, x, y, z));
+        return Container.calcRedstoneFromInventory((IInventory)this.getInv(world, x, y, z));
     }
 
     @SideOnly(value=Side.CLIENT)

@@ -37,17 +37,17 @@ extends EntityThrowable {
 
     public EntityOdinMissile(EntityLivingBase thrower, boolean evil) {
         this(thrower.worldObj);
-        ReflectionHelper.setPrivateValue(EntityThrowable.class, this, thrower, LibObfuscation.THROWER);
+        ReflectionHelper.setPrivateValue(EntityThrowable.class, (this), (Object)thrower, (String[])LibObfuscation.THROWER);
         this.setEvil(evil);
     }
 
     protected void entityInit() {
-        this.dataWatcher.addObject(25, 0);
-        this.dataWatcher.addObject(26, 0);
+        this.dataWatcher.addObject(25, (Object)0);
+        this.dataWatcher.addObject(26, (Object)0);
     }
 
     public void setEvil(boolean evil) {
-        this.dataWatcher.updateObject(25, (byte)(evil ? 1 : 0));
+        this.dataWatcher.updateObject(25, (Object)((byte)(evil ? 1 : 0)));
     }
 
     public boolean isEvil() {
@@ -55,7 +55,7 @@ extends EntityThrowable {
     }
 
     public void setTarget(EntityLivingBase e) {
-        this.dataWatcher.updateObject(26, e == null ? -1 : e.getEntityId());
+        this.dataWatcher.updateObject(26, (Object)(e == null ? -1 : e.getEntityId()));
     }
 
     public EntityLivingBase getTargetEntity() {
@@ -77,7 +77,7 @@ extends EntityThrowable {
             return;
         }
         boolean evil = this.isEvil();
-        Vector3 thisVec = Vector3.fromEntityCenter(this);
+        Vector3 thisVec = Vector3.fromEntityCenter((Entity)this);
         Vector3 oldPos = new Vector3(lastTickPosX, lastTickPosY, lastTickPosZ);
         Vector3 diff = thisVec.copy().sub(oldPos);
         Vector3 step = diff.copy().normalize().multiply(0.05);
@@ -99,7 +99,7 @@ extends EntityThrowable {
                 this.lockY = target.posY;
                 this.lockZ = target.posZ;
             }
-            Vector3 targetVec = evil ? new Vector3(this.lockX, this.lockY, this.lockZ) : Vector3.fromEntityCenter(target);
+            Vector3 targetVec = evil ? new Vector3(this.lockX, this.lockY, this.lockZ) : Vector3.fromEntityCenter((Entity)target);
             Vector3 diffVec = targetVec.copy().sub(thisVec);
             Vector3 motionVec = diffVec.copy().normalize().multiply(evil ? 0.5 : 0.6);
             this.motionX = motionVec.x;
@@ -108,7 +108,7 @@ extends EntityThrowable {
                 this.motionY = Math.abs(this.motionY);
             }
             this.motionZ = motionVec.z;
-            List targetList = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.posX - 0.5, this.posY - 0.5, this.posZ - 0.5, this.posX + 0.5, this.posY + 0.5, this.posZ + 0.5));
+            List targetList = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox((double)(this.posX - 0.5), (double)(this.posY - 0.5), (double)(this.posZ - 0.5), (double)(this.posX + 0.5), (double)(this.posY + 0.5), (double)(this.posZ + 0.5)));
             if (targetList.contains(target) && target != null) {
                 EntityLivingBase thrower = this.getThrower();
                 if (thrower != null) {
@@ -145,7 +145,7 @@ extends EntityThrowable {
             this.setTarget(null);
         }
         double range = 12.0;
-        List entities = this.worldObj.getEntitiesWithinAABB(this.isEvil() ? EntityPlayer.class : IMob.class, AxisAlignedBB.getBoundingBox(this.posX - range, this.posY - range, this.posZ - range, this.posX + range, this.posY + range, this.posZ + range));
+        List entities = this.worldObj.getEntitiesWithinAABB(this.isEvil() ? EntityPlayer.class : IMob.class, AxisAlignedBB.getBoundingBox((double)(this.posX - range), (double)(this.posY - range), (double)(this.posZ - range), (double)(this.posX + range), (double)(this.posY + range), (double)(this.posZ + range)));
         while (entities.size() > 0) {
             Entity e = (Entity)entities.get(this.worldObj.rand.nextInt(entities.size()));
             if (!(e instanceof EntityLivingBase) || e.isDead) {

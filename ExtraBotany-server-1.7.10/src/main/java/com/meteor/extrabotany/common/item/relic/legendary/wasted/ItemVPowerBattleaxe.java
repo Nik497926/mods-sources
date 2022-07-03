@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemVPowerBattleaxe
 extends ItemRelicAdv {
-    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial("B_VPOWERBATTLEAXE", 3, -1, 6.2f, 6.0f, 40);
+    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial((String)"B_VPOWERBATTLEAXE", (int)3, (int)-1, (float)6.2f, (float)6.0f, (int)40);
 
     public ItemVPowerBattleaxe() {
         super("vpowerbattleaxe");
@@ -23,8 +23,8 @@ extends ItemRelicAdv {
 
     public Multimap getItemAttributeModifiers() {
         HashMultimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 18.0, 0));
-        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
+        multimap.put((Object)SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", 18.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
         return multimap;
     }
 

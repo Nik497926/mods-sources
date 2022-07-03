@@ -21,7 +21,7 @@ public class FakePlayer {
 
     public static WeakReference getFakePlayer(WorldServer server) {
         if (fakePlayer.get() == null) {
-            fakePlayer = new WeakReference<net.minecraftforge.common.util.FakePlayer>(FakePlayerFactory.get(server, gameProfile));
+            fakePlayer = new WeakReference<net.minecraftforge.common.util.FakePlayer>(FakePlayerFactory.get((WorldServer)server, (GameProfile)gameProfile));
         } else {
             ((EntityPlayerMP)FakePlayer.fakePlayer.get()).worldObj = server;
         }

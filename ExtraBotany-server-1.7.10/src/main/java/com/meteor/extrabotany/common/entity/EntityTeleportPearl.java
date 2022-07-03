@@ -45,9 +45,9 @@ extends EntityThrowable {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {
                 EnderTeleportEvent event;
                 EntityPlayerMP var4 = (EntityPlayerMP)this.getThrower();
-                if (var4.playerNetServerHandler.func_147362_b().isChannelOpen() && var4.worldObj == this.worldObj && !MinecraftForge.EVENT_BUS.post(event = new EnderTeleportEvent(var4, this.posX, this.posY, this.posZ, 5.0f))) {
+                if (var4.playerNetServerHandler.func_147362_b().isChannelOpen() && var4.worldObj == this.worldObj && !MinecraftForge.EVENT_BUS.post((Event)(event = new EnderTeleportEvent((EntityLivingBase)var4, this.posX, this.posY, this.posZ, 5.0f)))) {
                     if (this.getThrower().isRiding()) {
-                        this.getThrower().mountEntity(null);
+                        this.getThrower().mountEntity((Entity)null);
                     }
                     this.getThrower().setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
                 }

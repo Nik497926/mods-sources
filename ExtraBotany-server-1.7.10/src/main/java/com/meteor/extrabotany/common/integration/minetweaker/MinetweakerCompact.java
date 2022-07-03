@@ -22,7 +22,7 @@ public class MinetweakerCompact {
     }
 
     public static boolean subtileMatches(ItemStack stack, ItemStack stack2) {
-        return ItemBlockSpecialFlower.getType(stack2).equals(ItemBlockSpecialFlower.getType(stack));
+        return ItemBlockSpecialFlower.getType((ItemStack)stack2).equals(ItemBlockSpecialFlower.getType((ItemStack)stack));
     }
 }
 

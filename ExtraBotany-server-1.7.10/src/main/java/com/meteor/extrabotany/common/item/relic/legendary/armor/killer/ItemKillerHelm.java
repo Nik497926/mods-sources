@@ -35,16 +35,22 @@ import vazkii.botania.common.entity.EntityManaBurst;
 import vazkii.botania.common.item.relic.ItemRelic;
 
 @Optional.InterfaceList(value={@Optional.Interface(modid="Thaumcraft", iface="thaumcraft.api.IGoggles", striprefs=true), @Optional.Interface(modid="Thaumcraft", iface="thaumcraft.api.nodes.IRevealer", striprefs=true)})
-public class ItemKillerHelm extends ItemKillerArmor implements IGoggles, IRevealer, IManaDiscountArmor, IManaProficiencyArmor, IAncientWillContainer, IManaGivingItem, ILensEffect, IVisDiscountGear {
-    private static final String TAG_ATTACKER_USERNAME = "attackerUsername";
-    private static final String TAG_HOME_ID = "homeID";
-    private static final String TAG_ANCIENT_WILL = "AncientWill";
+public class ItemKillerHelm
+extends ItemKillerArmor
+implements IGoggles,
+IRevealer,
+IManaDiscountArmor,
+IManaProficiencyArmor,
+IAncientWillContainer,
+IManaGivingItem,
+ILensEffect,
+IVisDiscountGear {
     public static List damageNegations;
     List playersWithFlight = new ArrayList();
 
     public ItemKillerHelm() {
         super(0, "killerhelm", null);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
         damageNegations.add(ItemRelic.damageSource().getDamageType());
         damageNegations.add(DamageSource.anvil.getDamageType());
         damageNegations.add(DamageSource.cactus.getDamageType());
@@ -102,7 +108,7 @@ public class ItemKillerHelm extends ItemKillerArmor implements IGoggles, IReveal
     }
 
     public void addAncientWill(ItemStack stack, int will) {
-        ItemNBTHelper.setBoolean(stack, TAG_ANCIENT_WILL + will, true);
+        ItemNBTHelper.setBoolean((ItemStack)stack, (String)("AncientWill" + will), (boolean)true);
     }
 
     public boolean hasAncientWill(ItemStack stack, int will) {
@@ -110,7 +116,7 @@ public class ItemKillerHelm extends ItemKillerArmor implements IGoggles, IReveal
     }
 
     public static boolean hasAncientWill_(ItemStack stack, int will) {
-        return ItemNBTHelper.getBoolean(stack, TAG_ANCIENT_WILL + will, false);
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)("AncientWill" + will), (boolean)false);
     }
 
     public static boolean hasAnyWill(ItemStack stack) {
@@ -132,7 +138,7 @@ public class ItemKillerHelm extends ItemKillerArmor implements IGoggles, IReveal
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, TAG_ATTACKER_USERNAME, player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)"attackerUsername", (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
@@ -162,7 +168,7 @@ public class ItemKillerHelm extends ItemKillerArmor implements IGoggles, IReveal
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         super.onArmorTick(world, player, stack);
-        if (ItemNBTHelper.getBoolean(stack, "potion", true)) {
+        if (ItemNBTHelper.getBoolean((ItemStack)stack, (String)"potion", (boolean)true)) {
             player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 401, 10, true));
         }
         if (!CoreArmor.getAnother(player, (byte)0, (byte)0) && !world.isRemote) {

@@ -4,7 +4,6 @@
 package com.meteor.extrabotany.common.item.relic.legendary.armor;
 
 import com.meteor.extrabotany.common.item.ModItems;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.ItemOGArmor;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -14,10 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
@@ -73,7 +68,7 @@ ILensEffect {
 
     public ItemOGHelm() {
         super(0, "oghelm", null);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
         damageNegations.add(ItemRelic.damageSource().getDamageType());
         damageNegations.add(DamageSource.anvil.getDamageType());
         damageNegations.add(DamageSource.cactus.getDamageType());
@@ -134,9 +129,9 @@ ILensEffect {
                 flag = false;
             }
             if (flag.booleanValue()) {
-                ManaItemHandler.dispatchManaExact(stack, player, 15, true);
+                ManaItemHandler.dispatchManaExact((ItemStack)stack, (EntityPlayer)player, (int)15, (boolean)true);
             } else {
-                ManaItemHandler.dispatchManaExact(stack, player, 5, true);
+                ManaItemHandler.dispatchManaExact((ItemStack)stack, (EntityPlayer)player, (int)5, (boolean)true);
             }
         }
     }
@@ -165,7 +160,7 @@ ILensEffect {
     }
 
     public void addAncientWill(ItemStack stack, int will) {
-        ItemNBTHelper.setBoolean(stack, TAG_ANCIENT_WILL + will, true);
+        ItemNBTHelper.setBoolean((ItemStack)stack, (String)(TAG_ANCIENT_WILL + will), (boolean)true);
     }
 
     public boolean hasAncientWill(ItemStack stack, int will) {
@@ -173,17 +168,7 @@ ILensEffect {
     }
 
     public static boolean hasAncientWill_(ItemStack stack, int will) {
-        return ItemNBTHelper.getBoolean(stack, TAG_ANCIENT_WILL + will, false);
-    }
-
-    @Override
-    @SideOnly(value=Side.CLIENT)
-    public void addArmorSetDescription(ItemStack stack, List list) {
-        super.addArmorSetDescription(stack, list);
-        for (int i = 0; i < 6; ++i) {
-            if (!this.hasAncientWill(stack, i)) continue;
-            this.addStringToTooltip(StatCollector.translateToLocal("botania.armorset.will" + i + ".desc"), list);
-        }
+        return ItemNBTHelper.getBoolean((ItemStack)stack, (String)(TAG_ANCIENT_WILL + will), (boolean)false);
     }
 
     public static boolean hasAnyWill(ItemStack stack) {
@@ -192,25 +177,6 @@ ILensEffect {
             return true;
         }
         return false;
-    }
-
-    @SideOnly(value=Side.CLIENT)
-    public static void renderOnPlayer(ItemStack stack, RenderPlayerEvent event) {
-        if (ItemOGHelm.hasAnyWill(stack) && !((ItemOGArmor)stack.getItem()).hasPhantomInk(stack)) {
-            GL11.glPushMatrix();
-            float f = willIcon.getMinU();
-            float f1 = willIcon.getMaxU();
-            float f2 = willIcon.getMinV();
-            float f3 = willIcon.getMaxV();
-            IManaProficiencyArmor.Helper.hasProficiency(event.entityPlayer);
-            Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationItemsTexture);
-            GL11.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-            GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-            GL11.glTranslatef(-0.26f, 0.15f, -0.39f);
-            GL11.glScalef(0.5f, 0.5f, 0.5f);
-            ItemRenderer.renderItemIn2D(Tessellator.instance, f1, f2, f, f3, willIcon.getIconWidth(), willIcon.getIconHeight(), 0.0625f);
-            GL11.glPopMatrix();
-        }
     }
 
     public EntityManaBurst getBurst(EntityPlayer player, ItemStack stack) {
@@ -224,7 +190,7 @@ ILensEffect {
         burst.setGravity(0.0f);
         burst.setMotion(burst.motionX * (double)motionModifier, burst.motionY * (double)motionModifier, burst.motionZ * (double)motionModifier);
         ItemStack lens = stack.copy();
-        ItemNBTHelper.setString(lens, TAG_ATTACKER_USERNAME, player.getCommandSenderName());
+        ItemNBTHelper.setString((ItemStack)lens, (String)TAG_ATTACKER_USERNAME, (String)player.getCommandSenderName());
         burst.setSourceLens(lens);
         return burst;
     }
@@ -239,30 +205,30 @@ ILensEffect {
     public void updateBurst(IManaBurst burst, ItemStack stack) {
         Entity i$1;
         EntityThrowable entity = (EntityThrowable)burst;
-        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
-        String attacker = ItemNBTHelper.getString(burst.getSourceLens(), TAG_ATTACKER_USERNAME, "");
-        int homeID = ItemNBTHelper.getInt(stack, TAG_HOME_ID, -1);
+        AxisAlignedBB axis = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(1.0, 1.0, 1.0);
+        String attacker = ItemNBTHelper.getString((ItemStack)burst.getSourceLens(), (String)TAG_ATTACKER_USERNAME, (String)"");
+        int homeID = ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_HOME_ID, (int)-1);
         if (homeID == -1) {
-            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox(entity.posX, entity.posY, entity.posZ, entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
+            AxisAlignedBB entities = AxisAlignedBB.getBoundingBox((double)entity.posX, (double)entity.posY, (double)entity.posZ, (double)entity.lastTickPosX, (double)entity.lastTickPosY, (double)entity.lastTickPosZ).expand(5.0, 5.0, 5.0);
             List<EntityLivingBase> i$ = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, entities);
             for (EntityLivingBase cost : i$) {
                 if (cost instanceof EntityPlayer || !(cost instanceof IMob) || cost.hurtTime != 0) continue;
                 homeID = cost.getEntityId();
-                ItemNBTHelper.setInt(stack, TAG_HOME_ID, homeID);
+                ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_HOME_ID, (int)homeID);
                 break;
             }
         }
         List<EntityLivingBase> entities1 = entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, axis);
         if (homeID != -1 && (i$1 = entity.worldObj.getEntityByID(homeID)) != null) {
-            Vector3 living1 = Vector3.fromEntityCenter(i$1);
-            Vector3 cost1 = Vector3.fromEntityCenter(entity);
+            Vector3 living1 = Vector3.fromEntityCenter((Entity)i$1);
+            Vector3 cost1 = Vector3.fromEntityCenter((Entity)entity);
             Vector3 mana = living1.sub(cost1);
             Vector3 damage = new Vector3(entity.motionX, entity.motionY, entity.motionZ);
             mana.normalize().multiply(damage.mag());
             burst.setMotion(mana.x, mana.y, mana.z);
         }
         for (EntityLivingBase living2 : entities1) {
-            if (living2 instanceof EntityPlayer && (living2.getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living2.hurtTime != 0) continue;
+            if (living2 instanceof EntityPlayer && (((EntityPlayer)living2).getCommandSenderName().equals(attacker) || MinecraftServer.getServer() != null && !MinecraftServer.getServer().isPVPEnabled()) || living2.hurtTime != 0) continue;
             int cost2 = 1;
             int mana1 = burst.getMana();
             if (mana1 < cost2) continue;
@@ -291,7 +257,7 @@ ILensEffect {
             ItemStack stack = player.inventory.armorItemInSlot(3);
             if (stack != null && stack.getItem() instanceof ItemOGHelm) {
                 EntityManaBurst burst = this.getBurst(player, stack);
-                player.worldObj.spawnEntityInWorld(burst);
+                player.worldObj.spawnEntityInWorld((Entity)burst);
                 if (crit) {
                     boolean ahrim = this.hasAncientWill(stack, 0);
                     boolean dharok = this.hasAncientWill(stack, 1);

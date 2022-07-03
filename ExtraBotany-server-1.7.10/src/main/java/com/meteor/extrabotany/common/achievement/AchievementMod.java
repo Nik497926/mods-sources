@@ -20,7 +20,7 @@ extends Achievement {
         achievements.add(this);
         this.registerStat();
         if (icon.getItem() instanceof IRelic) {
-            ((IRelic)icon.getItem()).setBindAchievement(this);
+            ((IRelic)icon.getItem()).setBindAchievement((Achievement)this);
         }
     }
 

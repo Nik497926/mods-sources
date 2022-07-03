@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.block;
 
+import com.meteor.extrabotany.client.ClientProxy;
 import com.meteor.extrabotany.common.block.tile.TileBlockBoost;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -11,6 +12,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -26,7 +28,7 @@ implements ITileEntityProvider {
         this.setBlockName("manaboost");
         this.setHardness(1.0f);
         this.setBlockBounds(0.0f, 0.0f, 0.0625f, 1.0f, 0.5f, 1.0f);
-        GameRegistry.registerBlock(this, "manaboost");
+        GameRegistry.registerBlock((Block)this, (String)"manaboost");
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
@@ -35,6 +37,9 @@ implements ITileEntityProvider {
 
     public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileBlockBoost();
+    }
+
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity) {
@@ -49,6 +54,10 @@ implements ITileEntityProvider {
 
     public boolean isOpaqueCube() {
         return false;
+    }
+
+    public int getRenderType() {
+        return ClientProxy.renderBoost;
     }
 
     @SideOnly(value=Side.CLIENT)

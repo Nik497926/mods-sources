@@ -4,18 +4,24 @@
 package com.meteor.extrabotany.common.block.tile;
 
 import com.meteor.extrabotany.common.block.ModBlocks;
+import java.awt.Color;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.api.BotaniaAPI;
@@ -94,7 +100,7 @@ IThrottledPacket {
 
     public void invalidate() {
         super.invalidate();
-        ManaNetworkEvent.removePool(this);
+        ManaNetworkEvent.removePool((TileEntity)this);
     }
 
     public void onChunkUnload() {
@@ -112,7 +118,7 @@ IThrottledPacket {
             return false;
         }
         if (stack.getItem() instanceof IManaDissolvable) {
-            ((IManaDissolvable)stack.getItem()).onDissolveTick(this, stack, item);
+            ((IManaDissolvable)stack.getItem()).onDissolveTick((IManaPool)this, stack, item);
             if (stack.stackSize == 0) {
                 item.setDead();
             }
@@ -133,7 +139,7 @@ IThrottledPacket {
                 ItemStack output = recipe.getOutput().copy();
                 EntityItem outputItem = new EntityItem(this.worldObj, (double)this.xCoord + 0.5, (double)this.yCoord + 1.5, (double)this.zCoord + 0.5, output);
                 outputItem.age = 105;
-                this.worldObj.spawnEntityInWorld(outputItem);
+                this.worldObj.spawnEntityInWorld((Entity)outputItem);
             }
             this.craftingFanciness();
             didChange = true;
@@ -151,20 +157,27 @@ IThrottledPacket {
         if (this.manaCap == -1) {
             int n = this.manaCap = this.getBlockMetadata() == 2 ? 10000 : 15000000;
         }
-        if (!ManaNetworkHandler.instance.isPoolIn(this) && !this.isInvalid()) {
-            ManaNetworkEvent.addPool(this);
+        if (!ManaNetworkHandler.instance.isPoolIn((TileEntity)this) && !this.isInvalid()) {
+            ManaNetworkEvent.addPool((TileEntity)this);
         }
         if (this.soundTicks > 0) {
             --this.soundTicks;
         }
+        if (this.worldObj.isRemote) {
+            double particleChance = 1.0 - (double)this.getCurrentMana() / (double)this.manaCap * 0.1;
+            Color color = new Color(50943);
+            if (Math.random() > particleChance) {
+                Botania.proxy.wispFX(this.worldObj, (double)this.xCoord + 0.3 + Math.random() * 0.5, (double)this.yCoord + 0.6 + Math.random() * 0.25, (double)this.zCoord + Math.random(), (float)color.getRed() / 255.0f, (float)color.getGreen() / 255.0f, (float)color.getBlue() / 255.0f, (float)Math.random() / 3.0f, (float)(-Math.random()) / 25.0f, 2.0f);
+            }
+        }
         if (this.sendPacket && this.ticks % 10 == 0) {
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
             this.sendPacket = false;
         }
         this.alchemy = this.worldObj.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == vazkii.botania.common.block.ModBlocks.alchemyCatalyst;
         this.conjuration = this.worldObj.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == vazkii.botania.common.block.ModBlocks.conjurationCatalyst;
         this.catalystsRegistered = true;
-        List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord, this.zCoord, this.xCoord + 1, this.yCoord + 1, this.zCoord + 1));
+        List<EntityItem> items = this.worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)this.yCoord, (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 1), (double)(this.zCoord + 1)));
         for (EntityItem item : items) {
             int manaVal;
             if (item.isDead) continue;
@@ -172,7 +185,7 @@ IThrottledPacket {
             this.collideEntityItem(item);
             if (stack == null || !(stack.getItem() instanceof IManaItem)) continue;
             IManaItem mana = (IManaItem)stack.getItem();
-            if ((!this.outputting || !mana.canReceiveManaFromPool(stack, this)) && (this.outputting || !mana.canExportManaToPool(stack, this))) continue;
+            if ((!this.outputting || !mana.canReceiveManaFromPool(stack, (TileEntity)this)) && (this.outputting || !mana.canExportManaToPool(stack, (TileEntity)this))) continue;
             boolean didSomething = false;
             int bellowCount = 0;
             if (this.outputting) {
@@ -206,9 +219,9 @@ IThrottledPacket {
             }
             if (!didSomething) continue;
             if (this.worldObj.isRemote && ConfigHandler.chargingAnimationEnabled && this.worldObj.rand.nextInt(20) == 0) {
-                Vector3 itemVec = Vector3.fromTileEntity(this).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
-                Vector3 tileVec = Vector3.fromTileEntity(this).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
-                LightningHandler.spawnLightningBolt(this.worldObj, this.outputting ? tileVec : itemVec, this.outputting ? itemVec : tileVec, 80.0f, this.worldObj.rand.nextLong(), 1140881820, 1140901631);
+                Vector3 itemVec = Vector3.fromTileEntity((TileEntity)this).add(0.5, 0.5 + Math.random() * 0.3, 0.5);
+                Vector3 tileVec = Vector3.fromTileEntity((TileEntity)this).add(0.2 + Math.random() * 0.6, 0.0, 0.2 + Math.random() * 0.6);
+                LightningHandler.spawnLightningBolt((World)this.worldObj, (Vector3)(this.outputting ? tileVec : itemVec), (Vector3)(this.outputting ? itemVec : tileVec), (float)80.0f, (long)this.worldObj.rand.nextLong(), (int)1140881820, (int)1140901631);
             }
             this.isDoingTransfer = this.outputting;
         }
@@ -217,7 +230,7 @@ IThrottledPacket {
         } else {
             this.ticksDoingTransfer = 0;
             if (wasDoingTransfer) {
-                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
             }
         }
         ++this.ticks;
@@ -266,17 +279,41 @@ IThrottledPacket {
         }
         if (player.isSneaking()) {
             this.outputting = !this.outputting;
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
         }
         if (!this.worldObj.isRemote) {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             this.writeCustomNBT(nbttagcompound);
             nbttagcompound.setInteger(TAG_KNOWN_MANA, this.getCurrentMana());
             if (player instanceof EntityPlayerMP) {
-                ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -999, nbttagcompound));
+                ((EntityPlayerMP)player).playerNetServerHandler.sendPacket((Packet)new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -999, nbttagcompound));
             }
         }
-        this.worldObj.playSoundAtEntity(player, "botania:ding", 0.11f, 1.0f);
+        this.worldObj.playSoundAtEntity((Entity)player, "botania:ding", 0.11f, 1.0f);
+    }
+
+    public void renderHUD(Minecraft mc, ScaledResolution res) {
+        ItemStack pool = new ItemStack(ModBlocks.elfpool, 1, this.getBlockMetadata());
+        String name = StatCollector.translateToLocal((String)(pool.getUnlocalizedName().replaceAll("tile.", "tile.botania:") + ".name"));
+        int color = 0x4444FF;
+        HUDHandler.drawSimpleManaHUD((int)color, (int)this.knownMana, (int)this.manaCap, (String)name, (ScaledResolution)res);
+        int x = res.getScaledWidth() / 2 - 11;
+        int y = res.getScaledHeight() / 2 + 30;
+        int u = this.outputting ? 22 : 0;
+        int v = 38;
+        GL11.glEnable((int)3042);
+        GL11.glBlendFunc((int)770, (int)771);
+        mc.renderEngine.bindTexture(HUDHandler.manaBar);
+        RenderHelper.drawTexturedModalRect((int)x, (int)y, (float)0.0f, (int)u, (int)v, (int)22, (int)15);
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+        ItemStack tablet = new ItemStack(ModItems.manaTablet);
+        ItemManaTablet.setStackCreative((ItemStack)tablet);
+        net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
+        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, tablet, x - 20, y);
+        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, pool, x + 26, y);
+        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+        GL11.glDisable((int)2896);
+        GL11.glDisable((int)3042);
     }
 
     public boolean canRecieveManaFromBursts() {
@@ -307,7 +344,7 @@ IThrottledPacket {
     }
 
     public ISparkEntity getAttachedSpark() {
-        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord + 1, this.zCoord, this.xCoord + 1, this.yCoord + 2, this.zCoord + 1));
+        List sparks = this.worldObj.getEntitiesWithinAABB(ISparkEntity.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)(this.yCoord + 1), (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 2), (double)(this.zCoord + 1)));
         if (sparks.size() == 1) {
             Entity e = (Entity)sparks.get(0);
             return (ISparkEntity)e;

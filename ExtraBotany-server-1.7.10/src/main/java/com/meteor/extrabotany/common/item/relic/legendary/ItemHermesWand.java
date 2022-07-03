@@ -22,9 +22,9 @@ implements IManaUsingItem {
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         if (!world.isRemote) {
-            EntityTeleportPearl p = new EntityTeleportPearl(world, player);
-            world.spawnEntityInWorld(p);
-            ManaItemHandler.requestManaExact(stack, player, 100, true);
+            EntityTeleportPearl p = new EntityTeleportPearl(world, (EntityLivingBase)player);
+            world.spawnEntityInWorld((Entity)p);
+            ManaItemHandler.requestManaExact((ItemStack)stack, (EntityPlayer)player, (int)100, (boolean)true);
         }
         return stack;
     }

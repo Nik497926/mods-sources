@@ -34,10 +34,10 @@ ISequentialBreaker {
     private static final String TAG_MANA = "mana";
     private static final Integer MAX_MANA = Integer.MAX_VALUE;
     private static final int MANA_PER_DAMAGE = 100;
-    private final Integer tick = null;
+    private Integer tick = null;
     IIcon[] icons;
     IIcon[] iconsDop;
-    public static Item.ToolMaterial awakeToolMaterial = EnumHelper.addToolMaterial("AWAKE", 50, 2300, 9.0f, 3.0f, 26);
+    public static Item.ToolMaterial awakeToolMaterial = EnumHelper.addToolMaterial((String)"AWAKE", (int)50, (int)2300, (float)9.0f, (float)3.0f, (int)26);
     public static final int[] LEVELS = new int[]{0, 10000, 1000000, 10000000, 100000000, 1000000000};
     private static final int[] RANGE = new int[]{1, 3, 5, 7, 9, 11};
     private static final int[] DEPTH = new int[]{1, 1, 3, 3, 5, 5};
@@ -54,6 +54,16 @@ ISequentialBreaker {
         return side == 1 ? Color.HSBtoRGB(glub == 0 ? 0.3334f : (glub == 2 ? 0.5834f : 0.0f), 1.0f, 1.0f) : 0xFFFFFF;
     }
 
+    public void registerIcons(IIconRegister par1IconRegister) {
+        this.icons = new IIcon[2];
+        this.iconsDop = new IIcon[6];
+        this.icons[1] = par1IconRegister.registerIcon("extrabotania:awakepick_1");
+        for (int i = 0; i < this.iconsDop.length; ++i) {
+            this.iconsDop[i] = par1IconRegister.registerIcon("extrabotania:awakepick" + Integer.toString(i));
+        }
+        this.icons[0] = this.iconsDop[0];
+    }
+
     public IIcon getIcon(ItemStack stack, int pass) {
         int rad = ItemNBTHelper.getInteger(stack, "thisRad", 0);
         if (rad < this.iconsDop.length) {
@@ -67,20 +77,20 @@ ISequentialBreaker {
     }
 
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        String rankFormat = StatCollector.translateToLocal("botaniamisc.toolRank");
-        String rank = StatCollector.translateToLocal("botania.rank" + ItemAwakePick.getLevel(par1ItemStack));
+        String rankFormat = StatCollector.translateToLocal((String)"botaniamisc.toolRank");
+        String rank = StatCollector.translateToLocal((String)("botania.rank" + ItemAwakePick.getLevel(par1ItemStack)));
         par3List.add(String.format(rankFormat, rank).replaceAll("&", "\u00a7"));
         if (this.getMana(par1ItemStack) == Integer.MAX_VALUE) {
-            par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocal("botaniamisc.getALife"));
+            par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocal((String)"botaniamisc.getALife"));
         }
         if (ItemAwakePick.getLevel(par1ItemStack) < 5) {
-            par3List.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal("\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u043c\u0430\u043d\u044b \u0434\u043e \u0440\u0430\u043d\u0433\u0430 \u00a7l" + this.getNextLvl(par1ItemStack) + "\u00a7r\u00a77: \u00a76\u00a7l" + this.getNeedMana(par1ItemStack)));
+            par3List.add(EnumChatFormatting.GRAY + StatCollector.translateToLocal((String)("\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u043c\u0430\u043d\u044b \u0434\u043e \u0440\u0430\u043d\u0433\u0430 \u00a7l" + this.getNextLvl(par1ItemStack) + "\u00a7r\u00a77: \u00a76\u00a7l" + this.getNeedMana(par1ItemStack))));
         }
-        par3List.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal(""));
-        par3List.add(EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal("\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0440\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getThisRad(par1ItemStack)));
-        par3List.add(EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal("\u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getThisGlub(par1ItemStack)));
-        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getMaxRad(par1ItemStack)));
-        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal("\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getMaxGlub(par1ItemStack)));
+        par3List.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal((String)""));
+        par3List.add(EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal((String)("\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0440\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getThisRad(par1ItemStack))));
+        par3List.add(EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal((String)("\u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getThisGlub(par1ItemStack))));
+        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal((String)("\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getMaxRad(par1ItemStack))));
+        par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocal((String)("\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f: \u00a76\u00a7l" + this.getMaxGlub(par1ItemStack))));
     }
 
     private String getMaxGlub(ItemStack item) {
@@ -90,7 +100,7 @@ ISequentialBreaker {
 
     private String getNextLvl(ItemStack item) {
         int lvl = ItemAwakePick.getLevel(item) + 1;
-        String rank = StatCollector.translateToLocal("botania.rank" + lvl);
+        String rank = StatCollector.translateToLocal((String)("botania.rank" + lvl));
         return rank.replaceAll("&", "\u00a7");
     }
 
@@ -102,12 +112,12 @@ ISequentialBreaker {
 
     private String getThisRad(ItemStack item) {
         int thisRang = ItemNBTHelper.getInteger(item, "thisRad", 0);
-        return RANGE[thisRang] + "x" + RANGE[thisRang];
+        return Integer.toString(RANGE[thisRang]) + "x" + Integer.toString(RANGE[thisRang]);
     }
 
     private String getMaxRad(ItemStack item) {
         int lvl = ItemAwakePick.getLevel(item);
-        return RANGE[lvl] + "x" + RANGE[lvl];
+        return Integer.toString(RANGE[lvl]) + "x" + Integer.toString(RANGE[lvl]);
     }
 
     private String getThisGlub(ItemStack item) {
@@ -124,8 +134,8 @@ ISequentialBreaker {
                 if (newRad > rang) {
                     newRad = 0;
                 }
-                String s = RANGE[newRad] + "x" + RANGE[newRad];
-                player.addChatMessage(new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a79\u0420\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d: \u00a72" + s));
+                String s = Integer.toString(RANGE[newRad]) + "x" + Integer.toString(RANGE[newRad]);
+                player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a79\u0420\u0430\u0434\u0438\u0443\u0441 \u043a\u043e\u043f\u0430\u043d\u0438\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d: \u00a72" + s, new Object[0]));
                 ItemNBTHelper.setInteger(stack, "thisRad", newRad);
             } else {
                 int rang = ItemAwakePick.getLevel(stack);
@@ -134,7 +144,7 @@ ISequentialBreaker {
                 if (newGlub > 4 || newGlub >= 2 && rang < 2 || newGlub >= 4 && rang < 4) {
                     newGlub = 0;
                 }
-                player.addChatMessage(new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a79\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u043d\u0430: \u00a72" + (newGlub + 1)));
+                player.addChatMessage((IChatComponent)new ChatComponentTranslation("\u00a7f[\u00a76\u041a\u0440\u0443\u0448\u0438\u0442\u0435\u043b\u044c \u0438\u0437 \u044d\u043b\u044c\u0444\u0438\u0440\u0438\u0443\u043c\u0430\u00a7f]: \u00a79\u0413\u043b\u0443\u0431\u0438\u043d\u0430 \u043a\u043e\u043f\u0430\u043d\u0438\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u043d\u0430: \u00a72" + Integer.toString(newGlub + 1), new Object[0]));
                 ItemNBTHelper.setInteger(stack, "thisGlub", newGlub);
             }
         }
@@ -159,11 +169,11 @@ ISequentialBreaker {
     }
 
     public static int getMana_(ItemStack stack) {
-        return vazkii.botania.common.core.helper.ItemNBTHelper.getInt(stack, TAG_MANA, 0);
+        return vazkii.botania.common.core.helper.ItemNBTHelper.getInt((ItemStack)stack, (String)TAG_MANA, (int)0);
     }
 
     public static void setMana(ItemStack stack, int mana) {
-        vazkii.botania.common.core.helper.ItemNBTHelper.setInt(stack, TAG_MANA, mana);
+        vazkii.botania.common.core.helper.ItemNBTHelper.setInt((ItemStack)stack, (String)TAG_MANA, (int)mana);
     }
 
     public int getMaxMana(ItemStack itemStack) {
@@ -206,7 +216,7 @@ ISequentialBreaker {
         if (!(entity instanceof EntityPlayer)) {
             return;
         }
-        if (stack.getItemDamage() > 0 && ManaItemHandler.requestManaExact(new ItemStack(ModItems.manaRing), (EntityPlayer) entity, 100, true)) {
+        if (stack.getItemDamage() > 0 && ManaItemHandler.requestManaExact((ItemStack)new ItemStack(ModItems.manaRing), (EntityPlayer)((EntityPlayer)entity), (int)100, (boolean)true)) {
             stack.setItemDamage(stack.getItemDamage() - 1);
         }
     }

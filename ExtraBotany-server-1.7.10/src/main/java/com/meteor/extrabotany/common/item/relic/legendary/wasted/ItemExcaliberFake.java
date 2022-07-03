@@ -20,7 +20,7 @@ import vazkii.botania.common.item.relic.ItemRelic;
 
 public class ItemExcaliberFake
 extends ItemRelicAdv {
-    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial("B_EXCALIBER", 3, -1, 6.2f, 6.0f, 40);
+    public static Item.ToolMaterial toolMaterial = EnumHelper.addToolMaterial((String)"B_EXCALIBER", (int)3, (int)-1, (float)6.2f, (float)6.0f, (int)40);
 
     public ItemExcaliberFake() {
         super("excaliberfake");
@@ -29,8 +29,8 @@ extends ItemRelicAdv {
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
         if (par3Entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer)par3Entity;
-            ItemRelic.updateRelic(par1ItemStack, player);
-            if (ItemRelic.isRightPlayer(player, par1ItemStack)) {
+            ItemRelic.updateRelic((ItemStack)par1ItemStack, (EntityPlayer)player);
+            if (ItemRelic.isRightPlayer((EntityPlayer)player, (ItemStack)par1ItemStack)) {
                 PotionEffect haste = player.getActivePotionEffect(Potion.digSpeed);
                 if (haste == null) {
                     float var10000 = 0.16666667f;
@@ -43,8 +43,8 @@ extends ItemRelicAdv {
 
     public Multimap getItemAttributeModifiers() {
         HashMultimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 10.0, 0));
-        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 0.3, 1));
+        multimap.put((Object)SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", 10.0, 0));
+        multimap.put((Object)SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), (Object)new AttributeModifier(field_111210_e, "Weapon modifier", 0.3, 1));
         return multimap;
     }
 }

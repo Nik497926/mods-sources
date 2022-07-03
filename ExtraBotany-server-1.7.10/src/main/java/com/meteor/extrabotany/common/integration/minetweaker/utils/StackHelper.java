@@ -14,19 +14,19 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class StackHelper {
     public static boolean areEqual(ItemStack stack1, ItemStack stack2) {
-        return stack1 != null && stack2 != null && (MinetweakerCompact.isSubtile(stack1) && MinetweakerCompact.isSubtile(stack2) ? MinetweakerCompact.subtileMatches(stack1, stack2) : stack1.isItemEqual(stack2));
+        return stack1 != null && stack2 != null ? (MinetweakerCompact.isSubtile(stack1) && MinetweakerCompact.isSubtile(stack2) ? MinetweakerCompact.subtileMatches(stack1, stack2) : stack1.isItemEqual(stack2)) : false;
     }
 
     public static boolean areEqual(FluidStack stack1, FluidStack stack2) {
-        return stack1 != null && stack2 != null && stack1.isFluidEqual(stack2);
+        return stack1 != null && stack2 != null ? stack1.isFluidEqual(stack2) : false;
     }
 
     public static boolean areEqualOrNull(ItemStack stack1, ItemStack stack2) {
-        return stack1 == stack2 || StackHelper.areEqual(stack1, stack2);
+        return stack1 == stack2 ? true : StackHelper.areEqual(stack1, stack2);
     }
 
     public static boolean areEqualOrNull(FluidStack stack1, FluidStack stack2) {
-        return stack1 == stack2 || StackHelper.areEqual(stack1, stack2);
+        return stack1 == stack2 ? true : StackHelper.areEqual(stack1, stack2);
     }
 
     public static boolean matches(IIngredient ingredient, IItemStack itemStack) {

@@ -15,10 +15,10 @@ import vazkii.botania.api.subtile.SubTileFunctional;
 
 public class SubTileDiplopbamboo
 extends SubTileFunctional {
-    private final int cd = 0;
-    private final int stage = 0;
-    private final int[] lastCoord = new int[0];
-    private final int NEED_MANA = 50;
+    private int cd = 0;
+    private int stage = 0;
+    private int[] lastCoord = new int[0];
+    private int NEED_MANA = 50;
     private String owner;
 
     public LexiconEntry getEntry() {
@@ -29,7 +29,7 @@ extends SubTileFunctional {
         if (!(entity instanceof EntityPlayer)) {
             return;
         }
-        this.owner = entity.getCommandSenderName();
+        this.owner = ((EntityPlayer)entity).getCommandSenderName();
         super.onBlockPlacedBy(world, x, y, z, entity, stack);
     }
 

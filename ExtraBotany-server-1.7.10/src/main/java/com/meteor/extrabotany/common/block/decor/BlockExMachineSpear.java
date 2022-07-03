@@ -18,7 +18,7 @@ extends Block {
         this.setResistance(2000.0f);
         this.setHarvestLevel("pickaxe", 9);
         this.setBlockTextureName("ExtraBotania:spearexmachine");
-        GameRegistry.registerBlock(this, "spearexmachine");
+        GameRegistry.registerBlock((Block)this, (String)"spearexmachine");
     }
 
     public Item getItemDropped(int par1, Random par2Random, int par3) {

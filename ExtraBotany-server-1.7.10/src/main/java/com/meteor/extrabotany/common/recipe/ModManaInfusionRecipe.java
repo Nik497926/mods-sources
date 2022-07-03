@@ -13,7 +13,7 @@ public class ModManaInfusionRecipe {
     public static RecipeManaInfusion blankCardRecipe;
 
     public static void init() {
-        blankCardRecipe = BotaniaAPI.registerManaInfusionRecipe(new ItemStack(ModItems.material, 1, 1), new ItemStack(Items.paper), 5000);
+        blankCardRecipe = BotaniaAPI.registerManaInfusionRecipe((ItemStack)new ItemStack(ModItems.material, 1, 1), (Object)new ItemStack(Items.paper), (int)5000);
     }
 }
 

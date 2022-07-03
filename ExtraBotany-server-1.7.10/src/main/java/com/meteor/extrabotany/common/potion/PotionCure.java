@@ -20,8 +20,8 @@ public class PotionCure
 extends PotionMods {
     public PotionCure() {
         super(ConfigHandler.idPotionC, "cure", false, 15963926, 4);
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
+        FMLCommonHandler.instance().bus().register((Object)this);
     }
 
     @SubscribeEvent
@@ -33,7 +33,7 @@ extends PotionMods {
             if (i$.hasNext()) {
                 PotionEffect potion = (PotionEffect)i$.next();
                 int id = potion.getPotionID();
-                if (((Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], new String[]{"isBadEffect", "isBadEffect", "J"})).booleanValue()) {
+                if (((Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], (String[])new String[]{"isBadEffect", "isBadEffect", "J"})).booleanValue()) {
                     event.entityLiving.removePotionEffect(id);
                     boolean bl = true;
                 }

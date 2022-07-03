@@ -42,10 +42,10 @@ public class RecipeStonesia {
             if (oreMap.containsKey(entry)) {
                 ores = (List)oreMap.get(entry);
             } else {
-                ores = OreDictionary.getOres(entry);
+                ores = OreDictionary.getOres((String)entry);
                 oreMap.put(entry, ores);
             }
-            Iterator i$ = ores.iterator();
+            Iterator i$ = ((List)ores).iterator();
             do {
                 if (!i$.hasNext()) {
                     return false;

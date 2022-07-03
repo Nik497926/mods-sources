@@ -4,7 +4,6 @@
 package com.meteor.extrabotany.common.item.relic.legendary.armor.killer;
 
 import com.meteor.extrabotany.common.item.relic.legendary.armor.CoreArmor;
-import com.meteor.extrabotany.common.item.relic.legendary.armor.killer.ItemKillerArmor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -24,7 +23,7 @@ implements IVisDiscountGear {
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         super.onArmorTick(world, player, stack);
-        if (ItemNBTHelper.getBoolean(stack, "potion", true) && (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getAmplifier() <= 2 || !player.isPotionActive(Potion.resistance))) {
+        if (ItemNBTHelper.getBoolean((ItemStack)stack, (String)"potion", (boolean)true) && (player.isPotionActive(Potion.resistance) && player.getActivePotionEffect(Potion.resistance).getAmplifier() <= 2 || !player.isPotionActive(Potion.resistance))) {
             player.addPotionEffect(new PotionEffect(Potion.resistance.id, 40, 2, true));
         }
         if (!CoreArmor.getAnother(player, (byte)1, (byte)0) && !world.isRemote) {

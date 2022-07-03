@@ -6,11 +6,16 @@ package com.meteor.extrabotany.common.block.tile;
 import com.meteor.extrabotany.common.block.ModBlocks;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -21,6 +26,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 import vazkii.botania.api.internal.IManaBurst;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.BurstProperties;
@@ -38,7 +44,6 @@ import vazkii.botania.api.mana.ManaNetworkEvent;
 import vazkii.botania.api.wand.IWandBindable;
 import vazkii.botania.client.core.handler.HUDHandler;
 import vazkii.botania.common.block.tile.TileSimpleInventory;
-import vazkii.botania.common.core.handler.ConfigHandler;
 import vazkii.botania.common.core.handler.ManaNetworkHandler;
 import vazkii.botania.common.core.helper.Vector3;
 import vazkii.botania.common.entity.EntityManaBurst;
@@ -122,7 +127,7 @@ IRedirectable {
 
     public void invalidate() {
         super.invalidate();
-        ManaNetworkEvent.removeCollector(this);
+        ManaNetworkEvent.removeCollector((TileEntity)this);
     }
 
     public void onChunkUnload() {
@@ -134,34 +139,26 @@ IRedirectable {
         ItemStack lens;
         ILensControl control;
         boolean inNetwork;
-        boolean wasInNetwork = inNetwork = ManaNetworkHandler.instance.isCollectorIn(this);
+        boolean wasInNetwork = inNetwork = ManaNetworkHandler.instance.isCollectorIn((TileEntity)this);
         if (!inNetwork && !this.isInvalid()) {
-            ManaNetworkEvent.addCollector(this);
+            ManaNetworkEvent.addCollector((TileEntity)this);
             inNetwork = true;
         }
         if (this.mmForcedManaPayload == -1) {
             this.mmForcedManaPayload = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord) == 1 ? 116640 : 12960;
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity)this);
         }
         boolean redstone = false;
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            int redstoneSide;
+            int manaInPool;
             TileEntity tileAt = this.worldObj.getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
-            if (tileAt instanceof IManaPool) {
-                IManaPool pool = (IManaPool)tileAt;
-                if (wasInNetwork && (pool != this.receiver || this.isRedstone())) {
-                    if (pool instanceof IKeyLocked && !((IKeyLocked)pool).getOutputKey().equals(this.getInputKey())) continue;
-                    int manaInPool = pool.getCurrentMana();
-                    if (manaInPool > 0 && !this.isFull()) {
-                        int manaMissing = this.getMaxMana() - this.mana;
-                        int manaToRemove = Math.min(manaInPool, manaMissing);
-                        pool.recieveMana(-manaToRemove);
-                        this.recieveMana(manaToRemove);
-                    }
-                }
-            }
-            if ((redstoneSide = this.worldObj.getIndirectPowerLevelTo(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ, dir.ordinal())) <= 0) continue;
-            redstone = true;
+            if (!(tileAt instanceof IManaPool)) continue;
+            IManaPool pool = (IManaPool)tileAt;
+            if (!wasInNetwork || pool == this.receiver || pool instanceof IKeyLocked && !((IKeyLocked)pool).getOutputKey().equals(this.getInputKey()) || (manaInPool = pool.getCurrentMana()) <= 0 || this.isFull()) continue;
+            int manaMissing = this.getMaxMana() - this.mana;
+            int manaToRemove = Math.min(manaInPool, manaMissing);
+            pool.recieveMana(-manaToRemove);
+            this.recieveMana(manaToRemove);
         }
         if (this.needsNewBurstSimulation()) {
             this.checkForReceiver();
@@ -171,7 +168,7 @@ IRedirectable {
                 double x = this.lastPingbackX;
                 double y = this.lastPingbackY;
                 double z = this.lastPingbackZ;
-                AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(0.5, 0.5, 0.5);
+                AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox((double)x, (double)y, (double)z, (double)x, (double)y, (double)z).expand(0.5, 0.5, 0.5);
                 List<IManaBurst> bursts = this.worldObj.getEntitiesWithinAABB(IManaBurst.class, aabb);
                 IManaBurst found = null;
                 UUID identity = this.getIdentifier();
@@ -189,30 +186,14 @@ IRedirectable {
                 --this.pingbackTicks;
             }
         }
-        boolean shouldShoot = !redstone;
-        boolean isredstone = this.isRedstone();
-        if (isredstone) {
-            boolean bl = shouldShoot = redstone && !this.redstoneLastTick;
-        }
-        if (shouldShoot && this.receiver != null && this.receiver instanceof IKeyLocked) {
-            shouldShoot = ((IKeyLocked)this.receiver).getInputKey().equals(this.getOutputKey());
-        }
-        if ((control = this.getLensController(lens = this.getStackInSlot(0))) != null) {
-            if (isredstone) {
-                if (shouldShoot) {
-                    control.onControlledSpreaderPulse(lens, this, redstone);
-                }
-            } else {
-                control.onControlledSpreaderTick(lens, this, redstone);
-            }
-            shouldShoot &= control.allowBurstShooting(lens, this, redstone);
-        }
-        if (shouldShoot) {
+        if ((control = this.getLensController(lens = this.getStackInSlot(0))) != null && control.allowBurstShooting(lens, (IManaSpreader)this, redstone)) {
+            this.tryShootBurst();
+        } else if (control == null) {
             this.tryShootBurst();
         }
         if (this.receiverLastTick != this.receiver && !this.worldObj.isRemote) {
             this.requestsClientUpdate = true;
-            VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
         }
         this.redstoneLastTick = redstone;
         this.receiverLastTick = this.receiver;
@@ -321,12 +302,12 @@ IRedirectable {
                 this.writeCustomNBT(nbttagcompound);
                 nbttagcompound.setInteger(TAG_KNOWN_MANA, this.mana);
                 if (player instanceof EntityPlayerMP) {
-                    ((EntityPlayerMP)player).playerNetServerHandler.sendPacket(new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -999, nbttagcompound));
+                    ((EntityPlayerMP)player).playerNetServerHandler.sendPacket((Packet)new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, -999, nbttagcompound));
                 }
             }
-            this.worldObj.playSoundAtEntity(player, "botania:ding", 0.1f, 1.0f);
+            this.worldObj.playSoundAtEntity((Entity)player, "botania:ding", 0.1f, 1.0f);
         } else {
-            MovingObjectPosition pos = TileExtraSpreader.raytraceFromEntity(this.worldObj, player, true, 5.0);
+            MovingObjectPosition pos = TileExtraSpreader.raytraceFromEntity(this.worldObj, (Entity)player, true, 5.0);
             if (pos != null && pos.hitVec != null && !this.worldObj.isRemote) {
                 double x = pos.hitVec.xCoord - (double)this.xCoord - 0.5;
                 double y = pos.hitVec.yCoord - (double)this.yCoord - 0.5;
@@ -344,7 +325,7 @@ IRedirectable {
                 this.rotationY = -((float)angle);
                 this.checkForReceiver();
                 this.requestsClientUpdate = true;
-                VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
             }
         }
     }
@@ -366,23 +347,20 @@ IRedirectable {
 
     public void tryShootBurst() {
         EntityManaBurst burst;
-        if ((this.receiver != null || this.isRedstone()) && !this.invalidTentativeBurst && this.canShootBurst && (this.isRedstone() || this.receiver.canRecieveManaFromBursts() && !this.receiver.isFull()) && (burst = this.getBurst(false)) != null && !this.worldObj.isRemote) {
+        if (this.receiver != null && this.canShootBurst && !this.receiver.isFull() && (burst = this.getBurst(false)) != null && !this.worldObj.isRemote) {
             this.mana -= burst.getStartingMana();
             burst.setShooterUUID(this.getIdentifier());
-            this.worldObj.spawnEntityInWorld(burst);
+            this.worldObj.spawnEntityInWorld((Entity)burst);
             burst.ping();
-            if (!ConfigHandler.silentSpreaders) {
-                this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "botania:spreaderFire", 0.05f * (this.paddingColor != -1 ? 0.2f : 1.0f), 0.7f + 0.3f * (float)Math.random());
-            }
         }
     }
 
     public boolean isRedstone() {
-        return false;
+        return this.worldObj == null ? staticRedstone : this.getBlockMetadata() == 1;
     }
 
     public boolean isDreamwood() {
-        return this.worldObj == null ? staticDreamwood : this.getBlockMetadata() == 2 || this.getBlockMetadata() == 3;
+        return false;
     }
 
     public boolean isULTRA_SPREADER() {
@@ -392,10 +370,13 @@ IRedirectable {
     public void checkForReceiver() {
         ItemStack stack = this.getStackInSlot(0);
         ILensControl control = this.getLensController(stack);
-        if (control != null && !control.allowBurstShooting(stack, this, false)) {
+        if (control != null && !control.allowBurstShooting(stack, (IManaSpreader)this, false)) {
             return;
         }
         EntityManaBurst fakeBurst = this.getBurst(true);
+        if (fakeBurst == null) {
+            return;
+        }
         fakeBurst.setScanBeam();
         TileEntity receiver = fakeBurst.getCollidedTile(true);
         this.receiver = receiver != null && receiver instanceof IManaReceiver ? (IManaReceiver)receiver : null;
@@ -403,43 +384,44 @@ IRedirectable {
     }
 
     public EntityManaBurst getBurst(boolean fake) {
-        float manaLossPerTick;
-        int color = 0;
-        int maxMana;
-        EntityManaBurst burst = new EntityManaBurst(this, fake);
-        boolean dreamwood = this.isDreamwood();
-        boolean ultra = this.isULTRA_SPREADER();
-        int n = maxMana = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord) == 1 ? 116640 : 12960;
-        int n2 = this.isRedstone() ? 0xFF2020 : (color = dreamwood ? 16729540 : 0x20FF20);
-        int ticksBeforeManaLoss = ultra ? 120 : (dreamwood ? 80 : 60);
-        float f = manaLossPerTick = ultra ? 20.0f : 4.0f;
-        float motionModifier = ultra ? 2.0f : (dreamwood ? 1.25f : 1.0f);
-        float gravity = 0.0f;
-        BurstProperties props = new BurstProperties(maxMana, ticksBeforeManaLoss, manaLossPerTick, gravity, motionModifier, n2);
-        ItemStack lens = this.getStackInSlot(0);
-        if (lens != null && lens.getItem() instanceof ILensEffect) {
-            ((ILensEffect)lens.getItem()).apply(lens, props);
+        if (this.worldObj.isRemote) {
+            return null;
         }
-        burst.setSourceLens(lens);
-        if (this.getCurrentMana() >= props.maxMana || fake) {
-            if (this.mapmakerOverride) {
-                burst.setColor(this.mmForcedColor);
-                burst.setMana(this.mmForcedManaPayload);
-                burst.setStartingMana(this.mmForcedManaPayload);
-                burst.setMinManaLoss(this.mmForcedTicksBeforeManaLoss);
-                burst.setManaLossPerTick(this.mmForcedManaLossPerTick);
-                burst.setGravity(this.mmForcedGravity);
-                burst.setMotion(burst.motionX * (double)this.mmForcedVelocityMultiplier, burst.motionY * (double)this.mmForcedVelocityMultiplier, burst.motionZ * (double)this.mmForcedVelocityMultiplier);
-            } else {
-                burst.setColor(props.color);
-                burst.setMana(props.maxMana);
-                burst.setStartingMana(props.maxMana);
-                burst.setMinManaLoss(props.ticksBeforeManaLoss);
-                burst.setManaLossPerTick(props.manaLossPerTick);
-                burst.setGravity(props.gravity);
-                burst.setMotion(burst.motionX * (double)props.motionModifier, burst.motionY * (double)props.motionModifier, burst.motionZ * (double)props.motionModifier);
+        if (!this.worldObj.isRemote) {
+            EntityManaBurst burst = new EntityManaBurst((IManaSpreader)this, fake);
+            int maxMana = Math.min(this.getCurrentMana(), this.getMaxMana() / 10);
+            int color = 0x20FF20;
+            int ticksBeforeManaLoss = 60;
+            float manaLossPerTick = 20.0f;
+            float motionModifier = 1.0f;
+            float gravity = 0.0f;
+            BurstProperties props = new BurstProperties(maxMana, ticksBeforeManaLoss, manaLossPerTick, gravity, motionModifier, color);
+            ItemStack lens = this.getStackInSlot(0);
+            if (lens != null && lens.getItem() instanceof ILensEffect) {
+                ((ILensEffect)lens.getItem()).apply(lens, props);
             }
-            return burst;
+            burst.setSourceLens(lens);
+            if (this.getCurrentMana() >= props.maxMana || fake) {
+                if (this.mapmakerOverride) {
+                    burst.setColor(this.mmForcedColor);
+                    burst.setMana(this.mmForcedManaPayload);
+                    burst.setStartingMana(this.mmForcedManaPayload);
+                    burst.setMinManaLoss(this.mmForcedTicksBeforeManaLoss);
+                    burst.setManaLossPerTick(this.mmForcedManaLossPerTick);
+                    burst.setGravity(this.mmForcedGravity);
+                    burst.setMotion(burst.motionX * (double)this.mmForcedVelocityMultiplier, burst.motionY * (double)this.mmForcedVelocityMultiplier, burst.motionZ * (double)this.mmForcedVelocityMultiplier);
+                } else {
+                    burst.setColor(props.color);
+                    burst.setMana(props.maxMana);
+                    burst.setStartingMana(props.maxMana);
+                    burst.setMinManaLoss(props.ticksBeforeManaLoss);
+                    burst.setManaLossPerTick(props.manaLossPerTick);
+                    burst.setGravity(props.gravity);
+                    burst.setMotion(burst.motionX * (double)props.motionModifier, burst.motionY * (double)props.motionModifier, burst.motionZ * (double)props.motionModifier);
+                }
+                return burst;
+            }
+            return null;
         }
         return null;
     }
@@ -462,11 +444,11 @@ IRedirectable {
             d1 += 1.62;
         }
         double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double)f;
-        Vec3 vec3 = Vec3.createVectorHelper(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * ((float)Math.PI / 180) - (float)Math.PI);
-        float f4 = MathHelper.sin(-f2 * ((float)Math.PI / 180) - (float)Math.PI);
-        float f5 = -MathHelper.cos(-f1 * ((float)Math.PI / 180));
-        float f6 = MathHelper.sin(-f1 * ((float)Math.PI / 180));
+        Vec3 vec3 = Vec3.createVectorHelper((double)d0, (double)d1, (double)d2);
+        float f3 = MathHelper.cos((float)(-f2 * ((float)Math.PI / 180) - (float)Math.PI));
+        float f4 = MathHelper.sin((float)(-f2 * ((float)Math.PI / 180) - (float)Math.PI));
+        float f5 = -MathHelper.cos((float)(-f1 * ((float)Math.PI / 180)));
+        float f6 = MathHelper.sin((float)(-f1 * ((float)Math.PI / 180)));
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         double d3 = range;
@@ -477,9 +459,49 @@ IRedirectable {
         return world.func_147447_a(vec3, vec31, par3, !par3, par3);
     }
 
+    public void renderHUD(Minecraft mc, ScaledResolution res) {
+        String name = StatCollector.translateToLocal((String)(new ItemStack(ModBlocks.extraSpreader, 1, this.getBlockMetadata()).getUnlocalizedName().replaceAll("tile.", "tile.botania:") + ".name"));
+        int color = this.isRedstone() ? 0xFF0000 : (this.isDreamwood() ? 16711854 : 65280);
+        HUDHandler.drawSimpleManaHUD((int)color, (int)this.knownMana, (int)this.getMaxMana(), (String)name, (ScaledResolution)res);
+        ItemStack lens = this.getStackInSlot(0);
+        if (lens != null) {
+            GL11.glEnable((int)3042);
+            GL11.glBlendFunc((int)770, (int)771);
+            String lensName = lens.getDisplayName();
+            int width = 16 + mc.fontRenderer.getStringWidth(lensName) / 2;
+            int x = res.getScaledWidth() / 2 - width;
+            int y = res.getScaledHeight() / 2 + 50;
+            mc.fontRenderer.drawStringWithShadow(lensName, x + 20, y + 5, color);
+            RenderHelper.enableGUIStandardItemLighting();
+            RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, lens, x, y);
+            RenderHelper.disableStandardItemLighting();
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)3042);
+        }
+        if (this.receiver != null) {
+            TileEntity receiverTile = (TileEntity)this.receiver;
+            ItemStack recieverStack = new ItemStack(this.worldObj.getBlock(receiverTile.xCoord, receiverTile.yCoord, receiverTile.zCoord), 1, receiverTile.getBlockMetadata());
+            GL11.glEnable((int)3042);
+            GL11.glBlendFunc((int)770, (int)771);
+            if (recieverStack != null && recieverStack.getItem() != null) {
+                String stackName = recieverStack.getDisplayName();
+                int width = 16 + mc.fontRenderer.getStringWidth(stackName) / 2;
+                int x = res.getScaledWidth() / 2 - width;
+                int y = res.getScaledHeight() / 2 + 30;
+                mc.fontRenderer.drawStringWithShadow(stackName, x + 20, y + 5, color);
+                RenderHelper.enableGUIStandardItemLighting();
+                RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, recieverStack, x, y);
+                RenderHelper.disableStandardItemLighting();
+            }
+            GL11.glDisable((int)2896);
+            GL11.glDisable((int)3042);
+        }
+        GL11.glColor4f((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
+    }
+
     public void onClientDisplayTick() {
-        if (this.worldObj != null) {
-            EntityManaBurst burst = this.getBurst(true);
+        EntityManaBurst burst;
+        if (this.worldObj != null && (burst = this.getBurst(true)) != null) {
             burst.getCollidedTile(false);
         }
     }
@@ -531,7 +553,7 @@ IRedirectable {
 
     public void markDirty() {
         this.checkForReceiver();
-        VanillaPacketDispatcher.dispatchTEToNearbyPlayers(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        VanillaPacketDispatcher.dispatchTEToNearbyPlayers((World)this.worldObj, (int)this.xCoord, (int)this.yCoord, (int)this.zCoord);
     }
 
     @Override
@@ -558,7 +580,7 @@ IRedirectable {
     }
 
     public int getMaxMana() {
-        return this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord) == 1 ? 1049760 : 166640;
+        return this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord) == 1 ? 12000000 : 3000000;
     }
 
     public String getInputKey() {
@@ -574,11 +596,11 @@ IRedirectable {
     }
 
     public boolean bindTo(EntityPlayer player, ItemStack wand, int x, int y, int z, int side) {
-        Vector3 thisVec = Vector3.fromTileEntityCenter(this);
+        Vector3 thisVec = Vector3.fromTileEntityCenter((TileEntity)this);
         Vector3 blockVec = new Vector3((double)x + 0.5, (double)y + 0.5, (double)z + 0.5);
         AxisAlignedBB axis = player.worldObj.getBlock(x, y, z).getCollisionBoundingBoxFromPool(player.worldObj, x, y, z);
         if (axis == null) {
-            axis = AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
+            axis = AxisAlignedBB.getBoundingBox((double)x, (double)y, (double)z, (double)(x + 1), (double)(y + 1), (double)(z + 1));
         }
         if (!blockVec.isInside(axis)) {
             blockVec = new Vector3(axis.minX + (axis.maxX - axis.minX) / 2.0, axis.minY + (axis.maxY - axis.minY) / 2.0, axis.minZ + (axis.maxZ - axis.minZ) / 2.0);

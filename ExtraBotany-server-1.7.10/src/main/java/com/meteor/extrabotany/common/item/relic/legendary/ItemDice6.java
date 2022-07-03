@@ -53,10 +53,10 @@ extends ItemRelicAdv {
     }
 
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (ItemDice6.isRightPlayer(player, stack) && !world.isRemote) {
+        if (ItemDice6.isRightPlayer((EntityPlayer)player, (ItemStack)stack) && !world.isRemote) {
             if (Math.random() < 0.005) {
                 EntityItem var1 = new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(ModItems.elfirium));
-                world.spawnEntityInWorld(var1);
+                world.spawnEntityInWorld((Entity)var1);
                 return null;
             }
             if (Math.random() < 0.01) {
@@ -74,34 +74,34 @@ extends ItemRelicAdv {
             if (Math.random() < 0.02) {
                 int rand = world.rand.nextInt(relicStacks.length);
                 ItemStack var0 = new ItemStack(vazkii.botania.common.item.ModItems.manaTablet);
-                ItemNBTHelper.setInt(var0, "mana", 500000);
+                ItemNBTHelper.setInt((ItemStack)var0, (String)"mana", (int)500000);
                 EntityItem var2 = new EntityItem(world, player.posX, player.posY, player.posZ, var0);
-                world.spawnEntityInWorld(var2);
+                world.spawnEntityInWorld((Entity)var2);
                 return relicStacks[rand];
             }
             if (Math.random() < 0.03) {
                 int rand = world.rand.nextInt(relicStacks.length);
                 ItemStack var0 = relicStacks[rand];
                 EntityItem var1 = new EntityItem(world, player.posX, player.posY, player.posZ, var0);
-                world.spawnEntityInWorld(var1);
+                world.spawnEntityInWorld((Entity)var1);
                 return stack;
             }
             if (Math.random() < 0.05) {
                 int rand = world.rand.nextInt(relicStacks.length);
                 EntityItem var2 = new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(ModItems.material, 1, 9));
-                world.spawnEntityInWorld(var2);
+                world.spawnEntityInWorld((Entity)var2);
                 return relicStacks[rand];
             }
             if (Math.random() < 0.05) {
                 int rand = world.rand.nextInt(relicStacks.length);
                 EntityItem var2 = new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(ModItems.material, 1, 2));
-                world.spawnEntityInWorld(var2);
+                world.spawnEntityInWorld((Entity)var2);
                 return relicStacks[rand];
             }
             if (Math.random() < 0.1) {
                 int rand = world.rand.nextInt(relicStacks.length);
                 EntityItem var2 = new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(vazkii.botania.common.item.ModItems.gaiaHead));
-                world.spawnEntityInWorld(var2);
+                world.spawnEntityInWorld((Entity)var2);
                 return relicStacks[rand];
             }
             int rand = world.rand.nextInt(relicStacks.length);

@@ -28,11 +28,16 @@ extends Item {
         this.maxStackSize = 16;
         this.setUnlocalizedName("ExtraBotania.SpawnCardLycorisdiataPurple");
         this.setCreativeTab(ExtraBotany.tabExtraBotany);
-        GameRegistry.registerItem(this, texture);
+        GameRegistry.registerItem((Item)this, (String)texture);
+    }
+
+    @SideOnly(value=Side.CLIENT)
+    public EnumRarity getRarity(ItemStack par1ItemStack) {
+        return EnumRarity.rare;
     }
 
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        par3List.add(StatCollector.translateToLocal("item.ExtraBotany.SpawnLycorisPurple.desc"));
+        par3List.add(StatCollector.translateToLocal((String)"item.ExtraBotany.SpawnLycorisPurple.desc"));
     }
 
     public ItemStack onEaten(ItemStack par1ItemStack, World world, EntityPlayer entityplayer) {
@@ -42,7 +47,7 @@ extends Item {
         if (!world.isRemote) {
             EntityLycorisradiataPurple entityspawning = new EntityLycorisradiataPurple(world);
             entityspawning.setPosition(entityplayer.posX + 0.0, entityplayer.posY + 0.0, entityplayer.posZ + 0.0);
-            world.spawnEntityInWorld(entityspawning);
+            world.spawnEntityInWorld((Entity)entityspawning);
         }
         return par1ItemStack;
     }
@@ -58,6 +63,10 @@ extends Item {
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         return par1ItemStack;
+    }
+
+    public void registerIcons(IIconRegister iconRegister) {
+        this.itemIcon = iconRegister.registerIcon("extrabotania:" + this.texture);
     }
 }
 

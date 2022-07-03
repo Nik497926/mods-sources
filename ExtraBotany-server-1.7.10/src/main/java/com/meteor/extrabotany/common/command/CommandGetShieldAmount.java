@@ -23,10 +23,10 @@ extends CommandBase {
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length > 1) {
-            throw new WrongUsageException("commands.ExtraBotany.getShieldAmount.desc");
+            throw new WrongUsageException("commands.ExtraBotany.getShieldAmount.desc", new Object[0]);
         }
-        EntityPlayerMP player = args.length > 0 ? CommandBase.getPlayer(sender, args[0]) : CommandBase.getCommandSenderAsPlayer(sender);
-        sender.addChatMessage(new ChatComponentTranslation("commands.ExtraBotany.getShieldAmount.success", player.getDisplayName(), Float.valueOf(PropertyHandler.getShieldAmount(player))));
+        EntityPlayerMP player = args.length > 0 ? CommandBase.getPlayer((ICommandSender)sender, (String)args[0]) : CommandBase.getCommandSenderAsPlayer((ICommandSender)sender);
+        sender.addChatMessage((IChatComponent)new ChatComponentTranslation("commands.ExtraBotany.getShieldAmount.success", new Object[]{player.getDisplayName(), Float.valueOf(PropertyHandler.getShieldAmount((EntityPlayer)player))}));
     }
 
     public String getCommandUsage(ICommandSender p_71518_1_) {
@@ -36,7 +36,7 @@ extends CommandBase {
     public List addTabCompletionOptions(ICommandSender sender, String[] args) {
         if (args.length == 1) {
             String[] names = MinecraftServer.getServer().getAllUsernames();
-            return CommandBase.getListOfStringsMatchingLastWord(args, names);
+            return CommandBase.getListOfStringsMatchingLastWord((String[])args, (String[])names);
         }
         return null;
     }
