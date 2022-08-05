@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.1"
+version = "1.1"
 group= "wendoxd"
 archivesBaseName = "Ability-universal"
 
@@ -30,8 +30,13 @@ minecraft {
     runDir = "run"
 }
 
+configurations {
+    // configuration that holds jars to copy into lib
+    extraLibs
+}
+
 dependencies {
-    implementation files('./libs/')
+    //extraLibs files('./libs/slick.jar')
 }
 
 sourceSets {
@@ -51,6 +56,8 @@ processResources {
 
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
+
+    from configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
 
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'

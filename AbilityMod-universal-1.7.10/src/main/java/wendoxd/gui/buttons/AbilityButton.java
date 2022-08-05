@@ -53,7 +53,7 @@ public class AbilityButton extends CustomGuiButton {
 				this.yPosition + height - 2, Util.color(90, 29, 30, 255), Util.color(90, 29, 30, 255));
 		CustomFontRenderer.drawString("g", xPosition + width - 17, this.yPosition + height - 9,
 				CustomFont.special_small);
-		CustomFont.special_small = new CustomFont("zonix-font", 11);
+		CustomFont.special_small = new CustomFont("font", 11);
 		CustomFontRenderer.drawString(displayString.replace("Максимальное", "Макс."), this.xPosition + 4,
 				this.yPosition + 3, CustomFont.title);
 		CustomFont shit = new CustomFont("gui", 13);

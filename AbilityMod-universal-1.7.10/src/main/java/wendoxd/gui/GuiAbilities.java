@@ -87,7 +87,7 @@ public class GuiAbilities extends CustomGuiScreen {
 			Util.drawRect(0, 0, width, height, Util.color(20, 20, 20, 150));
 			{
 				CustomFont titleName = CustomFont.titleScreenName;
-				String text = "ZonixCraft";
+				String text = "LevelSystem";
 				CustomFontRenderer.drawString("§c" + text,
 						width / 2 - CustomFontRenderer.getStringWidth(titleName, text) / 2, height / 2 - 20.1F + anim,
 						titleName);

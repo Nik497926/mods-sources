@@ -9,21 +9,14 @@ import org.lwjgl.input.Keyboard;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.GuiSelectWorld;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.Entity;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import wendoxd.gui.GuiAbilities;
 import wendoxd.init.AbilityMod;
 import wendoxd.modules.Ability;
 
 public class ClientEvents {
-	public static KeyBinding openGui = new KeyBinding("Open p Gui", Keyboard.KEY_L, "ZonixCraftBinds");
+	public static KeyBinding openGui = new KeyBinding("Open p Gui", Keyboard.KEY_L, "LevelSystem Binds");
 	public static ArrayList<Ability> unlockedAbilities = new ArrayList<Ability>();
 	public static ArrayList<Ability> abilities = new ArrayList<Ability>();
 	public static int currentLvls;
