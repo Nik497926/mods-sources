@@ -5,14 +5,17 @@ package com.meteor.extrabotany.client.gui;
 
 import java.util.Arrays;
 import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.client.core.helper.RenderHelper;
 
-public class CustomButton
-extends GuiButton {
+@SideOnly(value= Side.CLIENT)
+public class CustomButton extends GuiButton {
     private boolean active;
     private int type;
     protected static final ResourceLocation buttonTextures = new ResourceLocation("extrabotania", "textures/gui/HUD2.png");

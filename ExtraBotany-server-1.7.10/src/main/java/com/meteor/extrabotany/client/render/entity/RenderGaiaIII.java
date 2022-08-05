@@ -4,6 +4,8 @@
 package com.meteor.extrabotany.client.render.entity;
 
 import com.meteor.extrabotany.common.entity.gaia.EntityGaiaIII;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -15,6 +17,7 @@ import vazkii.botania.api.internal.ShaderCallback;
 import vazkii.botania.client.core.handler.BossBarHandler;
 import vazkii.botania.client.core.helper.ShaderHelper;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderGaiaIII
 extends RenderBiped {
     public static float DEFAULT_GRAIN_INTENSITY = 0.05f;

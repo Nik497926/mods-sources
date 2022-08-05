@@ -5,6 +5,9 @@ package com.meteor.extrabotany.client.render.tile;
 
 import com.meteor.extrabotany.ExtraBotany;
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -19,6 +22,7 @@ import vazkii.botania.client.model.ModelPylon;
 import vazkii.botania.client.model.ModelPylonOld;
 import vazkii.botania.common.core.handler.ConfigHandler;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileExPylon
 extends TileEntitySpecialRenderer {
     private static final ResourceLocation textureOld = new ResourceLocation(ExtraBotany.modid, "textures/blocks/models/pylon4.png");

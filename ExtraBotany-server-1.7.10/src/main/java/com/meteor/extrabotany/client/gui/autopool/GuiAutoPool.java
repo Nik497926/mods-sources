@@ -3,16 +3,16 @@
  */
 package com.meteor.extrabotany.client.gui.autopool;
 
-import com.meteor.extrabotany.client.gui.autopool.ClientContainer;
-import com.meteor.extrabotany.client.gui.autopool.ServerContainer;
 import com.meteor.extrabotany.common.block.tile.TileAutoPool;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiAutoPool
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiAutoPool extends ClientContainer {
     private TileAutoPool tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

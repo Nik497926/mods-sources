@@ -6,6 +6,8 @@ package com.meteor.extrabotany.client.render.block;
 import com.meteor.extrabotany.client.ClientProxy;
 import com.meteor.extrabotany.common.block.tile.TileAutoPlate;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -13,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderBlockAutoPlate
 implements ISimpleBlockRenderingHandler {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {

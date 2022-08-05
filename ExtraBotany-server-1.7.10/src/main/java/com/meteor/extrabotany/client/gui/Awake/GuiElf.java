@@ -9,14 +9,16 @@ import com.meteor.extrabotany.common.block.tile.TileBlockElfUpdater;
 import com.meteor.extrabotany.common.core.network.MessageHandleGuiButtonPress;
 import com.meteor.extrabotany.common.core.network.NetworkHandler2;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 
-public class GuiElf
-extends ContainerGuiElf {
+@SideOnly(value= Side.CLIENT)
+public class GuiElf extends ContainerGuiElf {
     private TileBlockElfUpdater tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

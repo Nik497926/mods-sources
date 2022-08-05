@@ -6,10 +6,13 @@ package com.meteor.extrabotany.client.render.entity;
 import com.meteor.extrabotany.client.render.entity.RenderSparkBase;
 import com.meteor.extrabotany.common.entity.IAdvanceSpark;
 import com.meteor.extrabotany.common.item.ItemAdvanceSpark;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import vazkii.botania.common.item.ItemSparkUpgrade;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderAdvSpark
 extends RenderSparkBase {
     @Override

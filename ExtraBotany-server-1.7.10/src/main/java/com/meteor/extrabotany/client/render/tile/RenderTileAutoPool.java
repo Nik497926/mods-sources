@@ -30,7 +30,6 @@ extends TileEntitySpecialRenderer {
         GL11.glTranslated((double)(d0 + 0.5), (double)(d1 + 0.5), (double)(d2 + 0.5));
         GL11.glScalef((float)1.0f, (float)-1.0f, (float)-1.0f);
         GL11.glRotatef((float)180.0f, (float)1.0f, (float)0.0f, (float)0.0f);
-        ClientProxy.model.renderAll();
         GL11.glScalef((float)1.0f, (float)-1.0f, (float)-1.0f);
         GL11.glEnable((int)32826);
         GL11.glPopMatrix();

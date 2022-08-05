@@ -6,13 +6,15 @@ package com.meteor.extrabotany.client.gui.aspects;
 import com.meteor.extrabotany.client.gui.aspects.ClientContainer;
 import com.meteor.extrabotany.client.gui.aspects.ServerContainerC;
 import com.meteor.extrabotany.common.block.tile.TileExtraAspect;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiAspects
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiAspects extends ClientContainer {
     private TileExtraAspect tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

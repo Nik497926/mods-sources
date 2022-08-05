@@ -7,6 +7,9 @@ import com.meteor.extrabotany.client.reference.Reference;
 import com.meteor.extrabotany.common.block.BlockFlower;
 import com.meteor.extrabotany.common.block.tile.TileFlower;
 import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,8 +19,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class ClientContainer
-extends GuiContainer {
+@SideOnly(value= Side.CLIENT)
+public class ClientContainer extends GuiContainer {
     public ResourceLocation guiTexture;
     private final TileFlower inventory;
     private FontRenderer fonts = null;

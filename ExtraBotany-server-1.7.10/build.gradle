@@ -6,15 +6,21 @@ buildscript {
             url = "https://files.minecraftforge.net/maven"
         }
         maven {
+            name = "maven"
+            url = "https://repo1.maven.org/maven2"
+        }
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
+        classpath "tech.justagod:cutter:2.1.0-SNAPSHOT"
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
+apply plugin: "cutter"
 apply plugin: 'forge'
 
 version = "1.0.41"
@@ -31,6 +37,7 @@ minecraft {
 }
 
 dependencies {
+    implementation 'tech.justagod:cutter:2.1.0-SNAPSHOT'
     implementation files('./libs/')
 }
 
@@ -56,3 +63,5 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+cutter.initializeDefault(true, false);

@@ -10,6 +10,9 @@ import com.meteor.extrabotany.common.item.relic.legendary.armor.killer.ItemKille
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import java.awt.Color;
 import java.util.ArrayList;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,8 +28,8 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 
-public class GuiSkill
-extends GuiScreen {
+@SideOnly(value= Side.CLIENT)
+public class GuiSkill extends GuiScreen {
     int guiWidth = 256;
     int guiHeight = 256;
     int guiX = 0;

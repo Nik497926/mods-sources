@@ -119,18 +119,15 @@ IVisDiscountGear {
     }
 
     public static void clearEffect(EntityPlayer player) {
-        boolean removed = false;
         Collection<PotionEffect> potions = player.getActivePotionEffects();
         if (player.isBurning()) {
             player.extinguish();
-            removed = true;
         } else {
             for (PotionEffect potion : potions) {
                 int id = potion.getPotionID();
-                boolean badEffect = (Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], (String[])new String[]{"isBadEffect", "isBadEffect"});
+                boolean badEffect = (Boolean)ReflectionHelper.getPrivateValue(Potion.class, Potion.potionTypes[id], (String[])new String[]{"field_76418_K", "isBadEffect"});
                 if (!badEffect) continue;
                 player.removePotionEffect(id);
-                removed = true;
                 break;
             }
         }

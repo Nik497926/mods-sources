@@ -4,12 +4,15 @@
 package com.meteor.extrabotany.client.render.entity;
 
 import com.meteor.extrabotany.common.entity.EntitySakuraFall;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderSakuraFall
 extends Render {
     private static double[][] dVec = new double[][]{{0.0, 1.0, -0.5}, {0.0, 0.75, 0.0}, {0.1, 0.6, -0.15}, {0.0, 0.5, -0.25}, {-0.1, 0.6, -0.15}, {0.0, 0.0, 0.25}, {0.25, 0.0, 0.0}, {0.0, 0.0, -0.25}, {-0.25, 0.0, 0.0}, {0.0, -0.75, 0.0}, {0.1, -0.6, -0.15}, {0.0, -0.5, -0.25}, {-0.1, -0.6, -0.15}, {0.0, -1.0, -0.5}};

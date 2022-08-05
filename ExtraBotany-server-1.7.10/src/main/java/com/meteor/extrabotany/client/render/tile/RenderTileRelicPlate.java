@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.render.tile;
 
 import com.meteor.extrabotany.common.block.BlockRelicPlate;
 import com.meteor.extrabotany.common.block.tile.TileRelicPlate;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -16,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 import vazkii.botania.client.core.handler.ClientTickHandler;
 import vazkii.botania.client.core.helper.ShaderHelper;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileRelicPlate
 extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f) {

@@ -8,6 +8,9 @@ import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.tile.TileExtraAspect;
 import java.awt.Color;
 import java.util.Arrays;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -24,8 +27,8 @@ import thaumcraft.api.aspects.AspectList;
 import vazkii.botania.client.core.helper.RenderHelper;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 
-public class ClientContainer
-extends GuiContainer {
+@SideOnly(value= Side.CLIENT)
+public class ClientContainer extends GuiContainer {
     private ResourceLocation guiTexture;
     private final TileExtraAspect te;
     private FontRenderer fonts = null;

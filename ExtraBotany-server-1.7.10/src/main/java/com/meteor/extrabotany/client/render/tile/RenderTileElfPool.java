@@ -8,6 +8,9 @@ import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import java.awt.Color;
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -25,6 +28,7 @@ import vazkii.botania.client.core.handler.MultiblockRenderHandler;
 import vazkii.botania.client.core.helper.ShaderHelper;
 import vazkii.botania.client.model.ModelPool;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileElfPool
 extends TileEntitySpecialRenderer {
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();

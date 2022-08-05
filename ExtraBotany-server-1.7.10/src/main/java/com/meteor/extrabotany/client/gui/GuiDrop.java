@@ -3,12 +3,14 @@
  */
 package com.meteor.extrabotany.client.gui;
 
-import com.meteor.extrabotany.client.gui.Drop;
 import cpw.mods.fml.client.GuiModList;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiCreateWorld;
@@ -28,6 +30,7 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class GuiDrop {
     private static ResourceLocation drop = new ResourceLocation("extrabotania", "textures/gui/drops.png");
     public static Random RNG = new Random();

@@ -5,13 +5,15 @@ package com.meteor.extrabotany.client.gui.autoDaisy;
 
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.tile.TileAutoDaisy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
-public class ClientContainer
-extends GuiContainer {
+@SideOnly(value= Side.CLIENT)
+public class ClientContainer extends GuiContainer {
     private ResourceLocation guiTexture;
     private final TileAutoDaisy inventory;
     private FontRenderer fonts = null;

@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.render.tile;
 
 import com.meteor.extrabotany.client.model.TileEntity.ModelTileTransformer;
 import com.meteor.extrabotany.common.block.tile.TileTransformater;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -12,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileTransformer
 extends TileEntitySpecialRenderer {
     private static final ResourceLocation textures = new ResourceLocation("extrabotania", "textures/blocks/transformer.png");

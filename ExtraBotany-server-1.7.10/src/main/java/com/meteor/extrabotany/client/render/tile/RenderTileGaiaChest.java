@@ -6,6 +6,9 @@ package com.meteor.extrabotany.client.render.tile;
 import com.meteor.extrabotany.common.block.tile.TileGaiaChest;
 import cpw.mods.fml.common.FMLLog;
 import java.util.Calendar;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
@@ -14,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileGaiaChest
 extends TileEntitySpecialRenderer {
     private static final ResourceLocation field_147504_g = new ResourceLocation("extrabotania", "textures/models/chest/normal.png");

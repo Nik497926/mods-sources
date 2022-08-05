@@ -3,11 +3,13 @@
  */
 package com.meteor.extrabotany.client.gui;
 
-import com.meteor.extrabotany.client.gui.CustomButton;
 import com.meteor.extrabotany.common.core.network.NetworkHandler2;
 import com.meteor.extrabotany.common.core.network.networkItem.MessageHandleGuiItemButtonPress;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import java.awt.Color;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -21,8 +23,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 
-public class GuiSettingArmor
-extends GuiScreen {
+@SideOnly(value= Side.CLIENT)
+public class GuiSettingArmor extends GuiScreen {
     int guiWidth = 211;
     int guiHeight = 185;
     int guiX = 0;

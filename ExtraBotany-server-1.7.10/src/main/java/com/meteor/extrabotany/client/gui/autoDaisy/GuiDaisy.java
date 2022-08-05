@@ -6,13 +6,15 @@ package com.meteor.extrabotany.client.gui.autoDaisy;
 import com.meteor.extrabotany.client.gui.autoDaisy.ClientContainer;
 import com.meteor.extrabotany.client.gui.autoDaisy.ServerContainerA;
 import com.meteor.extrabotany.common.block.tile.TileAutoDaisy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiDaisy
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiDaisy extends ClientContainer {
     private TileAutoDaisy tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

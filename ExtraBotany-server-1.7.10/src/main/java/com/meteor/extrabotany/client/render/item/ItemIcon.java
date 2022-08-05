@@ -3,8 +3,11 @@
  */
 package com.meteor.extrabotany.client.render.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 
+@SideOnly(value= Side.CLIENT)
 public class ItemIcon
 implements IIcon {
     private IIcon baseIcon;

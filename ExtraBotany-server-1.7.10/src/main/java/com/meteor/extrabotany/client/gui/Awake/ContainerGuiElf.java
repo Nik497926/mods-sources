@@ -5,6 +5,9 @@ package com.meteor.extrabotany.client.gui.Awake;
 
 import com.meteor.extrabotany.client.reference.Reference;
 import java.awt.Color;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -13,8 +16,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public class ContainerGuiElf
-extends GuiContainer {
+@SideOnly(value= Side.CLIENT)
+public class ContainerGuiElf extends GuiContainer {
     private final ResourceLocation guiTexture = new ResourceLocation(Reference.MOD_ID_LOWER + ":textures/gui/awakeelf.png");
     private final IInventory inventory;
     private FontRenderer fonts = null;

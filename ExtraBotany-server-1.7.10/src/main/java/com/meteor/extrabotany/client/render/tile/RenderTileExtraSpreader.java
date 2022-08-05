@@ -7,6 +7,9 @@ import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.common.block.tile.TileExtraSpreader;
 import java.awt.Color;
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -22,6 +25,7 @@ import vazkii.botania.client.core.handler.ClientTickHandler;
 import vazkii.botania.client.model.ModelSpreader;
 import vazkii.botania.client.render.item.RenderLens;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileExtraSpreader
 extends TileEntitySpecialRenderer {
     private static final ResourceLocation texture = new ResourceLocation(ExtraBotany.modid, "textures/blocks/spreader0.png");

@@ -3,9 +3,11 @@
  */
 package com.meteor.extrabotany.client.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiSkillSafe
-extends GuiScreen {
+@SideOnly(value= Side.CLIENT)
+public class GuiSkillSafe extends GuiScreen {
 }
 

@@ -6,13 +6,15 @@ package com.meteor.extrabotany.client.gui.autoTrade;
 import com.meteor.extrabotany.client.gui.autoTrade.ClientContainer;
 import com.meteor.extrabotany.client.gui.autoTrade.ServerContainerT;
 import com.meteor.extrabotany.common.block.tile.TileAutoTradeElf;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiAutoTrade
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiAutoTrade extends ClientContainer {
     private TileAutoTradeElf tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

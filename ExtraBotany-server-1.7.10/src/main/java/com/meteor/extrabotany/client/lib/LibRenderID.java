@@ -4,7 +4,10 @@
 package com.meteor.extrabotany.client.lib;
 
 import com.meteor.extrabotany.client.ClientProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(value= Side.CLIENT)
 public class LibRenderID {
     public static final int idAncientPylon = 666;
     public static final int idGaiaChest = 668;

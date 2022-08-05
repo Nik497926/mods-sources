@@ -3,16 +3,16 @@
  */
 package com.meteor.extrabotany.client.gui.terra;
 
-import com.meteor.extrabotany.client.gui.terra.ClientContainer;
-import com.meteor.extrabotany.client.gui.terra.ServerContainerB;
 import com.meteor.extrabotany.common.block.tile.TileAutoPlate;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiTerra
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiTerra extends ClientContainer {
     private TileAutoPlate tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

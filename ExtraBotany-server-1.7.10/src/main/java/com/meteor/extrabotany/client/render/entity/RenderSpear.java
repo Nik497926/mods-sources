@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.render.entity;
 
 import com.meteor.extrabotany.common.entity.EntitySpear;
 import com.meteor.extrabotany.common.item.ItemTest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -16,6 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderSpear
 extends Render {
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {

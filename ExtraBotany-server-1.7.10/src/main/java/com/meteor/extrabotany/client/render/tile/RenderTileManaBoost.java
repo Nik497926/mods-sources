@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.render.tile;
 
 import com.meteor.extrabotany.client.model.TileEntity.ModelBoost;
 import com.meteor.extrabotany.common.block.tile.TileBlockBoost;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -16,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTileManaBoost
 extends TileEntitySpecialRenderer {
     private ModelBoost model = new ModelBoost();

@@ -3,15 +3,15 @@
  */
 package com.meteor.extrabotany.client.gui.flower;
 
-import com.meteor.extrabotany.client.gui.flower.ClientContainer;
-import com.meteor.extrabotany.client.gui.flower.ServerContainer;
 import com.meteor.extrabotany.common.block.tile.TileFlower;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 
-public class GuiFlower
-extends ClientContainer {
+@SideOnly(value= Side.CLIENT)
+public class GuiFlower extends ClientContainer {
     private TileFlower tile;
     private EntityPlayer onPlayer;
     private GuiButton upButton;

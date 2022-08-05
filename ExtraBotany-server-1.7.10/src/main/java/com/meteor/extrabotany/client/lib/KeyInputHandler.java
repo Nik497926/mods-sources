@@ -25,6 +25,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+@SideOnly(value=Side.CLIENT)
 public class KeyInputHandler {
     @SideOnly(value=Side.CLIENT)
     @SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)

@@ -4,6 +4,9 @@
 package com.meteor.extrabotany.client.render.entity;
 
 import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -13,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import vazkii.botania.client.core.handler.ClientTickHandler;
 
+@SideOnly(value= Side.CLIENT)
 public abstract class RenderSparkBase
 extends RenderEntity {
     public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {

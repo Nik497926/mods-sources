@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.render.entity;
 
 import com.meteor.extrabotany.common.entity.EntityTeleportPearl;
 import com.meteor.extrabotany.common.item.ModItems;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -13,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTeleportPearl
 extends Render {
     private float amount;

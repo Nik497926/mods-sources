@@ -3,6 +3,7 @@
  */
 package com.meteor.extrabotany.common.block;
 
+import com.djgiannuzz.thaumcraftneiplugin.proxy.ServerProxy;
 import com.meteor.extrabotany.ExtraBotany;
 import com.meteor.extrabotany.client.ClientProxy;
 import com.meteor.extrabotany.common.block.tile.TileAutoTradeElf;
@@ -48,10 +49,7 @@ extends BlockContainer {
     }
 
     public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hx, float hy, float hz) {
-        if (w.isRemote) {
-            return true;
-        }
-        player.openGui((Object)ExtraBotany.instance, 0, w, x, y, z);
+        player.openGui(ExtraBotany.instance, 0, w, x, y, z);
         return true;
     }
 
@@ -61,10 +59,6 @@ extends BlockContainer {
 
     public boolean renderAsNormalBlock() {
         return false;
-    }
-
-    public int getRenderType() {
-        return ClientProxy.renderTrade;
     }
 
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {

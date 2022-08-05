@@ -5,6 +5,8 @@ package com.meteor.extrabotany.client.lib;
 
 import com.meteor.extrabotany.common.block.tile.TileElfPool;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -23,6 +25,7 @@ import vazkii.botania.api.recipe.RecipeManaInfusion;
 import vazkii.botania.client.core.handler.ItemsRemainingRenderHandler;
 import vazkii.botania.client.core.helper.RenderHelper;
 
+@SideOnly(value= Side.CLIENT)
 public class EventRecipeElfPool {
     public static final ResourceLocation manaBar = new ResourceLocation("botania:textures/gui/manaHud.png");
 

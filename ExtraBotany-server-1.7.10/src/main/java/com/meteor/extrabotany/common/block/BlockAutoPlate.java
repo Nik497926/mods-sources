@@ -4,7 +4,6 @@
 package com.meteor.extrabotany.common.block;
 
 import com.meteor.extrabotany.ExtraBotany;
-import com.meteor.extrabotany.client.ClientProxy;
 import com.meteor.extrabotany.common.block.tile.TileAutoPlate;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
@@ -34,10 +33,6 @@ extends BlockContainer {
 
     public boolean renderAsNormalBlock() {
         return false;
-    }
-
-    public int getRenderType() {
-        return ClientProxy.renderPlate;
     }
 
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {

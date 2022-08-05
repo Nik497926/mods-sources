@@ -5,12 +5,15 @@ package com.meteor.extrabotany.client.render.tile;
 
 import com.meteor.extrabotany.client.model.TileEntity.ModelTilePoolEfir;
 import com.meteor.extrabotany.common.block.tile.TileBlockPoolEfir;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class RenderTilePoolEfir
 extends TileEntitySpecialRenderer {
     private static final ResourceLocation textures1 = new ResourceLocation("extrabotania", "textures/blocks/poolefir0.png");

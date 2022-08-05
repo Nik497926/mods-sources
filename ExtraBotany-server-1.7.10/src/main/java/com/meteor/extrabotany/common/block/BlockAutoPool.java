@@ -36,10 +36,6 @@ extends BlockContainer {
         return false;
     }
 
-    public int getRenderType() {
-        return ClientProxy.renderAutoPool;
-    }
-
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileAutoPool();
     }

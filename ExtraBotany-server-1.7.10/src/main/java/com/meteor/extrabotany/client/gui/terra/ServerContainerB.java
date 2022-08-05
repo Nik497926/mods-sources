@@ -11,8 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ServerContainerB
-extends ContainerMod {
+public class ServerContainerB extends ContainerMod {
     private final TileAutoPlate te;
     private int lastTimer = -1;
     private String lastTarget = "";

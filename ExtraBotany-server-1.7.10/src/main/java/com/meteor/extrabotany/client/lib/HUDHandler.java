@@ -20,6 +20,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -43,6 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(value= Side.CLIENT)
 public class HUDHandler {
     private int[][] texture = new int[][]{{128, 35}, {144, 35}, {160, 35}, {176, 35}, {192, 35}, {208, 35}, {128, 51}, {144, 51}, {160, 51}, {176, 51}, {192, 51}, {208, 51}, {128, 67}, {144, 67}, {160, 67}, {176, 67}, {192, 67}, {208, 67}, {128, 83}, {144, 83}, {160, 83}, {176, 83}, {192, 83}, {208, 83}};
     public static int id_skill_hud = 0;
